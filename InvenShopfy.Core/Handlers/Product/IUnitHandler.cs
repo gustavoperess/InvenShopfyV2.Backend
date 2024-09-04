@@ -1,6 +1,6 @@
 namespace InvenShopfy.Core.Handlers.Product;
 
-public class IUnitHandler
+public interface IUnitHandler
 {
     
 }
