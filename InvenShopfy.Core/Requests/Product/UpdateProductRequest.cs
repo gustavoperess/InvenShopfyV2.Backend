@@ -23,7 +23,7 @@ public class UpdateProductRequest : Request
     [Required(ErrorMessage = "Invalid Brand Id")]
     public long BrandId { get; set; }
     
-    [Required(ErrorMessage = "Invalid Image")] // NEED TO COME BACK AS I WILL BE ADDING THIS TO CLOUDNIARY
+    // [Required(ErrorMessage = "Invalid Image")] // NEED TO COME BACK AS I WILL BE ADDING THIS TO CLOUDNIARY
     public string ProductImage { get; set; } = null!;
     
     [Required(ErrorMessage = "Invalid Unit Id")]
