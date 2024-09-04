@@ -1,6 +1,6 @@
 namespace InvenShopfy.Core.Requests.Category;
 
-public class DeleteCategoryRequest
+public class DeleteCategoryRequest : Request
 {
-    
+    public long Id { get; set; }
 }

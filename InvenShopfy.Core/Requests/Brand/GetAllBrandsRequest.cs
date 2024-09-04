@@ -1,6 +1,6 @@
 namespace InvenShopfy.Core.Requests.Brand;
 
-public class GetAllBrandsRequest
+public class GetAllBrandsRequest : PagedRequest
 {
     
 }

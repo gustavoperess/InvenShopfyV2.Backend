@@ -1,6 +1,6 @@
 namespace InvenShopfy.Core.Requests.Unit;
 
-public class GetAllUnitRequest
+public class GetAllUnitRequest : PagedRequest
 {
     
 }

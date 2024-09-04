@@ -1,6 +1,6 @@
 namespace InvenShopfy.Core.Requests.Category;
 
-public class GetAllCategoriesRequest
+public class GetAllCategoriesRequest : PagedRequest
 {
     
 }
