@@ -18,7 +18,7 @@ namespace InvenShopfy.API.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder); // Call this if you're using IdentityDbContext
+            // base.OnModelCreating(modelBuilder); // Call this if you're using IdentityDbContext
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }

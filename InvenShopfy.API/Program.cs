@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddConfiguration();
 builder.AddSecurity();
-// builder.AddDataContexts();
+builder.AddDataContexts();
 // builder.AddCrossOrigin();
 builder.AddDocumentation();
 builder.AddServices();
