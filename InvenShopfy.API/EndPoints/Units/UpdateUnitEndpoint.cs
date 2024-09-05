@@ -1,3 +1,4 @@
+using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Models.Product;
 using InvenShopfy.Core.Requests.Category;
@@ -6,7 +7,7 @@ using InvenShopfy.Core.Responses;
 
 namespace InvenShopfy.API.EndPoints.Units;
 
-public class UpdateUnitEndpoint
+public class UpdateUnitEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapPut("/{id}", HandlerAsync)

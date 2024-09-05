@@ -29,7 +29,8 @@ public class GetAllProductsEndpoints : IEndPoint
     {
         var request = new GetAllProductsRequest
         {
-            UserId = user.Identity?.Name ?? string.Empty,
+            // UserId = user.Identity?.Name ?? string.Empty,
+            UserId = "Test@gmail.com",
             PageNumber = pageNumber,
             PageSize = pageSize,
             StartDate = startDate,

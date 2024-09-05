@@ -96,7 +96,6 @@ public class ProductHandler(AppDbContext context) : IProductHandler
             {
                 return new Response<Product?>(null, 404, "Product not found");
             }
-
             return new Response<Product?>(product);
 
         }

@@ -2,6 +2,7 @@ using InvenShopfy.API.Common.Api;
 using InvenShopfy.API.EndPoints.Brands;
 using InvenShopfy.API.EndPoints.Categories;
 using InvenShopfy.API.EndPoints.Products;
+using InvenShopfy.API.EndPoints.Units;
 
 namespace InvenShopfy.API.EndPoints;
 
@@ -30,12 +31,12 @@ public static class Endpoint
             .MapEndpoint<GetBrandByIdEndpoint>();
         
         endpoints.MapGroup("v2/units")
-            .WithTags("Products")
-            .MapEndpoint<CreateProductEndpoint>()
-            .MapEndpoint<UpdateProductEndpoint>()
-            .MapEndpoint<GetAllProductsEndpoints>()
-            .MapEndpoint<DeleteProductEndpoint>()
-            .MapEndpoint<GetProductByIdEndpoint>();
+            .WithTags("Units")
+            .MapEndpoint<CreateUnitEndpoint>()
+            .MapEndpoint<UpdateUnitEndpoint>()
+            .MapEndpoint<GetAllUnitsEndpoint>()
+            .MapEndpoint<DeleteUnitEndpoint>()
+            .MapEndpoint<GetUnitByIdEndpoint>();
         
         endpoints.MapGroup("v2/categories")
             .WithTags("Categories")

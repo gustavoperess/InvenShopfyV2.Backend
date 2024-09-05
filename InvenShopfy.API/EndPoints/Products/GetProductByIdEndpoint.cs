@@ -22,7 +22,7 @@ public class GetProductByIdEndpoint : IEndPoint
         IProductHandler handler,
         long id)
     {
-        var request = new GetProductByIdRequest()
+        var request = new GetProductByIdRequest
         {
             // UserId = user.Identity?.Name ?? string.Empty,
             UserId = "Test@gmail.com",
