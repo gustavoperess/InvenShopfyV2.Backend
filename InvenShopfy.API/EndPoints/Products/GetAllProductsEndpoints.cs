@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Models.Product;
@@ -8,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace InvenShopfy.API.EndPoints.Products;
 
-public class GetAllProductsEndpoints
+public class GetAllProductsEndpoints : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapGet("/", HandlerAsync)
