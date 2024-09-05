@@ -2,7 +2,6 @@ using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Models.Product;
 using InvenShopfy.Core.Requests.Brand;
-using InvenShopfy.Core.Requests.Product;
 using InvenShopfy.Core.Responses;
 
 namespace InvenShopfy.API.EndPoints.Brands;
@@ -11,9 +10,9 @@ public class UpdateBrandEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapPut("/{id}", HandlerAsync)
-            .WithName("Products: Update")
-            .WithSummary("Update a product")
-            .WithDescription("Update a product")
+            .WithName("Brands: Update")
+            .WithSummary("Update a Brand")
+            .WithDescription("Update a Brand")
             .WithOrder(2)
             .Produces<Response<Brand?>>();
 

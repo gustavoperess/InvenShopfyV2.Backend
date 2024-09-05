@@ -2,7 +2,6 @@ using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Models.Product;
 using InvenShopfy.Core.Requests.Brand;
-using InvenShopfy.Core.Requests.Product;
 using InvenShopfy.Core.Responses;
 
 namespace InvenShopfy.API.EndPoints.Brands;

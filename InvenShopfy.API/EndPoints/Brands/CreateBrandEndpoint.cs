@@ -9,7 +9,7 @@ namespace InvenShopfy.API.EndPoints.Brands;
 public class CreateBrandEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app) => app.MapPost("/", HandleAsync)
-        .WithName("Brands: Create Product")
+        .WithName("Brands: Create Brand")
         .WithSummary("Create a new brand")
         .WithDescription("Create a new brand")
         .WithOrder(1)
