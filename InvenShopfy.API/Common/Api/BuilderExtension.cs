@@ -1,3 +1,6 @@
+using InvenShopfy.API.Data;
+// using InvenShopfy.API.Handlers;
+using InvenShopfy.API.Models;
 using Microsoft.AspNetCore.Identity;
 using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Product;
@@ -32,16 +35,16 @@ public static class BuilderExtension
 
     }
     
-    // public static void AddDataContexts(this WebApplicationBuilder builder)
-    // {
-    //     builder.Services.AddDbContext<AppDbContext>(
-    //         x => x.UseNpgsql(Configuration.ConnectionString));
-    //
-    //     builder.Services.AddIdentityCore<User>().AddRoles<IdentityRole<long>>()
-    //         .AddEntityFrameworkStores<AppDbContext>()
-    //         .AddApiEndpoints();
-    //
-    // }
+    public static void AddDataContexts(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddDbContext<AppDbContext>(
+            x => x.UseNpgsql(Configuration.ConnectionString));
+    
+        builder.Services.AddIdentityCore<User>().AddRoles<IdentityRole<long>>()
+            .AddEntityFrameworkStores<AppDbContext>()
+            .AddApiEndpoints();
+    
+    }
     
     // public static void AddCrossOrigin(this WebApplicationBuilder builder)
     // {
