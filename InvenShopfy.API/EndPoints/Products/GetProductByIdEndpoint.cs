@@ -7,7 +7,7 @@ using InvenShopfy.Core.Responses;
 
 namespace InvenShopfy.API.EndPoints.Products;
 
-public class GetProductByIdEndPoint : IEndPoint
+public class GetProductByIdEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapGet("/{id}", HandlerAsync)

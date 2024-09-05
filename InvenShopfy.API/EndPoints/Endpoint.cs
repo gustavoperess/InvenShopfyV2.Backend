@@ -13,7 +13,7 @@ public static class Endpoint
 
         endpoints.MapGroup("v2/products")
             .WithTags("Products")
-            .MapEndpoint<CreateProductEndPoint>();
+            .MapEndpoint<CreateProductEndpoint>();
         
         endpoints.MapGroup("v2/brands")
             .WithTags("Brands");

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace InvenShopfy.API.EndPoints.Products;
 
-public class GetAllProductsEndPoints
+public class GetAllProductsEndpoints
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapGet("/", HandlerAsync)

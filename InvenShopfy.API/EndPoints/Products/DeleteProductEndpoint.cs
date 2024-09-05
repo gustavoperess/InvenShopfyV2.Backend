@@ -6,7 +6,7 @@ using InvenShopfy.Core.Responses;
 
 namespace InvenShopfy.API.EndPoints.Products;
 
-public class DeleteProductEndPoint : IEndPoint
+public class DeleteProductEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapDelete("/{id}", HandlerAsync)

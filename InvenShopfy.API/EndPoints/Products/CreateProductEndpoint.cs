@@ -6,7 +6,7 @@ using InvenShopfy.Core.Responses;
 
 namespace InvenShopfy.API.EndPoints.Products;
 
-public class CreateProductEndPoint : IEndPoint
+public class CreateProductEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app) => app.MapPost("/", HandleAsync)
         .WithName("Products: Create Product")
