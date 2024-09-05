@@ -1,4 +1,5 @@
 using InvenShopfy.API.Data;
+using InvenShopfy.API.Handlers;
 // using InvenShopfy.API.Handlers;
 using InvenShopfy.API.Models;
 using Microsoft.AspNetCore.Identity;
@@ -59,7 +60,7 @@ public static class BuilderExtension
 
     public static void AddServices(this WebApplicationBuilder builder)
     {
-        // builder.Services.AddTransient<IProductHandler, ProductHandler>();
+        builder.Services.AddTransient<IProductHandler, ProductHandler>();
         // builder.Services.AddTransient<ITransactionHandler, TransactionHandler>();
     }
 }
