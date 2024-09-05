@@ -26,4 +26,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="EndPoints\Brands\" />
+    <Folder Include="EndPoints\Categories\" />
+    <Folder Include="EndPoints\Units\" />
+  </ItemGroup>
+
 </Project>

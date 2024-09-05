@@ -19,7 +19,7 @@ public class CreateProductEndPoint : IEndPoint
         IProductHandler handler,
         CreateProductRequest request)
     {
-        request.UserId = "Test@gmaio.com";
+        request.UserId = "Test@gmail.com";
         var result = await handler.CreateAsync(request);
         return result.IsSuccess
             ? TypedResults.Created($"/{result.Data?.Id}", result)
