@@ -62,5 +62,7 @@ public static class BuilderExtension
     {
         builder.Services.AddTransient<IProductHandler, ProductHandler>();
         builder.Services.AddTransient<IBrandHandler, BrandHandler>();
+        builder.Services.AddTransient<IUnitHandler, UnitHandler>();
+        builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
     }
 }
