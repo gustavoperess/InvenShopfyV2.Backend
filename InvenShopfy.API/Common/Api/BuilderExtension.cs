@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using InvenShopfy.Core;
+using InvenShopfy.Core.Handlers.Product;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -55,7 +56,7 @@ public static class BuilderExtension
 
     public static void AddServices(this WebApplicationBuilder builder)
     {
-        // builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
+        // builder.Services.AddTransient<IProductHandler, ProductHandler>();
         // builder.Services.AddTransient<ITransactionHandler, TransactionHandler>();
     }
 }
