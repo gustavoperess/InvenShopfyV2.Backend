@@ -14,6 +14,20 @@ public static class Endpoint
         endpoints.MapGroup("v2/products")
             .WithTags("Products")
             .MapEndpoint<CreateProductEndPoint>();
+        
+        endpoints.MapGroup("v2/brands")
+            .WithTags("Brands");
+            // .MapEndpoint<CreateProductEndPoint>();
+        
+        endpoints.MapGroup("v2/units")
+            .WithTags("Products");
+            // .MapEndpoint<CreateProductEndPoint>();
+        
+        endpoints.MapGroup("v2/categories")
+            .WithTags("Categories");
+            // .MapEndpoint<CreateProductEndPoint>();
+        
+        
     }
 
     private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app)

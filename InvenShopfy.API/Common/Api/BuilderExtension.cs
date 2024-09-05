@@ -61,6 +61,6 @@ public static class BuilderExtension
     public static void AddServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddTransient<IProductHandler, ProductHandler>();
-        // builder.Services.AddTransient<ITransactionHandler, TransactionHandler>();
+        builder.Services.AddTransient<IBrandHandler, BrandHandler>();
     }
 }
