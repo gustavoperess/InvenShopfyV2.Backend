@@ -1,6 +1,36 @@
+using InvenShopfy.API.Common.Api;
+using InvenShopfy.Core.Handlers.Product;
+using InvenShopfy.Core.Models.Product;
+using InvenShopfy.Core.Requests.Category;
+using InvenShopfy.Core.Responses;
+
 namespace InvenShopfy.API.EndPoints.Categories;
 
-public class GetCategoryByIdEndpoint
+public class GetCategoryByIdEndpoint : IEndPoint
 {
-    
+    public static void Map(IEndpointRouteBuilder app)
+        => app.MapGet("/{id}", HandlerAsync)
+            .WithName("Categories: Get By Id")
+            .WithSummary("Get a Category")
+            .WithDescription("Get a Category")
+            .WithOrder(4)
+            .Produces<Response<Category?>>();
+
+    private static async Task<IResult> HandlerAsync(
+        // ClaimsPrincipal user,
+        ICategoryHandler handler,
+        long id)
+    {
+        var request = new GetCategoryByIdRequest
+        {
+            // UserId = user.Identity?.Name ?? string.Empty,
+            UserId = "Test@gmail.com",
+            Id = id
+        };
+
+        var result = await handler.GetByIdAsync(request);
+        return result.IsSuccess
+            ? TypedResults.Ok(result)
+            : TypedResults.BadRequest(result);
+    }
 }
