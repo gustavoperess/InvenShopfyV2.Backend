@@ -14,7 +14,7 @@ public class Biller
     public double BillerCode { get; set; } 
     public string UserId { get; set; } = string.Empty;
     
-    // public long WarehouseId { get; set; } // NEED TO CREATE THE WAREHOUSE
-    // public Warehouse Warehouse { get; set; } = null!;
+    public long WarehouseId { get; set; }
+    public Warehouse.Warehouse Warehouse { get; set; } = null!;
 
 }
