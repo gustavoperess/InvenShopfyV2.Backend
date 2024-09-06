@@ -16,5 +16,6 @@ public class Biller
     
     public long WarehouseId { get; set; }
     public Warehouse.Warehouse Warehouse { get; set; } = null!;
+    
 
 }

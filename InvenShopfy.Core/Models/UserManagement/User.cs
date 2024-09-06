@@ -14,4 +14,5 @@ public class User
     public string UserId { get; set; } = string.Empty;
     public long RoleId { get; set; }
     public Role Role { get; set; } = null!;
+    
 }
