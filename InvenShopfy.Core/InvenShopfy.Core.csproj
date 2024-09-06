@@ -8,6 +8,9 @@
 
   <ItemGroup>
     <Folder Include="Handlers\People\" />
+    <Folder Include="Requests\Peopke\" />
+    <Folder Include="Requests\UserManagement\" />
+    <Folder Include="Requests\Warehouse\" />
   </ItemGroup>
 
   <ItemGroup>
