@@ -1,9 +1,11 @@
 using System.ComponentModel.DataAnnotations;
+using InvenShopfy.Core.Standards;
 
 namespace InvenShopfy.Core.Requests.People.Biller;
 
 public class CreateBillerRequest : Request
 {
+    private readonly ZipCode _zipCodeFormatter = new ZipCode();
     [Required(ErrorMessage = "Invalid Voucher Name")]
     [MaxLength(30, ErrorMessage = "Max length of 30 characters")]
     public string Name { get; set; } = string.Empty;
@@ -27,10 +29,15 @@ public class CreateBillerRequest : Request
     [Required(ErrorMessage = "Invalid Country")]
     [MaxLength(30, ErrorMessage = "Max length of 30 characters")]
     public string Country { get; set; } = string.Empty;
-
+    
+    private string _zipCode = string.Empty;
     [Required(ErrorMessage = "Invalid Zip Code")]
     [MaxLength(30, ErrorMessage = "Max length of 30 characters")]
-    public string ZipCode { get; set; } = string.Empty;
+    public string ZipCode
+    {
+        get => _zipCode;
+        set => _zipCode = _zipCodeFormatter.FormatZipCode(value);
+    }
     
     [Required(ErrorMessage = "Invalid Biller Code")]
     [Range(0, 9999999999, ErrorMessage = "Biller Code must be between 0 and 9999999999")]

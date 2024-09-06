@@ -1,11 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using InvenShopfy.Core.Models.People;
+using InvenShopfy.Core.Standards;
 
 namespace InvenShopfy.Core.Requests.People.Customer;
 
 public class CreateCustomerRequest : Request
 {
-    
+    private readonly ZipCode _zipCodeFormatter = new ZipCode();
     [Required(ErrorMessage = "Invalid Name")]
     [MaxLength(30, ErrorMessage = "Max length of 30 characters")]
     public string Name { get; set; } = String.Empty;
@@ -24,9 +25,17 @@ public class CreateCustomerRequest : Request
     [Required(ErrorMessage = "Invalid Address")]
     [MaxLength(30, ErrorMessage = "Max length of 30 characters")]
     public string Address { get; set; } = string.Empty;
-    [Required(ErrorMessage = "Invalid Address")]
+    private string _zipCode = string.Empty;
+    [Required(ErrorMessage = "Invalid Zip Code")]
     [MaxLength(30, ErrorMessage = "Max length of 30 characters")]
-    public string ZipCode { get; set; } = string.Empty;
+    public string ZipCode
+    {
+        get => _zipCode;
+        set => _zipCode = _zipCodeFormatter.FormatZipCode(value);
+    }   
+    
+
+
     [Required(ErrorMessage = "Invalid Address")]
     [MaxLength(30, ErrorMessage = "Max length of 30 characters")]
     public string RewardPoint { get; set; } = string.Empty;

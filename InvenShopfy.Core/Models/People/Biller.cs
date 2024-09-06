@@ -1,7 +1,11 @@
+using InvenShopfy.Core.Standards;
+
 namespace InvenShopfy.Core.Models.People;
 
-public class Biller
+public class Biller 
 {
+    private readonly ZipCode _zipCodeFormatter = new ZipCode();
+    private string _zipCode = string.Empty;
     public long Id { get; set; }
     public string Name { get; set; } = String.Empty;
     public DateTime DateOfJoin { get; set; }
@@ -10,7 +14,7 @@ public class Biller
     public string Identification { get; set; } = string.Empty;
     public string Address { get; set; } = string.Empty;
     public string Country { get; set; } = string.Empty;
-    public string ZipCode { get; set; } = string.Empty;
+    public string ZipCode { get => _zipCode; set => _zipCode = _zipCodeFormatter.FormatZipCode(value); }
     public double BillerCode { get; set; } 
     public string UserId { get; set; } = string.Empty;
     
@@ -19,3 +23,4 @@ public class Biller
     
 
 }
+
