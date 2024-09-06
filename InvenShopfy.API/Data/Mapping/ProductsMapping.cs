@@ -34,6 +34,9 @@ public class ProductsMapping : IEntityTypeConfiguration<Product>
             .IsRequired(false)
             .HasColumnType("VARCHAR")
             .HasMaxLength(255);
-        
+
+        builder.Property(x => x.Quantity)
+            .IsRequired(true)
+            .HasColumnType("NUMERIC(18,2)");
     }
 }

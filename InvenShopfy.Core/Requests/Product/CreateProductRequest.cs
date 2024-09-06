@@ -23,6 +23,10 @@ public class CreateProductRequest : Request
     [Required(ErrorMessage = "Invalid Image")] // NEED TO COME BACK AS I WILL BE ADDING THIS TO CLOUDNIARY
     public string ProductImage { get; set; } = null!;
     
+    [Required(ErrorMessage = "Invalid Quantity")]
+    
+    public double Quantity { get; set; }
+    
     [Required(ErrorMessage = "Invalid Unit Id")]
     public long UnitId  { get; set; }
     
