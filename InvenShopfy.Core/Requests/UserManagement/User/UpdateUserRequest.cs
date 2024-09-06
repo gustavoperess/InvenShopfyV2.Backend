@@ -5,6 +5,7 @@ namespace InvenShopfy.Core.Requests.UserManagement.User;
 
 public class UpdateUserRequest : Request
 {
+    public long Id { get; set; }
     [Required(ErrorMessage = "Invalid Name")]
     [MaxLength(80,  ErrorMessage= "Max len of 80 characters")]
     public string Name { get; set; } = String.Empty;

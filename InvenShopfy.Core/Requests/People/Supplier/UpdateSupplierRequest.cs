@@ -4,6 +4,7 @@ namespace InvenShopfy.Core.Requests.People.Supplier;
 
 public class UpdateSupplierRequest : Request
 {
+    public long Id { get; set; }
     [Required(ErrorMessage = "Invalid Name")]
     [MaxLength(30, ErrorMessage = "Max length of 30 characters")]
     public string Name { get; set; } = String.Empty;

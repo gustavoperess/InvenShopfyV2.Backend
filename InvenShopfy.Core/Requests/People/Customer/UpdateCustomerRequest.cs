@@ -6,6 +6,7 @@ namespace InvenShopfy.Core.Requests.People.Customer;
 
 public class UpdateCustomerRequest : Request
 {
+    public long Id { get; set; }
     private readonly ZipCode _zipCodeFormatter = new ZipCode();
     [Required(ErrorMessage = "Invalid Name")]
     [MaxLength(30, ErrorMessage = "Max length of 30 characters")]

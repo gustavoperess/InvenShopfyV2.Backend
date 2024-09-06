@@ -5,6 +5,7 @@ namespace InvenShopfy.Core.Requests.Expenses;
 
 public class UpdateExpenseRequest : Request
 {
+    public long Id { get; set; }
     [Required(ErrorMessage = "Invalid Warehouse Id")]
     public long WarehouseId { get; set; }
 

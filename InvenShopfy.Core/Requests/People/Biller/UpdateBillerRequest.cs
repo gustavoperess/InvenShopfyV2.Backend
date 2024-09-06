@@ -5,6 +5,7 @@ namespace InvenShopfy.Core.Requests.People.Biller;
 
 public class UpdateBillerRequest : Request
 {
+    public long Id { get; set; }
     private readonly ZipCode _zipCodeFormatter = new ZipCode();
     [Required(ErrorMessage = "Invalid Voucher Name")]
     [MaxLength(30, ErrorMessage = "Max length of 30 characters")]
