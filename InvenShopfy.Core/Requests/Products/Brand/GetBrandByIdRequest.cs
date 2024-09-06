@@ -1,4 +1,4 @@
-namespace InvenShopfy.Core.Requests.Brand;
+namespace InvenShopfy.Core.Requests.Products.Brand;
 
 public class GetBrandByIdRequest : Request
 {

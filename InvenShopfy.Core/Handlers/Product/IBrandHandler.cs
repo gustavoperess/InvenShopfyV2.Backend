@@ -1,5 +1,4 @@
-using InvenShopfy.Core.Requests.Brand;
-using InvenShopfy.Core.Requests.Product;
+using InvenShopfy.Core.Requests.Products.Brand;
 using InvenShopfy.Core.Responses;
 
 namespace InvenShopfy.Core.Handlers.Product;

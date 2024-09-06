@@ -1,8 +1,11 @@
-namespace InvenShopfy.Core.Requests.Product;
 using System.ComponentModel.DataAnnotations;
 
-public class CreateProductRequest : Request
+namespace InvenShopfy.Core.Requests.Products.Product;
+
+public class UpdateProductRequest : Request
 {
+    public long Id { get; set; }
+    
     [Required(ErrorMessage = "Invalid Title")]
     [MaxLength(80,  ErrorMessage= "Max len of 80 characters")]
     public string Title { get; set; } = string.Empty;
@@ -20,14 +23,13 @@ public class CreateProductRequest : Request
     [Required(ErrorMessage = "Invalid Brand Id")]
     public long BrandId { get; set; }
     
-    [Required(ErrorMessage = "Invalid Image")] // NEED TO COME BACK AS I WILL BE ADDING THIS TO CLOUDNIARY
-    public string ProductImage { get; set; } = null!;
     
     [Required(ErrorMessage = "Invalid Quantity")]
-    
     public double Quantity { get; set; }
+    
+    // [Required(ErrorMessage = "Invalid Image")] // NEED TO COME BACK AS I WILL BE ADDING THIS TO CLOUDNIARY
+    public string ProductImage { get; set; } = null!;
     
     [Required(ErrorMessage = "Invalid Unit Id")]
     public long UnitId  { get; set; }
-    
 }

@@ -1,4 +1,4 @@
-using InvenShopfy.Core.Requests.Unit;
+using InvenShopfy.Core.Requests.Products.Unit;
 using InvenShopfy.Core.Responses;
 
 namespace InvenShopfy.Core.Handlers.Product;

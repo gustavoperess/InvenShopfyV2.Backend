@@ -1,4 +1,4 @@
-namespace InvenShopfy.Core.Requests.Unit;
+namespace InvenShopfy.Core.Requests.Products.Unit;
 
 public class GetUnitByIdRequest : Request
 {

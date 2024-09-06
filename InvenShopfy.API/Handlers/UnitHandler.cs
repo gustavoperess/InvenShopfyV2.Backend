@@ -1,7 +1,7 @@
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Models.Product;
-using InvenShopfy.Core.Requests.Unit;
+using InvenShopfy.Core.Requests.Products.Unit;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
 

@@ -3,7 +3,7 @@ using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Models.Product;
-using InvenShopfy.Core.Requests.Brand;
+using InvenShopfy.Core.Requests.Products.Brand;
 using InvenShopfy.Core.Responses;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace InvenShopfy.Core.Requests.Brand;
+namespace InvenShopfy.Core.Requests.Products.Brand;
 
 public class CreateBrandRequest : Request
 {

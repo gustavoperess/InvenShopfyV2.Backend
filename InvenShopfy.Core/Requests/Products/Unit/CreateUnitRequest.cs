@@ -1,11 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace InvenShopfy.Core.Requests.Unit;
+namespace InvenShopfy.Core.Requests.Products.Unit;
 
-public class UpdateUnitRequest : Request
+public class CreateUnitRequest : Request
 {
-    public long Id { get; set; }
-    
     [Required(ErrorMessage = "Invalid Title")]
     [MaxLength(80,  ErrorMessage= "Max len of 80 characters")]
     public string Title { get; set; } = String.Empty;

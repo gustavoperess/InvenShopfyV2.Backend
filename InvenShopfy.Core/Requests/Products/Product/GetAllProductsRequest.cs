@@ -1,4 +1,4 @@
-namespace InvenShopfy.Core.Requests.Product;
+namespace InvenShopfy.Core.Requests.Products.Product;
 
 public class GetAllProductsRequest : PagedRequest
 {
