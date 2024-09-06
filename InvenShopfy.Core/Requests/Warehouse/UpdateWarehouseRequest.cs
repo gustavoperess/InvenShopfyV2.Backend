@@ -25,7 +25,6 @@ public class UpdateWarehouseRequest : Request
     
     private string _zipCode = string.Empty;
     [Required(ErrorMessage = "Invalid Zip Code")]
-    [MaxLength(30, ErrorMessage = "Max length of 30 characters")]
     public string ZipCode
     {
         get => _zipCode;

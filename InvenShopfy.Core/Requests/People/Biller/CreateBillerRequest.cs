@@ -6,12 +6,13 @@ namespace InvenShopfy.Core.Requests.People.Biller;
 public class CreateBillerRequest : Request
 {
     private readonly ZipCode _zipCodeFormatter = new ZipCode();
+    
     [Required(ErrorMessage = "Invalid Voucher Name")]
-    [MaxLength(30, ErrorMessage = "Max length of 30 characters")]
+    [MaxLength(150, ErrorMessage = "Max length of 150 characters")]
     public string Name { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Invalid Email Address")]
-    [MaxLength(30, ErrorMessage = "Max length of 30 characters")]
+    [MaxLength(150, ErrorMessage = "Max length of 150 characters")]
     public string Email { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Invalid Phone Number")]
@@ -23,7 +24,7 @@ public class CreateBillerRequest : Request
     public string Identification { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Invalid Address")]
-    [MaxLength(30, ErrorMessage = "Max length of 30 characters")]
+    [MaxLength(150, ErrorMessage = "Max length of 150 characters")]
     public string Address { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Invalid Country")]
@@ -32,7 +33,6 @@ public class CreateBillerRequest : Request
     
     private string _zipCode = string.Empty;
     [Required(ErrorMessage = "Invalid Zip Code")]
-    [MaxLength(30, ErrorMessage = "Max length of 30 characters")]
     public string ZipCode
     {
         get => _zipCode;
