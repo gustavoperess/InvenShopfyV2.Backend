@@ -1,8 +1,9 @@
 using InvenShopfy.API.Common.Api;
-using InvenShopfy.API.EndPoints.Brands;
-using InvenShopfy.API.EndPoints.Categories;
 using InvenShopfy.API.EndPoints.Products;
-using InvenShopfy.API.EndPoints.Units;
+using InvenShopfy.API.EndPoints.Products.Brands;
+using InvenShopfy.API.EndPoints.Products.Categories;
+using InvenShopfy.API.EndPoints.Products.Product;
+using InvenShopfy.API.EndPoints.Products.Units;
 
 namespace InvenShopfy.API.EndPoints;
 
