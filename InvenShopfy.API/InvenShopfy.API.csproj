@@ -29,7 +29,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Data\Mapping\Expenses\" />
+    <Folder Include="Data\Mapping\People\" />
+    <Folder Include="Data\Mapping\UserManagement\" />
+    <Folder Include="Data\Mapping\Warehouses\" />
+    <Folder Include="EndPoints\Expenses\" />
+    <Folder Include="EndPoints\People\" />
     <Folder Include="EndPoints\Products\" />
+    <Folder Include="EndPoints\UserManagement\" />
+    <Folder Include="EndPoints\Warehouses\" />
+    <Folder Include="Handlers\Expenses\" />
+    <Folder Include="Handlers\People\" />
+    <Folder Include="Handlers\UserManagement\" />
+    <Folder Include="Handlers\Warehouses\" />
   </ItemGroup>
 
 </Project>

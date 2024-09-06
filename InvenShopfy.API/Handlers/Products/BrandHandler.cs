@@ -5,7 +5,7 @@ using InvenShopfy.Core.Requests.Products.Brand;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
 
-namespace InvenShopfy.API.Handlers.ProductHandler;
+namespace InvenShopfy.API.Handlers.Products;
 
 public class BrandHandler(AppDbContext context) : IBrandHandler
 {

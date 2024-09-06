@@ -1,6 +1,6 @@
 using InvenShopfy.API.Data;
 using InvenShopfy.API.Handlers;
-using InvenShopfy.API.Handlers.ProductHandler;
+using InvenShopfy.API.Handlers.Products;
 // using InvenShopfy.API.Handlers;
 using InvenShopfy.API.Models;
 using Microsoft.AspNetCore.Identity;
