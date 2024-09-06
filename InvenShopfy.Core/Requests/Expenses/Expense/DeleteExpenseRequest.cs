@@ -1,4 +1,4 @@
-namespace InvenShopfy.Core.Requests.Expenses;
+namespace InvenShopfy.Core.Requests.Expenses.Expense;
 
 public class DeleteExpenseRequest : Request
 {

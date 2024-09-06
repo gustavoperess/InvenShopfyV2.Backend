@@ -1,11 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using InvenShopfy.Core.Models.Expenses;
 
-namespace InvenShopfy.Core.Requests.Expenses;
+namespace InvenShopfy.Core.Requests.Expenses.Expense;
 
-public class UpdateExpenseRequest : Request
+public class CreateExpenseRequest : Request
 {
-    public long Id { get; set; }
+    
     [Required(ErrorMessage = "Invalid Warehouse Id")]
     public long WarehouseId { get; set; }
 
@@ -26,5 +26,5 @@ public class UpdateExpenseRequest : Request
     [Required(ErrorMessage = "Please add a short not explaining the expense")]
     [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]
     public string PurchaceNote { get; set; } = String.Empty;
-    
+     
 }
