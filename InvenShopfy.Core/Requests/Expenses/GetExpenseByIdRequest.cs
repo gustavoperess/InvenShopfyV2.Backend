@@ -1,6 +1,6 @@
 namespace InvenShopfy.Core.Requests.Expenses;
 
-public class GetExpenseByIdRequest
+public class GetExpenseByIdRequest : Request
 {
-    
+    public long Id { get; set; }
 }

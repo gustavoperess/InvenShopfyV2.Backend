@@ -25,7 +25,5 @@ public class CreateExpenseRequest : Request
     [Required(ErrorMessage = "Please add a short not explaining the expense")]
     [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]
     public string PurchaceNote { get; set; } = String.Empty;
-    
-    [Required(ErrorMessage = "Invalid UserId")]
-    public string UserId { get; set; } = string.Empty;
+     
 }

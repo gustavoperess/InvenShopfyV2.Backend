@@ -1,5 +1,12 @@
 namespace InvenShopfy.Core.Models.UserManagement;
 
+
+public enum Gender
+{
+    Male,
+    Female
+}
+
 public class User
 {
     public long Id { get; set; }
@@ -7,7 +14,7 @@ public class User
     public DateTime DateOfJoin { get; set; } = DateTime.Now;
     public string Email { get; set; } = String.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
-    public List<string> Gender { get; set; } = new List<string> { "Male", "Female" };
+    public Gender Gender { get; set; }
     public string Username { get; set; } = string.Empty;
     public string ProfileImage { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
