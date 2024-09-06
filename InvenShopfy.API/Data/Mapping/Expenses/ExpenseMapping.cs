@@ -35,7 +35,7 @@ public class ExpenseMapping : IEntityTypeConfiguration<Expense>
             
         builder.Property(x => x.VoucherNumber)
             .IsRequired(true)
-            .HasColumnType("NUMERIC(18,2)")
+            .HasColumnType("BIGINT(18,2)")
             .HasMaxLength(160);
 
         builder.Property(x => x.Amount)
