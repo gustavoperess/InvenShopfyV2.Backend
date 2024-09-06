@@ -6,4 +6,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Handlers\People\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\People.cs" />
+  </ItemGroup>
+
 </Project>
