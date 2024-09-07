@@ -1,21 +1,27 @@
+using InvenShopfy.API.Common.Api;
+using InvenShopfy.Core.Handlers.UserManagement;
+using InvenShopfy.Core.Requests.Products.Brand;
+using InvenShopfy.Core.Requests.UserManagement.User;
+using InvenShopfy.Core.Responses;
+
 namespace InvenShopfy.API.EndPoints.UserManagement.User;
 
-public class GetUserByIdEndpoint
+public class GetUserByIdEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapGet("/{id}", HandlerAsync)
-            .WithName("Brands: Get By Id")
-            .WithSummary("Get a Brand")
-            .WithDescription("Get a Brand")
+            .WithName("Users: Get By Id")
+            .WithSummary("Get a User")
+            .WithDescription("Get a User")
             .WithOrder(4)
-            .Produces<Response<Brand?>>();
+            .Produces<Response<Core.Models.UserManagement.User?>>();
 
     private static async Task<IResult> HandlerAsync(
         // ClaimsPrincipal user,
-        IBrandHandler handler,
+        IUserManagementUserHandler handler,
         long id)
     {
-        var request = new GetBrandByIdRequest
+        var request = new GetUserRequestById
         {
             // UserId = user.Identity?.Name ?? string.Empty,
             UserId = "Test@gmail.com",

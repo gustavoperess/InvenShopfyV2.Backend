@@ -1,21 +1,28 @@
+using InvenShopfy.API.Common.Api;
+using InvenShopfy.Core.Handlers.Product;
+using InvenShopfy.Core.Handlers.UserManagement;
+using InvenShopfy.Core.Requests.Products.Brand;
+using InvenShopfy.Core.Requests.UserManagement.User;
+using InvenShopfy.Core.Responses;
+
 namespace InvenShopfy.API.EndPoints.UserManagement.User;
 
-public class DeleteUserEndpoint
+public class DeleteUserEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapDelete("/{id}", HandlerAsync)
-            .WithName("Brands: Delete")
-            .WithSummary("Delete a brand")
-            .WithDescription("Delete a brand")
+            .WithName("Users: Delete")
+            .WithSummary("Delete a User")
+            .WithDescription("Delete a User")
             .WithOrder(3)
-            .Produces<Response<Brand?>>();
+            .Produces<Response<Core.Models.UserManagement.User?>>();
 
     private static async Task<IResult> HandlerAsync(
         // ClaimsPrincipal user,
-        IBrandHandler handler,
+        IUserManagementUserHandler handler,
         long id)
     {
-        var request = new DeleteBrandRequest()
+        var request = new DeleteUserRequest
         {
             // UserId = user.Identity?.Name ?? string.Empty,
             UserId = "Test@gmail.com",

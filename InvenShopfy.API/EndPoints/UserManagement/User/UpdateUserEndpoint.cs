@@ -1,19 +1,25 @@
+using InvenShopfy.API.Common.Api;
+using InvenShopfy.Core.Handlers.UserManagement;
+using InvenShopfy.Core.Requests.Products.Brand;
+using InvenShopfy.Core.Requests.UserManagement.User;
+using InvenShopfy.Core.Responses;
+
 namespace InvenShopfy.API.EndPoints.UserManagement.User;
 
-public class UpdateUserEndpoint
+public class UpdateUserEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapPut("/{id}", HandlerAsync)
-            .WithName("Brands: Update")
-            .WithSummary("Update a Brand")
-            .WithDescription("Update a Brand")
+            .WithName("Users: Update")
+            .WithSummary("Update a User")
+            .WithDescription("Update a User")
             .WithOrder(2)
-            .Produces<Response<Brand?>>();
+            .Produces<Response<Core.Models.UserManagement.User?>>();
 
     private static async Task<IResult> HandlerAsync(
         // ClaimsPrincipal user,
-        IBrandHandler handler,
-        UpdateBrandRequest request,
+        IUserManagementUserHandler handler,
+        UpdateUserRequest request,
         long id)
     {
         // request.UserId = user.Identity?.Name ?? string.Empty;
