@@ -1,11 +1,20 @@
 using InvenShopfy.API.Data;
 using InvenShopfy.API.Handlers;
+using InvenShopfy.API.Handlers.Expenses;
+using InvenShopfy.API.Handlers.People;
 using InvenShopfy.API.Handlers.Products;
+using InvenShopfy.API.Handlers.UserManagement;
+using InvenShopfy.API.Handlers.Warehouses;
 // using InvenShopfy.API.Handlers;
 using InvenShopfy.API.Models;
 using Microsoft.AspNetCore.Identity;
 using InvenShopfy.Core;
+using InvenShopfy.Core.Handlers.Expenses;
+using InvenShopfy.Core.Handlers.People;
 using InvenShopfy.Core.Handlers.Product;
+using InvenShopfy.Core.Handlers.UserManagement;
+using InvenShopfy.Core.Handlers.Warehouse;
+using InvenShopfy.Core.Models.Expenses;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -65,5 +74,14 @@ public static class BuilderExtension
         builder.Services.AddTransient<IBrandHandler, BrandHandler>();
         builder.Services.AddTransient<IUnitHandler, UnitHandler>();
         builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
+        builder.Services.AddTransient<IExpenseCategoryHandler, ExpenseCategoryHandler>();
+        builder.Services.AddTransient<IExpenseHandler, ExpenseHandler>();
+        builder.Services.AddTransient<IBillerHandler, BillerHandler>();
+        builder.Services.AddTransient<ICustomerHandler, CustomerHandler>();
+        builder.Services.AddTransient<ISupplierHandler, SupplierHandler>();
+        builder.Services.AddTransient<IUserManagementRoleHandler, RolerHandler>();
+        builder.Services.AddTransient<IUserManagementUserHandler, UserHandler>();
+        builder.Services.AddTransient<IWarehouseHandler, WarehouseHandler>();
+      
     }
 }
