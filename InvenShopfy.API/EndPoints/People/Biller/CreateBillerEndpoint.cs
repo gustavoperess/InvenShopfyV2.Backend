@@ -5,7 +5,6 @@ using InvenShopfy.Core.Responses;
 
 namespace InvenShopfy.API.EndPoints.People.Biller;
 
-
 public class CreateBillerEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app) => app.MapPost("/", HandleAsync)
