@@ -6,29 +6,26 @@ using InvenShopfy.Core.Responses;
 
 namespace InvenShopfy.API.EndPoints.Expenses.Category;
 
-public class GetCategoryByIdEndpoint : IEndPoint
+public class UpdateExpenseCategoryEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("/{id}", HandlerAsync)
-            .WithName("Categories: Get By Id")
-            .WithSummary("Get a Category")
-            .WithDescription("Get a Category")
-            .WithOrder(4)
+        => app.MapPut("/{id}", HandlerAsync)
+            .WithName("Categories: Update")
+            .WithSummary("Update a Category")
+            .WithDescription("Update a Category")
+            .WithOrder(2)
             .Produces<Response<ExpenseCategory?>>();
 
     private static async Task<IResult> HandlerAsync(
         // ClaimsPrincipal user,
         IExpenseCategoryHandler handler,
+        UpdateExpenseCategoryRequest request,
         long id)
     {
-        var request = new GetExpenseCategoryByIdRequest
-        {
-            // UserId = user.Identity?.Name ?? string.Empty,
-            UserId = "Test@gmail.com",
-            Id = id
-        };
-
-        var result = await handler.GetByIdAsync(request);
+        // request.UserId = user.Identity?.Name ?? string.Empty;
+        request.UserId = "Test@gmail.com";
+        request.Id = id;
+        var result = await handler.UpdateAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

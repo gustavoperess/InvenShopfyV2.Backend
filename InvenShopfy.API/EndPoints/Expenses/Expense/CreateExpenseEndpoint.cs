@@ -1,7 +1,6 @@
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.Expenses;
 using InvenShopfy.Core.Requests.Expenses.Expense;
-using InvenShopfy.Core.Requests.Expenses.ExpenseCategory;
 using InvenShopfy.Core.Responses;
 
 namespace InvenShopfy.API.EndPoints.Expenses.Expense;

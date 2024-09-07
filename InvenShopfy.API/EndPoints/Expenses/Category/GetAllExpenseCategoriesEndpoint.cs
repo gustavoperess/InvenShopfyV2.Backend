@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace InvenShopfy.API.EndPoints.Expenses.Category;
 
-public class GetAllCategoriesEndpoint : IEndPoint
+public class GetAllExpenseCategoriesEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapGet("/", HandlerAsync)

@@ -6,7 +6,7 @@ using InvenShopfy.Core.Responses;
 
 namespace InvenShopfy.API.EndPoints.Expenses.Category;
 
-public class CreateCategoryEndpoint : IEndPoint
+public class CreateExpenseCategoryEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app) => app.MapPost("/", HandleAsync)
         .WithName("Categories: Create A Category Expense")
