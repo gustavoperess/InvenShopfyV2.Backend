@@ -16,10 +16,10 @@ public class ExpenseMapping : IEntityTypeConfiguration<Expense>
             .IsRequired(true)
             .HasColumnType("TIMESTAMPTZ");
         
-        builder.Property(x => x.WarehouseId)
-            .IsRequired(true)
-            .HasColumnType("VARCHAR")
-            .HasMaxLength(80);
+        // builder.Property(x => x.WarehouseId)
+        //     .IsRequired(true)
+        //     .HasColumnType("VARCHAR")
+        //     .HasMaxLength(80);
         
         builder.Property(x => x.ExpenseType)
             .IsRequired(true)
@@ -27,10 +27,10 @@ public class ExpenseMapping : IEntityTypeConfiguration<Expense>
             .HasMaxLength(160);
         
             
-        builder.Property(x => x.ExpenseCategoryId)
-            .IsRequired(true)
-            .HasColumnType("VARCHAR")
-            .HasMaxLength(160);
+        // builder.Property(x => x.ExpenseCategoryId)
+        //     .IsRequired(true)
+        //     .HasColumnType("VARCHAR")
+        //     .HasMaxLength(160);
         
             
         builder.Property(x => x.VoucherNumber)
