@@ -8,7 +8,7 @@ public class Product
     
     public int ProductCode { get; set; }
     
-    public double Quantity { get; set; }
+    public long Quantity { get; set; }
     public DateTime CreateAt { get; set; } = DateTime.Now;
 
     public long UnitId  { get; set; }

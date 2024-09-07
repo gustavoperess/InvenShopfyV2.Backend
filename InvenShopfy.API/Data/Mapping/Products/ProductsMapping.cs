@@ -37,6 +37,6 @@ public class ProductsMapping : IEntityTypeConfiguration<Product>
 
         builder.Property(x => x.Quantity)
             .IsRequired(true)
-            .HasColumnType("BIGINT(18,2)");
+            .HasColumnType("BIGINT");
     }
 }
