@@ -10,7 +10,7 @@ public class GetCategoryByIdEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapGet("/{id}", HandlerAsync)
-            .WithName("Category: Get By Id")
+            .WithName("Categories: Get By Id")
             .WithSummary("Get a Category")
             .WithDescription("Get a Category")
             .WithOrder(4)

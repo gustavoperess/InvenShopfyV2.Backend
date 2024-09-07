@@ -10,7 +10,7 @@ public class DeleteCategoryEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapDelete("/{id}", HandlerAsync)
-            .WithName("Category: Delete")
+            .WithName("Categories: Delete")
             .WithSummary("Delete a Category")
             .WithDescription("Delete a Category")
             .WithOrder(3)

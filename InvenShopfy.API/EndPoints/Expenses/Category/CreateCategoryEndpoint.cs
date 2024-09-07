@@ -9,7 +9,7 @@ namespace InvenShopfy.API.EndPoints.Expenses.Category;
 public class CreateCategoryEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app) => app.MapPost("/", HandleAsync)
-        .WithName("Category: Create A Category Expense")
+        .WithName("Categories: Create A Category Expense")
         .WithSummary("Create a new Category Expense")
         .WithDescription("Create a new Category Expense")
         .WithOrder(1)

@@ -10,7 +10,7 @@ public class UpdateCategoryEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapPut("/{id}", HandlerAsync)
-            .WithName("Category: Update")
+            .WithName("Categories: Update")
             .WithSummary("Update a Category")
             .WithDescription("Update a Category")
             .WithOrder(2)
