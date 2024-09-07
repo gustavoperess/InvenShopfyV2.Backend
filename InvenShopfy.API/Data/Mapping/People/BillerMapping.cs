@@ -13,7 +13,8 @@ public class BillerMapping : IEntityTypeConfiguration<Biller>
         
         builder.Property(x => x.Name)
             .IsRequired(true)
-            .HasColumnType("VARCHAR");
+            .HasColumnType("VARCHAR")
+            .HasMaxLength(150);
         
         builder.Property(x => x.DateOfJoin)
             .IsRequired(true)
@@ -27,7 +28,7 @@ public class BillerMapping : IEntityTypeConfiguration<Biller>
         builder.Property(x => x.PhoneNumber)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
-            .HasMaxLength(30);
+            .HasMaxLength(80);
         
         builder.Property(x => x.Identification)
             .IsRequired(true)

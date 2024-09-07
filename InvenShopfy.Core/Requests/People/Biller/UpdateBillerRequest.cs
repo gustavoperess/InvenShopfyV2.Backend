@@ -17,7 +17,7 @@ public class UpdateBillerRequest : Request
     public string Email { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Invalid Phone Number")]
-    [MaxLength(30, ErrorMessage = "Max length of 30 characters")]
+    [MaxLength(80, ErrorMessage = "Max length of 80 characters")]
     public string PhoneNumber { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Invalid Identification")]

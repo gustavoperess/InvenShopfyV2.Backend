@@ -12,7 +12,7 @@ public class CreateSupplierRequest : Request
     public string Name { get; set; } = String.Empty;
     
     [Required(ErrorMessage = "Invalid Phone Phone Number")]
-    [MaxLength(50, ErrorMessage = "Max length of 50 characters")]
+    [MaxLength(80, ErrorMessage = "Max length of 80 characters")]
     public string PhoneNumber { get; set; } = String.Empty;
     
     [Required(ErrorMessage = "Invalid Email")]

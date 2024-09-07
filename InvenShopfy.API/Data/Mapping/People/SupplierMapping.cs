@@ -20,12 +20,12 @@ public class SupplierMapping : IEntityTypeConfiguration<Supplier>
         builder.Property(x => x.PhoneNumber)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
-            .HasMaxLength(50);
+            .HasMaxLength(80);
         
         builder.Property(x => x.Email)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
-            .HasMaxLength(150);
+            .HasMaxLength(160);
         
         builder.Property(x => x.SupplierCode)
             .IsRequired(true)

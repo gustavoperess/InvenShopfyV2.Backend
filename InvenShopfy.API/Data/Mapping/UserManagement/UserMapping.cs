@@ -14,7 +14,7 @@ public class UserMapping : IEntityTypeConfiguration<User>
         builder.Property(x => x.Name)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
-            .HasMaxLength(80);
+            .HasMaxLength(150);
         
         builder.Property(x => x.DateOfJoin)
             .IsRequired(true)
@@ -23,7 +23,7 @@ public class UserMapping : IEntityTypeConfiguration<User>
         builder.Property(x => x.Email)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
-            .HasMaxLength(80);
+            .HasMaxLength(160);
         
         builder.Property(x => x.PhoneNumber)
             .IsRequired(true)

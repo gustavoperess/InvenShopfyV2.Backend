@@ -15,7 +15,8 @@ public class UnitMapping : IEntityTypeConfiguration<Unit>
         
         builder.Property(x => x.Title)
             .IsRequired(true)
-            .HasColumnType("VARCHAR");
+            .HasColumnType("VARCHAR")
+            .HasMaxLength(80);
         
         builder.Property(x => x.ShortName)
             .IsRequired(true)

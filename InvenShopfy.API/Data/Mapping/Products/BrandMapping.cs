@@ -13,7 +13,8 @@ public class BrandMapping : IEntityTypeConfiguration<Brand>
         
         builder.Property(x => x.Title)
             .IsRequired(true)
-            .HasColumnType("VARCHAR");
+            .HasColumnType("VARCHAR")
+            .HasMaxLength(80);
         
         builder.Property(x => x.BrandImage)
             .IsRequired(false)

@@ -12,7 +12,7 @@ public class CreateWarehouseRequest : Request
     public string WarehouseName { get; set; } = string.Empty;
     
     [Required(ErrorMessage = "Invalid Phone Number")]
-    [MaxLength(50, ErrorMessage = "Max length of 50 characters")]
+    [MaxLength(80, ErrorMessage = "Max length of 80 characters")]
     public string PhoneNumber { get; set; } = string.Empty;
     
     [Required(ErrorMessage = "Invalid Email")]

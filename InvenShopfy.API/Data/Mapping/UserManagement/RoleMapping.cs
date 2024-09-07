@@ -14,7 +14,7 @@ public class RoleMapping : IEntityTypeConfiguration<Role>
         builder.Property(x => x.RoleName)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
-            .HasMaxLength(80);
+            .HasMaxLength(150);
         
         builder.Property(x => x.Description)
             .IsRequired(true)

@@ -24,7 +24,7 @@ public class CustomerMapping : IEntityTypeConfiguration<Customer>
         builder.Property(x => x.PhoneNumber)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
-            .HasMaxLength(30);
+            .HasMaxLength(80);
         
         builder.Property(x => x.City)
             .IsRequired(true)
