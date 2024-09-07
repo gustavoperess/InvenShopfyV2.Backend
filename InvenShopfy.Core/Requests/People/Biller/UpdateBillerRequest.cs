@@ -42,7 +42,7 @@ public class UpdateBillerRequest : Request
     
     [Required(ErrorMessage = "Invalid Biller Code")]
     [Range(0, 9999999999, ErrorMessage = "Biller Code must be between 0 and 9999999999")]
-    public double BillerCode { get; set; }
+    public long BillerCode { get; set; }
 
     [Required(ErrorMessage = "Invalid Warehouse")]
     public long WarehouseId { get; set; }

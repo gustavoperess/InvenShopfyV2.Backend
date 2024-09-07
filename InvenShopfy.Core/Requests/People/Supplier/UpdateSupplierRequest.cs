@@ -22,7 +22,7 @@ public class UpdateSupplierRequest : Request
     
     [Required(ErrorMessage = "Invalid Supplier Code")]
     [MaxLength(30, ErrorMessage = "Max length of 30 characters")]
-    public double SupplierCode { get; set; }
+    public long SupplierCode { get; set; }
     
     [Required(ErrorMessage = "Invalid Country")]
     [MaxLength(30, ErrorMessage = "Max length of 30 characters")]

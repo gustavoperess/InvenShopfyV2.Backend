@@ -44,7 +44,7 @@ public class UpdateCustomerRequest : Request
     
     [Required(ErrorMessage = "Invalid Rewards Point")]
     [MaxLength(30, ErrorMessage = "Max length of 30 characters")]
-    public string RewardPoint { get; set; } = string.Empty;
+    public long RewardPoint { get; set; }
     
     [Required(ErrorMessage = "Please Select one of the Customers")]
     public CustomerGroup CustomerGroup { get; set; }
