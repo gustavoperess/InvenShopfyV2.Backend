@@ -33,7 +33,7 @@ public class CustomerMapping : IEntityTypeConfiguration<Customer>
         builder.Property(x => x.Country)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
-            .HasMaxLength(160);
+            .HasMaxLength(80);
         
         builder.Property(x => x.Address)
             .IsRequired(true)
@@ -43,7 +43,7 @@ public class CustomerMapping : IEntityTypeConfiguration<Customer>
         builder.Property(x => x.ZipCode)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
-            .HasMaxLength(160);
+            .HasMaxLength(20);
         
         builder.Property(x => x.RewardPoint)
             .IsRequired(true)

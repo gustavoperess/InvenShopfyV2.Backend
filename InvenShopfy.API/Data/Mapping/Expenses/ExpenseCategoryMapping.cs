@@ -16,7 +16,7 @@ public class ExpenseCategoryMapping : IEntityTypeConfiguration<ExpenseCategory>
             .HasColumnType("VARCHAR");
         
         builder.Property(x => x.SubCategory)
-            .IsRequired(false)
+            .IsRequired(true)
             .HasColumnType("VARCHAR")
             .HasMaxLength(80);
         

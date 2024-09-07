@@ -17,7 +17,7 @@ public class ExpenseMapping : IEntityTypeConfiguration<Expense>
             .HasColumnType("TIMESTAMPTZ");
         
         builder.Property(x => x.WarehouseId)
-            .IsRequired(false)
+            .IsRequired(true)
             .HasColumnType("VARCHAR")
             .HasMaxLength(80);
         

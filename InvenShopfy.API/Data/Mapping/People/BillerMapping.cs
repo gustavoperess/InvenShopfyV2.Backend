@@ -16,9 +16,8 @@ public class BillerMapping : IEntityTypeConfiguration<Biller>
             .HasColumnType("VARCHAR");
         
         builder.Property(x => x.DateOfJoin)
-            .IsRequired(false)
+            .IsRequired(true)
             .HasColumnType("TIMESTAMPTZ");
-        
         
         builder.Property(x => x.Email)
             .IsRequired(true)
@@ -43,12 +42,12 @@ public class BillerMapping : IEntityTypeConfiguration<Biller>
         builder.Property(x => x.Country)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
-            .HasMaxLength(160);
+            .HasMaxLength(80);
         
         builder.Property(x => x.ZipCode)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
-            .HasMaxLength(160);
+            .HasMaxLength(20);
         
         builder.Property(x => x.BillerCode)
             .IsRequired(true)
