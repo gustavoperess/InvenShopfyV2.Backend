@@ -13,12 +13,13 @@ public class WarehouseMapping : IEntityTypeConfiguration<Warehouse>
         
         builder.Property(x => x.WarehouseName)
             .IsRequired(true)
-            .HasColumnType("VARCHAR");
+            .HasColumnType("VARCHAR")
+            .HasMaxLength(50);
         
         builder.Property(x => x.PhoneNumber)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
-            .HasMaxLength(30);
+            .HasMaxLength(50);
         
         builder.Property(x => x.Email)
             .IsRequired(true)
