@@ -17,7 +17,7 @@ public class UpdateExpenseRequest : Request
     
     [Required(ErrorMessage = "Invalid Voucher Number")]
     [MaxLength(30,  ErrorMessage= "Max len of 30 characters")]
-    public double VoucherNumber { get; set; }
+    public long VoucherNumber { get; set; }
     
     [Required(ErrorMessage = "Invalid Amount")]
     [MaxLength(30,  ErrorMessage= "Max len of 30 characters")]

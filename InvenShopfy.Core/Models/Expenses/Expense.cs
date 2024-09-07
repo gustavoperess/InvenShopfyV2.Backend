@@ -17,6 +17,7 @@ public class Expense
     public long WarehouseId { get; set; }
     public Warehouse.Warehouse Warehouse { get; set; } = null!;
     public CustomerGroup ExpenseType { get; set; }
+    
     public long ExpenseCategoryId { get; set; }
     public ExpenseCategory ExpenseCategory { get; set; } = null!;
     public long VoucherNumber { get; set; }

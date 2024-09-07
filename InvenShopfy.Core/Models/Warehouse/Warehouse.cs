@@ -4,9 +4,10 @@ namespace InvenShopfy.Core.Models.Warehouse;
 
 public class Warehouse
 {
+    public long Id { get; set; }
+    
     private readonly ZipCode _zipCodeFormatter = new ZipCode();
     private string _zipCode = string.Empty;
-    public long Id { get; set; }
     public string WarehouseName { get; set; } = string.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
