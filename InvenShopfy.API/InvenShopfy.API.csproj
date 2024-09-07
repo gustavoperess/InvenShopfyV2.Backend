@@ -29,7 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="EndPoints\People\" />
     <Folder Include="EndPoints\Products\" />
     <Folder Include="EndPoints\UserManagement\" />
     <Folder Include="EndPoints\Warehouses\" />
