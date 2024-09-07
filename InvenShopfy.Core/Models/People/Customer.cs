@@ -19,7 +19,7 @@ public class Customer
     public string Country { get; set; } = string.Empty;
     public string Address { get; set; } = string.Empty;
     public string ZipCode { get; set; } = string.Empty;
-    public string RewardPoint { get; set; } = string.Empty;
+    public long RewardPoint { get; set; }
     public CustomerGroup CustomerGroup { get; set; }
     public string UserId { get; set; } = string.Empty;
 }

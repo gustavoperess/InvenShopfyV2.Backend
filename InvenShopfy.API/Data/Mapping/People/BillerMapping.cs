@@ -32,7 +32,7 @@ public class BillerMapping : IEntityTypeConfiguration<Biller>
         builder.Property(x => x.Identification)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
-            .HasMaxLength(160);
+            .HasMaxLength(30);
         
         builder.Property(x => x.Address)
             .IsRequired(true)
@@ -51,7 +51,7 @@ public class BillerMapping : IEntityTypeConfiguration<Biller>
         
         builder.Property(x => x.BillerCode)
             .IsRequired(true)
-            .HasColumnType("BIGINT(18,2)")
+            .HasColumnType("BIGINT")
             .HasMaxLength(160);
         
         builder.Property(x => x.UserId)

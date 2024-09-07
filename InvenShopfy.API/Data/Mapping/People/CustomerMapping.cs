@@ -13,7 +13,8 @@ public class CustomerMapping : IEntityTypeConfiguration<Customer>
         
         builder.Property(x => x.Name)
             .IsRequired(true)
-            .HasColumnType("VARCHAR");
+            .HasColumnType("VARCHAR")
+            .HasMaxLength(150);
         
         builder.Property(x => x.Email)
             .IsRequired(true)
@@ -28,7 +29,7 @@ public class CustomerMapping : IEntityTypeConfiguration<Customer>
         builder.Property(x => x.City)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
-            .HasMaxLength(160);
+            .HasMaxLength(80);
         
         builder.Property(x => x.Country)
             .IsRequired(true)
@@ -47,14 +48,12 @@ public class CustomerMapping : IEntityTypeConfiguration<Customer>
         
         builder.Property(x => x.RewardPoint)
             .IsRequired(true)
-            .HasColumnType("BIGINT(18,2)")
-            .HasMaxLength(160);
-        
-            
+            .HasColumnType("BIGINT")
+            .HasMaxLength(30);
+
         builder.Property(x => x.CustomerGroup)
             .IsRequired(true)
-            .HasColumnType("VARCHAR")
-            .HasMaxLength(160);
+            .HasColumnType("VARCHAR");
         
         builder.Property(x => x.UserId)
             .IsRequired(true)

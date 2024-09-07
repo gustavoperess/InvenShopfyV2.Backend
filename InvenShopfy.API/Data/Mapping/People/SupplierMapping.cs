@@ -14,21 +14,23 @@ public class SupplierMapping : IEntityTypeConfiguration<Supplier>
         
         builder.Property(x => x.Name)
             .IsRequired(true)
-            .HasColumnType("VARCHAR");
+            .HasColumnType("VARCHAR")
+            .HasMaxLength(150);
         
         builder.Property(x => x.PhoneNumber)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
-            .HasMaxLength(30);
+            .HasMaxLength(50);
         
         builder.Property(x => x.Email)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
-            .HasMaxLength(160);
+            .HasMaxLength(150);
         
         builder.Property(x => x.SupplierCode)
             .IsRequired(true)
-            .HasColumnType("DOUBLE");
+            .HasColumnType("BIGINT")
+            .HasMaxLength(30);
         
         builder.Property(x => x.Country)
             .IsRequired(true)
@@ -38,7 +40,7 @@ public class SupplierMapping : IEntityTypeConfiguration<Supplier>
         builder.Property(x => x.City)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
-            .HasMaxLength(20);
+            .HasMaxLength(80);
         
         builder.Property(x => x.Address)
             .IsRequired(true)
