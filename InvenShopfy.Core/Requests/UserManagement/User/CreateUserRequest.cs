@@ -20,7 +20,7 @@ public class CreateUserRequest : Request
     [Required(ErrorMessage = "Please select the Gender from the dropdown below")]
     public Gender Gender { get; set; }
     
-    [Required(ErrorMessage = "Invalid Title")]
+    [Required(ErrorMessage = "Invalid Username")]
     [MaxLength(80,  ErrorMessage= "Max len of 80 characters")]
     public string Username { get; set; } = string.Empty;
     
@@ -28,7 +28,7 @@ public class CreateUserRequest : Request
     public string ProfileImage { get; set; } = string.Empty;
     
     [Required(ErrorMessage = "Please add a password")]
-    [MaxLength(80,  ErrorMessage= "Max len of 80 characters")]
+    [MaxLength(160,  ErrorMessage= "Max len of 160 characters")]
     public string Password { get; set; } = string.Empty;
     
     [Required(ErrorMessage = "Invalid Role ID")]
