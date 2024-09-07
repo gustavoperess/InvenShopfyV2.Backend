@@ -21,7 +21,7 @@ public class GetUserByIdEndpoint : IEndPoint
         IUserManagementUserHandler handler,
         long id)
     {
-        var request = new GetUserRequestById
+        var request = new GetUserByIdRequest
         {
             // UserId = user.Identity?.Name ?? string.Empty,
             UserId = "Test@gmail.com",
