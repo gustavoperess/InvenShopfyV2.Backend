@@ -13,12 +13,13 @@ public class ExpenseCategoryMapping : IEntityTypeConfiguration<ExpenseCategory>
         
         builder.Property(x => x.Category)
             .IsRequired(true)
-            .HasColumnType("VARCHAR");
+            .HasColumnType("VARCHAR")
+            .HasMaxLength(180);
         
         builder.Property(x => x.SubCategory)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
-            .HasMaxLength(80);
+            .HasMaxLength(180);
         
         builder.Property(x => x.UserId)
             .IsRequired(true)

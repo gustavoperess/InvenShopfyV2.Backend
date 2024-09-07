@@ -8,7 +8,11 @@ public class CreateExpenseRequest : Request
     
     [Required(ErrorMessage = "Invalid Warehouse Id")]
     public long WarehouseId { get; set; }
-
+    
+    [Required(ErrorMessage = "Please enter the Date expense was created")]
+    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+    public DateTime Date { get; set; }
+    
     [Required(ErrorMessage = "Please select one of the two expense types")]
     public CustomerGroup ExpenseType { get; set; }
     
@@ -17,7 +21,7 @@ public class CreateExpenseRequest : Request
     
     [Required(ErrorMessage = "Invalid Voucher Number")]
     [MaxLength(30,  ErrorMessage= "Max len of 30 characters")]
-    public double VoucherNumber { get; set; }
+    public long VoucherNumber { get; set; }
     
     [Required(ErrorMessage = "Invalid Amount")]
     [MaxLength(30,  ErrorMessage= "Max len of 30 characters")]
@@ -25,6 +29,6 @@ public class CreateExpenseRequest : Request
     
     [Required(ErrorMessage = "Please add a short not explaining the expense")]
     [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]
-    public string PurchaceNote { get; set; } = String.Empty;
+    public string PurchaseNote { get; set; } = String.Empty;
      
 }
