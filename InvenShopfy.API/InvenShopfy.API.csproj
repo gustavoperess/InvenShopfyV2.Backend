@@ -45,18 +45,24 @@
     <Compile Remove="Data\Migrations\20240907141355_InitialCreate.cs" />
     <Compile Remove="Data\Migrations\20240907141355_InitialCreate.Designer.cs" />
     <Compile Remove="Data\Migrations\**" />
+    <Compile Remove="Migrations\**" />
+    <Compile Include="Data\Migrations\20240908113804_InitialCreate.cs" />
+    <Compile Include="Data\Migrations\20240908113804_InitialCreate.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Remove="Data\Migrations\**" />
+    <EmbeddedResource Remove="Migrations\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Remove="Data\Migrations\**" />
+    <Content Remove="Migrations\**" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Data\Migrations\**" />
+    <None Remove="Migrations\**" />
   </ItemGroup>
 
 </Project>

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240907135658_InitialCreate")]
+    [Migration("20240908113804_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

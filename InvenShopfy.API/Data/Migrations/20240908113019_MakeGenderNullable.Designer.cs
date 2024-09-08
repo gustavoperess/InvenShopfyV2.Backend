@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240907135146_AddingNewDataPoints")]
-    partial class AddingNewDataPoints
+    [Migration("20240908113019_MakeGenderNullable")]
+    partial class MakeGenderNullable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -380,7 +380,7 @@ namespace InvenShopfy.API.Migrations
                         .HasColumnType("VARCHAR");
 
                     b.Property<long>("Quantity")
-                        .HasColumnType("BIGINT(18,2)");
+                        .HasColumnType("BIGINT");
 
                     b.Property<string>("Title")
                         .IsRequired()

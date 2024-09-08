@@ -16,9 +16,9 @@ public class CreateUserRequest : Request
     [Required(ErrorMessage = "Invalid Phone Number")]
     [MaxLength(80,  ErrorMessage= "Max len of 80 characters")]
     public string PhoneNumber { get; set; } = string.Empty;
-    
+
     [Required(ErrorMessage = "Please select the Gender from the dropdown below")]
-    public Gender Gender { get; set; }
+    public Gender? Gender { get; set; } = Models.UserManagement.Gender.Male;
     
     [Required(ErrorMessage = "Invalid Username")]
     [MaxLength(80,  ErrorMessage= "Max len of 80 characters")]

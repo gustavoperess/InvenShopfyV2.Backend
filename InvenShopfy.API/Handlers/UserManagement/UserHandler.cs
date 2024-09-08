@@ -19,7 +19,7 @@ public class UserHandler (AppDbContext context) : IUserManagementUserHandler
                 Name = request.Name,
                 Email = request.UserId,
                 PhoneNumber = request.UserId,
-                Gender = request.Gender,
+                Gender = request.Gender ?? Gender.Male, 
                 Username = request.Username,
                 ProfileImage = request.ProfileImage,
                 Password = request.Password,

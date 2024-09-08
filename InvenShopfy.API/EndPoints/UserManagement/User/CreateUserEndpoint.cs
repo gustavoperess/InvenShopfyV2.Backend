@@ -28,3 +28,16 @@ public class CreateUserEndpoint : IEndPoint
         
     }
 }
+
+
+// {
+// "userId": "Test@gmail.com",
+// "name": "Gustavo",
+// "email": "gust@mail.com",
+// "phoneNumber": "11111",
+// "gender": "Male",
+// "username": "gust",
+// "profileImage": "notyet",
+// "password": "hehehhe",
+// "roleId": 1
+// }

@@ -4,7 +4,6 @@ using InvenShopfy.API.EndPoints.Expenses.Expense;
 using InvenShopfy.API.EndPoints.People.Biller;
 using InvenShopfy.API.EndPoints.People.Customer;
 using InvenShopfy.API.EndPoints.People.Supplier;
-using InvenShopfy.API.EndPoints.Products;
 using InvenShopfy.API.EndPoints.Products.Brands;
 using InvenShopfy.API.EndPoints.Products.Categories;
 using InvenShopfy.API.EndPoints.Products.Product;
@@ -12,8 +11,7 @@ using InvenShopfy.API.EndPoints.Products.Units;
 using InvenShopfy.API.EndPoints.UserManagement.Role;
 using InvenShopfy.API.EndPoints.UserManagement.User;
 using InvenShopfy.API.EndPoints.Warehouses;
-using InvenShopfy.Core.Requests.Expenses.Expense;
-using InvenShopfy.Core.Requests.Expenses.ExpenseCategory;
+
 
 namespace InvenShopfy.API.EndPoints;
 
@@ -63,25 +61,25 @@ public static class Endpoint
             .MapEndpoint<GetCategoryByIdEndpoint>();
         
         // Expense Group
-        var expenseGroup = endpoints.MapGroup("v2/expenses")
-            .WithTags("Expenses");
-
-        expenseGroup.MapGroup("Expenses")
-            .WithTags("Expenses - expenses")
-            .MapEndpoint<CreateExpenseEndpoint>()
-            .MapEndpoint<UpdateExpenseEndpoint>()
-            .MapEndpoint<GetAllExpensesEndpoint>()
-            .MapEndpoint<DeleteExpenseEndpoint>()
-            .MapEndpoint<GetExpenseByIdEndpoint>();
-
-        expenseGroup.MapGroup("Categories")
-            .WithTags("Expenses - categories") 
-            .MapEndpoint<CreateExpenseCategoryEndpoint>()
-            .MapEndpoint<UpdateExpenseCategoryEndpoint>()
-            .MapEndpoint<GetAllExpenseCategoriesEndpoint>()
-            .MapEndpoint<DeleteExpenseCategoryEndpoint>()
-            .MapEndpoint<GetExpenseCategoryByIdEndpoint>();
-
+        // var expenseGroup = endpoints.MapGroup("v2/expenses")
+        //     .WithTags("Expenses");
+        //
+        // expenseGroup.MapGroup("Expenses")
+        //     .WithTags("Expenses - expenses")
+        //     .MapEndpoint<CreateExpenseEndpoint>()
+        //     .MapEndpoint<UpdateExpenseEndpoint>()
+        //     .MapEndpoint<GetAllExpensesEndpoint>()
+        //     .MapEndpoint<DeleteExpenseEndpoint>()
+        //     .MapEndpoint<GetExpenseByIdEndpoint>();
+        //
+        // expenseGroup.MapGroup("Categories")
+        //     .WithTags("Expenses - categories") 
+        //     .MapEndpoint<CreateExpenseCategoryEndpoint>()
+        //     .MapEndpoint<UpdateExpenseCategoryEndpoint>()
+        //     .MapEndpoint<GetAllExpenseCategoriesEndpoint>()
+        //     .MapEndpoint<DeleteExpenseCategoryEndpoint>()
+        //     .MapEndpoint<GetExpenseCategoryByIdEndpoint>();
+        //
         // People Group
         var peopleGroup = endpoints.MapGroup("v2/people")
             .WithTags("People");
@@ -93,7 +91,7 @@ public static class Endpoint
             .MapEndpoint<GetAllBillersEndpoint>()
             .MapEndpoint<DeleteBillerEndpoint>()
             .MapEndpoint<GetBillerByIdEndpoint>();
-
+        
         peopleGroup.MapGroup("Customer")
             .WithTags("People - customer")
             .MapEndpoint<CreateCustomerEndpoint>()
@@ -121,7 +119,7 @@ public static class Endpoint
             .MapEndpoint<GetAllRolesEndpoint>()
             .MapEndpoint<DeleteRoleEndpoint>()
             .MapEndpoint<GetRoleByIdEndpoint>();
-
+        
         userManagementGroup.MapGroup("User")
             .WithTags("UserManagement - user")
             .MapEndpoint<CreateUserEndpoint>()
