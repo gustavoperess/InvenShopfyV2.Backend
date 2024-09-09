@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.People;
@@ -19,7 +20,7 @@ public class GetAllSuppliersEndpoint : IEndPoint
             .Produces<PagedResponse<List<Core.Models.People.Supplier>?>>();
 
     private static async Task<IResult> HandlerAsync(
-        // ClaimsPrincipal user,
+        ClaimsPrincipal user,
         ISupplierHandler handler,
         [FromQuery]DateTime? startDate=null,
         [FromQuery]DateTime? endDate=null,
@@ -28,8 +29,7 @@ public class GetAllSuppliersEndpoint : IEndPoint
     {
         var request = new GetAllSuppliersRequest
         {
-            // UserId = user.Identity?.Name ?? string.Empty,
-            UserId = "Test@gmail.com",
+            UserId = user.Identity?.Name ?? string.Empty,
             PageNumber = pageNumber,
             PageSize = pageSize,
         };

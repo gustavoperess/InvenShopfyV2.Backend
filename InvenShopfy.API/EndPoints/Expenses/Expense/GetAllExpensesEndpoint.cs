@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Expenses;
@@ -19,7 +20,7 @@ public class GetAllExpensesEndpoint : IEndPoint
             .Produces<PagedResponse<List<Core.Models.Expenses.Expense>?>>();
 
     private static async Task<IResult> HandlerAsync(
-        // ClaimsPrincipal user,
+        ClaimsPrincipal user,
         IExpenseHandler handler,
         [FromQuery]DateTime? startDate=null,
         [FromQuery]DateTime? endDate=null,
@@ -28,8 +29,7 @@ public class GetAllExpensesEndpoint : IEndPoint
     {
         var request = new GetAllExpensesRequest
         {
-            // UserId = user.Identity?.Name ?? string.Empty,
-            UserId = "Test@gmail.com",
+            UserId = user.Identity?.Name ?? string.Empty,
             PageNumber = pageNumber,
             PageSize = pageSize,
         };

@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Product;
@@ -19,7 +20,7 @@ public class GetAllBrandsEndpoint : IEndPoint
             .Produces<PagedResponse<List<Brand>?>>();
 
     private static async Task<IResult> HandlerAsync(
-        // ClaimsPrincipal user,
+        ClaimsPrincipal user,
         IBrandHandler handler,
         [FromQuery]DateTime? startDate=null,
         [FromQuery]DateTime? endDate=null,
@@ -28,8 +29,7 @@ public class GetAllBrandsEndpoint : IEndPoint
     {
         var request = new GetAllBrandsRequest
         {
-            // UserId = user.Identity?.Name ?? string.Empty,
-            UserId = "Test@gmail.com",
+            UserId = user.Identity?.Name ?? string.Empty,
             PageNumber = pageNumber,
             PageSize = pageSize,
         };

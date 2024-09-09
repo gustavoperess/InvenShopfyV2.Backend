@@ -1,6 +1,7 @@
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.API.EndPoints.Expenses.Category;
 using InvenShopfy.API.EndPoints.Expenses.Expense;
+using InvenShopfy.API.EndPoints.Identity;
 using InvenShopfy.API.EndPoints.People.Biller;
 using InvenShopfy.API.EndPoints.People.Customer;
 using InvenShopfy.API.EndPoints.People.Supplier;
@@ -11,6 +12,7 @@ using InvenShopfy.API.EndPoints.Products.Units;
 using InvenShopfy.API.EndPoints.UserManagement.Role;
 using InvenShopfy.API.EndPoints.UserManagement.User;
 using InvenShopfy.API.EndPoints.Warehouses;
+using InvenShopfy.API.Models;
 
 
 namespace InvenShopfy.API.EndPoints;
@@ -30,6 +32,7 @@ public static class Endpoint
 
         productsGroup.MapGroup("Product")
             .WithTags("Products - product")
+            .RequireAuthorization()
             .MapEndpoint<CreateProductEndpoint>()
             .MapEndpoint<UpdateProductEndpoint>()
             .MapEndpoint<GetAllProductsEndpoints>()
@@ -38,6 +41,7 @@ public static class Endpoint
 
         productsGroup.MapGroup("Brands")
             .WithTags("Products - brands")
+            .RequireAuthorization()
             .MapEndpoint<CreateBrandEndpoint>()
             .MapEndpoint<UpdateBrandEndpoint>()
             .MapEndpoint<GetAllBrandsEndpoint>()
@@ -46,6 +50,7 @@ public static class Endpoint
 
         productsGroup.MapGroup("Units")
             .WithTags("Products - units")
+            .RequireAuthorization()
             .MapEndpoint<CreateUnitEndpoint>()
             .MapEndpoint<UpdateUnitEndpoint>()
             .MapEndpoint<GetAllUnitsEndpoint>()
@@ -54,6 +59,7 @@ public static class Endpoint
 
         productsGroup.MapGroup("ProductCategory")
             .WithTags("Products - categories")
+            .RequireAuthorization()
             .MapEndpoint<CreateCategoryEndpoint>()
             .MapEndpoint<UpdateCategoryEndpoint>()
             .MapEndpoint<GetAllCategoriesEndpoint>()
@@ -66,6 +72,7 @@ public static class Endpoint
         
         expenseGroup.MapGroup("Expenses")
             .WithTags("Expenses - expenses")
+            .RequireAuthorization()
             .MapEndpoint<CreateExpenseEndpoint>()
             .MapEndpoint<UpdateExpenseEndpoint>()
             .MapEndpoint<GetAllExpensesEndpoint>()
@@ -74,6 +81,7 @@ public static class Endpoint
 
         expenseGroup.MapGroup("ExpenseCategory")
             .WithTags("Expenses - category")
+            .RequireAuthorization()
             .MapEndpoint<CreateExpenseCategoryEndpoint>()
             .MapEndpoint<UpdateExpenseCategoryEndpoint>()
             .MapEndpoint<GetAllExpenseCategoriesEndpoint>()
@@ -86,6 +94,7 @@ public static class Endpoint
         
         peopleGroup.MapGroup("Biller")
             .WithTags("People - biller")
+            .RequireAuthorization()
             .MapEndpoint<CreateBillerEndpoint>()
             .MapEndpoint<UpdateBillerEndpoint>()
             .MapEndpoint<GetAllBillersEndpoint>()
@@ -94,6 +103,7 @@ public static class Endpoint
         
         peopleGroup.MapGroup("Customer")
             .WithTags("People - customer")
+            .RequireAuthorization()
             .MapEndpoint<CreateCustomerEndpoint>()
             .MapEndpoint<UpdateCustomerEndpoint>()
             .MapEndpoint<GetAllCustomersEndpoint>()
@@ -102,6 +112,7 @@ public static class Endpoint
         
         peopleGroup.MapGroup("Supplier")
             .WithTags("People - supplier")
+            .RequireAuthorization()
             .MapEndpoint<CreateSupplierEndpoint>()
             .MapEndpoint<UpdateSupplierEndpoint>()
             .MapEndpoint<GetAllSuppliersEndpoint>()
@@ -109,24 +120,24 @@ public static class Endpoint
             .MapEndpoint<GetSupplierByIdEndpoint>();
         
         // Management Group
-        var userManagementGroup = endpoints.MapGroup("v2/UserManagement")
-            .WithTags("User Management"); // Fixed the tag here
-        
-        userManagementGroup.MapGroup("Role")
-            .WithTags("UserManagement - role")
-            .MapEndpoint<CreateRoleEndpoint>()
-            .MapEndpoint<UpdateRoleEndpoint>()
-            .MapEndpoint<GetAllRolesEndpoint>()
-            .MapEndpoint<DeleteRoleEndpoint>()
-            .MapEndpoint<GetRoleByIdEndpoint>();
-        
-        userManagementGroup.MapGroup("User")
-            .WithTags("UserManagement - user")
-            .MapEndpoint<CreateUserEndpoint>()
-            .MapEndpoint<UpdateUserEndpoint>()
-            .MapEndpoint<GetAllUsersEndpoint>()
-            .MapEndpoint<DeleteUserEndpoint>()
-            .MapEndpoint<GetUserByIdEndpoint>();
+        // var userManagementGroup = endpoints.MapGroup("v2/UserManagement")
+        //     .WithTags("User Management"); // Fixed the tag here
+        //
+        // userManagementGroup.MapGroup("Role")
+        //     .WithTags("UserManagement - role")
+        //     .MapEndpoint<CreateRoleEndpoint>()
+        //     .MapEndpoint<UpdateRoleEndpoint>()
+        //     .MapEndpoint<GetAllRolesEndpoint>()
+        //     .MapEndpoint<DeleteRoleEndpoint>()
+        //     .MapEndpoint<GetRoleByIdEndpoint>();
+        //
+        // userManagementGroup.MapGroup("User")
+        //     .WithTags("UserManagement - user")
+        //     .MapEndpoint<CreateUserEndpoint>()
+        //     .MapEndpoint<UpdateUserEndpoint>()
+        //     .MapEndpoint<GetAllUsersEndpoint>()
+        //     .MapEndpoint<DeleteUserEndpoint>()
+        //     .MapEndpoint<GetUserByIdEndpoint>();
         
         // WAREHOUSE GROUP
         var warehouseGroup = endpoints.MapGroup("v2/Warehouse")
@@ -134,11 +145,21 @@ public static class Endpoint
         
         warehouseGroup.MapGroup("Warehouse")
             .WithTags("Warehouse")
+            .RequireAuthorization()
             .MapEndpoint<CreateWarehouseEndpoint>()
             .MapEndpoint<UpdateWarehouseEndpoint>()
             .MapEndpoint<GetAllWarehousesEndpoint>()
             .MapEndpoint<DeleteWarehouseEndpoint>()
             .MapEndpoint<GetWarehouseByIdEndpoint>();
+        
+        endpoints.MapGroup("v1/identity")
+            .WithTags("Identity")
+            .MapIdentityApi<User>();
+
+        endpoints.MapGroup("v1/identity")
+            .WithTags("Identity")
+            .MapEndpoint<LogoutEndpoint>()
+            .MapEndpoint<GetRolesEndpoint>();
     }
 
     private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app)

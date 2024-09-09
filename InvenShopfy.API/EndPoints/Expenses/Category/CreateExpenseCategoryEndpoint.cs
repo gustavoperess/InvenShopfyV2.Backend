@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.Expenses;
 using InvenShopfy.Core.Models.Expenses;
@@ -16,10 +17,12 @@ public class CreateExpenseCategoryEndpoint : IEndPoint
         .Produces<Response<ExpenseCategory?>>();
 
     private static async Task<IResult> HandleAsync(
+        ClaimsPrincipal user,
         IExpenseCategoryHandler handler,
         CreateExpenseCategoryRequest request)
     {
-        request.UserId = "Test@gmail.com";
+
+        request.UserId = user.Identity?.Name ?? string.Empty;
         var result = await handler.CreateAsync(request);
         return result.IsSuccess
             ? TypedResults.Created($"/{result.Data?.Id}", result)

@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.People;
@@ -18,7 +19,7 @@ public class GetAllBillersEndpoint : IEndPoint
             .Produces<PagedResponse<List<Core.Models.People.Biller>?>>();
 
     private static async Task<IResult> HandlerAsync(
-        // ClaimsPrincipal user,
+        ClaimsPrincipal user,
         IBillerHandler handler,
         [FromQuery]DateTime? startDate=null,
         [FromQuery]DateTime? endDate=null,
@@ -27,8 +28,8 @@ public class GetAllBillersEndpoint : IEndPoint
     {
         var request = new GetAllBillerRequest
         {
-            // UserId = user.Identity?.Name ?? string.Empty,
-            UserId = "Test@gmail.com",
+          
+            UserId = user.Identity?.Name ?? string.Empty,
             PageNumber = pageNumber,
             PageSize = pageSize,
         };

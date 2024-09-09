@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Models.Product;
@@ -17,14 +18,13 @@ public class GetUnitByIdEndpoint : IEndPoint
             .Produces<Response<Unit?>>();
 
     private static async Task<IResult> HandlerAsync(
-        // ClaimsPrincipal user,
+        ClaimsPrincipal user,
         IUnitHandler handler,
         long id)
     {
         var request = new GetUnitByIdRequest()
         {
-            // UserId = user.Identity?.Name ?? string.Empty,
-            UserId = "Test@gmail.com",
+            UserId = user.Identity?.Name ?? string.Empty,
             Id = id
         };
 

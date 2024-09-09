@@ -5,7 +5,7 @@ using InvenShopfy.API.Handlers.People;
 using InvenShopfy.API.Handlers.Products;
 using InvenShopfy.API.Handlers.UserManagement;
 using InvenShopfy.API.Handlers.Warehouses;
-// using InvenShopfy.API.Handlers;
+using InvenShopfy.API.Handlers;
 using InvenShopfy.API.Models;
 using Microsoft.AspNetCore.Identity;
 using InvenShopfy.Core;

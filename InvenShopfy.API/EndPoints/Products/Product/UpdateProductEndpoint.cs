@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Requests.Products.Product;
@@ -16,13 +17,12 @@ public class UpdateProductEndpoint : IEndPoint
             .Produces<Response<Core.Models.Product.Product?>>();
 
     private static async Task<IResult> HandlerAsync(
-        // ClaimsPrincipal user,
+        ClaimsPrincipal user,
         IProductHandler handler,
         UpdateProductRequest request,
         long id)
     {
-        // request.UserId = user.Identity?.Name ?? string.Empty;
-        request.UserId = "Test@gmail.com";
+        request.UserId = user.Identity?.Name ?? string.Empty;
         request.Id = id;
         var result = await handler.UpdateAsync(request);
         return result.IsSuccess

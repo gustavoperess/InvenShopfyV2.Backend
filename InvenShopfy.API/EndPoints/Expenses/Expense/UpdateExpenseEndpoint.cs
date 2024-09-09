@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.Expenses;
 using InvenShopfy.Core.Requests.Expenses.Expense;
@@ -17,13 +18,12 @@ public class UpdateExpenseEndpoint : IEndPoint
             .Produces<Response<Core.Models.Expenses.Expense?>>();
 
     private static async Task<IResult> HandlerAsync(
-        // ClaimsPrincipal user,
+        ClaimsPrincipal user,
         IExpenseHandler handler,
         UpdateExpenseRequest request,
         long id)
     {
-        // request.UserId = user.Identity?.Name ?? string.Empty;
-        request.UserId = "Test@gmail.com";
+        request.UserId = user.Identity?.Name ?? string.Empty;
         request.Id = id;
         var result = await handler.UpdateAsync(request);
         return result.IsSuccess

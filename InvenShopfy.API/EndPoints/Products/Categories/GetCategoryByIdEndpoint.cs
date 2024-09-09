@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Models.Product;
@@ -17,14 +18,13 @@ public class GetCategoryByIdEndpoint : IEndPoint
             .Produces<Response<Category?>>();
 
     private static async Task<IResult> HandlerAsync(
-        // ClaimsPrincipal user,
+        ClaimsPrincipal user,
         ICategoryHandler handler,
         long id)
     {
         var request = new GetCategoryByIdRequest
         {
-            // UserId = user.Identity?.Name ?? string.Empty,
-            UserId = "Test@gmail.com",
+            UserId = user.Identity?.Name ?? string.Empty,
             Id = id
         };
 

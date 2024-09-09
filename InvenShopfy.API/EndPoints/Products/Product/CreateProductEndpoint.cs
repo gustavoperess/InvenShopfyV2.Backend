@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Requests.Products.Product;
@@ -15,10 +16,12 @@ public class CreateProductEndpoint : IEndPoint
         .Produces<Response<Core.Models.Product.Product?>>();
 
     private static async Task<IResult> HandleAsync(
+        ClaimsPrincipal user,
         IProductHandler handler,
         CreateProductRequest request)
     {
-        request.UserId = "Test@gmail.com";
+    
+        request.UserId = user.Identity?.Name ?? string.Empty;
         var result = await handler.CreateAsync(request);
         return result.IsSuccess
             ? TypedResults.Created($"/{result.Data?.Id}", result)

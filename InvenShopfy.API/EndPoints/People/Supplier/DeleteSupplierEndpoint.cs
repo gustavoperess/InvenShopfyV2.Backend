@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.People;
 using InvenShopfy.Core.Requests.People.Customer;
@@ -17,14 +18,13 @@ public class DeleteSupplierEndpoint : IEndPoint
             .Produces<Response<Core.Models.People.Supplier?>>();
 
     private static async Task<IResult> HandlerAsync(
-        // ClaimsPrincipal user,
+        ClaimsPrincipal user,
         ISupplierHandler handler,
         long id)
     {
         var request = new DeleteSupplierRequest
         {
-            // UserId = user.Identity?.Name ?? string.Empty,
-            UserId = "Test@gmail.com",
+            UserId = user.Identity?.Name ?? string.Empty,
             Id = id
         };
 

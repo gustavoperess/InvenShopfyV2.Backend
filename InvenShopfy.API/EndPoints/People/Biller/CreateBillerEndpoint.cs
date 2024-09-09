@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.People;
 using InvenShopfy.Core.Requests.People.Biller;
@@ -15,10 +16,11 @@ public class CreateBillerEndpoint : IEndPoint
         .Produces<Response<Core.Models.People.Biller?>>();
 
     private static async Task<IResult> HandleAsync(
+        ClaimsPrincipal user,
         IBillerHandler handler,
         CreateBillerRequest request)
     {
-        request.UserId = "Test@gmail.com";
+        request.UserId = user.Identity?.Name ?? string.Empty;
         var result = await handler.CreateAsync(request);
         return result.IsSuccess
             ? TypedResults.Created($"/{result.Data?.Id}", result)

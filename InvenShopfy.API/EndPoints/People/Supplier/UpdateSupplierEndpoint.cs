@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.People;
 using InvenShopfy.Core.Requests.People.Customer;
@@ -17,13 +18,12 @@ public class UpdateSupplierEndpoint : IEndPoint
             .Produces<Response<Core.Models.People.Supplier?>>();
 
     private static async Task<IResult> HandlerAsync(
-        // ClaimsPrincipal user,
+        ClaimsPrincipal user,
         ISupplierHandler handler,
         UpdateSupplierRequest request,
         long id)
     {
-        // request.UserId = user.Identity?.Name ?? string.Empty;
-        request.UserId = "Test@gmail.com";
+        request.UserId = user.Identity?.Name ?? string.Empty;
         request.Id = id;
         var result = await handler.UpdateAsync(request);
         return result.IsSuccess

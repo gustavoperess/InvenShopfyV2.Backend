@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.Expenses;
 using InvenShopfy.Core.Models.Expenses;
@@ -17,14 +18,13 @@ public class DeleteExpenseCategoryEndpoint : IEndPoint
             .Produces<Response<ExpenseCategory?>>();
 
     private static async Task<IResult> HandlerAsync(
-        // ClaimsPrincipal user,
+        ClaimsPrincipal user,
         IExpenseCategoryHandler handler,
         long id)
     {
         var request = new DeleteExpenseCategoryRequest
         {
-            // UserId = user.Identity?.Name ?? string.Empty,
-            UserId = "Test@gmail.com",
+            UserId = user.Identity?.Name ?? string.Empty,
             Id = id
         };
 

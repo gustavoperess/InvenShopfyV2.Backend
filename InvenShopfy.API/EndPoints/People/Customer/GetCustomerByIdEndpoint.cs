@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.People;
 using InvenShopfy.Core.Requests.People.Biller;
@@ -17,14 +18,13 @@ public class GetCustomerByIdEndpoint : IEndPoint
             .Produces<Response<Core.Models.People.Customer?>>();
 
     private static async Task<IResult> HandlerAsync(
-        // ClaimsPrincipal user,
+        ClaimsPrincipal user,
         ICustomerHandler handler,
         long id)
     {
         var request = new GetCustomerByIdRequest
         {
-            // UserId = user.Identity?.Name ?? string.Empty,
-            UserId = "Test@gmail.com",
+            UserId = user.Identity?.Name ?? string.Empty,
             Id = id
         };
 

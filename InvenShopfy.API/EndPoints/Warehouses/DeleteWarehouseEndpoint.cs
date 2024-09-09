@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.UserManagement;
 using InvenShopfy.Core.Handlers.Warehouse;
@@ -18,14 +19,13 @@ public class DeleteWarehouseEndpoint : IEndPoint
             .Produces<Response<Core.Models.Warehouse.Warehouse?>>();
 
     private static async Task<IResult> HandlerAsync(
-        // ClaimsPrincipal user,
+        ClaimsPrincipal user,
         IWarehouseHandler handler,
         long id)
     {
         var request = new DeleteWarehouseRequest
         {
-            // UserId = user.Identity?.Name ?? string.Empty,
-            UserId = "Test@gmail.com",
+            UserId = user.Identity?.Name ?? string.Empty,
             Id = id
         };
 
