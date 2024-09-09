@@ -36,21 +36,6 @@ public static class BuilderExtension
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(x => { x.CustomSchemaIds(n => n.FullName); });
     }
-
-    
-    // public class ErrorResponseOperationFilter : IOperationFilter
-    // {
-    //     public void Apply(OpenApiOperation operation, OperationFilterContext context)
-    //     {
-    //         if (operation == null) return;
-    //
-    //         // Add 400 Bad Request
-    //         operation.Responses.TryAdd("400", new OpenApiResponse { Description = "Bad Request" });
-    //
-    //         // Add 500 Internal Server Error
-    //         operation.Responses.TryAdd("500", new OpenApiResponse { Description = "Internal Server Error" });
-    //     }
-    // }
     
     public static void AddSecurity(this WebApplicationBuilder builder)
     {
@@ -74,16 +59,16 @@ public static class BuilderExtension
     
     }
     
-    // public static void AddCrossOrigin(this WebApplicationBuilder builder)
-    // {
-    //     builder.Services.AddCors(options => options.AddPolicy(Configuration.CorsPolicyName,
-    //         policy =>
-    //             policy.WithOrigins([
-    //                 Configuration.BackendUrl,
-    //                 Configuration.FrontendUrl
-    //             ]).AllowAnyHeader().AllowAnyMethod().AllowCredentials()
-    //     ));
-    // }
+    public static void AddCrossOrigin(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddCors(options => options.AddPolicy(Configuration.CorsPolicyName,
+            policy =>
+                policy.WithOrigins([
+                    Configuration.BackendUrl,
+                    Configuration.FrontendUrl
+                ]).AllowAnyHeader().AllowAnyMethod().AllowCredentials()
+        ));
+    }
 
     public static void AddServices(this WebApplicationBuilder builder)
     {

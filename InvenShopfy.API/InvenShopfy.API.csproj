@@ -31,6 +31,10 @@
   <ItemGroup>
     <Folder Include="EndPoints\Products\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Common\Api\ErrorHandlingMiddleware.cs" />
+  </ItemGroup>
   
 
 </Project>
