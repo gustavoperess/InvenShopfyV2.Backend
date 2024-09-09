@@ -1,13 +1,8 @@
+using InvenShopfy.Core.Enum;
+
 namespace InvenShopfy.Core.Models.Expenses;
 using System.ComponentModel.DataAnnotations;
-public enum CustomerGroup
-{
-    [Display(Name = "Direct Expense")]
-    DirectExpense,
-        
-    [Display(Name = "Draft Expense")]
-    DraftExpense
-}
+
 
 public class Expense
 {
@@ -16,8 +11,7 @@ public class Expense
     
     public long WarehouseId { get; set; }
     public Warehouse.Warehouse Warehouse { get; set; } = null!;
-    public CustomerGroup ExpenseType { get; set; }
-    
+    public EExpenseType ExpenseType { get; set; } = EExpenseType.DirectExpense;
     public long ExpenseCategoryId { get; set; }
     public ExpenseCategory ExpenseCategory { get; set; } = null!;
     public long VoucherNumber { get; set; }

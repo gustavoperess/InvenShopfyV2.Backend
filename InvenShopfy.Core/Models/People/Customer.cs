@@ -1,13 +1,8 @@
+using InvenShopfy.Core.Enum;
+
 namespace InvenShopfy.Core.Models.People;
 
 
-public enum CustomerGroup
-{
-    General,
-    WalkIn,
-    Local,
-    Foreign
-}
 
 public class Customer
 {
@@ -20,6 +15,6 @@ public class Customer
     public string Address { get; set; } = string.Empty;
     public string ZipCode { get; set; } = string.Empty;
     public long RewardPoint { get; set; }
-    public CustomerGroup CustomerGroup { get; set; }
+    public ECustomerGroup CustomerGroup { get; set; } = ECustomerGroup.WalkIn;
     public string UserId { get; set; } = string.Empty;
 }

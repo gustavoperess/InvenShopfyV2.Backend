@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using InvenShopfy.Core.Enum;
 using InvenShopfy.Core.Models.Expenses;
 
 namespace InvenShopfy.Core.Requests.Expenses.Expense;
@@ -10,7 +11,7 @@ public class UpdateExpenseRequest : Request
     public long WarehouseId { get; set; }
 
     [Required(ErrorMessage = "Please select one of the two expense types")]
-    public CustomerGroup ExpenseType { get; set; }
+    public EExpenseType ExpenseType { get; set; } = EExpenseType.DirectExpense;
     
     [Required(ErrorMessage = "Invalid Expense Category ID")]
     public long ExpenseCategoryId { get; set; }

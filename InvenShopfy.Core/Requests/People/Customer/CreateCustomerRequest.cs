@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using InvenShopfy.Core.Enum;
 using InvenShopfy.Core.Models.People;
 using InvenShopfy.Core.Standards;
 
@@ -47,6 +48,6 @@ public class CreateCustomerRequest : Request
     public long RewardPoint { get; set; }
     
     [Required(ErrorMessage = "Please Select one of the Customers")]
-    public CustomerGroup CustomerGroup { get; set; }
+    public ECustomerGroup CustomerGroup { get; set; } = ECustomerGroup.WalkIn;
  
 }

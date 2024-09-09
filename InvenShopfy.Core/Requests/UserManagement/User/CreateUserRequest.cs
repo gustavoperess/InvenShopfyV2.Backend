@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using InvenShopfy.Core.Enum;
 using InvenShopfy.Core.Models.UserManagement;
 
 namespace InvenShopfy.Core.Requests.UserManagement.User;
@@ -18,7 +19,7 @@ public class CreateUserRequest : Request
     public string PhoneNumber { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Please select the Gender from the dropdown below")]
-    public Gender? Gender { get; set; } = Models.UserManagement.Gender.Male;
+    public EGender Gender { get; set; } = EGender.Male;
     
     [Required(ErrorMessage = "Invalid Username")]
     [MaxLength(80,  ErrorMessage= "Max len of 80 characters")]

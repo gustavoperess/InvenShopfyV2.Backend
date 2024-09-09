@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using InvenShopfy.Core.Enum;
 using InvenShopfy.Core.Models.Expenses;
 
 namespace InvenShopfy.Core.Requests.Expenses.Expense;
@@ -12,9 +13,9 @@ public class CreateExpenseRequest : Request
     [Required(ErrorMessage = "Please enter the Date expense was created")]
     [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
     public DateTime Date { get; set; }
-    
+
     [Required(ErrorMessage = "Please select one of the two expense types")]
-    public CustomerGroup ExpenseType { get; set; }
+    public EExpenseType ExpenseType { get; set; } = EExpenseType.DirectExpense;
     
     [Required(ErrorMessage = "Invalid Expense Category ID")]
     public long ExpenseCategoryId { get; set; }
