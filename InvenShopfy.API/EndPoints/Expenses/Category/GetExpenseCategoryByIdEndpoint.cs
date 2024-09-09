@@ -10,9 +10,9 @@ public class GetExpenseCategoryByIdEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapGet("/{id}", HandlerAsync)
-            .WithName("Categories: Get By Id")
-            .WithSummary("Get a Category")
-            .WithDescription("Get a Category")
+            .WithName("Categories: Gets a Category Expense By Id")
+            .WithSummary("Get a Category expense by Id")
+            .WithDescription("Get a Category expense by Id")
             .WithOrder(4)
             .Produces<Response<ExpenseCategory?>>();
 

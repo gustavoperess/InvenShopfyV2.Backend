@@ -10,9 +10,9 @@ public class DeleteExpenseCategoryEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapDelete("/{id}", HandlerAsync)
-            .WithName("Categories: Delete")
-            .WithSummary("Delete a Category")
-            .WithDescription("Delete a Category")
+            .WithName("Categories: Delete a Category Expense")
+            .WithSummary("Delete a Category Expense")
+            .WithDescription("Delete a Category Expense")
             .WithOrder(3)
             .Produces<Response<ExpenseCategory?>>();
 

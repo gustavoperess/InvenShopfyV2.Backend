@@ -52,7 +52,7 @@ public static class Endpoint
             .MapEndpoint<DeleteUnitEndpoint>()
             .MapEndpoint<GetUnitByIdEndpoint>();
 
-        productsGroup.MapGroup("Categories")
+        productsGroup.MapGroup("ProductCategory")
             .WithTags("Products - categories")
             .MapEndpoint<CreateCategoryEndpoint>()
             .MapEndpoint<UpdateCategoryEndpoint>()
@@ -61,25 +61,25 @@ public static class Endpoint
             .MapEndpoint<GetCategoryByIdEndpoint>();
         
         // Expense Group
-        // var expenseGroup = endpoints.MapGroup("v2/expenses")
-        //     .WithTags("Expenses");
-        //
-        // expenseGroup.MapGroup("Expenses")
-        //     .WithTags("Expenses - expenses")
-        //     .MapEndpoint<CreateExpenseEndpoint>()
-        //     .MapEndpoint<UpdateExpenseEndpoint>()
-        //     .MapEndpoint<GetAllExpensesEndpoint>()
-        //     .MapEndpoint<DeleteExpenseEndpoint>()
-        //     .MapEndpoint<GetExpenseByIdEndpoint>();
-        //
-        // expenseGroup.MapGroup("Categories")
-        //     .WithTags("Expenses - categories") 
-        //     .MapEndpoint<CreateExpenseCategoryEndpoint>()
-        //     .MapEndpoint<UpdateExpenseCategoryEndpoint>()
-        //     .MapEndpoint<GetAllExpenseCategoriesEndpoint>()
-        //     .MapEndpoint<DeleteExpenseCategoryEndpoint>()
-        //     .MapEndpoint<GetExpenseCategoryByIdEndpoint>();
-        //
+        var expenseGroup = endpoints.MapGroup("v2/expenses")
+            .WithTags("Expenses");
+        
+        expenseGroup.MapGroup("Expenses")
+            .WithTags("Expenses - expenses")
+            .MapEndpoint<CreateExpenseEndpoint>()
+            .MapEndpoint<UpdateExpenseEndpoint>()
+            .MapEndpoint<GetAllExpensesEndpoint>()
+            .MapEndpoint<DeleteExpenseEndpoint>()
+            .MapEndpoint<GetExpenseByIdEndpoint>();
+
+        expenseGroup.MapGroup("ExpenseCategory")
+            .WithTags("Expenses - category")
+            .MapEndpoint<CreateExpenseCategoryEndpoint>()
+            .MapEndpoint<UpdateExpenseCategoryEndpoint>()
+            .MapEndpoint<GetAllExpenseCategoriesEndpoint>()
+            .MapEndpoint<DeleteExpenseCategoryEndpoint>()
+            .MapEndpoint<GetExpenseCategoryByIdEndpoint>();
+        
         // People Group
         var peopleGroup = endpoints.MapGroup("v2/people")
             .WithTags("People");

@@ -14,9 +14,9 @@ public class GetAllExpenseCategoriesEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapGet("/", HandlerAsync)
-            .WithName("Categories: Get All")
-            .WithSummary("Get All Categories")
-            .WithDescription("Get all Categories")
+            .WithName("Categories: Gets all Categories expenses")
+            .WithSummary("Gets all Categories expenses")
+            .WithDescription("Gets all Categories expenses")
             .WithOrder(5)
             .Produces<PagedResponse<List<ExpenseCategory>?>>();
 

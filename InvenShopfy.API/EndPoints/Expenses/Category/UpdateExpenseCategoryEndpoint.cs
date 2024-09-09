@@ -10,9 +10,9 @@ public class UpdateExpenseCategoryEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapPut("/{id}", HandlerAsync)
-            .WithName("Categories: Update")
-            .WithSummary("Update a Category")
-            .WithDescription("Update a Category")
+            .WithName("Categories: Updates a Category Expense")
+            .WithSummary("Update a Category Expense")
+            .WithDescription("Update a Category Expense")
             .WithOrder(2)
             .Produces<Response<ExpenseCategory?>>();
 
