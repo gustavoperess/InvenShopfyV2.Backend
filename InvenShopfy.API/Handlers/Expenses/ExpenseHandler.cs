@@ -1,4 +1,5 @@
 using InvenShopfy.API.Data;
+using InvenShopfy.Core.Enum;
 using InvenShopfy.Core.Handlers.Expenses;
 using InvenShopfy.Core.Models.Expenses;
 using InvenShopfy.Core.Requests.Expenses.Expense;
@@ -13,6 +14,10 @@ public class ExpenseHandler (AppDbContext context) : IExpenseHandler
     {
         try
         {
+            if (!Enum.IsDefined(typeof(EExpenseType), request.ExpenseType))
+            {
+                return new Response<Expense?>(null, 400, "Invalid Expensive Type");
+            }
             var expense = new Expense
             {
                 UserId = request.UserId,
@@ -46,6 +51,11 @@ public class ExpenseHandler (AppDbContext context) : IExpenseHandler
             if (expense is null)
             {
                 return new Response<Expense?>(null, 404, "Expense not found");
+            }
+            
+            if (!Enum.IsDefined(typeof(EExpenseType), request.ExpenseType))
+            {
+                return new Response<Expense?>(null, 400, "Invalid Expensive Type");
             }
             
             expense.WarehouseId = request.WarehouseId;

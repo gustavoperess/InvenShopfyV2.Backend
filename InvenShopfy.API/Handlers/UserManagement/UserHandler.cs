@@ -1,4 +1,5 @@
 using InvenShopfy.API.Data;
+using InvenShopfy.Core.Enum;
 using InvenShopfy.Core.Handlers.UserManagement;
 using InvenShopfy.Core.Models.UserManagement;
 using InvenShopfy.Core.Requests.UserManagement.User;
@@ -13,6 +14,10 @@ public class UserHandler (AppDbContext context) : IUserManagementUserHandler
     {
         try
         {
+            if (!Enum.IsDefined(typeof(EGender), request.Gender))
+            {
+                return new Response<User?>(null, 400, "Gender invalid");
+            }
             var user = new User
             {
                 UserId = request.UserId,
@@ -46,6 +51,11 @@ public class UserHandler (AppDbContext context) : IUserManagementUserHandler
             if (user is null)
             {
                 return new Response<User?>(null, 404, "User not found");
+            }
+            
+            if (!Enum.IsDefined(typeof(EGender), request.Gender))
+            {
+                return new Response<User?>(null, 400, "Gender invalid");
             }
             
             user.Name = request.Name;

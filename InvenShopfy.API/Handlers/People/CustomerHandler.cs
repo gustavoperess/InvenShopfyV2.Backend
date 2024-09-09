@@ -54,6 +54,10 @@ public class CustomerHandler (AppDbContext context) : ICustomerHandler
             {
                 return new Response<Customer?>(null, 404, "Customer not found");
             }
+            if (!Enum.IsDefined(typeof(ECustomerGroup), request.CustomerGroup))
+            {
+                return new Response<Customer?>(null, 400, "Invalid Customer Group");
+            }
 
             customer.Name = request.Name;
             customer.Email = request.Email;
