@@ -1,7 +1,7 @@
 using InvenShopfy.Core.Enum;
 
 namespace InvenShopfy.Core.Models.Expenses;
-using System.ComponentModel.DataAnnotations;
+
 
 
 public class Expense

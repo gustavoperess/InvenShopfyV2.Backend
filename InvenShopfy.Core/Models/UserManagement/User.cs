@@ -13,7 +13,7 @@ public class User
 {
     public long Id { get; set; }
     public string Name { get; set; } = String.Empty;
-    public DateTime DateOfJoin { get; set; } = DateTime.Now;
+    public DateTime DateOfJoin { get; set; } = DateTime.UtcNow;
     public string Email { get; set; } = String.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
     public EGender Gender { get; set; } = EGender.Male;

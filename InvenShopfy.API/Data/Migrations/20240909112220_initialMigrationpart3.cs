@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class initialMigrationpart3 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -57,7 +57,7 @@ namespace InvenShopfy.API.Migrations
                     Address = table.Column<string>(type: "VARCHAR", maxLength: 160, nullable: false),
                     ZipCode = table.Column<string>(type: "VARCHAR", maxLength: 20, nullable: false),
                     RewardPoint = table.Column<long>(type: "BIGINT", maxLength: 30, nullable: false),
-                    CustomerGroup = table.Column<string>(type: "VARCHAR", nullable: false),
+                    CustomerGroup = table.Column<short>(type: "SMALLINT", nullable: false),
                     UserId = table.Column<string>(type: "VARCHAR", maxLength: 160, nullable: false)
                 },
                 constraints: table =>
@@ -160,7 +160,7 @@ namespace InvenShopfy.API.Migrations
                     DateOfJoin = table.Column<DateTime>(type: "TIMESTAMPTZ", nullable: false),
                     Email = table.Column<string>(type: "VARCHAR", maxLength: 160, nullable: false),
                     PhoneNumber = table.Column<string>(type: "VARCHAR", maxLength: 80, nullable: false),
-                    Gender = table.Column<string>(type: "VARCHAR", nullable: false),
+                    Gender = table.Column<short>(type: "SMALLINT", nullable: false),
                     Username = table.Column<string>(type: "VARCHAR", maxLength: 80, nullable: false),
                     ProfileImage = table.Column<string>(type: "VARCHAR", nullable: true),
                     Password = table.Column<string>(type: "VARCHAR", maxLength: 160, nullable: false),
@@ -255,7 +255,7 @@ namespace InvenShopfy.API.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Date = table.Column<DateTime>(type: "TIMESTAMPTZ", nullable: false),
                     WarehouseId = table.Column<long>(type: "bigint", nullable: false),
-                    ExpenseType = table.Column<string>(type: "VARCHAR", maxLength: 160, nullable: false),
+                    ExpenseType = table.Column<short>(type: "SMALLINT", nullable: false),
                     ExpenseCategoryId = table.Column<long>(type: "bigint", nullable: false),
                     VoucherNumber = table.Column<long>(type: "BIGINT", nullable: false),
                     Amount = table.Column<double>(type: "numeric(18,2)", nullable: false),

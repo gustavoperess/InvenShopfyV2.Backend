@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240907142420_InitialCreateTwo")]
-    partial class InitialCreateTwo
+    [Migration("20240909115822_UpdateUserModel")]
+    partial class UpdateUserModel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,10 +42,8 @@ namespace InvenShopfy.API.Migrations
                     b.Property<long>("ExpenseCategoryId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("ExpenseType")
-                        .IsRequired()
-                        .HasMaxLength(160)
-                        .HasColumnType("VARCHAR");
+                    b.Property<short>("ExpenseType")
+                        .HasColumnType("SMALLINT");
 
                     b.Property<string>("PurchaseNote")
                         .IsRequired()
@@ -188,9 +186,8 @@ namespace InvenShopfy.API.Migrations
                         .HasMaxLength(80)
                         .HasColumnType("VARCHAR");
 
-                    b.Property<string>("CustomerGroup")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR");
+                    b.Property<short>("CustomerGroup")
+                        .HasColumnType("SMALLINT");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -477,9 +474,8 @@ namespace InvenShopfy.API.Migrations
                         .HasMaxLength(160)
                         .HasColumnType("VARCHAR");
 
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR");
+                    b.Property<short>("Gender")
+                        .HasColumnType("SMALLINT");
 
                     b.Property<string>("Name")
                         .IsRequired()

@@ -32,8 +32,7 @@ public class UserMapping : IEntityTypeConfiguration<User>
         
         builder.Property(x => x.Gender)
             .IsRequired(true)
-            .HasConversion<string>() 
-            .HasColumnType("VARCHAR");
+            .HasColumnType("SMALLINT");
         
         builder.Property(x => x.Username)
             .IsRequired(true)

@@ -1,3 +1,4 @@
+using InvenShopfy.Core.Enum;
 using InvenShopfy.Core.Models.Expenses;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -18,8 +19,7 @@ public class ExpenseMapping : IEntityTypeConfiguration<Expense>
         
         builder.Property(x => x.ExpenseType)
             .IsRequired(true)
-            .HasColumnType("VARCHAR")
-            .HasMaxLength(160);
+            .HasColumnType("SMALLINT"); 
 
         builder.Property(x => x.VoucherNumber)
             .IsRequired(true)

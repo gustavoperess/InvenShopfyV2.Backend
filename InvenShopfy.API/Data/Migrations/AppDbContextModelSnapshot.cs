@@ -3,7 +3,6 @@ using System;
 using InvenShopfy.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,11 +11,9 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240908113804_InitialCreate")]
-    partial class InitialCreate
+    partial class AppDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,10 +39,8 @@ namespace InvenShopfy.API.Migrations
                     b.Property<long>("ExpenseCategoryId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("ExpenseType")
-                        .IsRequired()
-                        .HasMaxLength(160)
-                        .HasColumnType("VARCHAR");
+                    b.Property<short>("ExpenseType")
+                        .HasColumnType("SMALLINT");
 
                     b.Property<string>("PurchaseNote")
                         .IsRequired()
@@ -188,9 +183,8 @@ namespace InvenShopfy.API.Migrations
                         .HasMaxLength(80)
                         .HasColumnType("VARCHAR");
 
-                    b.Property<string>("CustomerGroup")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR");
+                    b.Property<short>("CustomerGroup")
+                        .HasColumnType("SMALLINT");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -477,9 +471,8 @@ namespace InvenShopfy.API.Migrations
                         .HasMaxLength(160)
                         .HasColumnType("VARCHAR");
 
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR");
+                    b.Property<short>("Gender")
+                        .HasColumnType("SMALLINT");
 
                     b.Property<string>("Name")
                         .IsRequired()
