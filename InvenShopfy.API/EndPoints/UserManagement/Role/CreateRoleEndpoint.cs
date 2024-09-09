@@ -24,7 +24,7 @@ public class CreateRoleEndpoint : IEndPoint
         var result = await handler.CreateAsync(request);
         return result.IsSuccess
             ? TypedResults.Created($"/{result.Data?.Id}", result)
-            : TypedResults.BadRequest(result.Data);
+            : TypedResults.BadRequest(result);
         
     }
 }
