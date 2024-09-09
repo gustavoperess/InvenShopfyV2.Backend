@@ -4,6 +4,7 @@ public static class AppExtension
 {
     public static void ConfigureDevEnvironment(this WebApplication app)
     {
+        // app.UseMiddleware<ErrorHandlingMiddleware>();
         app.UseSwagger();
         app.UseSwaggerUI();
         // app.MapSwagger().RequireAuthorization();

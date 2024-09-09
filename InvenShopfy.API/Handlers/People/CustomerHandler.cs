@@ -1,4 +1,5 @@
 using InvenShopfy.API.Data;
+using InvenShopfy.Core.Enum;
 using InvenShopfy.Core.Handlers.People;
 using InvenShopfy.Core.Models.People;
 using InvenShopfy.Core.Requests.People.Customer;
@@ -13,6 +14,11 @@ public class CustomerHandler (AppDbContext context) : ICustomerHandler
     {
         try
         {
+            if (!Enum.IsDefined(typeof(ECustomerGroup), request.CustomerGroup))
+            {
+                return new Response<Customer?>(null, 400, "Invalid Customer Group");
+            }
+            
             var customer = new Customer
             {
                 UserId = request.UserId,

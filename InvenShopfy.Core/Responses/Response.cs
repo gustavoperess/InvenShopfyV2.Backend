@@ -4,6 +4,7 @@ namespace InvenShopfy.Core.Responses;
 
 public class Response<TData>
 {
+
     private readonly int _code;
     
     [JsonConstructor]
@@ -23,4 +24,6 @@ public class Response<TData>
     
     [JsonIgnore] // THIS HIDES IT FROM THE RESPONSE, WE DON'T NEED TO SEE THE BELOW CODE JUST THE MESSAGE
     public bool IsSuccess => _code is >= Configuration.DefaultStatusCode and <= 299;
+    
+    
 }

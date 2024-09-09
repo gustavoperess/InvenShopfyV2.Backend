@@ -16,6 +16,8 @@ using InvenShopfy.Core.Handlers.UserManagement;
 using InvenShopfy.Core.Handlers.Warehouse;
 using InvenShopfy.Core.Models.Expenses;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 
 namespace InvenShopfy.API.Common.Api;
@@ -34,6 +36,21 @@ public static class BuilderExtension
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(x => { x.CustomSchemaIds(n => n.FullName); });
     }
+
+    
+    // public class ErrorResponseOperationFilter : IOperationFilter
+    // {
+    //     public void Apply(OpenApiOperation operation, OperationFilterContext context)
+    //     {
+    //         if (operation == null) return;
+    //
+    //         // Add 400 Bad Request
+    //         operation.Responses.TryAdd("400", new OpenApiResponse { Description = "Bad Request" });
+    //
+    //         // Add 500 Internal Server Error
+    //         operation.Responses.TryAdd("500", new OpenApiResponse { Description = "Internal Server Error" });
+    //     }
+    // }
     
     public static void AddSecurity(this WebApplicationBuilder builder)
     {
