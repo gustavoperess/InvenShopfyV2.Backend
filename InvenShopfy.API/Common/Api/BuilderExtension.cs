@@ -27,8 +27,8 @@ public static class BuilderExtension
     public static void AddConfiguration(this WebApplicationBuilder builder)
     {
         Configuration.ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
-        // Configuration.BackendUrl = builder.Configuration.GetValue<string>("BackendUrl") ?? string.Empty;
-        // Configuration.FrontendUrl = builder.Configuration.GetValue<string>("FrontendUrl") ?? string.Empty;
+        Configuration.BackendUrl = builder.Configuration.GetValue<string>("BackendUrl") ?? string.Empty;
+        Configuration.FrontendUrl = builder.Configuration.GetValue<string>("FrontendUrl") ?? string.Empty;
     }
     
     public static void AddDocumentation(this WebApplicationBuilder builder)
@@ -81,8 +81,8 @@ public static class BuilderExtension
         builder.Services.AddTransient<IBillerHandler, BillerHandler>();
         builder.Services.AddTransient<ICustomerHandler, CustomerHandler>();
         builder.Services.AddTransient<ISupplierHandler, SupplierHandler>();
-        builder.Services.AddTransient<IUserManagementRoleHandler, RolerHandler>();
-        builder.Services.AddTransient<IUserManagementUserHandler, UserHandler>();
+        // builder.Services.AddTransient<IUserManagementRoleHandler, RolerHandler>();
+        // builder.Services.AddTransient<IUserManagementUserHandler, UserHandler>();
         builder.Services.AddTransient<IWarehouseHandler, WarehouseHandler>();
       
     }
