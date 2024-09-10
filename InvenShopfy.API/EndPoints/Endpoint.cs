@@ -119,26 +119,6 @@ public static class Endpoint
             .MapEndpoint<DeleteSupplierEndpoint>()
             .MapEndpoint<GetSupplierByIdEndpoint>();
         
-        // Management Group
-        // var userManagementGroup = endpoints.MapGroup("v2/UserManagement")
-        //     .WithTags("User Management"); // Fixed the tag here
-        //
-        // userManagementGroup.MapGroup("Role")
-        //     .WithTags("UserManagement - role")
-        //     .MapEndpoint<CreateRoleEndpoint>()
-        //     .MapEndpoint<UpdateRoleEndpoint>()
-        //     .MapEndpoint<GetAllRolesEndpoint>()
-        //     .MapEndpoint<DeleteRoleEndpoint>()
-        //     .MapEndpoint<GetRoleByIdEndpoint>();
-        //
-        // userManagementGroup.MapGroup("User")
-        //     .WithTags("UserManagement - user")
-        //     .MapEndpoint<CreateUserEndpoint>()
-        //     .MapEndpoint<UpdateUserEndpoint>()
-        //     .MapEndpoint<GetAllUsersEndpoint>()
-        //     .MapEndpoint<DeleteUserEndpoint>()
-        //     .MapEndpoint<GetUserByIdEndpoint>();
-        
         // WAREHOUSE GROUP
         var warehouseGroup = endpoints.MapGroup("v2/Warehouse")
             .WithTags("Warehouse");
@@ -152,6 +132,8 @@ public static class Endpoint
             .MapEndpoint<DeleteWarehouseEndpoint>()
             .MapEndpoint<GetWarehouseByIdEndpoint>();
         
+        
+        // Management Group
         endpoints.MapGroup("v1/identity")
             .WithTags("Identity")
             .MapIdentityApi<User>();

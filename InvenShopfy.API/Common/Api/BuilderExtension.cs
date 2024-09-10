@@ -81,8 +81,6 @@ public static class BuilderExtension
         builder.Services.AddTransient<IBillerHandler, BillerHandler>();
         builder.Services.AddTransient<ICustomerHandler, CustomerHandler>();
         builder.Services.AddTransient<ISupplierHandler, SupplierHandler>();
-        // builder.Services.AddTransient<IUserManagementRoleHandler, RolerHandler>();
-        // builder.Services.AddTransient<IUserManagementUserHandler, UserHandler>();
         builder.Services.AddTransient<IWarehouseHandler, WarehouseHandler>();
       
     }
