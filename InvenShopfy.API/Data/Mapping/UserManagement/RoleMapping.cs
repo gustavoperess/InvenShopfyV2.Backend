@@ -25,5 +25,10 @@ public class RoleMapping : IEntityTypeConfiguration<Role>
             .IsRequired(true)
             .HasColumnType("VARCHAR")
             .HasMaxLength(160);
+        
+        builder.Property(x => x.ConcurrencyStamp)
+            .IsRequired(true)
+            .HasColumnType("VARCHAR")
+            .HasMaxLength(160);
     }
 }
