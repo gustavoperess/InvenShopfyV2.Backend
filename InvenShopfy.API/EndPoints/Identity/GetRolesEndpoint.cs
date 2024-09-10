@@ -3,7 +3,7 @@ using InvenShopfy.API.Common.Api;
 
 namespace InvenShopfy.API.EndPoints.Identity;
 
-public class GetRolesEndpoint    : IEndPoint
+public class GetRolesEndpoint : IEndPoint
     {
         public static void Map(IEndpointRouteBuilder app)
             => app.MapGet("/roles", Handle).RequireAuthorization();

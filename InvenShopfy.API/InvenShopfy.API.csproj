@@ -34,6 +34,7 @@
 
   <ItemGroup>
     <Compile Remove="Common\Api\ErrorHandlingMiddleware.cs" />
+    <Compile Remove="EndPoints\Identity\CreateRoleWithIdentityEndPoint.cs" />
   </ItemGroup>
   
 
