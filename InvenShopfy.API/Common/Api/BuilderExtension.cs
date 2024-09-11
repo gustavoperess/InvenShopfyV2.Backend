@@ -77,7 +77,7 @@ public static class BuilderExtension
         builder.Services.AddTransient<ICustomerHandler, CustomerHandler>();
         builder.Services.AddTransient<ISupplierHandler, SupplierHandler>();
         builder.Services.AddTransient<IWarehouseHandler, WarehouseHandler>();
-        builder.Services.AddTransient<IAddHandler, AddHandler>();
+        builder.Services.AddTransient<IPurchaseHandler, PurchaseHandler>();
       
     }
 }

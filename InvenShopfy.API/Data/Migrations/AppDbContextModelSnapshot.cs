@@ -500,7 +500,7 @@ namespace InvenShopfy.API.Migrations
                     b.ToTable("Unit", (string)null);
                 });
 
-            modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Purchase.Add", b =>
+            modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Purchase.AddPurchase", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -874,7 +874,7 @@ namespace InvenShopfy.API.Migrations
                     b.Navigation("Unit");
                 });
 
-            modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Purchase.Add", b =>
+            modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Purchase.AddPurchase", b =>
                 {
                     b.HasOne("InvenShopfy.Core.Models.Product.Product", "Product")
                         .WithMany()

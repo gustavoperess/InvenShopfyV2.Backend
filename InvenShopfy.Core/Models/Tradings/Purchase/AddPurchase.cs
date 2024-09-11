@@ -3,7 +3,7 @@ using InvenShopfy.Core.Models.People;
 
 namespace InvenShopfy.Core.Models.Tradings.Purchase;
 
-public class Add
+public class AddPurchase
 {
     public long Id { get; set; }
     public DateTime Date { get; set; } = DateTime.UtcNow;

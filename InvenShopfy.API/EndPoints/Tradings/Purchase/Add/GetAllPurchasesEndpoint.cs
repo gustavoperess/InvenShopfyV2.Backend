@@ -1,16 +1,14 @@
 using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core;
-using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Handlers.Tradings.Purchase;
-using InvenShopfy.Core.Requests.Products.Category;
 using InvenShopfy.Core.Requests.Tradings.Purchase.Add;
 using InvenShopfy.Core.Responses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InvenShopfy.API.EndPoints.Tradings.Purchase.Add;
 
-public class GetAllAddEndpoint : IEndPoint
+public class GetAllPurchasesEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapGet("/", HandlerAsync)
@@ -18,11 +16,11 @@ public class GetAllAddEndpoint : IEndPoint
             .WithSummary("Get All Purchases")
             .WithDescription("Get all Purchases")
             .WithOrder(5)
-            .Produces<PagedResponse<List<Core.Models.Tradings.Purchase.Add>?>>();
+            .Produces<PagedResponse<List<Core.Models.Tradings.Purchase.AddPurchase>?>>();
 
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,
-        IAddHandler handler,
+        IPurchaseHandler handler,
         [FromQuery]DateTime? startDate=null,
         [FromQuery]DateTime? endDate=null,
         [FromQuery]int pageNumber = Configuration.DefaultPageNumber,

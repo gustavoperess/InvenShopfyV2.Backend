@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240911155855_InitialCreation")]
+    [Migration("20240911174118_InitialCreation")]
     partial class InitialCreation
     {
         /// <inheritdoc />
@@ -503,7 +503,7 @@ namespace InvenShopfy.API.Migrations
                     b.ToTable("Unit", (string)null);
                 });
 
-            modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Purchase.Add", b =>
+            modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Purchase.AddPurchase", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -877,7 +877,7 @@ namespace InvenShopfy.API.Migrations
                     b.Navigation("Unit");
                 });
 
-            modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Purchase.Add", b =>
+            modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Purchase.AddPurchase", b =>
                 {
                     b.HasOne("InvenShopfy.Core.Models.Product.Product", "Product")
                         .WithMany()

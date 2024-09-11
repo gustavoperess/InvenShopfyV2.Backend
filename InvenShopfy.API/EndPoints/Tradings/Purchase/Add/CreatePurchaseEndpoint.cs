@@ -1,14 +1,12 @@
 using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
-using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Handlers.Tradings.Purchase;
-using InvenShopfy.Core.Requests.Products.Brand;
 using InvenShopfy.Core.Requests.Tradings.Purchase.Add;
 using InvenShopfy.Core.Responses;
 
 namespace InvenShopfy.API.EndPoints.Tradings.Purchase.Add;
 
-public class CreateAddEndpoint : IEndPoint
+public class CreatePurchaseEndpoint : IEndPoint
 
 {
     public static void Map(IEndpointRouteBuilder app) => app.MapPost("/", HandleAsync)
@@ -16,11 +14,11 @@ public class CreateAddEndpoint : IEndPoint
         .WithSummary("Purchase: Add a purchase")
         .WithDescription("Purchase: Add a purchase")
         .WithOrder(1)
-        .Produces<Response<Core.Models.Tradings.Purchase.Add?>>();
+        .Produces<Response<Core.Models.Tradings.Purchase.AddPurchase?>>();
 
     private static async Task<IResult> HandleAsync(
         ClaimsPrincipal user,
-        IAddHandler handler,
+        IPurchaseHandler handler,
         CreatePurchaseRequest request)
     {
         request.UserId = user.Identity?.Name ?? string.Empty;

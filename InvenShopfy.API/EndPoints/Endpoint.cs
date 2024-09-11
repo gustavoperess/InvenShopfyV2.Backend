@@ -9,10 +9,12 @@ using InvenShopfy.API.EndPoints.Products.Brands;
 using InvenShopfy.API.EndPoints.Products.Categories;
 using InvenShopfy.API.EndPoints.Products.Product;
 using InvenShopfy.API.EndPoints.Products.Units;
+using InvenShopfy.API.EndPoints.Tradings.Purchase.Add;
 using InvenShopfy.API.EndPoints.UserManagement.Role;
 using InvenShopfy.API.EndPoints.UserManagement.User;
 using InvenShopfy.API.EndPoints.Warehouses;
 using InvenShopfy.API.Models;
+using InvenShopfy.Core.Requests.Tradings.Purchase.Add;
 
 
 namespace InvenShopfy.API.EndPoints;
@@ -131,6 +133,20 @@ public static class Endpoint
             .MapEndpoint<GetAllWarehousesEndpoint>()
             .MapEndpoint<DeleteWarehouseEndpoint>()
             .MapEndpoint<GetWarehouseByIdEndpoint>();
+        
+        // Purchase GROUP
+        var purchasessGroup = endpoints.MapGroup("v2/Purchase")
+            .WithTags("Purchase");
+        
+        warehouseGroup.MapGroup("Purchase")
+            .WithTags("Purchase")
+            .RequireAuthorization()
+            .MapEndpoint<CreatePurchaseEndpoint>()
+            .MapEndpoint<UpdatePurchaseEndpoint>()
+            .MapEndpoint<GetAllPurchasesEndpoint>()
+            .MapEndpoint<DeletePurchaseEndpoint>()
+            .MapEndpoint<GetPurchaseByIdEndpoint>();
+
         
         
         // Management Group

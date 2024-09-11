@@ -11,13 +11,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InvenShopfy.API.Handlers.Tradings.Purchase;
 
-public class AddHandler(AppDbContext context) : IAddHandler
+public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
 {
-    public async Task<Response<Add?>> CreateAsync(CreatePurchaseRequest request)
+    public async Task<Response<AddPurchase?>> CreateAsync(CreatePurchaseRequest request)
     {
         try
         {
-            var purchase = new Add
+            var purchase = new AddPurchase
             {
                 UserId = request.UserId,
                 WarehouseId = request.WarehouseId,
@@ -30,16 +30,16 @@ public class AddHandler(AppDbContext context) : IAddHandler
             await context.Purchases.AddAsync(purchase);
             await context.SaveChangesAsync();
 
-            return new Response<Add?>(purchase, 201, "Purchase created successfully");
+            return new Response<AddPurchase?>(purchase, 201, "Purchase created successfully");
 
         }
         catch
         {
-            return new Response<Add?>(null, 500, "It was not possible to create a new purchase");
+            return new Response<AddPurchase?>(null, 500, "It was not possible to create a new purchase");
         }
     }
 
-    public async Task<Response<Add?>> UpdateAsync(UpdatePurchaseRequest request)
+    public async Task<Response<AddPurchase?>> UpdateAsync(UpdatePurchaseRequest request)
     {
         try
         {
@@ -47,7 +47,7 @@ public class AddHandler(AppDbContext context) : IAddHandler
 
             if (purchase is null)
             {
-                return new Response<Add?>(null, 404, "Purchase not found");
+                return new Response<AddPurchase?>(null, 404, "Purchase not found");
             }
             
             purchase.WarehouseId = request.WarehouseId;
@@ -58,17 +58,17 @@ public class AddHandler(AppDbContext context) : IAddHandler
             purchase.PurchaseNote = request.PurchaseNote;
             context.Purchases.Update(purchase);
             await context.SaveChangesAsync();
-            return new Response<Add?>(purchase, message: "Purchase updated successfully");
+            return new Response<AddPurchase?>(purchase, message: "Purchase updated successfully");
             
 
         }
         catch
         {
-            return new Response<Add?>(null, 500, "It was not possible to update this Purchase");
+            return new Response<AddPurchase?>(null, 500, "It was not possible to update this Purchase");
         }
     }
 
-    public async Task<Response<Add?>> DeleteAsync(DeletePurchaseRequest request)
+    public async Task<Response<AddPurchase?>> DeleteAsync(DeletePurchaseRequest request)
     {
         try
         {
@@ -76,21 +76,21 @@ public class AddHandler(AppDbContext context) : IAddHandler
 
             if (purchase is null)
             {
-                return new Response<Add?>(null, 404, "purchase not found");
+                return new Response<AddPurchase?>(null, 404, "purchase not found");
             }
 
             context.Purchases.Remove(purchase);
             await context.SaveChangesAsync();
-            return new Response<Add?>(purchase, message: "purchase removed successfully");
+            return new Response<AddPurchase?>(purchase, message: "purchase removed successfully");
 
         }
         catch
         {
-            return new Response<Add?>(null, 500, "It was not possible to delete this purchase");
+            return new Response<AddPurchase?>(null, 500, "It was not possible to delete this purchase");
         }
     }
 
-    public async Task<Response<Add?>> GetByIdAsync(GetPurchaseByIdRequest request)
+    public async Task<Response<AddPurchase?>> GetByIdAsync(GetPurchaseByIdRequest request)
     {
         try
         {
@@ -98,19 +98,19 @@ public class AddHandler(AppDbContext context) : IAddHandler
 
             if (purchase is null)
             {
-                return new Response<Add?>(null, 404, "purchase not found");
+                return new Response<AddPurchase?>(null, 404, "purchase not found");
             }
 
-            return new Response<Add?>(purchase);
+            return new Response<AddPurchase?>(purchase);
 
         }
         catch
         {
-            return new Response<Add?>(null, 500, "It was not possible to find this purchase");
+            return new Response<AddPurchase?>(null, 500, "It was not possible to find this purchase");
         }
     }
 
-    public async Task<PagedResponse<List<Add>?>> GetByPeriodAsync(GetAllPurchasesRequest request)
+    public async Task<PagedResponse<List<AddPurchase>?>> GetByPeriodAsync(GetAllPurchasesRequest request)
     {
         try
         {
@@ -127,7 +127,7 @@ public class AddHandler(AppDbContext context) : IAddHandler
 
             var count = await query.CountAsync();
 
-            return new PagedResponse<List<Add>?>(
+            return new PagedResponse<List<AddPurchase>?>(
                 purchase,
                 count,
                 request.PageNumber,
@@ -135,7 +135,7 @@ public class AddHandler(AppDbContext context) : IAddHandler
         }
         catch
         {
-            return new PagedResponse<List<Add>?>(null, 500, "It was not possible to consult all purchases");
+            return new PagedResponse<List<AddPurchase>?>(null, 500, "It was not possible to consult all purchases");
         }
     }
 }

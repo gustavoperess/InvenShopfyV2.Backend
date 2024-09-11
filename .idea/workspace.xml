@@ -5,10 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a198bd72-77c5-41a2-b2bc-caddea3eb970" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/5f835527-da2a-4c6a-bcc9-1062d702082d.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/5f835527-da2a-4c6a-bcc9-1062d702082d/storage_v2/_src_/database/InvenShopfyV2._6TL-A/schema/pg_catalog.0S1ZNQ.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8174a15a-2a83-43a7-a96d-e04f33ca9d07.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Common/Api/BuilderExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/Common/Api/BuilderExtension.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Data/AppDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/Data/AppDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Data/Mapping/Tradings/Purchase/AddMapping.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/Data/Mapping/Tradings/Purchase/AddMapping.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Data/Migrations/20240911155855_InitialCreation.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Data/Migrations/20240911155855_InitialCreation.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Data/Migrations/AppDbContextModelSnapshot.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Endpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Endpoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Tradings/Purchase/Add/CreateAddEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Tradings/Purchase/Add/CreatePurchaseEndpoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Tradings/Purchase/Add/DeleteddEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Tradings/Purchase/Add/DeletePurchaseEndpoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Tradings/Purchase/Add/GetAddByIdEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Tradings/Purchase/Add/GetPurchaseByIdEndpoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Tradings/Purchase/Add/GetAllAddEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Tradings/Purchase/Add/GetAllPurchasesEndpoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Tradings/Purchase/Add/UpdateAddEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Tradings/Purchase/Add/UpdatePurchaseEndpoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Handlers/Tradings/Purchase/AddHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/Handlers/Tradings/Purchase/PurchaseHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Models/Reports/Sales.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Models/Reports/Sales.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Models/Tradings/Purchase/Add.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Models/Tradings/Purchase/Add.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Handlers/Tradings/Purchase/IAddHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Handlers/Tradings/Purchase/IPurchaseHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Models/Tradings/Purchase/Add.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Models/Tradings/Purchase/AddPurchase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Models/Tradings/Purchase/Manage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Models/Tradings/Purchase/ManagePurchase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Models/Tradings/Purchase/Return.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Models/Tradings/Purchase/ReturnPurchase.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfoInputs.cache" afterDir="false" />
     </list>
@@ -32,6 +53,8 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;database.data.extractors.current.export.id&quot;: &quot;Comma-separated (CSV)_id&quot;,
+    &quot;database.data.extractors.current.id&quot;: &quot;Comma-separated (CSV)_id&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/gustavomoreira/Desktop/Projects/InvenShopfyV2&quot;
   },

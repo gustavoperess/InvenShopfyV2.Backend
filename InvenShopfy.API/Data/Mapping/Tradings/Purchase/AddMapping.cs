@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace InvenShopfy.API.Data.Mapping.Tradings.Purchase;
 
-public class AddMapping : IEntityTypeConfiguration<Add>
+public class AddMapping : IEntityTypeConfiguration<AddPurchase>
 {
-    public void Configure(EntityTypeBuilder<Add> builder)
+    public void Configure(EntityTypeBuilder<AddPurchase> builder)
     {
         builder.ToTable("Purchase");
         builder.HasKey(x => x.Id);
