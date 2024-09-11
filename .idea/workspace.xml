@@ -4,7 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a198bd72-77c5-41a2-b2bc-caddea3eb970" name="Changes" comment="" />
+    <list default="true" id="a198bd72-77c5-41a2-b2bc-caddea3eb970" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/InvenShopfy.API/Data/Mapping/Tradings/Purchase/AddMapping.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Tradings/Purchase/Add/CreateAddEndpoint.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Tradings/Purchase/Add/DeleteddEndpoint.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Tradings/Purchase/Add/GetAddByIdEndpoint.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Tradings/Purchase/Add/GetAllAddEndpoint.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Tradings/Purchase/Add/UpdateAddEndpoint.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/InvenShopfy.API/Handlers/Tradings/Purchase/AddHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/InvenShopfy.Core/Handlers/Tradings/Purchase/IAddHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/5f835527-da2a-4c6a-bcc9-1062d702082d.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/5f835527-da2a-4c6a-bcc9-1062d702082d.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Data/AppDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/Data/AppDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/InvenShopfy.API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/InvenShopfy.API.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Migrations/20240910151106_initialCreation.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Migrations/20240910151106_initialCreation.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Migrations/20240910175417_initialMigration.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Migrations/20240910175417_initialMigration.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Migrations/AppDbContextModelSnapshot.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/InvenShopfy.Core.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/InvenShopfy.Core.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Models/Tradings/Purchase/Add.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Models/Tradings/Purchase/Add.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfoInputs.cache" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

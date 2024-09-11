@@ -5,15 +5,16 @@ namespace InvenShopfy.Core.Models.Tradings.Purchase;
 
 public class Add
 {
+    public long Id { get; set; }
     public DateTime Date { get; set; } = DateTime.UtcNow;
     
-    public string Warehouse { get; set; } = String.Empty;
+    public long Warehouse { get; set; } 
     public Warehouse.Warehouse WarehouseId { get; set; } = null!;
     
-    public string Supplier { get; set; } = String.Empty;
+    public long Supplier { get; set; }
     public Supplier SupplierId { get; set; } = null!;
     
-    public string Product { get; set; } = String.Empty;
+    public long Product { get; set; } 
     public Product.Product ProductId { get; set; } = null!;
     
     public EPurchaseStatus PurchaseStatus { get; set; }
@@ -21,4 +22,6 @@ public class Add
     public int ShippingCost { get; set; }
     
     public string PurchaseNote { get; set; } = String.Empty;
+    
+    public string UserId { get; set; } = string.Empty;
 }
