@@ -6,6 +6,10 @@ namespace InvenShopfy.Core.Models.Tradings.Sales;
 public class Sale
 {
     public DateTime Date { get; set; } = DateTime.UtcNow;
+    
+    private static Random random = new Random();
+    public int RandomNumber { get; private set; }
+
     public string Customer { get; set; } = String.Empty;
     public Customer CustomerId { get; set; } = null!;
     
@@ -24,5 +28,10 @@ public class Sale
     public string Document { get; set; } = String.Empty;
     public string SalesNote { get; set; } = String.Empty;
     public string StafNote { get; set; } = String.Empty;
-    
+
+    // Constructor that sets the RandomNumber when the Sale class is instantiated
+    public Sale()
+    {
+        RandomNumber = random.Next(1, 30000);
+    }
 }
