@@ -10,4 +10,9 @@
     <Compile Remove="Models\People.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Tradings\Purchase\" />
+    <Folder Include="Models\Tradings\SalesReturn\" />
+  </ItemGroup>
+
 </Project>
