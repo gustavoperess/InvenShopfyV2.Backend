@@ -12,4 +12,7 @@ public class SaleList
     
     public string Biller { get; set; } = String.Empty;
     public Biller BillerId { get; set; } = null!;
+    
+    public string Sales { get; set; } = String.Empty;
+    public Sale SaleId { get; set; } = null!;
 }

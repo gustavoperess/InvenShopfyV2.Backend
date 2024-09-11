@@ -28,8 +28,7 @@ public class Sale
     public string Document { get; set; } = String.Empty;
     public string SalesNote { get; set; } = String.Empty;
     public string StafNote { get; set; } = String.Empty;
-
-    // Constructor that sets the RandomNumber when the Sale class is instantiated
+    
     public Sale()
     {
         RandomNumber = random.Next(1, 30000);
