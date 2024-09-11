@@ -8,14 +8,15 @@ public class Add
     public long Id { get; set; }
     public DateTime Date { get; set; } = DateTime.UtcNow;
     
-    public long Warehouse { get; set; } 
-    public Warehouse.Warehouse WarehouseId { get; set; } = null!;
+    public long WarehouseId { get; set; } 
+    public Warehouse.Warehouse Warehouse { get; set; } = null!;
     
-    public long Supplier { get; set; }
-    public Supplier SupplierId { get; set; } = null!;
+    public long SupplierId { get; set; }
+    public Supplier Supplier{ get; set; } = null!;
+
     
-    public long Product { get; set; } 
-    public Product.Product ProductId { get; set; } = null!;
+    public long ProductId { get; set; } 
+    public Product.Product Product { get; set; } = null!;
     
     public EPurchaseStatus PurchaseStatus { get; set; }
     
