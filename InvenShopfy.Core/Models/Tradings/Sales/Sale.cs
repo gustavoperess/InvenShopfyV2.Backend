@@ -26,7 +26,7 @@ public class Sale
     public EPaymentStatus PaymentStatus { get; set; }
     public ESaleStatus SaleStatus { get; set; }
     public string Document { get; set; } = String.Empty;
-    public string SalesNote { get; set; } = String.Empty;
+    public string SaleNote { get; set; } = String.Empty;
     public string StafNote { get; set; } = String.Empty;
     
     public Sale()
