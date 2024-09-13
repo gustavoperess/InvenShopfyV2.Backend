@@ -10,11 +10,13 @@ using InvenShopfy.API.EndPoints.Products.Categories;
 using InvenShopfy.API.EndPoints.Products.Product;
 using InvenShopfy.API.EndPoints.Products.Units;
 using InvenShopfy.API.EndPoints.Tradings.Purchase.Add;
+using InvenShopfy.API.EndPoints.Tradings.Sales;
 using InvenShopfy.API.EndPoints.UserManagement.Role;
 using InvenShopfy.API.EndPoints.UserManagement.User;
 using InvenShopfy.API.EndPoints.Warehouses;
 using InvenShopfy.API.Models;
 using InvenShopfy.Core.Requests.Tradings.Purchase.Add;
+using InvenShopfy.Core.Requests.Tradings.Sales;
 
 
 namespace InvenShopfy.API.EndPoints;
@@ -135,10 +137,10 @@ public static class Endpoint
             .MapEndpoint<GetWarehouseByIdEndpoint>();
         
         // Purchase GROUP
-        var purchasessGroup = endpoints.MapGroup("v2/Purchase")
+        var purchaseGroup = endpoints.MapGroup("v2/Purchase")
             .WithTags("Purchase");
         
-        warehouseGroup.MapGroup("Purchase")
+        purchaseGroup.MapGroup("Purchase")
             .WithTags("Purchase")
             .RequireAuthorization()
             .MapEndpoint<CreatePurchaseEndpoint>()
@@ -146,15 +148,28 @@ public static class Endpoint
             .MapEndpoint<GetAllPurchasesEndpoint>()
             .MapEndpoint<DeletePurchaseEndpoint>()
             .MapEndpoint<GetPurchaseByIdEndpoint>();
+        
+        // Sales GROUP
+        var salesGroup = endpoints.MapGroup("v2/Sale")
+            .WithTags("Sale");
+        
+        salesGroup.MapGroup("Sale")
+            .WithTags("Sale")
+            .RequireAuthorization()
+            .MapEndpoint<CreateSaleEndpoint>()
+            .MapEndpoint<UpdateSalesEndpoint>()
+            .MapEndpoint<GetAllSalesEndpoint>()
+            .MapEndpoint<DeleteSaleEndpoint>()
+            .MapEndpoint<GetSaleByIdEnpoint>();
 
         
         
         // Management Group
-        endpoints.MapGroup("v1/identity")
+        endpoints.MapGroup("v2/identity")
             .WithTags("Identity")
             .MapIdentityApi<User>();
 
-        endpoints.MapGroup("v1/identity")
+        endpoints.MapGroup("v2/identity")
             .WithTags("Identity")
             .MapEndpoint<LogoutEndpoint>()
             .MapEndpoint<GetRolesEndpoint>()

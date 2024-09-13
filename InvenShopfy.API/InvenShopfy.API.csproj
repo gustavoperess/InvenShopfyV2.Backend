@@ -30,7 +30,6 @@
 
   <ItemGroup>
     <Folder Include="EndPoints\Products\" />
-    <Folder Include="Handlers\Tradings\Sales\" />
   </ItemGroup>
 
   <ItemGroup>

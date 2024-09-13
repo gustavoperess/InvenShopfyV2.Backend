@@ -8,7 +8,7 @@ public class AddSalesMapping : IEntityTypeConfiguration<Sale>
 {
     public void Configure(EntityTypeBuilder<Sale> builder)
     {
-        builder.ToTable("Purchase");
+        builder.ToTable("Sale");
         builder.HasKey(x => x.Id);
         
         builder.Property(x => x.Date)
@@ -35,6 +35,14 @@ public class AddSalesMapping : IEntityTypeConfiguration<Sale>
             .IsRequired(true)
             .HasColumnType("TEXT")
             .HasMaxLength(500);
+
+        builder.Property(x => x.RandomNumber)
+            .IsRequired(true)
+            .HasColumnType("INT");
+        
+        builder.Property(x => x.ShippingCost)
+            .IsRequired(true)
+            .HasColumnType("NUMERIC(18,2)");
         
         builder.Property(x => x.StafNote)
             .IsRequired(true)

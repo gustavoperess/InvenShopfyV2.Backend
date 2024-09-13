@@ -12,9 +12,9 @@ public class GetSaleByIdEnpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapGet("/{id}", HandlerAsync)
-            .WithName("Purchases: Get By Id")
-            .WithSummary("Get a Purchase")
-            .WithDescription("Get a Purchase")
+            .WithName("Sales: Get By Id")
+            .WithSummary("Get a sales")
+            .WithDescription("Get a sale")
             .WithOrder(4)
             .Produces<Response<Core.Models.Tradings.Sales.Sale?>>();
 
