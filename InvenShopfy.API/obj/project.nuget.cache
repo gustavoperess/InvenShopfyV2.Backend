@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Yp0uof7oKspGtaJLVTEbyf/sbpeZ+n7w5gSR7FeAC9FQQHKHuD8YuA+ufwT+xjTwMfLXGGX4LJmKv9Qu1K8yZA==",
+  "dgSpecHash": "yqWvW+43SE+AZgs5bjFMxo3pMuB1LY7MxJA/aLL7NshrQTM0+68ehpNP7hDVwRr8Xe0di+y/qRtNinfrI0WkjA==",
   "success": true,
-  "projectFilePath": "/Users/gustavomoreira/Desktop/Projects/InvenShopfyV2/InvenShopfy.API/InvenShopfy.API.csproj",
+  "projectFilePath": "/Users/gustavomoreira/Desktop/Projects/InvenShopfyProject/Backend/InvenShopfyV2/InvenShopfy.API/InvenShopfy.API.csproj",
   "expectedPackageFiles": [
     "/Users/gustavomoreira/.nuget/packages/cloudinarydotnet/1.26.2/cloudinarydotnet.1.26.2.nupkg.sha512",
     "/Users/gustavomoreira/.nuget/packages/dotenv.net/3.2.0/dotenv.net.3.2.0.nupkg.sha512",

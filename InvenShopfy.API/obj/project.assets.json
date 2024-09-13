@@ -6406,11 +6406,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/gustavomoreira/Desktop/Projects/InvenShopfyV2/InvenShopfy.API/InvenShopfy.API.csproj",
+      "projectUniqueName": "/Users/gustavomoreira/Desktop/Projects/InvenShopfyProject/Backend/InvenShopfyV2/InvenShopfy.API/InvenShopfy.API.csproj",
       "projectName": "InvenShopfy.API",
-      "projectPath": "/Users/gustavomoreira/Desktop/Projects/InvenShopfyV2/InvenShopfy.API/InvenShopfy.API.csproj",
+      "projectPath": "/Users/gustavomoreira/Desktop/Projects/InvenShopfyProject/Backend/InvenShopfyV2/InvenShopfy.API/InvenShopfy.API.csproj",
       "packagesPath": "/Users/gustavomoreira/.nuget/packages/",
-      "outputPath": "/Users/gustavomoreira/Desktop/Projects/InvenShopfyV2/InvenShopfy.API/obj/",
+      "outputPath": "/Users/gustavomoreira/Desktop/Projects/InvenShopfyProject/Backend/InvenShopfyV2/InvenShopfy.API/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/gustavomoreira/.nuget/NuGet/NuGet.Config"
@@ -6426,8 +6426,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/Users/gustavomoreira/Desktop/Projects/InvenShopfyV2/InvenShopfy.Core/InvenShopfy.Core.csproj": {
-              "projectPath": "/Users/gustavomoreira/Desktop/Projects/InvenShopfyV2/InvenShopfy.Core/InvenShopfy.Core.csproj"
+            "/Users/gustavomoreira/Desktop/Projects/InvenShopfyProject/Backend/InvenShopfyV2/InvenShopfy.Core/InvenShopfy.Core.csproj": {
+              "projectPath": "/Users/gustavomoreira/Desktop/Projects/InvenShopfyProject/Backend/InvenShopfyV2/InvenShopfy.Core/InvenShopfy.Core.csproj"
             }
           }
         }
@@ -6436,6 +6436,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
