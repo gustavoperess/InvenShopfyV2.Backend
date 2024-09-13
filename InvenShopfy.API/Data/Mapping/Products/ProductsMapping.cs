@@ -38,5 +38,10 @@ public class ProductsMapping : IEntityTypeConfiguration<Product>
         builder.Property(x => x.Quantity)
             .IsRequired(true)
             .HasColumnType("BIGINT");
+        
+        builder.Property(x => x.UserId)
+            .IsRequired(true)
+            .HasColumnType("VARCHAR")
+            .HasMaxLength(160);
     }
 }

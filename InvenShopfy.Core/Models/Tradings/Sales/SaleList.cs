@@ -4,6 +4,7 @@ namespace InvenShopfy.Core.Models.Tradings.Sales;
 
 public class SaleList
 {
+    public long Id { get; set; }
     public string Customer { get; set; } = String.Empty;
     public Customer CustomerId { get; set; } = null!;
     
@@ -15,4 +16,6 @@ public class SaleList
     
     public string Sales { get; set; } = String.Empty;
     public Sale SaleId { get; set; } = null!;
+    
+    public string UserId { get; set; } = string.Empty;
 }

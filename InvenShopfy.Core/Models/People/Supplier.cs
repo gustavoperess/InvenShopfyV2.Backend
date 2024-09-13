@@ -6,7 +6,7 @@ public class Supplier
 {
     private readonly ZipCode _zipCodeFormatter = new ZipCode();
     private string _zipCode = string.Empty;
-    public long Id { get; set; }
+    public long Id { get; private set; }
     public string Name { get; set; } = String.Empty;
     public string PhoneNumber { get; set; } = String.Empty;
     public string Email { get; set; } = String.Empty;

@@ -6,9 +6,9 @@ public class Biller
 {
     private readonly ZipCode _zipCodeFormatter = new ZipCode();
     private string _zipCode = string.Empty;
-    public long Id { get; set; }
+    public long Id { get; private set; }
     public string Name { get; set; } = String.Empty;
-    public DateTime DateOfJoin { get; set; }
+    public DateTime DateOfJoin { get; private set; }
     public string Email { get; set; } = String.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
     public string Identification { get; set; } = string.Empty;

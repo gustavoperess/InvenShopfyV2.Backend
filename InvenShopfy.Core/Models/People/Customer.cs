@@ -6,7 +6,7 @@ namespace InvenShopfy.Core.Models.People;
 
 public class Customer
 {
-    public long Id { get; set; }
+    public long Id { get; private set; }
     public string Name { get; set; } = String.Empty;
     public string Email { get; set; } = String.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
