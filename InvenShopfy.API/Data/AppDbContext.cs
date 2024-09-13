@@ -3,6 +3,7 @@ using InvenShopfy.Core.Models.Expenses;
 using InvenShopfy.Core.Models.People;
 using InvenShopfy.Core.Models.Product;
 using InvenShopfy.Core.Models.Tradings.Purchase;
+using InvenShopfy.Core.Models.Tradings.Sales;
 using InvenShopfy.Core.Models.Warehouse;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -37,6 +38,8 @@ namespace InvenShopfy.API.Data;
         public DbSet<AddPurchase> Purchases { get; set; } = null!;
         
         public DbSet<Warehouse> Warehouses { get; set; } = null!;
+
+        public DbSet<Sale> Sales { get; set; } = null!;
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
