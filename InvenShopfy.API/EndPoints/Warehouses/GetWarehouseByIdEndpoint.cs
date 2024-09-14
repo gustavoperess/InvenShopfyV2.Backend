@@ -11,7 +11,7 @@ namespace InvenShopfy.API.EndPoints.Warehouses;
 public class GetWarehouseByIdEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("/{id}", HandlerAsync)
+        => app.MapGet("/single{id}", HandlerAsync)
             .WithName("Warehouses: Get By Id")
             .WithSummary("Get a Warehouse")
             .WithDescription("Get a Warehouse")

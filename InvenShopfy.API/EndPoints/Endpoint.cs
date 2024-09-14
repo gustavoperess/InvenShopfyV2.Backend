@@ -134,6 +134,7 @@ public static class Endpoint
             .MapEndpoint<UpdateWarehouseEndpoint>()
             .MapEndpoint<GetAllWarehousesEndpoint>()
             .MapEndpoint<DeleteWarehouseEndpoint>()
+            .MapEndpoint<GetWarehouseQuantityEndpoint>()
             .MapEndpoint<GetWarehouseByIdEndpoint>();
         
         // Purchase GROUP

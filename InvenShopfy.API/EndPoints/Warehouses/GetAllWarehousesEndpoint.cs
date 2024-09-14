@@ -13,7 +13,7 @@ namespace InvenShopfy.API.EndPoints.Warehouses;
 public class GetAllWarehousesEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("/", HandlerAsync)
+        => app.MapGet("/allwarehouses", HandlerAsync)
             .WithName("Warehouses: Get All")
             .WithSummary("Get All Warehouses")
             .WithDescription("Get all Warehouses")

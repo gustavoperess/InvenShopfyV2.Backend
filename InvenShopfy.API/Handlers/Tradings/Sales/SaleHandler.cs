@@ -164,10 +164,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
     {
         try
         {
-            Console.WriteLine("BEFORE THIS HAPPENED");
             var totalSalesAmount = await context.Sales.SumAsync(x => x.TotalAmount);
-            Console.WriteLine("AFTER THIS HAPPENED");
-            Console.WriteLine(totalSalesAmount);
             return new Response<double?>(totalSalesAmount, 200, "Total sales amount retrieved successfully");
         }
         catch 
