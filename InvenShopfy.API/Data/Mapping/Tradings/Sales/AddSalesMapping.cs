@@ -42,12 +42,13 @@ public class AddSalesMapping : IEntityTypeConfiguration<Sale>
         
         builder.Property(x => x.ShippingCost)
             .IsRequired(true)
-            .HasColumnType("NUMERIC(18,2)");
+            .HasColumnType("MONEY");
         
         builder.Property(x => x.StafNote)
             .IsRequired(true)
             .HasColumnType("TEXT")
             .HasMaxLength(500);
+        
         
         builder.Property(x => x.Document)
             .IsRequired(true)
@@ -57,6 +58,9 @@ public class AddSalesMapping : IEntityTypeConfiguration<Sale>
             .IsRequired(true)
             .HasColumnType("VARCHAR")
             .HasMaxLength(160);
-       
+
+        builder.Property(x => x.TotalAmount)
+            .IsRequired(true)
+            .HasColumnType("MONEY");
     }
 }

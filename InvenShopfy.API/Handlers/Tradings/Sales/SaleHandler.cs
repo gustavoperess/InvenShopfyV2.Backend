@@ -14,6 +14,11 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
     {
         try
         {
+            var product = await context.Products.FirstOrDefaultAsync(p => p.Id == request.ProductId);
+            if (product == null)
+            {
+                return new Response<Sale?>(null, 400, "Product not found");
+            }
             if (!Enum.IsDefined(typeof(EPaymentStatus), request.PaymentStatus))
             {
                 return new Response<Core.Models.Tradings.Sales.Sale?>(null, 400, "Invalid Payment status");
@@ -34,8 +39,8 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 Document = request.Document,
                 StafNote = request.StafNote,
                 SaleNote = request.SaleNote,
-                RandomNumber = request.RandomNumber
-                
+                RandomNumber = request.RandomNumber,
+                TotalAmount = product.Price + request.ShippingCost,
             };
             await context.Sales.AddAsync(sale);
             await context.SaveChangesAsync();
@@ -53,6 +58,8 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
     {
         try
         {
+       
+
             var sale = await context.Sales.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
 
             if (sale is null)
@@ -69,6 +76,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
             sale.Document = request.Document;
             sale.StafNote = request.StafNote;
             sale.SaleNote = request.SaleNote;
+    
             context.Sales.Update(sale);
             await context.SaveChangesAsync();
             return new Response<Core.Models.Tradings.Sales.Sale?>(sale, message: "sale updated successfully");
