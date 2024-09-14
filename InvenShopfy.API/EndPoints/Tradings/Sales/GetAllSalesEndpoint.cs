@@ -13,12 +13,12 @@ namespace InvenShopfy.API.EndPoints.Tradings.Sales;
 public class GetAllSalesEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("/", HandlerAsync)
+        => app.MapGet("/allsales", HandlerAsync)
             .WithName("Sales: Get sales")
             .WithSummary("Get All sales")
             .WithDescription("Get all sales")
             .WithOrder(5)
-            .Produces<PagedResponse<List<Core.Models.Tradings.Purchase.AddPurchase>?>>();
+            .Produces<PagedResponse<List<Core.Models.Tradings.Sales.Sale>?>>();
 
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,

@@ -159,4 +159,21 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
             return new PagedResponse<List<Core.Models.Tradings.Sales.Sale>?>(null, 500, "It was not possible to consult all sale");
         }
     }
+
+    public async Task<Response<double?>> GetTotalAmountSalesRequestAsync(GetTotalSalesAmountRequest request)
+    {
+        try
+        {
+            Console.WriteLine("BEFORE THIS HAPPENED");
+            var totalSalesAmount = await context.Sales.SumAsync(x => x.TotalAmount);
+            Console.WriteLine("AFTER THIS HAPPENED");
+            Console.WriteLine(totalSalesAmount);
+            return new Response<double?>(totalSalesAmount, 200, "Total sales amount retrieved successfully");
+        }
+        catch 
+        {
+            return new Response<double?>(null, 500, "It was not possible to consult the total sale");
+        }
+        
+    }
 }

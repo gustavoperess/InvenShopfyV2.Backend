@@ -22,13 +22,18 @@ public class UpdateSalesRequest : Request
     [Required(ErrorMessage = "Please inform the Payment Status")]
     public EPaymentStatus PaymentStatus { get; set; } = EPaymentStatus.Complete;
     
-        
+    [Required(ErrorMessage = "Please inform the Payment Status")]
+    public double ShippingCost { get; set; } 
+    
+    [Required(ErrorMessage = "Please inform the Payment Status")]
+    public int RandomNumber { get; set; } 
+    
     [Required(ErrorMessage = "Please inform the Sale Status")]
     public ESaleStatus SaleStatus { get; set; } = ESaleStatus.Complete;
-    
+
     [Required(ErrorMessage = "Invalid Document")]
-    [MaxLength(120,  ErrorMessage= "Max len of 20 characters")]
-    public int Document { get; set; }
+    [MaxLength(120, ErrorMessage = "Max len of 120 characters")]
+    public string Document { get; set; } = string.Empty;
     
     [Required(ErrorMessage = "Invalid SaleNote")]
     [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]

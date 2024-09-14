@@ -11,7 +11,7 @@ namespace InvenShopfy.API.EndPoints.Tradings.Sales;
 public class GetSaleByIdEnpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("/{id}", HandlerAsync)
+        => app.MapGet("/single/{id}", HandlerAsync)
             .WithName("Sales: Get By Id")
             .WithSummary("Get a sales")
             .WithDescription("Get a sale")

@@ -25,7 +25,7 @@ public class CreateProductRequest : Request
     public string ProductImage { get; set; } = null!;
     
     [Required(ErrorMessage = "Invalid Quantity")]
-    public long Quantity { get; set; }
+    public int Quantity { get; set; }
     
     [Required(ErrorMessage = "Invalid Unit Id")]
     public long UnitId  { get; set; }
