@@ -3,15 +3,7 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.53">
     <root id="1">
       <DateStyle>mdy</DateStyle>
-      <Grants>1||-9223372036854775808|c|G
-1||10|c|G
-1||10|C|G
-1||10|T|G
-4||-9223372036854775808|c|G
-4||10|c|G
-4||10|C|G
-4||10|T|G</Grants>
-      <IntrospectionStateNumber>40792</IntrospectionStateNumber>
+      <IntrospectionStateNumber>40825</IntrospectionStateNumber>
       <ServerVersion>15.6</ServerVersion>
       <StartupTime>1725031925</StartupTime>
       <TimeZones>true ACDT
@@ -824,7 +816,7 @@ false Zulu
 13471||10|C|G
 13471||-9223372036854775808|U|G
 13471||10|U|G</Grants>
-      <IntrospectionStateNumber>40792</IntrospectionStateNumber>
+      <IntrospectionStateNumber>40825</IntrospectionStateNumber>
       <ObjectId>970289</ObjectId>
       <OwnerName>gustavomoreira</OwnerName>
     </database>
@@ -4254,8 +4246,8 @@ false Zulu
     <schema id="269" parent="6" name="public">
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <IntrospectionStateNumber>40792</IntrospectionStateNumber>
-      <LastIntrospectionLocalTimestamp>2024-09-13.19:06:52</LastIntrospectionLocalTimestamp>
+      <IntrospectionStateNumber>40825</IntrospectionStateNumber>
+      <LastIntrospectionLocalTimestamp>2024-09-15.20:02:17</LastIntrospectionLocalTimestamp>
       <ObjectId>2200</ObjectId>
       <StateNumber>517</StateNumber>
       <OwnerName>pg_database_owner</OwnerName>
@@ -4418,7 +4410,7 @@ false Zulu
     </table>
     <table id="290" parent="269" name="Category">
       <ObjectId>970304</ObjectId>
-      <StateNumber>40768</StateNumber>
+      <StateNumber>40824</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>gustavomoreira</OwnerName>
     </table>
@@ -4484,7 +4476,7 @@ false Zulu
     </table>
     <table id="301" parent="269" name="Product">
       <ObjectId>970449</ObjectId>
-      <StateNumber>40768</StateNumber>
+      <StateNumber>40819</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>gustavomoreira</OwnerName>
     </table>
@@ -4502,7 +4494,7 @@ false Zulu
     </table>
     <table id="304" parent="269" name="Sale">
       <ObjectId>970543</ObjectId>
-      <StateNumber>40791</StateNumber>
+      <StateNumber>40800</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>gustavomoreira</OwnerName>
     </table>
@@ -4712,9 +4704,9 @@ false Zulu
     <column id="334" parent="290" name="SubCategory">
       <NotNull>1</NotNull>
       <Position>3</Position>
-      <StateNumber>40768</StateNumber>
-      <StoredType>varchar|0s</StoredType>
-      <TypeId>1043</TypeId>
+      <StateNumber>40824</StateNumber>
+      <StoredType>text[]|0s</StoredType>
+      <TypeId>1009</TypeId>
     </column>
     <column id="335" parent="290" name="MainCategory">
       <NotNull>1</NotNull>
@@ -4734,7 +4726,7 @@ false Zulu
       <ColNames>Id</ColNames>
       <ObjectId>970309</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>40768</StateNumber>
+      <StateNumber>40824</StateNumber>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
@@ -5539,7 +5531,39 @@ pg_catalog</CollationParentNames>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <foreign-key id="449" parent="301" name="FK_Product_Unit_UnitId">
+    <column id="449" parent="301" name="DifferPriceWarehouse">
+      <DefaultExpression>false</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>12</Position>
+      <StateNumber>40819</StateNumber>
+      <StoredType>boolean|0s</StoredType>
+      <TypeId>16</TypeId>
+    </column>
+    <column id="450" parent="301" name="Expired">
+      <DefaultExpression>false</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>13</Position>
+      <StateNumber>40819</StateNumber>
+      <StoredType>boolean|0s</StoredType>
+      <TypeId>16</TypeId>
+    </column>
+    <column id="451" parent="301" name="Featured">
+      <DefaultExpression>false</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>14</Position>
+      <StateNumber>40819</StateNumber>
+      <StoredType>boolean|0s</StoredType>
+      <TypeId>16</TypeId>
+    </column>
+    <column id="452" parent="301" name="Sale">
+      <DefaultExpression>false</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>15</Position>
+      <StateNumber>40819</StateNumber>
+      <StoredType>boolean|0s</StoredType>
+      <TypeId>16</TypeId>
+    </column>
+    <foreign-key id="453" parent="301" name="FK_Product_Unit_UnitId">
       <ColNames>UnitId</ColNames>
       <ObjectId>970466</ObjectId>
       <OnDelete>cascade</OnDelete>
@@ -5547,7 +5571,7 @@ pg_catalog</CollationParentNames>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>970360</RefTableId>
     </foreign-key>
-    <foreign-key id="450" parent="301" name="FK_Product_Brand_BrandId">
+    <foreign-key id="454" parent="301" name="FK_Product_Brand_BrandId">
       <ColNames>BrandId</ColNames>
       <ObjectId>970456</ObjectId>
       <OnDelete>cascade</OnDelete>
@@ -5555,7 +5579,7 @@ pg_catalog</CollationParentNames>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>970296</RefTableId>
     </foreign-key>
-    <foreign-key id="451" parent="301" name="FK_Product_Category_CategoryId">
+    <foreign-key id="455" parent="301" name="FK_Product_Category_CategoryId">
       <ColNames>CategoryId</ColNames>
       <ObjectId>970461</ObjectId>
       <OnDelete>cascade</OnDelete>
@@ -5563,7 +5587,7 @@ pg_catalog</CollationParentNames>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>970304</RefTableId>
     </foreign-key>
-    <index id="452" parent="301" name="PK_Product">
+    <index id="456" parent="301" name="PK_Product">
       <ColNames>Id</ColNames>
       <ObjectId>970454</ObjectId>
       <Primary>1</Primary>
@@ -5571,31 +5595,31 @@ pg_catalog</CollationParentNames>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="453" parent="301" name="IX_Product_UnitId">
+    <index id="457" parent="301" name="IX_Product_UnitId">
       <ColNames>UnitId</ColNames>
       <ObjectId>970536</ObjectId>
       <StateNumber>40768</StateNumber>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="454" parent="301" name="IX_Product_BrandId">
+    <index id="458" parent="301" name="IX_Product_BrandId">
       <ColNames>BrandId</ColNames>
       <ObjectId>970534</ObjectId>
       <StateNumber>40768</StateNumber>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="455" parent="301" name="IX_Product_CategoryId">
+    <index id="459" parent="301" name="IX_Product_CategoryId">
       <ColNames>CategoryId</ColNames>
       <ObjectId>970535</ObjectId>
       <StateNumber>40768</StateNumber>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="456" parent="301" name="PK_Product">
+    <key id="460" parent="301" name="PK_Product">
       <ObjectId>970455</ObjectId>
       <Primary>1</Primary>
       <StateNumber>40768</StateNumber>
       <UnderlyingIndexId>970454</UnderlyingIndexId>
     </key>
-    <column id="457" parent="302" name="Id">
+    <column id="461" parent="302" name="Id">
       <IdentityKind>by-default</IdentityKind>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -5604,63 +5628,63 @@ pg_catalog</CollationParentNames>
       <SequenceId>970502</SequenceId>
       <TypeId>20</TypeId>
     </column>
-    <column id="458" parent="302" name="Date">
+    <column id="462" parent="302" name="Date">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>timestamp with time zone|0s</StoredType>
       <TypeId>1184</TypeId>
     </column>
-    <column id="459" parent="302" name="WarehouseId">
+    <column id="463" parent="302" name="WarehouseId">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>bigint|0s</StoredType>
       <TypeId>20</TypeId>
     </column>
-    <column id="460" parent="302" name="SupplierId">
+    <column id="464" parent="302" name="SupplierId">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>bigint|0s</StoredType>
       <TypeId>20</TypeId>
     </column>
-    <column id="461" parent="302" name="ProductId">
+    <column id="465" parent="302" name="ProductId">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>bigint|0s</StoredType>
       <TypeId>20</TypeId>
     </column>
-    <column id="462" parent="302" name="PurchaseStatus">
+    <column id="466" parent="302" name="PurchaseStatus">
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>smallint|0s</StoredType>
       <TypeId>21</TypeId>
     </column>
-    <column id="463" parent="302" name="ShippingCost">
+    <column id="467" parent="302" name="ShippingCost">
       <NotNull>1</NotNull>
       <Position>7</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>numeric(18,2 digit)|0s</StoredType>
       <TypeId>1700</TypeId>
     </column>
-    <column id="464" parent="302" name="PurchaseNote">
+    <column id="468" parent="302" name="PurchaseNote">
       <NotNull>1</NotNull>
       <Position>8</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>text|0s</StoredType>
       <TypeId>25</TypeId>
     </column>
-    <column id="465" parent="302" name="UserId">
+    <column id="469" parent="302" name="UserId">
       <NotNull>1</NotNull>
       <Position>9</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <foreign-key id="466" parent="302" name="FK_Purchase_Warehouse_WarehouseId">
+    <foreign-key id="470" parent="302" name="FK_Purchase_Warehouse_WarehouseId">
       <ColNames>WarehouseId</ColNames>
       <ObjectId>970520</ObjectId>
       <OnDelete>cascade</OnDelete>
@@ -5668,7 +5692,7 @@ pg_catalog</CollationParentNames>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>970368</RefTableId>
     </foreign-key>
-    <foreign-key id="467" parent="302" name="FK_Purchase_Supplier_SupplierId">
+    <foreign-key id="471" parent="302" name="FK_Purchase_Supplier_SupplierId">
       <ColNames>SupplierId</ColNames>
       <ObjectId>970515</ObjectId>
       <OnDelete>cascade</OnDelete>
@@ -5676,7 +5700,7 @@ pg_catalog</CollationParentNames>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>970352</RefTableId>
     </foreign-key>
-    <foreign-key id="468" parent="302" name="FK_Purchase_Product_ProductId">
+    <foreign-key id="472" parent="302" name="FK_Purchase_Product_ProductId">
       <ColNames>ProductId</ColNames>
       <ObjectId>970510</ObjectId>
       <OnDelete>cascade</OnDelete>
@@ -5684,7 +5708,7 @@ pg_catalog</CollationParentNames>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>970449</RefTableId>
     </foreign-key>
-    <index id="469" parent="302" name="PK_Purchase">
+    <index id="473" parent="302" name="PK_Purchase">
       <ColNames>Id</ColNames>
       <ObjectId>970508</ObjectId>
       <Primary>1</Primary>
@@ -5692,31 +5716,31 @@ pg_catalog</CollationParentNames>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="470" parent="302" name="IX_Purchase_WarehouseId">
+    <index id="474" parent="302" name="IX_Purchase_WarehouseId">
       <ColNames>WarehouseId</ColNames>
       <ObjectId>970539</ObjectId>
       <StateNumber>40768</StateNumber>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="471" parent="302" name="IX_Purchase_SupplierId">
+    <index id="475" parent="302" name="IX_Purchase_SupplierId">
       <ColNames>SupplierId</ColNames>
       <ObjectId>970538</ObjectId>
       <StateNumber>40768</StateNumber>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="472" parent="302" name="IX_Purchase_ProductId">
+    <index id="476" parent="302" name="IX_Purchase_ProductId">
       <ColNames>ProductId</ColNames>
       <ObjectId>970537</ObjectId>
       <StateNumber>40768</StateNumber>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="473" parent="302" name="PK_Purchase">
+    <key id="477" parent="302" name="PK_Purchase">
       <ObjectId>970509</ObjectId>
       <Primary>1</Primary>
       <StateNumber>40768</StateNumber>
       <UnderlyingIndexId>970508</UnderlyingIndexId>
     </key>
-    <column id="474" parent="303" name="Id">
+    <column id="478" parent="303" name="Id">
       <IdentityKind>by-default</IdentityKind>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -5725,28 +5749,28 @@ pg_catalog</CollationParentNames>
       <SequenceId>970343</SequenceId>
       <TypeId>20</TypeId>
     </column>
-    <column id="475" parent="303" name="RoleName">
+    <column id="479" parent="303" name="RoleName">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="476" parent="303" name="Description">
+    <column id="480" parent="303" name="Description">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="477" parent="303" name="UserId">
+    <column id="481" parent="303" name="UserId">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <index id="478" parent="303" name="PK_Role">
+    <index id="482" parent="303" name="PK_Role">
       <ColNames>Id</ColNames>
       <ObjectId>970349</ObjectId>
       <Primary>1</Primary>
@@ -5754,13 +5778,13 @@ pg_catalog</CollationParentNames>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="479" parent="303" name="PK_Role">
+    <key id="483" parent="303" name="PK_Role">
       <ObjectId>970350</ObjectId>
       <Primary>1</Primary>
       <StateNumber>40768</StateNumber>
       <UnderlyingIndexId>970349</UnderlyingIndexId>
     </key>
-    <column id="480" parent="304" name="Id">
+    <column id="484" parent="304" name="Id">
       <IdentityKind>by-default</IdentityKind>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -5769,98 +5793,106 @@ pg_catalog</CollationParentNames>
       <SequenceId>970542</SequenceId>
       <TypeId>20</TypeId>
     </column>
-    <column id="481" parent="304" name="Date">
+    <column id="485" parent="304" name="Date">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>40791</StateNumber>
       <StoredType>timestamp with time zone|0s</StoredType>
       <TypeId>1184</TypeId>
     </column>
-    <column id="482" parent="304" name="RandomNumber">
+    <column id="486" parent="304" name="RandomNumber">
       <NotNull>1</NotNull>
       <Position>3</Position>
-      <StateNumber>40791</StateNumber>
-      <StoredType>smallint|0s</StoredType>
-      <TypeId>21</TypeId>
+      <StateNumber>40793</StateNumber>
+      <StoredType>integer|0s</StoredType>
+      <TypeId>23</TypeId>
     </column>
-    <column id="483" parent="304" name="CustomerId">
+    <column id="487" parent="304" name="CustomerId">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>40791</StateNumber>
       <StoredType>bigint|0s</StoredType>
       <TypeId>20</TypeId>
     </column>
-    <column id="484" parent="304" name="WarehouseId">
+    <column id="488" parent="304" name="WarehouseId">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StateNumber>40791</StateNumber>
       <StoredType>bigint|0s</StoredType>
       <TypeId>20</TypeId>
     </column>
-    <column id="485" parent="304" name="BillerId">
+    <column id="489" parent="304" name="BillerId">
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StateNumber>40791</StateNumber>
       <StoredType>bigint|0s</StoredType>
       <TypeId>20</TypeId>
     </column>
-    <column id="486" parent="304" name="ProductId">
+    <column id="490" parent="304" name="ProductId">
       <NotNull>1</NotNull>
       <Position>7</Position>
       <StateNumber>40791</StateNumber>
       <StoredType>bigint|0s</StoredType>
       <TypeId>20</TypeId>
     </column>
-    <column id="487" parent="304" name="ShippingCost">
+    <column id="491" parent="304" name="ShippingCost">
       <NotNull>1</NotNull>
       <Position>8</Position>
-      <StateNumber>40791</StateNumber>
-      <StoredType>numeric(18,2 digit)|0s</StoredType>
-      <TypeId>1700</TypeId>
+      <StateNumber>40796</StateNumber>
+      <StoredType>money|0s</StoredType>
+      <TypeId>790</TypeId>
     </column>
-    <column id="488" parent="304" name="PaymentStatus">
+    <column id="492" parent="304" name="PaymentStatus">
       <NotNull>1</NotNull>
       <Position>9</Position>
       <StateNumber>40791</StateNumber>
       <StoredType>smallint|0s</StoredType>
       <TypeId>21</TypeId>
     </column>
-    <column id="489" parent="304" name="SaleStatus">
+    <column id="493" parent="304" name="SaleStatus">
       <NotNull>1</NotNull>
       <Position>10</Position>
       <StateNumber>40791</StateNumber>
       <StoredType>smallint|0s</StoredType>
       <TypeId>21</TypeId>
     </column>
-    <column id="490" parent="304" name="Document">
+    <column id="494" parent="304" name="Document">
       <NotNull>1</NotNull>
       <Position>11</Position>
       <StateNumber>40791</StateNumber>
       <StoredType>varchar(120)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="491" parent="304" name="SaleNote">
+    <column id="495" parent="304" name="SaleNote">
       <NotNull>1</NotNull>
       <Position>12</Position>
       <StateNumber>40791</StateNumber>
       <StoredType>text|0s</StoredType>
       <TypeId>25</TypeId>
     </column>
-    <column id="492" parent="304" name="StafNote">
+    <column id="496" parent="304" name="StafNote">
       <NotNull>1</NotNull>
       <Position>13</Position>
       <StateNumber>40791</StateNumber>
       <StoredType>text|0s</StoredType>
       <TypeId>25</TypeId>
     </column>
-    <column id="493" parent="304" name="UserId">
+    <column id="497" parent="304" name="UserId">
       <NotNull>1</NotNull>
       <Position>14</Position>
       <StateNumber>40791</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <foreign-key id="494" parent="304" name="FK_Sale_Customer_CustomerId">
+    <column id="498" parent="304" name="TotalAmount">
+      <DefaultExpression>(0.0)::money</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>15</Position>
+      <StateNumber>40800</StateNumber>
+      <StoredType>money|0s</StoredType>
+      <TypeId>790</TypeId>
+    </column>
+    <foreign-key id="499" parent="304" name="FK_Sale_Customer_CustomerId">
       <ColNames>CustomerId</ColNames>
       <ObjectId>970555</ObjectId>
       <OnDelete>cascade</OnDelete>
@@ -5868,7 +5900,7 @@ pg_catalog</CollationParentNames>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>970312</RefTableId>
     </foreign-key>
-    <foreign-key id="495" parent="304" name="FK_Sale_Warehouse_WarehouseId">
+    <foreign-key id="500" parent="304" name="FK_Sale_Warehouse_WarehouseId">
       <ColNames>WarehouseId</ColNames>
       <ObjectId>970565</ObjectId>
       <OnDelete>cascade</OnDelete>
@@ -5876,7 +5908,7 @@ pg_catalog</CollationParentNames>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>970368</RefTableId>
     </foreign-key>
-    <foreign-key id="496" parent="304" name="FK_Sale_Biller_BillerId">
+    <foreign-key id="501" parent="304" name="FK_Sale_Biller_BillerId">
       <ColNames>BillerId</ColNames>
       <ObjectId>970550</ObjectId>
       <OnDelete>cascade</OnDelete>
@@ -5884,7 +5916,7 @@ pg_catalog</CollationParentNames>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>970472</RefTableId>
     </foreign-key>
-    <foreign-key id="497" parent="304" name="FK_Sale_Product_ProductId">
+    <foreign-key id="502" parent="304" name="FK_Sale_Product_ProductId">
       <ColNames>ProductId</ColNames>
       <ObjectId>970560</ObjectId>
       <OnDelete>cascade</OnDelete>
@@ -5892,45 +5924,45 @@ pg_catalog</CollationParentNames>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>970449</RefTableId>
     </foreign-key>
-    <index id="498" parent="304" name="PK_Sale">
+    <index id="503" parent="304" name="PK_Sale">
       <ColNames>Id</ColNames>
       <ObjectId>970548</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>40791</StateNumber>
+      <StateNumber>40796</StateNumber>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="499" parent="304" name="IX_Sale_CustomerId">
+    <index id="504" parent="304" name="IX_Sale_CustomerId">
       <ColNames>CustomerId</ColNames>
       <ObjectId>970571</ObjectId>
-      <StateNumber>40791</StateNumber>
+      <StateNumber>40796</StateNumber>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="500" parent="304" name="IX_Sale_WarehouseId">
+    <index id="505" parent="304" name="IX_Sale_WarehouseId">
       <ColNames>WarehouseId</ColNames>
       <ObjectId>970573</ObjectId>
-      <StateNumber>40791</StateNumber>
+      <StateNumber>40796</StateNumber>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="501" parent="304" name="IX_Sale_BillerId">
+    <index id="506" parent="304" name="IX_Sale_BillerId">
       <ColNames>BillerId</ColNames>
       <ObjectId>970570</ObjectId>
-      <StateNumber>40791</StateNumber>
+      <StateNumber>40796</StateNumber>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="502" parent="304" name="IX_Sale_ProductId">
+    <index id="507" parent="304" name="IX_Sale_ProductId">
       <ColNames>ProductId</ColNames>
       <ObjectId>970572</ObjectId>
-      <StateNumber>40791</StateNumber>
+      <StateNumber>40796</StateNumber>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="503" parent="304" name="PK_Sale">
+    <key id="508" parent="304" name="PK_Sale">
       <ObjectId>970549</ObjectId>
       <Primary>1</Primary>
       <StateNumber>40791</StateNumber>
       <UnderlyingIndexId>970548</UnderlyingIndexId>
     </key>
-    <column id="504" parent="305" name="Id">
+    <column id="509" parent="305" name="Id">
       <IdentityKind>by-default</IdentityKind>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -5939,77 +5971,77 @@ pg_catalog</CollationParentNames>
       <SequenceId>970351</SequenceId>
       <TypeId>20</TypeId>
     </column>
-    <column id="505" parent="305" name="Name">
+    <column id="510" parent="305" name="Name">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="506" parent="305" name="PhoneNumber">
+    <column id="511" parent="305" name="PhoneNumber">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="507" parent="305" name="Email">
+    <column id="512" parent="305" name="Email">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="508" parent="305" name="SupplierCode">
+    <column id="513" parent="305" name="SupplierCode">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>bigint|0s</StoredType>
       <TypeId>20</TypeId>
     </column>
-    <column id="509" parent="305" name="Country">
+    <column id="514" parent="305" name="Country">
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="510" parent="305" name="City">
+    <column id="515" parent="305" name="City">
       <NotNull>1</NotNull>
       <Position>7</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="511" parent="305" name="Address">
+    <column id="516" parent="305" name="Address">
       <NotNull>1</NotNull>
       <Position>8</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="512" parent="305" name="ZipCode">
+    <column id="517" parent="305" name="ZipCode">
       <NotNull>1</NotNull>
       <Position>9</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="513" parent="305" name="Company">
+    <column id="518" parent="305" name="Company">
       <NotNull>1</NotNull>
       <Position>10</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="514" parent="305" name="UserId">
+    <column id="519" parent="305" name="UserId">
       <NotNull>1</NotNull>
       <Position>11</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <index id="515" parent="305" name="PK_Supplier">
+    <index id="520" parent="305" name="PK_Supplier">
       <ColNames>Id</ColNames>
       <ObjectId>970357</ObjectId>
       <Primary>1</Primary>
@@ -6017,13 +6049,13 @@ pg_catalog</CollationParentNames>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="516" parent="305" name="PK_Supplier">
+    <key id="521" parent="305" name="PK_Supplier">
       <ObjectId>970358</ObjectId>
       <Primary>1</Primary>
       <StateNumber>40768</StateNumber>
       <UnderlyingIndexId>970357</UnderlyingIndexId>
     </key>
-    <column id="517" parent="306" name="Id">
+    <column id="522" parent="306" name="Id">
       <IdentityKind>by-default</IdentityKind>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -6032,28 +6064,28 @@ pg_catalog</CollationParentNames>
       <SequenceId>970359</SequenceId>
       <TypeId>20</TypeId>
     </column>
-    <column id="518" parent="306" name="Title">
+    <column id="523" parent="306" name="Title">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="519" parent="306" name="ShortName">
+    <column id="524" parent="306" name="ShortName">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="520" parent="306" name="UserId">
+    <column id="525" parent="306" name="UserId">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <index id="521" parent="306" name="PK_Unit">
+    <index id="526" parent="306" name="PK_Unit">
       <ColNames>Id</ColNames>
       <ObjectId>970365</ObjectId>
       <Primary>1</Primary>
@@ -6061,13 +6093,13 @@ pg_catalog</CollationParentNames>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="522" parent="306" name="PK_Unit">
+    <key id="527" parent="306" name="PK_Unit">
       <ObjectId>970366</ObjectId>
       <Primary>1</Primary>
       <StateNumber>40768</StateNumber>
       <UnderlyingIndexId>970365</UnderlyingIndexId>
     </key>
-    <column id="523" parent="307" name="Id">
+    <column id="528" parent="307" name="Id">
       <IdentityKind>by-default</IdentityKind>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -6076,76 +6108,76 @@ pg_catalog</CollationParentNames>
       <SequenceId>970435</SequenceId>
       <TypeId>20</TypeId>
     </column>
-    <column id="524" parent="307" name="Name">
+    <column id="529" parent="307" name="Name">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="525" parent="307" name="DateOfJoin">
+    <column id="530" parent="307" name="DateOfJoin">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>timestamp with time zone|0s</StoredType>
       <TypeId>1184</TypeId>
     </column>
-    <column id="526" parent="307" name="Email">
+    <column id="531" parent="307" name="Email">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="527" parent="307" name="PhoneNumber">
+    <column id="532" parent="307" name="PhoneNumber">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="528" parent="307" name="Gender">
+    <column id="533" parent="307" name="Gender">
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>smallint|0s</StoredType>
       <TypeId>21</TypeId>
     </column>
-    <column id="529" parent="307" name="Username">
+    <column id="534" parent="307" name="Username">
       <NotNull>1</NotNull>
       <Position>7</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="530" parent="307" name="ProfileImage">
+    <column id="535" parent="307" name="ProfileImage">
       <Position>8</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="531" parent="307" name="Password">
+    <column id="536" parent="307" name="Password">
       <NotNull>1</NotNull>
       <Position>9</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="532" parent="307" name="UserId">
+    <column id="537" parent="307" name="UserId">
       <NotNull>1</NotNull>
       <Position>10</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="533" parent="307" name="RoleId">
+    <column id="538" parent="307" name="RoleId">
       <NotNull>1</NotNull>
       <Position>11</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>bigint|0s</StoredType>
       <TypeId>20</TypeId>
     </column>
-    <foreign-key id="534" parent="307" name="FK_User_Role_RoleId">
+    <foreign-key id="539" parent="307" name="FK_User_Role_RoleId">
       <ColNames>RoleId</ColNames>
       <ObjectId>970443</ObjectId>
       <OnDelete>cascade</OnDelete>
@@ -6153,7 +6185,7 @@ pg_catalog</CollationParentNames>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>970344</RefTableId>
     </foreign-key>
-    <index id="535" parent="307" name="PK_User">
+    <index id="540" parent="307" name="PK_User">
       <ColNames>Id</ColNames>
       <ObjectId>970441</ObjectId>
       <Primary>1</Primary>
@@ -6161,19 +6193,19 @@ pg_catalog</CollationParentNames>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="536" parent="307" name="IX_User_RoleId">
+    <index id="541" parent="307" name="IX_User_RoleId">
       <ColNames>RoleId</ColNames>
       <ObjectId>970540</ObjectId>
       <StateNumber>40768</StateNumber>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="537" parent="307" name="PK_User">
+    <key id="542" parent="307" name="PK_User">
       <ObjectId>970442</ObjectId>
       <Primary>1</Primary>
       <StateNumber>40768</StateNumber>
       <UnderlyingIndexId>970441</UnderlyingIndexId>
     </key>
-    <column id="538" parent="308" name="Id">
+    <column id="543" parent="308" name="Id">
       <IdentityKind>by-default</IdentityKind>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -6182,49 +6214,49 @@ pg_catalog</CollationParentNames>
       <SequenceId>970367</SequenceId>
       <TypeId>20</TypeId>
     </column>
-    <column id="539" parent="308" name="WarehouseName">
+    <column id="544" parent="308" name="WarehouseName">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="540" parent="308" name="PhoneNumber">
+    <column id="545" parent="308" name="PhoneNumber">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="541" parent="308" name="Email">
+    <column id="546" parent="308" name="Email">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="542" parent="308" name="Address">
+    <column id="547" parent="308" name="Address">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="543" parent="308" name="ZipCode">
+    <column id="548" parent="308" name="ZipCode">
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="544" parent="308" name="UserId">
+    <column id="549" parent="308" name="UserId">
       <NotNull>1</NotNull>
       <Position>7</Position>
       <StateNumber>40768</StateNumber>
       <StoredType>varchar|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <index id="545" parent="308" name="PK_Warehouse">
+    <index id="550" parent="308" name="PK_Warehouse">
       <ColNames>Id</ColNames>
       <ObjectId>970373</ObjectId>
       <Primary>1</Primary>
@@ -6232,27 +6264,27 @@ pg_catalog</CollationParentNames>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="546" parent="308" name="PK_Warehouse">
+    <key id="551" parent="308" name="PK_Warehouse">
       <ObjectId>970374</ObjectId>
       <Primary>1</Primary>
       <StateNumber>40768</StateNumber>
       <UnderlyingIndexId>970373</UnderlyingIndexId>
     </key>
-    <column id="547" parent="309" name="MigrationId">
+    <column id="552" parent="309" name="MigrationId">
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StateNumber>40767</StateNumber>
       <StoredType>varchar(150)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="548" parent="309" name="ProductVersion">
+    <column id="553" parent="309" name="ProductVersion">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>40767</StateNumber>
       <StoredType>varchar(32)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <index id="549" parent="309" name="PK___EFMigrationsHistory">
+    <index id="554" parent="309" name="PK___EFMigrationsHistory">
       <ColNames>MigrationId</ColNames>
       <ObjectId>970293</ObjectId>
       <Primary>1</Primary>
@@ -6263,7 +6295,7 @@ pg_catalog</CollationParentNames>
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <key id="550" parent="309" name="PK___EFMigrationsHistory">
+    <key id="555" parent="309" name="PK___EFMigrationsHistory">
       <ObjectId>970294</ObjectId>
       <Primary>1</Primary>
       <StateNumber>40767</StateNumber>

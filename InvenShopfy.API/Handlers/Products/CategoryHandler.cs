@@ -14,10 +14,26 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
     {
         try
         {
+            var existingCategory = await context.Categories.FirstOrDefaultAsync(c =>
+                c.MainCategory == request.MainCategory && c.UserId == request.UserId);
+            if (existingCategory != null)
+            {
+                foreach (var subcategory in request.SubCategory)
+                {
+                    if (!existingCategory.SubCategory.Contains(subcategory))
+                    {
+                        existingCategory.SubCategory.Add(subcategory);
+                    }
+                }
+
+                context.Categories.Update(existingCategory);
+                await context.SaveChangesAsync();
+                return new Response<Category?>(existingCategory, 200, "Subcategory appended to existing category");
+            }
+            
             var category = new Category
             {
                 UserId = request.UserId,
-                Title = request.Title,
                 SubCategory = request.SubCategory,
                 MainCategory = request.MainCategory
             };
@@ -44,7 +60,6 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
                 return new Response<Category?>(null, 404, "Category not found");
             }
             
-            category.Title = request.Title;
             category.MainCategory = request.MainCategory;
             category.SubCategory = request.SubCategory;
             context.Categories.Update(category);
@@ -107,7 +122,7 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
                 .Categories
                 .AsNoTracking()
                 .Where(x => x.UserId == request.UserId)
-                .OrderBy(x => x.Title);
+                .OrderBy(x => x.MainCategory);
             
             var categories = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)
