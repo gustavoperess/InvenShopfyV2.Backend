@@ -9,5 +9,6 @@ public interface IWarehouseHandler
     Task<Response<Models.Warehouse.Warehouse?>> UpdateAsync(UpdateWarehouseRequest request);
     Task<Response<Models.Warehouse.Warehouse?>> DeleteAsync(DeleteWarehouseRequest request);
     Task<Response<Models.Warehouse.Warehouse?>> GetByIdAsync(GetWarehouseByIdRequest request);
+    Task<Response<int?>> GetWarehouseQuantityAsync(GetWarehouseQuantityRequest request);
     Task<PagedResponse<List<Models.Warehouse.Warehouse>?>> GetByPeriodAsync(GetAllWarehousesRequest request);
 }

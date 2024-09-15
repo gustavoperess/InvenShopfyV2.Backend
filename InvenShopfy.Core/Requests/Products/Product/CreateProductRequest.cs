@@ -27,6 +27,11 @@ public class CreateProductRequest : Request
     [Required(ErrorMessage = "Invalid Quantity")]
     public int Quantity { get; set; }
     
+    public bool Featured { get; set; } = false;
+    public bool DifferPriceWarehouse { get; set; } = false;
+    public bool Expired { get; set; } = false;
+    public bool Sale { get; set; } = false;
+    
     [Required(ErrorMessage = "Invalid Unit Id")]
     public long UnitId  { get; set; }
     

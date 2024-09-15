@@ -24,7 +24,11 @@ public class ProductHandler(AppDbContext context) : IProductHandler
                 UnitId = request.UnitId,
                 BrandId = request.BrandId,
                 CategoryId = request.CategoryId,
-                ProductImage = request.ProductImage
+                ProductImage = request.ProductImage,
+                Featured = request.Featured,
+                DifferPriceWarehouse = request.DifferPriceWarehouse,
+                Expired = request.Expired,
+                Sale = request.Sale
 
             };
             await context.Products.AddAsync(product);

@@ -30,6 +30,11 @@ public class UpdateProductRequest : Request
     // [Required(ErrorMessage = "Invalid Image")] // NEED TO COME BACK AS I WILL BE ADDING THIS TO CLOUDNIARY
     public string ProductImage { get; set; } = null!;
     
+    public bool Featured { get; set; } = false;
+    public bool DifferPriceWarehouse { get; set; } = false;
+    public bool Expired { get; set; } = false;
+    public bool Sale { get; set; } = false;
+    
     [Required(ErrorMessage = "Invalid Unit Id")]
     public long UnitId  { get; set; }
 }

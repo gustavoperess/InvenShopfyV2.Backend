@@ -1,6 +1,6 @@
 namespace InvenShopfy.Core.Requests.Warehouse;
 
-public class GetWarehouseQuantityRequest
+public class GetWarehouseQuantityRequest : Request
 {
     
 }

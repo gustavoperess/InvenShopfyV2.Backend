@@ -24,4 +24,8 @@ public class Product
     
     public string UserId { get; set; } = string.Empty;
     
+    public bool Featured { get; set; } = false;
+    public bool DifferPriceWarehouse { get; set; } = false;
+    public bool Expired { get; set; } = false;
+    public bool Sale { get; set; } = false;
 }
