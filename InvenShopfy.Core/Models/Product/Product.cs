@@ -23,7 +23,8 @@ public class Product
     public string ProductImage { get; set; } = null!;
     
     public string UserId { get; set; } = string.Empty;
-    
+
+    public string Subcategory { get; set; } = string.Empty;
     public bool Featured { get; set; } = false;
     public bool DifferPriceWarehouse { get; set; } = false;
     public bool Expired { get; set; } = false;

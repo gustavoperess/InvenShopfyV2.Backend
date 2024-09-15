@@ -27,6 +27,9 @@ public class CreateProductRequest : Request
     [Required(ErrorMessage = "Invalid Quantity")]
     public int Quantity { get; set; }
     
+    [Required(ErrorMessage = "Invalid SubCategory")]
+    public string Subcategory { get; set; } = string.Empty;
+    
     public bool Featured { get; set; } = false;
     public bool DifferPriceWarehouse { get; set; } = false;
     public bool Expired { get; set; } = false;
