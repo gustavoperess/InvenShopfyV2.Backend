@@ -11,17 +11,6 @@ public class ProductHandler(AppDbContext context) : IProductHandler
 {
     public async Task<Response<Product?>> CreateAsync(CreateProductRequest request)
     {
-        Console.WriteLine($"SUBCATEGORY: {string.Join(", ", request.Subcategory)}");
-        Console.WriteLine($"Title: {request.Title}");
-        Console.WriteLine($"Price: {request.Price}");
-        Console.WriteLine($"Quantity: {request.Quantity}");
-        Console.WriteLine($"ProductCode: {request.ProductCode}");
-        Console.WriteLine($"UnitId: {request.UnitId}");
-        Console.WriteLine($"BrandId: {request.BrandId}");
-        Console.WriteLine($"CategoryId: {request.CategoryId}");
-        Console.WriteLine($"Subcategory: {string.Join(", ", request.Subcategory)}");
-        Console.WriteLine($"Featured: {request.Featured}");
-        Console.WriteLine($"DifferPriceWarehouse: {request.DifferPriceWarehouse}");
         try
         {
             var product = new Product
@@ -129,8 +118,11 @@ public class ProductHandler(AppDbContext context) : IProductHandler
             var query = context
                 .Products
                 .AsNoTracking()
+                .Include(p => p.Category)
+                .Include(p => p.Brand)
+                .Include(p => p.Unit)
                 .Where(x => x.UserId == request.UserId)
-                .OrderBy(x => x.Title);
+                .OrderBy(x => x.Featured);
             
             var products = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)
