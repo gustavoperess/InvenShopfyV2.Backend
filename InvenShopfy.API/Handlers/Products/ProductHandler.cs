@@ -142,4 +142,23 @@ public class ProductHandler(AppDbContext context) : IProductHandler
             return new PagedResponse<List<Product>?>(null, 500, "It was not possible to consult all Products");
         }
     }
+
+    public async Task<Response<Product?>> GeyByNameAsync(GetProductByNameRequest request)
+    {
+        try
+        {
+            var product = await context.Products.FirstOrDefaultAsync(x => x.Title == request.Title && x.UserId == request.UserId);
+            
+            if (product is null)
+            {
+                return new Response<Product?>(null, 404, "Product not found");
+            }
+            return new Response<Product?>(product);
+    
+        }
+        catch
+        {
+            return new Response<Product?>(null, 500, "It was not possible to find this Product");
+        }
+    }
 }

@@ -39,7 +39,8 @@ public static class Endpoint
             .RequireAuthorization()
             .MapEndpoint<CreateProductEndpoint>()
             .MapEndpoint<UpdateProductEndpoint>()
-            .MapEndpoint<GetAllProductsEndpoints>()
+            .MapEndpoint<GetAllProductsEndpoint>()
+            .MapEndpoint<GetProductByNameEndpoint>()
             .MapEndpoint<DeleteProductEndpoint>()
             .MapEndpoint<GetProductByIdEndpoint>();
 
