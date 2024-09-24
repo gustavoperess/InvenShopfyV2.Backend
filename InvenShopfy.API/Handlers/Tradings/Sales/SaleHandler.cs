@@ -1,5 +1,4 @@
 using InvenShopfy.API.Data;
-using InvenShopfy.Core.Enum;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
 using InvenShopfy.Core.Models.Tradings.Sales;
 using InvenShopfy.Core.Requests.Tradings.Sales;
@@ -10,49 +9,50 @@ namespace InvenShopfy.API.Handlers.Tradings.Sales;
 
 public class SaleHandler(AppDbContext context) : ISalesHandler
 {
-    public async Task<Response<Core.Models.Tradings.Sales.Sale?>> CreateAsync(CreateSalesRequest request)
+    public async Task<Response<Sale?>> CreateAsync(CreateSalesRequest request)
     {
         try
         {
-            var product = await context.Products.FirstOrDefaultAsync(p => p.Id == request.ProductId);
-            if (product == null)
-            {
-                return new Response<Sale?>(null, 400, "Product not found");
-            }
-            if (!Enum.IsDefined(typeof(EPaymentStatus), request.PaymentStatus))
-            {
-                return new Response<Core.Models.Tradings.Sales.Sale?>(null, 400, "Invalid Payment status");
-            }
-            if (!Enum.IsDefined(typeof(ESaleStatus), request.SaleStatus))
-            {
-                return new Response<Core.Models.Tradings.Sales.Sale?>(null, 400, "Invalid Sales Type");
-            }
             var sale = new Sale
             {
-                UserId = request.UserId,
-                Date = DateTime.UtcNow,
                 CustomerId = request.CustomerId,
                 WarehouseId = request.WarehouseId,
                 BillerId = request.BillerId,
-                ProductId = request.ProductId,
                 ShippingCost = request.ShippingCost,
                 Document = request.Document,
                 StafNote = request.StafNote,
                 SaleNote = request.SaleNote,
-                RandomNumber = request.RandomNumber,
-                TotalAmount = product.Price + request.ShippingCost,
+                PaymentStatus = request.PaymentStatus,
+                SaleStatus = request.SaleStatus,
+                UserId = request.UserId,
+                TotalQuantitySold = request.TotalQuantitySold
             };
+            
+            foreach (var productId in request.ProductId)
+            {
+                var product = await context.Products.FirstOrDefaultAsync(p => p.Id == productId);
+                if (product == null)
+                {
+                    return new Response<Sale?>(null, 400, $"Product with Id {productId} not found");
+                }
+                
+                var saleProduct = sale.CreateSaleProduct(product.Id, product.Price, request.SingleQuantitySold);
+                sale.SaleProducts.Add(saleProduct);
+            }
+            
+            sale.TotalAmount = sale.SaleProducts.Sum(sp => (sp.TotalPrice * sp.SingleQuantitySold)) + request.ShippingCost;
+            
             await context.Sales.AddAsync(sale);
             await context.SaveChangesAsync();
 
-            return new Response<Core.Models.Tradings.Sales.Sale?>(sale, 201, "sale created successfully");
-
+            return new Response<Sale?>(sale, 201, "Sale created successfully");
         }
         catch
         {
-            return new Response<Core.Models.Tradings.Sales.Sale?>(null, 500, "It was not possible to create a new sale");
+            return new Response<Sale?>(null, 500, "It was not possible to create a new sale");
         }
     }
+
 
     public async Task<Response<Core.Models.Tradings.Sales.Sale?>> UpdateAsync(UpdateSalesRequest request)
     {
@@ -71,7 +71,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
             sale.CustomerId = request.CustomerId;
             sale.WarehouseId = request.WarehouseId;
             sale.BillerId = request.BillerId;
-            sale.ProductId = request.ProductId;
+            // sale.ProductId = request.ProductId;
             sale.ShippingCost = request.ShippingCost;
             sale.Document = request.Document;
             sale.StafNote = request.StafNote;

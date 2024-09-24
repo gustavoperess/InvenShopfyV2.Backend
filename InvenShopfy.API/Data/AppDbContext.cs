@@ -40,7 +40,8 @@ namespace InvenShopfy.API.Data;
         public DbSet<Warehouse> Warehouses { get; set; } = null!;
 
         public DbSet<Sale> Sales { get; set; } = null!;
-
+        
+        public DbSet<SaleProduct> SaleProducts { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

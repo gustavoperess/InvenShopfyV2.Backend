@@ -15,16 +15,13 @@ public class CreateSalesRequest : Request
     public long BillerId { get; set; }
     
     [Required(ErrorMessage = "Invalid Product Id")]
-    public long ProductId { get; set; }
+    public List<long> ProductId { get; set; } = new List<long>();
     
     [Required(ErrorMessage = "Please inform the Payment Status")]
     public EPaymentStatus PaymentStatus { get; set; } = EPaymentStatus.Complete;
     
     [Required(ErrorMessage = "Please inform the Payment Status")]
     public double ShippingCost { get; set; } 
-    
-    [Required(ErrorMessage = "Please inform the Payment Status")]
-    public int RandomNumber { get; set; } 
     
     [Required(ErrorMessage = "Please inform the Sale Status")]
     public ESaleStatus SaleStatus { get; set; } = ESaleStatus.Complete;
@@ -41,7 +38,10 @@ public class CreateSalesRequest : Request
     [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]
     public string StafNote { get; set; } = null!;
     
+    [Required(ErrorMessage = "Invalid Total quantity")]
+    public int TotalQuantitySold { get; set; } 
     
-    
+    [Required(ErrorMessage = "Invalid single quantity")]
+    public int SingleQuantitySold { get; set; } 
     
 }

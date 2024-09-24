@@ -10,23 +10,23 @@ public class AddSalesMapping : IEntityTypeConfiguration<Sale>
     {
         builder.ToTable("Sale");
         builder.HasKey(x => x.Id);
-        
+
         builder.Property(x => x.Date)
             .IsRequired(true)
             .HasColumnType("TIMESTAMPTZ");
 
-        builder.Property(x => x.RandomNumber)
+        builder.Property(x => x.ReferenceNumber)
             .IsRequired(true)
-            .HasColumnType("SMALLINT"); 
+            .HasColumnType("VARCHAR");
 
         builder.Property(x => x.ShippingCost)
             .IsRequired(true)
             .HasColumnType("NUMERIC(18,2)");
-        
+
         builder.Property(x => x.PaymentStatus)
             .IsRequired(true)
             .HasColumnType("SMALLINT");
-        
+
         builder.Property(x => x.SaleStatus)
             .IsRequired(true)
             .HasColumnType("SMALLINT");
@@ -36,24 +36,15 @@ public class AddSalesMapping : IEntityTypeConfiguration<Sale>
             .HasColumnType("TEXT")
             .HasMaxLength(500);
 
-        builder.Property(x => x.RandomNumber)
-            .IsRequired(true)
-            .HasColumnType("INT");
-        
-        builder.Property(x => x.ShippingCost)
-            .IsRequired(true)
-            .HasColumnType("MONEY");
-        
         builder.Property(x => x.StafNote)
             .IsRequired(true)
             .HasColumnType("TEXT")
             .HasMaxLength(500);
-        
-        
+
         builder.Property(x => x.Document)
             .IsRequired(true)
             .HasColumnType("VARCHAR(120)");
-        
+
         builder.Property(x => x.UserId)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
@@ -61,6 +52,7 @@ public class AddSalesMapping : IEntityTypeConfiguration<Sale>
 
         builder.Property(x => x.TotalAmount)
             .IsRequired(true)
-            .HasColumnType("MONEY");
+            .HasColumnType("NUMERIC(18,2)");
+        
     }
 }

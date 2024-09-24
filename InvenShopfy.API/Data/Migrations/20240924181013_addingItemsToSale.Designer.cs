@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using InvenShopfy.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240924181013_addingItemsToSale")]
+    partial class addingItemsToSale
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -585,9 +588,8 @@ namespace InvenShopfy.API.Migrations
                     b.Property<short>("PaymentStatus")
                         .HasColumnType("SMALLINT");
 
-                    b.Property<string>("ReferenceNumber")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR");
+                    b.Property<short>("RandomNumber")
+                        .HasColumnType("SMALLINT");
 
                     b.Property<string>("SaleNote")
                         .IsRequired()
@@ -637,10 +639,6 @@ namespace InvenShopfy.API.Migrations
 
                     b.Property<long>("ProductId")
                         .HasColumnType("bigint");
-
-                    b.Property<string>("ReferenceNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<int>("SingleQuantitySold")
                         .HasColumnType("INTEGER");
