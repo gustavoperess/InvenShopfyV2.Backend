@@ -143,22 +143,24 @@ public class ProductHandler(AppDbContext context) : IProductHandler
         }
     }
 
-    public async Task<Response<Product?>> GeyByNameAsync(GetProductByNameRequest request)
+    public async Task<PagedResponse<List<Product>?>> GetByPartialNameAsync(GetProductByNameRequest request)
     {
         try
         {
-            var product = await context.Products.FirstOrDefaultAsync(x => x.Title == request.Title && x.UserId == request.UserId);
+            var products = await context.Products
+                .Where(x => EF.Functions.ILike(x.Title, $"%{request.Title}%") && x.UserId == request.UserId)
+                .ToListAsync();
             
-            if (product is null)
+            if (products == null || products.Count == 0)
             {
-                return new Response<Product?>(null, 404, "Product not found");
+                return new PagedResponse<List<Product>?>(null, 404, "Product not found");
             }
-            return new Response<Product?>(product);
+            return new PagedResponse<List<Product>?>(products);
     
         }
         catch
         {
-            return new Response<Product?>(null, 500, "It was not possible to find this Product");
+            return new PagedResponse<List<Product>?>(null, 500, "It was not possible to consult all Products");
         }
     }
 }
