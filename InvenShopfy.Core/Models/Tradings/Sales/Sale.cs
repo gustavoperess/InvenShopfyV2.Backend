@@ -28,9 +28,11 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
 
         public int TotalQuantitySold { get; set; }
         public string UserId { get; set; } = string.Empty;
-        public double TotalAmount { get; set; } = 0.0;
+        public double TotalAmount { get; set; } 
 
         public string ReferenceNumber { get; private set; }
+
+        public int Discount { get; set; }
         
         public Sale()
         {

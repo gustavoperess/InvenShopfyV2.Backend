@@ -22,6 +22,10 @@ public class AddSalesMapping : IEntityTypeConfiguration<Sale>
         builder.Property(x => x.ShippingCost)
             .IsRequired(true)
             .HasColumnType("NUMERIC(18,2)");
+        
+        builder.Property(x => x.Discount)
+            .IsRequired(true)
+            .HasColumnType("INT");
 
         builder.Property(x => x.PaymentStatus)
             .IsRequired(true)

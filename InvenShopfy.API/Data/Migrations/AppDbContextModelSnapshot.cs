@@ -578,6 +578,9 @@ namespace InvenShopfy.API.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("TIMESTAMPTZ");
 
+                    b.Property<int>("Discount")
+                        .HasColumnType("INT");
+
                     b.Property<string>("Document")
                         .IsRequired()
                         .HasColumnType("VARCHAR(120)");

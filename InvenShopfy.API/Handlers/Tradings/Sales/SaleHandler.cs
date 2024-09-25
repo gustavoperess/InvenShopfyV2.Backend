@@ -26,26 +26,10 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 PaymentStatus = request.PaymentStatus,
                 SaleStatus = request.SaleStatus,
                 UserId = request.UserId,
+                TotalAmount = request.TotalAmount,
+                Discount = request.Discount
             };
-            // Console.WriteLine("Received CreateSalesRequest:");
-            // Console.WriteLine($"CustomerId: {request.CustomerId}");
-            // Console.WriteLine($"WarehouseId: {request.WarehouseId}");
-            // Console.WriteLine($"BillerId: {request.BillerId}");
-            // Console.WriteLine($"ShippingCost: {request.ShippingCost}");
-            // Console.WriteLine($"Document: {request.Document}");
-            // Console.WriteLine($"StaffNote: {request.StaffNote}");
-            // Console.WriteLine($"SaleNote: {request.SaleNote}");
-            // Console.WriteLine($"PaymentStatus: {request.PaymentStatus}");
-            // Console.WriteLine($"SaleStatus: {request.SaleStatus}");
-            // Console.WriteLine($"UserId: {request.UserId}");
             
-
-            foreach (var product in request.ProductIdPlusQuantity)
-            {
-                Console.WriteLine(product.Key);
-                Console.WriteLine(product.Value);
-                
-            }
             
             foreach (var item in request.ProductIdPlusQuantity)
             {
@@ -61,7 +45,6 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
             }
             
             sale.TotalQuantitySold = sale.SaleProducts.Sum(x => x.TotalQuantitySoldPerProduct);
-            sale.TotalAmount = sale.SaleProducts.Sum(sp => (sp.TotalPricePerProduct * sp.TotalQuantitySoldPerProduct)) + request.ShippingCost;
             
             await context.Sales.AddAsync(sale);
             await context.SaveChangesAsync();

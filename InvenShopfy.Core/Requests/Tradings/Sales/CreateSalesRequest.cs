@@ -37,5 +37,13 @@ public class CreateSalesRequest : Request
     [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]
     public string StaffNote { get; set; } = null!;
     
+    [Required(ErrorMessage = "Invalid TotalAmount")]
+    [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]
+    public double TotalAmount { get; set; } 
+    
+    [Required(ErrorMessage = "Invalid Discount")]
+    [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]
+    public int Discount { get; set; } 
+    
     
 }

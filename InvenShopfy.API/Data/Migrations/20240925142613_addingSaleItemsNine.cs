@@ -5,24 +5,24 @@
 namespace InvenShopfy.API.Migrations
 {
     /// <inheritdoc />
-    public partial class AddingSalesMigrationfixesThree : Migration
+    public partial class addingSaleItemsNine : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<decimal>(
-                name: "TotalAmount",
+            migrationBuilder.AddColumn<int>(
+                name: "Discount",
                 table: "Sale",
-                type: "MONEY",
+                type: "INT",
                 nullable: false,
-                defaultValue: 0m);
+                defaultValue: 0);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "TotalAmount",
+                name: "Discount",
                 table: "Sale");
         }
     }
