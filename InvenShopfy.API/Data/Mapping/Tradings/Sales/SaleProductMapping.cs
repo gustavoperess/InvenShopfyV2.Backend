@@ -11,11 +11,11 @@ public class SaleProductMapping : IEntityTypeConfiguration<SaleProduct>
         builder.ToTable("SaleProduct");
         builder.HasKey(sp => new { sp.SaleId, sp.ProductId });
 
-        builder.Property(sp => sp.SingleQuantitySold)
+        builder.Property(sp => sp.TotalQuantitySoldPerProduct)
             .IsRequired(true)
             .HasColumnType("INTEGER");
 
-        builder.Property(sp => sp.TotalPrice)
+        builder.Property(sp => sp.TotalPricePerProduct)
             .IsRequired(true)
             .HasColumnType("NUMERIC(18,2)");
     }

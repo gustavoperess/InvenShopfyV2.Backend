@@ -1,3 +1,4 @@
+using System.Text.Json;
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
 using InvenShopfy.Core.Models.Tradings.Sales;
@@ -20,27 +21,47 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 BillerId = request.BillerId,
                 ShippingCost = request.ShippingCost,
                 Document = request.Document,
-                StafNote = request.StafNote,
+                StaffNote = request.StaffNote,
                 SaleNote = request.SaleNote,
                 PaymentStatus = request.PaymentStatus,
                 SaleStatus = request.SaleStatus,
                 UserId = request.UserId,
             };
+            // Console.WriteLine("Received CreateSalesRequest:");
+            // Console.WriteLine($"CustomerId: {request.CustomerId}");
+            // Console.WriteLine($"WarehouseId: {request.WarehouseId}");
+            // Console.WriteLine($"BillerId: {request.BillerId}");
+            // Console.WriteLine($"ShippingCost: {request.ShippingCost}");
+            // Console.WriteLine($"Document: {request.Document}");
+            // Console.WriteLine($"StaffNote: {request.StaffNote}");
+            // Console.WriteLine($"SaleNote: {request.SaleNote}");
+            // Console.WriteLine($"PaymentStatus: {request.PaymentStatus}");
+            // Console.WriteLine($"SaleStatus: {request.SaleStatus}");
+            // Console.WriteLine($"UserId: {request.UserId}");
             
-            foreach (var productId in request.ProductId)
+
+            foreach (var product in request.ProductIdPlusQuantity)
             {
-                var product = await context.Products.FirstOrDefaultAsync(p => p.Id == productId);
+                Console.WriteLine(product.Key);
+                Console.WriteLine(product.Value);
+                
+            }
+            
+            foreach (var item in request.ProductIdPlusQuantity)
+            {
+             
+                var product = await context.Products.FirstOrDefaultAsync(p => p.Id == item.Key);
                 if (product == null)
                 {
-                    return new Response<Sale?>(null, 400, $"Product with Id {productId} not found");
+                    return new Response<Sale?>(null, 400, $"Product with Id {product} not found");
                 }
                 
-                var saleProduct = sale.CreateSaleProduct(product.Id, product.Price, request.SingleQuantitySold);
+                var saleProduct = sale.CreateSaleProduct(product.Id, product.Price, item.Value);
                 sale.SaleProducts.Add(saleProduct);
             }
-
-            sale.TotalQuantitySold = sale.SaleProducts.Sum(x => x.SingleQuantitySold);
-            sale.TotalAmount = sale.SaleProducts.Sum(sp => (sp.TotalPrice * sp.SingleQuantitySold)) + request.ShippingCost;
+            
+            sale.TotalQuantitySold = sale.SaleProducts.Sum(x => x.TotalQuantitySoldPerProduct);
+            sale.TotalAmount = sale.SaleProducts.Sum(sp => (sp.TotalPricePerProduct * sp.TotalQuantitySoldPerProduct)) + request.ShippingCost;
             
             await context.Sales.AddAsync(sale);
             await context.SaveChangesAsync();
@@ -74,7 +95,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
             // sale.ProductId = request.ProductId;
             sale.ShippingCost = request.ShippingCost;
             sale.Document = request.Document;
-            sale.StafNote = request.StafNote;
+            sale.StaffNote = request.StafNote;
             sale.SaleNote = request.SaleNote;
     
             context.Sales.Update(sale);

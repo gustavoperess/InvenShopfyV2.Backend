@@ -36,7 +36,7 @@ public class AddSalesMapping : IEntityTypeConfiguration<Sale>
             .HasColumnType("TEXT")
             .HasMaxLength(500);
 
-        builder.Property(x => x.StafNote)
+        builder.Property(x => x.StaffNote)
             .IsRequired(true)
             .HasColumnType("TEXT")
             .HasMaxLength(500);
