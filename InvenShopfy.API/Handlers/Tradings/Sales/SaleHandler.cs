@@ -25,7 +25,6 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 PaymentStatus = request.PaymentStatus,
                 SaleStatus = request.SaleStatus,
                 UserId = request.UserId,
-                TotalQuantitySold = request.TotalQuantitySold
             };
             
             foreach (var productId in request.ProductId)
@@ -39,7 +38,8 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 var saleProduct = sale.CreateSaleProduct(product.Id, product.Price, request.SingleQuantitySold);
                 sale.SaleProducts.Add(saleProduct);
             }
-            
+
+            sale.TotalQuantitySold = sale.SaleProducts.Sum(x => x.SingleQuantitySold);
             sale.TotalAmount = sale.SaleProducts.Sum(sp => (sp.TotalPrice * sp.SingleQuantitySold)) + request.ShippingCost;
             
             await context.Sales.AddAsync(sale);

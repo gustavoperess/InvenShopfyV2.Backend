@@ -38,9 +38,6 @@ public class CreateSalesRequest : Request
     [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]
     public string StafNote { get; set; } = null!;
     
-    [Required(ErrorMessage = "Invalid Total quantity")]
-    public int TotalQuantitySold { get; set; } 
-    
     [Required(ErrorMessage = "Invalid single quantity")]
     public int SingleQuantitySold { get; set; } 
     
