@@ -24,7 +24,7 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
         public ESaleStatus SaleStatus { get; set; }
         public string Document { get; set; } = string.Empty;
         public string SaleNote { get; set; } = string.Empty;
-        public string StafNote { get; set; } = string.Empty;
+        public string StaffNote { get; set; } = string.Empty;
 
         public int TotalQuantitySold { get; set; }
         public string UserId { get; set; } = string.Empty;
@@ -44,14 +44,14 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
             return letter + "-" + randNum.ToString("D6"); 
         }
         
-        public SaleProduct CreateSaleProduct(long productId, double totalPrice, int singleQuantitySold)
+        public SaleProduct CreateSaleProduct(long productId, double totalPricePerProduct, int totalQuantitySoldPerProduct)
         {
             var saleProduct = new SaleProduct
             {
                 ProductId = productId,
                 Sale = this,
-                TotalPrice = totalPrice,
-                SingleQuantitySold = singleQuantitySold,
+                TotalPricePerProduct = totalPricePerProduct,
+                TotalQuantitySoldPerProduct = totalQuantitySoldPerProduct,
                 ReferenceNumber = ReferenceNumber 
             };
             return saleProduct;

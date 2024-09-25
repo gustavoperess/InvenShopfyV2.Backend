@@ -15,7 +15,7 @@ public class CreateSalesRequest : Request
     public long BillerId { get; set; }
     
     [Required(ErrorMessage = "Invalid Product Id")]
-    public List<long> ProductId { get; set; } = new List<long>();
+    public Dictionary<long, int> ProductIdPlusQuantity { get; set; } = new Dictionary<long, int>();
     
     [Required(ErrorMessage = "Please inform the Payment Status")]
     public EPaymentStatus PaymentStatus { get; set; } = EPaymentStatus.Complete;
@@ -25,8 +25,7 @@ public class CreateSalesRequest : Request
     
     [Required(ErrorMessage = "Please inform the Sale Status")]
     public ESaleStatus SaleStatus { get; set; } = ESaleStatus.Complete;
-
-    [Required(ErrorMessage = "Invalid Document")]
+    
     [MaxLength(120, ErrorMessage = "Max len of 120 characters")]
     public string Document { get; set; } = string.Empty;
     
@@ -34,11 +33,9 @@ public class CreateSalesRequest : Request
     [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]
     public string SaleNote { get; set; } = null!;
     
-    [Required(ErrorMessage = "Invalid StafNote")]
+    [Required(ErrorMessage = "Invalid StaffNote")]
     [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]
-    public string StafNote { get; set; } = null!;
+    public string StaffNote { get; set; } = null!;
     
-    [Required(ErrorMessage = "Invalid single quantity")]
-    public int SingleQuantitySold { get; set; } 
     
 }

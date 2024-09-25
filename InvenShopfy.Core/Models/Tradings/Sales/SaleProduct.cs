@@ -12,8 +12,8 @@ public class SaleProduct
     public long ProductId { get; set; }
     public Product.Product Product { get; set; } = null!;
     
-    public int SingleQuantitySold { get; set; }
-    public double TotalPrice { get; set; }
+    public int TotalQuantitySoldPerProduct { get; set; }
+    public double TotalPricePerProduct { get; set; }
 
     public string ReferenceNumber { get; set; } = null!;
 }
