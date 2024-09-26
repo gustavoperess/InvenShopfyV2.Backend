@@ -1,3 +1,4 @@
+using InvenShopfy.API.Common.CloudinaryServiceNamespace;
 using InvenShopfy.API.Data;
 using InvenShopfy.API.Handlers.Expenses;
 using InvenShopfy.API.Handlers.People;
@@ -40,7 +41,9 @@ public static class BuilderExtension
         } 
         else
         {
-            throw new Exception("Cloudinary settings are not configured properly in appsettings.json.");
+            throw new Exception("Cloudinary settings are not properly configured. " +
+                                "Please check appsettings.json and ensure that 'CloudinarySettings' " +
+                                "section is present and filled correctly.");
         }
     }
     
@@ -97,6 +100,8 @@ public static class BuilderExtension
         builder.Services.AddTransient<IWarehouseHandler, WarehouseHandler>();
         builder.Services.AddTransient<IPurchaseHandler, PurchaseHandler>();
         builder.Services.AddTransient<ISalesHandler, SaleHandler>();
+        builder.Services.AddTransient<CloudinaryService>();
+       
       
     }
 }

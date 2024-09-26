@@ -1,10 +1,5 @@
-using System.Net;
-using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
-using InvenShopfy.API.Common.Cloudinary;
+using InvenShopfy.API.Common.CloudinaryServiceNamespace;
 using InvenShopfy.API.Data;
-using InvenShopfy.API.Models;
-using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Models.Product;
 using InvenShopfy.Core.Requests.Products.Product;
@@ -13,10 +8,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InvenShopfy.API.Handlers.Products;
 
-public class ProductHandler(AppDbContext context) : IProductHandler
+public class ProductHandler : IProductHandler
 {
+    
+    private readonly AppDbContext _context;
+    private readonly CloudinaryService _cloudinaryService;
+    public ProductHandler(AppDbContext context, CloudinaryService cloudinaryService) 
+    {
+        _context = context;
+        _cloudinaryService = cloudinaryService;
+    }
+  
     public async Task<Response<Product?>> CreateAsync(CreateProductRequest request)
     {
+   
         try
         {
             var product = new Product
@@ -37,33 +42,11 @@ public class ProductHandler(AppDbContext context) : IProductHandler
                 Sale = request.Sale
         
             };
-            var base64Data = request.ProductImage.Substring(request.ProductImage.IndexOf(",") + 1);
-            var imageBytes = Convert.FromBase64String(base64Data);
-            var cloudinaryName = Configuration.CloudinarySettings.CloudName;
-            var apiKey = Configuration.CloudinarySettings.ApiKey;
-            var apiSecret = Configuration.CloudinarySettings.ApiSecret;
-            var cloudinary = new Cloudinary(new Account(cloudinaryName, apiKey, apiSecret));
+            var uploadResult = await _cloudinaryService.UploadImageAsync(request.ProductImage, "invenShopfy/Products");
+            product.ProductImage = uploadResult.SecureUrl.ToString(); 
             
-            
-            using (var stream = new MemoryStream(imageBytes))
-            {
-                var uploadParams = new ImageUploadParams()
-                {
-                    File = new FileDescription("my_image", stream), 
-                };
-                var uploadResult = await cloudinary.UploadAsync(uploadParams);
-                if (uploadResult.StatusCode == HttpStatusCode.OK)
-                {
-                    product.ProductImage = uploadResult.SecureUrl.ToString(); 
-                }
-                else
-                {
-                    return new Response<Product?>(null, 500, "Failed to upload image to Cloudinary");
-                }
-            };
-            
-            await context.Products.AddAsync(product);
-            await context.SaveChangesAsync();
+            await _context.Products.AddAsync(product);
+            await _context.SaveChangesAsync();
             return new Response<Product?>(product, 201, "Product created successfully");
         }
         catch
@@ -76,7 +59,7 @@ public class ProductHandler(AppDbContext context) : IProductHandler
     {
         try
         {
-            var product = await context.Products.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
 
             if (product is null)
             {
@@ -91,8 +74,8 @@ public class ProductHandler(AppDbContext context) : IProductHandler
             product.BrandId = request.BrandId;
             product.CategoryId = request.CategoryId;
             product.ProductImage = request.ProductImage;
-            context.Products.Update(product);
-            await context.SaveChangesAsync();
+            _context.Products.Update(product);
+            await _context.SaveChangesAsync();
             return new Response<Product?>(product, message: "Product updated successfully");
 
         }
@@ -106,15 +89,15 @@ public class ProductHandler(AppDbContext context) : IProductHandler
     {
         try
         {
-            var product = await context.Products.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
             
             if (product is null)
             {
                 return new Response<Product?>(null, 404, "Product not found");
             }
 
-            context.Products.Remove(product);
-            await context.SaveChangesAsync();
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
             return new Response<Product?>(product, message: "Product removed successfully");
 
         }
@@ -128,7 +111,7 @@ public class ProductHandler(AppDbContext context) : IProductHandler
     {
         try
         {
-            var product = await context.Products.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
             
             if (product is null)
             {
@@ -146,7 +129,7 @@ public class ProductHandler(AppDbContext context) : IProductHandler
     {
         try
         {
-            var query = context
+            var query = _context
                 .Products
                 .AsNoTracking()
                 .Include(p => p.Category)
@@ -178,7 +161,7 @@ public class ProductHandler(AppDbContext context) : IProductHandler
     {
         try
         {
-            var products = await context.Products
+            var products = await _context.Products
                 .Where(x => EF.Functions.ILike(x.Title, $"%{request.Title}%") && x.UserId == request.UserId)
                 .ToListAsync();
             
