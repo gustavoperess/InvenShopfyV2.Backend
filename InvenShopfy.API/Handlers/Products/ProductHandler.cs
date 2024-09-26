@@ -1,4 +1,10 @@
+using System.Net;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using InvenShopfy.API.Common.Cloudinary;
 using InvenShopfy.API.Data;
+using InvenShopfy.API.Models;
+using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Models.Product;
 using InvenShopfy.Core.Requests.Products.Product;
@@ -25,13 +31,37 @@ public class ProductHandler(AppDbContext context) : IProductHandler
                 BrandId = request.BrandId,
                 CategoryId = request.CategoryId,
                 Subcategory = request.Subcategory,
-                ProductImage = request.ProductImage,
                 Featured = request.Featured,
                 DifferPriceWarehouse = request.DifferPriceWarehouse,
                 Expired = request.Expired,
                 Sale = request.Sale
-
+        
             };
+            var base64Data = request.ProductImage.Substring(request.ProductImage.IndexOf(",") + 1);
+            var imageBytes = Convert.FromBase64String(base64Data);
+            var cloudinaryName = Configuration.CloudinarySettings.CloudName;
+            var apiKey = Configuration.CloudinarySettings.ApiKey;
+            var apiSecret = Configuration.CloudinarySettings.ApiSecret;
+            var cloudinary = new Cloudinary(new Account(cloudinaryName, apiKey, apiSecret));
+            
+            
+            using (var stream = new MemoryStream(imageBytes))
+            {
+                var uploadParams = new ImageUploadParams()
+                {
+                    File = new FileDescription("my_image", stream), 
+                };
+                var uploadResult = await cloudinary.UploadAsync(uploadParams);
+                if (uploadResult.StatusCode == HttpStatusCode.OK)
+                {
+                    product.ProductImage = uploadResult.SecureUrl.ToString(); 
+                }
+                else
+                {
+                    return new Response<Product?>(null, 500, "Failed to upload image to Cloudinary");
+                }
+            };
+            
             await context.Products.AddAsync(product);
             await context.SaveChangesAsync();
             return new Response<Product?>(product, 201, "Product created successfully");
@@ -41,6 +71,7 @@ public class ProductHandler(AppDbContext context) : IProductHandler
             return new Response<Product?>(null, 500, "It was not possible to create a new Product");
         }
     }
+    
     public async Task<Response<Product?>> UpdateAsync(UpdateProductRequest request)
     {
         try

@@ -14,6 +14,7 @@ using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Handlers.Tradings.Purchase;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
 using InvenShopfy.Core.Handlers.Warehouse;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -26,6 +27,21 @@ public static class BuilderExtension
         Configuration.ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
         Configuration.BackendUrl = builder.Configuration.GetValue<string>("BackendUrl") ?? string.Empty;
         Configuration.FrontendUrl = builder.Configuration.GetValue<string>("FrontendUrl") ?? string.Empty;
+        
+    }
+
+    public static void CloudinaryConfiguration(this WebApplicationBuilder builder)
+    {
+        builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
+        var cloudinarySettings = builder.Configuration.GetSection("CloudinarySettings").Get<CloudinarySettings>();
+        if (cloudinarySettings != null)
+        {
+            Configuration.CloudinarySettings = cloudinarySettings;
+        } 
+        else
+        {
+            throw new Exception("Cloudinary settings are not configured properly in appsettings.json.");
+        }
     }
     
     public static void AddDocumentation(this WebApplicationBuilder builder)

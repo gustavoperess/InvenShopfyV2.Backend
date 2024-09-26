@@ -10,7 +10,7 @@ builder.AddDataContexts();
 builder.AddCrossOrigin();
 builder.AddDocumentation();
 builder.AddServices();
-
+builder.CloudinaryConfiguration();
 
 
 var app = builder.Build();

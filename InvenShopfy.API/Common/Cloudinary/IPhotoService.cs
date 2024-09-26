@@ -6,3 +6,5 @@ using System.Threading.Tasks;
 // {
 //     Task<ImageUploadResult> AddPhotoAsync(IFormFile file);
 // }
+
+
