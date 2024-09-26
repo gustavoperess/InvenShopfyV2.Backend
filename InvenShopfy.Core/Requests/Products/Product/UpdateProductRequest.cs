@@ -24,8 +24,8 @@ public class UpdateProductRequest : Request
     public long BrandId { get; set; }
     
     
-    [Required(ErrorMessage = "Invalid Quantity")]
-    public int Quantity { get; set; }
+    [Required(ErrorMessage = "Invalid StockQuantity")]
+    public int StockQuantity { get; set; }
     
     // [Required(ErrorMessage = "Invalid Image")] // NEED TO COME BACK AS I WILL BE ADDING THIS TO CLOUDNIARY
     public string ProductImage { get; set; } = null!;

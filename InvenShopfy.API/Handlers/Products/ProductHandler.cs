@@ -18,7 +18,7 @@ public class ProductHandler(AppDbContext context) : IProductHandler
                 UserId = request.UserId,
                 Title = request.Title,
                 Price = request.Price,
-                Quantity = request.Quantity,
+                StockQuantity = request.StockQuantity,
                 ProductCode = request.ProductCode,
                 CreateAt = DateTime.Now,
                 UnitId = request.UnitId,
@@ -54,7 +54,7 @@ public class ProductHandler(AppDbContext context) : IProductHandler
             
             product.Title = request.Title;
             product.Price = request.Price;
-            product.Quantity = request.Quantity;
+            product.StockQuantity = request.StockQuantity;
             product.ProductCode = request.ProductCode;
             product.UnitId = request.UnitId;
             product.BrandId = request.BrandId;

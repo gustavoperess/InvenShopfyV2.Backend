@@ -7,11 +7,13 @@ using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
 
 namespace InvenShopfy.API.Handlers.Tradings.Sales;
-
-public class SaleHandler(AppDbContext context) : ISalesHandler
+// NEXT REDUCE THE PRODUCT STOCK FROM THE PRODUCTS AFTER SOLD
+// ADD IMAGE TO THE PRODUCTS 
+public class SaleHandler(AppDbContext context) : ISalesHandler 
 {
     public async Task<Response<Sale?>> CreateAsync(CreateSalesRequest request)
     {
+        await using var transaction = await context.Database.BeginTransactionAsync();
         try
         {
             var sale = new Sale
@@ -30,24 +32,33 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 Discount = request.Discount
             };
             
-            
             foreach (var item in request.ProductIdPlusQuantity)
             {
              
                 var product = await context.Products.FirstOrDefaultAsync(p => p.Id == item.Key);
                 if (product == null)
                 {
-                    return new Response<Sale?>(null, 400, $"Product with Id {product} not found");
+                    return new Response<Sale?>(null, 400, $"Product with Id {item.Key} not found");
                 }
-                
-                var saleProduct = sale.CreateSaleProduct(product.Id, product.Price, item.Value);
+
+                if (product.StockQuantity < item.Value)
+                {
+                    return new Response<Sale?>(null, 400, $"Insufficient quantity for product Id {item.Key}");
+                }
+
+                var pricePerProduct = product.Price * item.Value;
+                var saleProduct = sale.CreateSaleProduct(product.Id, pricePerProduct, item.Value);
                 sale.SaleProducts.Add(saleProduct);
+                product.StockQuantity -= item.Value;
+                context.Products.Update(product);
             }
             
             sale.TotalQuantitySold = sale.SaleProducts.Sum(x => x.TotalQuantitySoldPerProduct);
             
             await context.Sales.AddAsync(sale);
             await context.SaveChangesAsync();
+            
+            await transaction.CommitAsync();
 
             return new Response<Sale?>(sale, 201, "Sale created successfully");
         }

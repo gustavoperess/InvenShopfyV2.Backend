@@ -39,7 +39,7 @@ public class ProductsMapping : IEntityTypeConfiguration<Product>
             .HasColumnType("VARCHAR")
             .HasMaxLength(255);
 
-        builder.Property(x => x.Quantity)
+        builder.Property(x => x.StockQuantity)
             .IsRequired(true)
             .HasColumnType("BIGINT");
         
