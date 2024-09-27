@@ -19,7 +19,7 @@ public class ExpenseMapping : IEntityTypeConfiguration<Expense>
         
         builder.Property(x => x.ExpenseType)
             .IsRequired(true)
-            .HasColumnType("SMALLINT"); 
+            .HasColumnType("VARCHAR(50)"); 
 
         builder.Property(x => x.VoucherNumber)
             .IsRequired(true)

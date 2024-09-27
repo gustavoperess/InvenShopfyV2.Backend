@@ -49,6 +49,7 @@ public class CreateCustomerRequest : Request
     
     [Required(ErrorMessage = "Please Select one of the Customers")]
     [EnumDataType(typeof(ECustomerGroup))]
-    public ECustomerGroup CustomerGroup { get; set; } = ECustomerGroup.WalkIn;
+    public string CustomerGroup { get; set; } = ECustomerGroup.WalkIn.ToString();
+    
  
 }

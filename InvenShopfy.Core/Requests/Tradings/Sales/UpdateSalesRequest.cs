@@ -20,7 +20,7 @@ public class UpdateSalesRequest : Request
     public long ProductId { get; set; }
     
     [Required(ErrorMessage = "Please inform the Payment Status")]
-    public EPaymentStatus PaymentStatus { get; set; } = EPaymentStatus.Complete;
+    public string PaymentStatus { get; set; } = EPaymentStatus.Complete.ToString(); 
     
     [Required(ErrorMessage = "Please inform the Payment Status")]
     public double ShippingCost { get; set; } 
@@ -29,7 +29,7 @@ public class UpdateSalesRequest : Request
     public int RandomNumber { get; set; } 
     
     [Required(ErrorMessage = "Please inform the Sale Status")]
-    public ESaleStatus SaleStatus { get; set; } = ESaleStatus.Complete;
+    public string SaleStatus { get; set; } = ESaleStatus.Complete.ToString();
 
     [Required(ErrorMessage = "Invalid Document")]
     [MaxLength(120, ErrorMessage = "Max len of 120 characters")]

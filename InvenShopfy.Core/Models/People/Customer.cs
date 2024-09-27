@@ -15,6 +15,6 @@ public class Customer
     public string Address { get; set; } = string.Empty;
     public string ZipCode { get; set; } = string.Empty;
     public long RewardPoint { get; set; }
-    public ECustomerGroup CustomerGroup { get; set; } = ECustomerGroup.WalkIn;
+    public string CustomerGroup { get; set; } = string.Empty;
     public string UserId { get; set; } = string.Empty;
 }

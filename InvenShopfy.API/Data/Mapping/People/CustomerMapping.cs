@@ -53,7 +53,7 @@ public class CustomerMapping : IEntityTypeConfiguration<Customer>
 
         builder.Property(x => x.CustomerGroup)
             .IsRequired(true)
-            .HasColumnType("SMALLINT");
+            .HasColumnType("VARCHAR(50)"); 
         
         builder.Property(x => x.UserId)
             .IsRequired(true)

@@ -16,7 +16,7 @@ public class User
     public DateTime DateOfJoin { get; set; } = DateTime.UtcNow;
     public string Email { get; set; } = String.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
-    public EGender Gender { get; set; } = EGender.Male;
+    public string Gender { get; set; } = string.Empty;
     public string Username { get; set; } = string.Empty;
     public string ProfileImage { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;

@@ -16,7 +16,7 @@ public class CreatePurchaseRequest : Request
     public long ProductId { get; set; }
     
     [Required(ErrorMessage = "Please inform the Purchase Status")]
-    public EPurchaseStatus PurchaseStatus { get; set; } = EPurchaseStatus.Complete;
+    public string PurchaseStatus { get; set; } = EPurchaseStatus.Complete.ToString();
     
     [Required(ErrorMessage = "Invalid ShippingCost")]
     [MaxLength(20,  ErrorMessage= "Max len of 20 characters")]

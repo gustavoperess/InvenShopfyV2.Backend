@@ -15,7 +15,7 @@ public class CreateExpenseRequest : Request
     public DateTime Date { get; set; }
 
     [Required(ErrorMessage = "Please select one of the two expense types")]
-    public EExpenseType ExpenseType { get; set; } = EExpenseType.DirectExpense;
+    public string ExpenseType { get; set; } = EExpenseType.DirectExpense.ToString();
     
     [Required(ErrorMessage = "Invalid Expense Category ID")]
     public long ExpenseCategoryId { get; set; }

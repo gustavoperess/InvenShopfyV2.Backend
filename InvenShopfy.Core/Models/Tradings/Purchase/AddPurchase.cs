@@ -17,8 +17,8 @@ public class AddPurchase
     
     public long ProductId { get; set; } 
     public Product.Product Product { get; set; } = null!;
-    
-    public EPurchaseStatus PurchaseStatus { get; set; }
+
+    public string PurchaseStatus { get; set; } = string.Empty;
     
     public int ShippingCost { get; set; }
     

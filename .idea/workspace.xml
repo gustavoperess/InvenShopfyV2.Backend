@@ -7,6 +7,18 @@
     <list default="true" id="a198bd72-77c5-41a2-b2bc-caddea3eb970" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Data/Mapping/Tradings/Sales/AddSalesMapping.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/Data/Mapping/Tradings/Sales/AddSalesMapping.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Data/Migrations/20240925132222_addingSaleItemsSix.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Data/Migrations/20240925132222_addingSaleItemsSix.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Data/Migrations/20240925140823_addingSaleItemsSeven.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Data/Migrations/20240925140823_addingSaleItemsSeven.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Data/Migrations/20240925141155_addingSaleItemsEight.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Data/Migrations/20240925141155_addingSaleItemsEight.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Data/Migrations/20240925142613_addingSaleItemsNine.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Data/Migrations/20240925142613_addingSaleItemsNine.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Data/Migrations/20240926102303_fixingStockQuantity.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Data/Migrations/20240926102303_fixingStockQuantity.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Data/Migrations/20240927141526_updatingSalesDate.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Data/Migrations/20240927141526_updatingSalesDate.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Data/Migrations/AppDbContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/Data/Migrations/AppDbContextModelSnapshot.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Handlers/Tradings/Sales/SaleHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/Handlers/Tradings/Sales/SaleHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfo.cs" afterDir="false" />

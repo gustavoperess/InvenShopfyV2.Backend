@@ -19,7 +19,7 @@ public class CreateUserRequest : Request
     public string PhoneNumber { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Please select the Gender from the dropdown below")]
-    public EGender Gender { get; set; } = EGender.Male;
+    public string Gender { get; set; } = EGender.Male.ToString();
     
     [Required(ErrorMessage = "Invalid Username")]
     [MaxLength(80,  ErrorMessage= "Max len of 80 characters")]

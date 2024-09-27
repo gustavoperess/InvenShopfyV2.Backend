@@ -18,13 +18,13 @@ public class CreateSalesRequest : Request
     public Dictionary<long, int> ProductIdPlusQuantity { get; set; } = new Dictionary<long, int>();
     
     [Required(ErrorMessage = "Please inform the Payment Status")]
-    public EPaymentStatus PaymentStatus { get; set; } = EPaymentStatus.Complete;
+    public string PaymentStatus { get; set; } = EPaymentStatus.Complete.ToString(); 
     
     [Required(ErrorMessage = "Please inform the Payment Status")]
     public double ShippingCost { get; set; } 
     
     [Required(ErrorMessage = "Please inform the Sale Status")]
-    public ESaleStatus SaleStatus { get; set; } = ESaleStatus.Complete;
+    public string SaleStatus { get; set; } = ESaleStatus.Complete.ToString();
     
     [MaxLength(120, ErrorMessage = "Max len of 120 characters")]
     public string Document { get; set; } = string.Empty;

@@ -18,7 +18,7 @@ public class AddMapping : IEntityTypeConfiguration<AddPurchase>
         builder.Property(x => x.PurchaseStatus)
             .IsRequired(true)
             .IsRequired(true)
-            .HasColumnType("SMALLINT"); 
+            .HasColumnType("VARCHAR(50)"); 
 
         builder.Property(x => x.ShippingCost)
             .IsRequired(true)

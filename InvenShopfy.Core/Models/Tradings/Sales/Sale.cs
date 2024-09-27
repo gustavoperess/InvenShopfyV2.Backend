@@ -19,9 +19,9 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
         public Biller Biller { get; set; } = null!;
 
         public List<SaleProduct> SaleProducts { get; set; } = new List<SaleProduct>();
-        public double ShippingCost { get; set; } = 0.0;
-        public EPaymentStatus PaymentStatus { get; set; }
-        public ESaleStatus SaleStatus { get; set; }
+        public double ShippingCost { get; set; } 
+        public string PaymentStatus { get; set; } = string.Empty;
+        public string SaleStatus { get; set; } = string.Empty; 
         public string Document { get; set; } = string.Empty;
         public string SaleNote { get; set; } = string.Empty;
         public string StaffNote { get; set; } = string.Empty;
