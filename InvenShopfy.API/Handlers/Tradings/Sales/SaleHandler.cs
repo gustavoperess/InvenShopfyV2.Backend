@@ -21,6 +21,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 CustomerId = request.CustomerId,
                 WarehouseId = request.WarehouseId,
                 BillerId = request.BillerId,
+                SaleDate = request.SaleDate,
                 ShippingCost = request.ShippingCost,
                 Document = request.Document,
                 StaffNote = request.StaffNote,
@@ -154,7 +155,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 .Sales
                 .AsNoTracking()
                 .Where(x => x.UserId == request.UserId)
-                .OrderBy(x => x.Date);
+                .OrderBy(x => x.SaleDate);
 
             var sale = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)

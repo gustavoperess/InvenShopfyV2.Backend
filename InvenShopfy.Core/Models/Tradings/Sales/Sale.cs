@@ -7,7 +7,7 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
     {
         public long Id { get; set; }
         private static readonly Random random = new Random();
-        public DateTime Date { get; set; } = DateTime.UtcNow;
+        public DateTime SaleDate { get; set; } 
         
         public long CustomerId { get; set; }
         public Customer Customer { get; set; } = null!;

@@ -11,9 +11,9 @@ public class AddSalesMapping : IEntityTypeConfiguration<Sale>
         builder.ToTable("Sale");
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.Date)
+        builder.Property(x => x.SaleDate)
             .IsRequired(true)
-            .HasColumnType("TIMESTAMPTZ");
+            .HasColumnType("TIMESTAMP");
 
         builder.Property(x => x.ReferenceNumber)
             .IsRequired(true)

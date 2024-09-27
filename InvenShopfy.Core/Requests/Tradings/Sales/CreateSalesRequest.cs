@@ -45,5 +45,8 @@ public class CreateSalesRequest : Request
     [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]
     public int Discount { get; set; } 
     
+    [Required(ErrorMessage = "Invalid SaleDate")]
+    public DateTime SaleDate { get; set; } 
+    
     
 }
