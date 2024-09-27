@@ -582,8 +582,9 @@ namespace InvenShopfy.API.Migrations
                         .IsRequired()
                         .HasColumnType("VARCHAR(120)");
 
-                    b.Property<short>("PaymentStatus")
-                        .HasColumnType("SMALLINT");
+                    b.Property<string>("PaymentStatus")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)");
 
                     b.Property<string>("ReferenceNumber")
                         .IsRequired()
@@ -597,8 +598,9 @@ namespace InvenShopfy.API.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
-                    b.Property<short>("SaleStatus")
-                        .HasColumnType("SMALLINT");
+                    b.Property<string>("SaleStatus")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)");
 
                     b.Property<double>("ShippingCost")
                         .HasColumnType("NUMERIC(18,2)");

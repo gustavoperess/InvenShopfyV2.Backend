@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240925140823_addingSaleItemsSeven")]
-    partial class addingSaleItemsSeven
+    [Migration("20240927152421_fixingENumberables")]
+    partial class fixingENumberables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -453,11 +453,11 @@ namespace InvenShopfy.API.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("VARCHAR");
 
-                    b.Property<long>("Quantity")
-                        .HasColumnType("BIGINT");
-
                     b.Property<bool>("Sale")
                         .HasColumnType("BOOLEAN");
+
+                    b.Property<long>("StockQuantity")
+                        .HasColumnType("BIGINT");
 
                     b.Property<string>("Subcategory")
                         .IsRequired()
@@ -578,8 +578,8 @@ namespace InvenShopfy.API.Migrations
                     b.Property<long>("CustomerId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("TIMESTAMPTZ");
+                    b.Property<int>("Discount")
+                        .HasColumnType("INT");
 
                     b.Property<string>("Document")
                         .IsRequired()
@@ -591,6 +591,9 @@ namespace InvenShopfy.API.Migrations
                     b.Property<string>("ReferenceNumber")
                         .IsRequired()
                         .HasColumnType("VARCHAR");
+
+                    b.Property<DateTime>("SaleDate")
+                        .HasColumnType("TIMESTAMP");
 
                     b.Property<string>("SaleNote")
                         .IsRequired()
@@ -648,8 +651,8 @@ namespace InvenShopfy.API.Migrations
                     b.Property<double>("TotalPricePerProduct")
                         .HasColumnType("NUMERIC(18,2)");
 
-                    b.Property<long>("TotalQuantitySoldPerProduct")
-                        .HasColumnType("BIGINT");
+                    b.Property<int>("TotalQuantitySoldPerProduct")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("SaleId", "ProductId");
 

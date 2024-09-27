@@ -26,14 +26,14 @@ public class AddSalesMapping : IEntityTypeConfiguration<Sale>
         builder.Property(x => x.Discount)
             .IsRequired(true)
             .HasColumnType("INT");
-
+        
         builder.Property(x => x.PaymentStatus)
             .IsRequired(true)
-            .HasColumnType("SMALLINT");
-
+            .HasColumnType("VARCHAR(50)"); 
+        
         builder.Property(x => x.SaleStatus)
             .IsRequired(true)
-            .HasColumnType("SMALLINT");
+            .HasColumnType("VARCHAR(50)"); 
 
         builder.Property(x => x.SaleNote)
             .IsRequired(true)
@@ -57,6 +57,5 @@ public class AddSalesMapping : IEntityTypeConfiguration<Sale>
         builder.Property(x => x.TotalAmount)
             .IsRequired(true)
             .HasColumnType("NUMERIC(18,2)");
-        
     }
 }

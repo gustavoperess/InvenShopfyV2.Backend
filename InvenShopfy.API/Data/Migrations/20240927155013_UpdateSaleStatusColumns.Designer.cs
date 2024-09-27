@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240925142613_addingSaleItemsNine")]
-    partial class addingSaleItemsNine
+    [Migration("20240927155013_UpdateSaleStatusColumns")]
+    partial class UpdateSaleStatusColumns
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -453,11 +453,11 @@ namespace InvenShopfy.API.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("VARCHAR");
 
-                    b.Property<long>("Quantity")
-                        .HasColumnType("BIGINT");
-
                     b.Property<bool>("Sale")
                         .HasColumnType("BOOLEAN");
+
+                    b.Property<long>("StockQuantity")
+                        .HasColumnType("BIGINT");
 
                     b.Property<string>("Subcategory")
                         .IsRequired()
@@ -578,9 +578,6 @@ namespace InvenShopfy.API.Migrations
                     b.Property<long>("CustomerId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("TIMESTAMPTZ");
-
                     b.Property<int>("Discount")
                         .HasColumnType("INT");
 
@@ -588,20 +585,25 @@ namespace InvenShopfy.API.Migrations
                         .IsRequired()
                         .HasColumnType("VARCHAR(120)");
 
-                    b.Property<short>("PaymentStatus")
-                        .HasColumnType("SMALLINT");
+                    b.Property<string>("PaymentStatus")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)");
 
                     b.Property<string>("ReferenceNumber")
                         .IsRequired()
                         .HasColumnType("VARCHAR");
+
+                    b.Property<DateTime>("SaleDate")
+                        .HasColumnType("TIMESTAMP");
 
                     b.Property<string>("SaleNote")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
-                    b.Property<short>("SaleStatus")
-                        .HasColumnType("SMALLINT");
+                    b.Property<string>("SaleStatus")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)");
 
                     b.Property<double>("ShippingCost")
                         .HasColumnType("NUMERIC(18,2)");

@@ -1,5 +1,6 @@
 using System.Text.Json;
 using InvenShopfy.API.Data;
+using InvenShopfy.Core.Enum;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
 using InvenShopfy.Core.Models.Tradings.Sales;
 using InvenShopfy.Core.Requests.Tradings.Sales;
@@ -14,6 +15,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
     public async Task<Response<Sale?>> CreateAsync(CreateSalesRequest request)
     {
         await using var transaction = await context.Database.BeginTransactionAsync();
+    
         try
         {
             var sale = new Sale
@@ -26,7 +28,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 Document = request.Document,
                 StaffNote = request.StaffNote,
                 SaleNote = request.SaleNote,
-                PaymentStatus = request.PaymentStatus,
+                PaymentStatus = request.PaymentStatus, 
                 SaleStatus = request.SaleStatus,
                 UserId = request.UserId,
                 TotalAmount = request.TotalAmount,
@@ -154,6 +156,9 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
             var query = context
                 .Sales
                 .AsNoTracking()
+                .Include(s => s.Customer)
+                .Include(s => s.Warehouse)
+                .Include(s => s.Biller)
                 .Where(x => x.UserId == request.UserId)
                 .OrderBy(x => x.SaleDate);
 
