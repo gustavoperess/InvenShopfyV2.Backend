@@ -1,3 +1,4 @@
+using InvenShopfy.API.Common.CloudinaryServiceNamespace;
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Models.Product;
@@ -7,8 +8,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InvenShopfy.API.Handlers.Products;
 
-public class BrandHandler(AppDbContext context) : IBrandHandler
+public class BrandHandler : IBrandHandler
 {
+    private readonly AppDbContext _context;
+    private readonly CloudinaryService _cloudinaryService;
+    public BrandHandler(AppDbContext context, CloudinaryService cloudinaryService)
+    {
+        _context = context;
+        _cloudinaryService = cloudinaryService;
+    }
+    
     public async Task<Response<Brand?>> CreateAsync(CreateBrandRequest request)
     {
         try
@@ -17,10 +26,13 @@ public class BrandHandler(AppDbContext context) : IBrandHandler
             {
                 UserId = request.UserId,
                 Title = request.Title,
-                BrandImage = request.BrandImage
             };
-            await context.Brands.AddAsync(brand);
-            await context.SaveChangesAsync();
+            
+            var uploadResult = await _cloudinaryService.UploadImageAsync(request.BrandImage, "invenShopfy/Brands");
+            brand.BrandImage = uploadResult.SecureUrl.ToString();
+            
+            await _context.Brands.AddAsync(brand);
+            await _context.SaveChangesAsync();
 
             return new Response<Brand?>(brand, 201, "Brand created successfully");
 
@@ -35,7 +47,7 @@ public class BrandHandler(AppDbContext context) : IBrandHandler
     {
         try
         {
-            var brand = await context.Brands.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var brand = await _context.Brands.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
 
             if (brand is null)
             {
@@ -44,8 +56,8 @@ public class BrandHandler(AppDbContext context) : IBrandHandler
             
             brand.Title = request.Title;
             brand.BrandImage = request.BrandImage;
-            context.Brands.Update(brand);
-            await context.SaveChangesAsync();
+            _context.Brands.Update(brand);
+            await _context.SaveChangesAsync();
             return new Response<Brand?>(brand, message: "brand updated successfully");
 
         }
@@ -59,15 +71,15 @@ public class BrandHandler(AppDbContext context) : IBrandHandler
     {
         try
         {
-            var brand = await context.Brands.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var brand = await _context.Brands.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
             
             if (brand is null)
             {
                 return new Response<Brand?>(null, 404, "Brand not found");
             }
 
-            context.Brands.Remove(brand);
-            await context.SaveChangesAsync();
+            _context.Brands.Remove(brand);
+            await _context.SaveChangesAsync();
             return new Response<Brand?>(brand, message: "brand removed successfully");
 
         }
@@ -81,7 +93,7 @@ public class BrandHandler(AppDbContext context) : IBrandHandler
     {
         try
         {
-            var brand = await context.Brands.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var brand = await _context.Brands.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
             
             if (brand is null)
             {
@@ -100,7 +112,7 @@ public class BrandHandler(AppDbContext context) : IBrandHandler
     {
         try
         {
-            var query = context
+            var query = _context
                 .Brands
                 .AsNoTracking()
                 .Where(x => x.UserId == request.UserId)
