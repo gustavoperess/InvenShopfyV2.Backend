@@ -6,19 +6,17 @@ using InvenShopfy.Core.Requests.Tradings.Sales;
 using InvenShopfy.Core.Responses;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace InvenShopfy.API.EndPoints.Tradings.Sales;
 
-public class GetSalesByBestSellerEndpoint : IEndPoint
+public class GetMostSouldProductEndpoint : IEndPoint
 {
-
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("/bestseller", HandlerAsync)
-            .WithName("Sales: Get the seller that sold the most in the last month")
-            .WithSummary("Get Best Seller")
-            .WithDescription("Get Best Seller")
-            .WithOrder(8)
-            .Produces<PagedResponse<List<Core.Models.Tradings.Sales.Sale>?>>();
+        => app.MapGet("/productmostsold", HandlerAsync)
+            .WithName("Sales: Get the product that sold the most in the last month")
+            .WithSummary("Get Best Product Seller")
+            .WithDescription("Get Best Product Seller")
+            .WithOrder(9)
+            .Produces<PagedResponse<List<Core.Models.Tradings.Sales.MostSoldProduct>?>>();
 
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,
@@ -26,17 +24,16 @@ public class GetSalesByBestSellerEndpoint : IEndPoint
         [FromQuery]int pageNumber = Configuration.DefaultPageNumber,
         [FromQuery]int pageSize = Configuration.DefaultPageSize)
     {
-        var request = new GetSalesByBestSeller
+        var request = new GetMostSoldProduct
         {
             UserId = user.Identity?.Name ?? string.Empty,
             PageNumber = pageNumber,
             PageSize = pageSize,
         };
 
-        var result = await handler.GetByBestSellerAsync(request);
+        var result = await handler.GetMostSoldProductAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);
     }
-
 }

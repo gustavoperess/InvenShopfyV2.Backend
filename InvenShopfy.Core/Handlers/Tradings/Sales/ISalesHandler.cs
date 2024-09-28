@@ -11,8 +11,10 @@ public interface ISalesHandler
     Task<Response<Models.Tradings.Sales.Sale?>> GetByIdAsync(GetSalesByIdRequest request);
     Task<PagedResponse<List<Models.Tradings.Sales.Sale>?>> GetByPeriodAsync(GetAllSalesRequest request);
     
-    Task<PagedResponse<List<Models.Tradings.Sales.BestSeller>?>> GetByBestSeller(GetSalesByBestSeller request);
-    Task<Response<Models.Tradings.Sales.Sale?>> GetSalesBySeller(GetSalesBySeller request);
+    Task<PagedResponse<List<Models.Tradings.Sales.BestSeller>?>> GetByBestSellerAsync(GetSalesByBestSeller request);
+    
+    Task<PagedResponse<List<Models.Tradings.Sales.MostSoldProduct>?>> GetMostSoldProductAsync(GetMostSoldProduct request);
+    Task<Response<Models.Tradings.Sales.Sale?>> GetSalesBySellerAsync(GetSalesBySeller request);
     
     Task<Response<double?>> GetTotalAmountSalesRequestAsync(GetTotalSalesAmountRequest request);
     

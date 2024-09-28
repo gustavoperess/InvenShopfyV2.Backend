@@ -27,7 +27,7 @@ public class GetSalesBySellerEndpoint : IEndPoint
             BillerId = billerId
         };
 
-        var result = await handler.GetSalesBySeller(request);
+        var result = await handler.GetSalesBySellerAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);
