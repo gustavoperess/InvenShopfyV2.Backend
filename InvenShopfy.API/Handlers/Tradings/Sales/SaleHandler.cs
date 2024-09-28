@@ -2,14 +2,13 @@ using System.Text.Json;
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Enum;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
+using InvenShopfy.Core.Models.People;
 using InvenShopfy.Core.Models.Tradings.Sales;
 using InvenShopfy.Core.Requests.Tradings.Sales;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
 
 namespace InvenShopfy.API.Handlers.Tradings.Sales;
-// NEXT REDUCE THE PRODUCT STOCK FROM THE PRODUCTS AFTER SOLD
-// ADD IMAGE TO THE PRODUCTS 
 public class SaleHandler(AppDbContext context) : ISalesHandler 
 {
     public async Task<Response<Sale?>> CreateAsync(CreateSalesRequest request)
@@ -180,6 +179,56 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
             return new PagedResponse<List<Core.Models.Tradings.Sales.Sale>?>(null, 500, "It was not possible to consult all sale");
         }
     }
+    
+    public async Task<PagedResponse<List<Core.Models.Tradings.Sales.BestSeller>?>> GetByBestSeller(GetSalesByBestSeller request)
+    {
+        try
+        {
+            DateTime now = DateTime.Now;
+            var firstDayOfMonth = new DateTime(now.Year, now.Month, 1);
+            var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
+
+            var query = context
+                .Sales
+                .AsNoTracking()
+                .Include(x => x.Biller)
+                .Where(x => x.UserId == request.UserId)
+                .Where(x => x.SaleDate > firstDayOfMonth && x.SaleDate < lastDayOfMonth)
+                .GroupBy(x => new { x.BillerId, x.Biller.Name })
+                .Select(g => new
+                {
+                    BillerId = g.Key.BillerId,
+                    BillerName = g.Key.Name,
+                    TotalQuantitySold = g.Count(),
+                    TotalAmount = g.Sum(x => x.TotalAmount),
+                    
+                }).OrderByDescending(x => x.TotalAmount);
+            var count = await query.CountAsync();
+
+            var sale = await query
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToListAsync();
+
+            var result = sale.Select(s => new Core.Models.Tradings.Sales.BestSeller
+            {
+                BillerId = s.BillerId,
+                Name = s.BillerName,
+                TotalQuantitySold = s.TotalQuantitySold,
+                TotalAmount = s.TotalAmount,
+            }).ToList();
+
+            return new PagedResponse<List<Core.Models.Tradings.Sales.BestSeller>?>(
+                result,
+                count,
+                request.PageNumber,
+                request.PageSize);
+        }
+        catch
+        {
+            return new PagedResponse<List<Core.Models.Tradings.Sales.BestSeller>?>(null, 500, "It was not possible to consult all sale");
+        }
+    }
 
     public async Task<Response<double?>> GetTotalAmountSalesRequestAsync(GetTotalSalesAmountRequest request)
     {
@@ -193,5 +242,25 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
             return new Response<double?>(null, 500, "It was not possible to consult the total sale");
         }
         
+    }
+    
+    public async Task<Response<Core.Models.Tradings.Sales.Sale?>> GetSalesBySeller(GetSalesBySeller request)
+    {
+        try
+        {
+            var sale = await context.Sales.FirstOrDefaultAsync(x => x.BillerId == request.BillerId && x.UserId == request.UserId);
+
+            if (sale is null)
+            {
+                return new Response<Core.Models.Tradings.Sales.Sale?>(null, 404, "sale not found");
+            }
+
+            return new Response<Core.Models.Tradings.Sales.Sale?>(sale);
+
+        }
+        catch
+        {
+            return new Response<Core.Models.Tradings.Sales.Sale?>(null, 500, "It was not possible to find this sale");
+        }
     }
 }
