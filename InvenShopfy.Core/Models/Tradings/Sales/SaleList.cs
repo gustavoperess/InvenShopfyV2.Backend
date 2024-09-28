@@ -5,17 +5,15 @@ namespace InvenShopfy.Core.Models.Tradings.Sales;
 public class SaleList
 {
     public long Id { get; set; }
-    public string Customer { get; set; } = String.Empty;
-    public Customer CustomerId { get; set; } = null!;
+    public DateTime SaleDate { get; set; }
+    public string CustomerName { get; set; }  = string.Empty;
+    public string WarehouseName { get; set; }  = string.Empty;
+    public string BillerName { get; set; }  = string.Empty;
+    public string PaymentStatus { get; set; } = string.Empty;
+    public string SaleStatus { get; set; } = string.Empty;
+    public int TotalQuantitySold { get; set; }
+    public double TotalAmount { get; set; }
+    public string ReferenceNumber { get;  set; }  = string.Empty;
+    public int Discount { get; set; }
     
-    public string Warehouse { get; set; } = String.Empty;
-    public Warehouse.Warehouse WarehouseId { get; set; } = null!;
-    
-    public string Biller { get; set; } = String.Empty;
-    public Biller BillerId { get; set; } = null!;
-    
-    public string Sales { get; set; } = String.Empty;
-    public Sale SaleId { get; set; } = null!;
-    
-    public string UserId { get; set; } = string.Empty;
 }

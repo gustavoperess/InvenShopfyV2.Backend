@@ -18,7 +18,7 @@ public class GetAllSalesEndpoint : IEndPoint
             .WithSummary("Get All sales")
             .WithDescription("Get all sales")
             .WithOrder(5)
-            .Produces<PagedResponse<List<Core.Models.Tradings.Sales.Sale>?>>();
+            .Produces<PagedResponse<List<Core.Models.Tradings.Sales.SaleList>?>>();
 
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,

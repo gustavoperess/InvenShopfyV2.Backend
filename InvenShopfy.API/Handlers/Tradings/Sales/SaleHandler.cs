@@ -145,7 +145,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
         }
     }
 
-    public async Task<PagedResponse<List<Core.Models.Tradings.Sales.Sale>?>> GetByPeriodAsync(GetAllSalesRequest request)
+    public async Task<PagedResponse<List<Core.Models.Tradings.Sales.SaleList>?>> GetByPeriodAsync(GetAllSalesRequest request)
     {
         try
         {
@@ -156,6 +156,21 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 .Include(s => s.Warehouse)
                 .Include(s => s.Biller)
                 .Where(x => x.UserId == request.UserId)
+                .Select(g => new
+                {
+                    Id = g.Id,
+                    SaleDate = g.SaleDate,
+                    ReferenceNumber = g.ReferenceNumber,
+                    CustomerName = g.Customer.Name,
+                    WarehouseName = g.Warehouse.WarehouseName,
+                    PaymentStatus = g.PaymentStatus,
+                    SaleStatus = g.SaleStatus,
+                    BillerName = g.Biller.Name,
+                    TotalQuantitySold = g.TotalQuantitySold,
+                    Discount = g.Discount,
+                    TotalAmount = g.TotalAmount
+                    
+                })
                 .OrderBy(x => x.SaleDate);
 
             var sale = await query
@@ -164,16 +179,32 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 .ToListAsync();
 
             var count = await query.CountAsync();
+            
+            var result = sale.Select(s => new Core.Models.Tradings.Sales.SaleList
+            {
+                Id = s.Id,
+                SaleDate = s.SaleDate,
+                ReferenceNumber = s.ReferenceNumber,
+                CustomerName = s.CustomerName,
+                WarehouseName = s.WarehouseName,
+                PaymentStatus = s.PaymentStatus,
+                SaleStatus = s.SaleStatus,
+                BillerName = s.BillerName,
+                TotalQuantitySold = s.TotalQuantitySold,
+                Discount = s.Discount,
+                TotalAmount = s.TotalAmount
+                
+            }).ToList();
 
-            return new PagedResponse<List<Core.Models.Tradings.Sales.Sale>?>(
-                sale,
+            return new PagedResponse<List<Core.Models.Tradings.Sales.SaleList>?>(
+                result,
                 count,
                 request.PageNumber,
                 request.PageSize);
         }
         catch
         {
-            return new PagedResponse<List<Core.Models.Tradings.Sales.Sale>?>(null, 500, "It was not possible to consult all sale");
+            return new PagedResponse<List<Core.Models.Tradings.Sales.SaleList>?>(null, 500, "It was not possible to consult all sale");
         }
     }
     

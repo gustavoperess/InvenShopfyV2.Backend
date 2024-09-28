@@ -9,7 +9,7 @@ public interface ISalesHandler
     Task<Response<Models.Tradings.Sales.Sale?>> UpdateAsync(UpdateSalesRequest request);
     Task<Response<Models.Tradings.Sales.Sale?>> DeleteAsync(DeleteSalesRequest request);
     Task<Response<Models.Tradings.Sales.Sale?>> GetByIdAsync(GetSalesByIdRequest request);
-    Task<PagedResponse<List<Models.Tradings.Sales.Sale>?>> GetByPeriodAsync(GetAllSalesRequest request);
+    Task<PagedResponse<List<Models.Tradings.Sales.SaleList>?>> GetByPeriodAsync(GetAllSalesRequest request);
     
     Task<PagedResponse<List<Models.Tradings.Sales.BestSeller>?>> GetByBestSellerAsync(GetSalesByBestSeller request);
     
