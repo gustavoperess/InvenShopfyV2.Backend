@@ -1,5 +1,6 @@
 using InvenShopfy.API.Common.CloudinaryServiceNamespace;
 using InvenShopfy.API.Data;
+using Serilog;
 using InvenShopfy.API.Handlers.Expenses;
 using InvenShopfy.API.Handlers.People;
 using InvenShopfy.API.Handlers.Products;
@@ -15,8 +16,8 @@ using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Handlers.Tradings.Purchase;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
 using InvenShopfy.Core.Handlers.Warehouse;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Serilog.Filters.Expressions;
 
 
 namespace InvenShopfy.API.Common.Api;
@@ -85,6 +86,28 @@ public static class BuilderExtension
                 ]).AllowAnyHeader().AllowAnyMethod().AllowCredentials()
         ));
     }
+
+    public static void AddSerilog(this WebApplicationBuilder builder)
+    {
+        Log.Logger = new LoggerConfiguration()
+            .Enrich.FromLogContext()  
+            .WriteTo.Console()
+            .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
+            .Filter.ByIncludingOnly(logEvent =>
+            {
+                if (logEvent.Properties.ContainsKey("StatusCode") &&
+                    logEvent.Properties["StatusCode"] is Serilog.Events.ScalarValue scalarValue &&
+                    scalarValue.Value is int statusCode)
+                {
+                    return statusCode >= 400;
+                }
+                return false; 
+            })
+            .CreateLogger();
+
+        builder.Host.UseSerilog();
+    }
+
 
     public static void AddServices(this WebApplicationBuilder builder)
     {
