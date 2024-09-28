@@ -16,7 +16,7 @@ public class GetAllProductsEndpoint : IEndPoint
             .WithSummary("Get All products")
             .WithDescription("Get all products")
             .WithOrder(5)
-            .Produces<PagedResponse<List<Core.Models.Product.Product>?>>();
+            .Produces<PagedResponse<List<Core.Models.Product.ProductList>?>>();
 
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,

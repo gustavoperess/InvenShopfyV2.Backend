@@ -125,7 +125,7 @@ public class ProductHandler : IProductHandler
             return new Response<Product?>(null, 500, "It was not possible to find this Product");
         }
     }
-    public async Task<PagedResponse<List<Product>?>> GetByPeriodAsync(GetAllProductsRequest request)
+    public async Task<PagedResponse<List<ProductList>?>> GetByPeriodAsync(GetAllProductsRequest request)
     {
         try
         {
@@ -136,7 +136,21 @@ public class ProductHandler : IProductHandler
                 .Include(p => p.Brand)
                 .Include(p => p.Unit)
                 .Where(x => x.UserId == request.UserId)
-                .OrderBy(x => x.Featured);
+                .Select(g => new
+                {
+                    Id = g.Id,
+                    Title = g.Title,
+                    Price = g.Price,
+                    StockQuantity = g.StockQuantity,
+                    ProductImage = g.ProductImage,
+                    ProductCode = g.ProductCode,
+                    UnitName = g.Unit.Title,
+                    BrandName = g.Brand.Title,
+                    CategoryName = g.Category.MainCategory,
+                    SubCategories = g.Category.SubCategory,
+                    
+                })
+                .OrderBy(x => x.StockQuantity);
             
             var products = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)
@@ -145,15 +159,30 @@ public class ProductHandler : IProductHandler
             
             var count = await query.CountAsync();
             
-            return new PagedResponse<List<Product>?>(
-                products,
+            var result = products.Select(s => new Core.Models.Product.ProductList
+            {
+                Id = s.Id,
+                Title = s.Title,
+                Price = s.Price,
+                ProductImage = s.ProductImage,
+                StockQuantity = s.StockQuantity,
+                UnitName = s.UnitName,
+                BrandName = s.BrandName,
+                ProductCode = s.ProductCode,
+                CategoryName = s.CategoryName,
+                SubCategories = s.SubCategories,
+               
+            }).ToList();
+            
+            return new PagedResponse<List<ProductList>?>(
+                result,
                 count,
                 request.PageNumber,
                 request.PageSize);
         }
         catch 
         {
-            return new PagedResponse<List<Product>?>(null, 500, "It was not possible to consult all Products");
+            return new PagedResponse<List<ProductList>?>(null, 500, "It was not possible to consult all Products");
         }
     }
 
