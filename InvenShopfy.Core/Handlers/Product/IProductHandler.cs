@@ -9,7 +9,7 @@ public interface IProductHandler
     Task<Response<Models.Product.Product?>> UpdateAsync(UpdateProductRequest request);
     Task<Response<Models.Product.Product?>> DeleteAsync(DeleteProductRequest request);
     Task<Response<Models.Product.Product?>> GetByIdAsync(GetProductByIdRequest request);
-    Task<PagedResponse<List<Models.Product.Product>?>> GetByPartialNameAsync(GetProductByNameRequest request);
+    Task<PagedResponse<List<Models.Product.ProductByName>?>> GetByPartialNameAsync(GetProductByNameRequest request);
     Task<PagedResponse<List<Models.Product.ProductList>?>> GetByPeriodAsync(GetAllProductsRequest request);
     
     

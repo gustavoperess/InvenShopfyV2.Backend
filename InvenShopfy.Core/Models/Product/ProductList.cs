@@ -13,7 +13,7 @@ public class ProductList
     
     public string BrandName { get; set; } = string.Empty;
     public string CategoryName { get; set; } = string.Empty;
-    
-    public List<string> SubCategories { get; set; } = new List<string>();
-    
+
+    public string SubCategories { get; set; } = string.Empty;
+
 }

@@ -145,7 +145,7 @@ public class ProductHandler : IProductHandler
                     UnitName = g.Unit.Title,
                     BrandName = g.Brand.Title,
                     CategoryName = g.Category.MainCategory,
-                    SubCategories = g.Category.SubCategory,
+                    SubCategories = g.Subcategory,
                     
                 })
                 .OrderBy(x => x.StockQuantity);
@@ -184,24 +184,40 @@ public class ProductHandler : IProductHandler
         }
     }
 
-    public async Task<PagedResponse<List<Product>?>> GetByPartialNameAsync(GetProductByNameRequest request)
+    public async Task<PagedResponse<List<ProductByName>?>> GetByPartialNameAsync(GetProductByNameRequest request)
     {
         try
         {
             var products = await _context.Products
+                .AsNoTracking()
+                .Include(p => p.Category)
                 .Where(x => EF.Functions.ILike(x.Title, $"%{request.Title}%") && x.UserId == request.UserId)
+                .Select(g => new ProductByName
+                {
+                    Id = g.Id,
+                    Title = g.Title,
+                    Price = g.Price,
+                    StockQuantity = g.StockQuantity,
+                    ProductImage = g.ProductImage,
+                    ProductCode = g.ProductCode,
+                    Category = g.Category.MainCategory,
+                    Subcategory = g.Subcategory,
+                    UserId = g.UserId
+                    
+                }).OrderBy(x => x.StockQuantity)
                 .ToListAsync();
             
             if (products == null || products.Count == 0)
             {
-                return new PagedResponse<List<Product>?>(null, 404, "Product not found");
+                return new PagedResponse<List<ProductByName>?>(null, 404, "Product not found");
             }
-            return new PagedResponse<List<Product>?>(products);
+            
+            return new PagedResponse<List<ProductByName>?>(products);
     
         }
         catch
         {
-            return new PagedResponse<List<Product>?>(null, 500, "It was not possible to consult all Products");
+            return new PagedResponse<List<ProductByName>?>(null, 500, "It was not possible to consult all Products");
         }
     }
 }

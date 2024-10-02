@@ -16,7 +16,7 @@ public class GetProductByNameEndpoint : IEndPoint
             .WithSummary("Get a product by its name")
             .WithDescription("Get a product by its name")
             .WithOrder(6)
-            .Produces<PagedResponse<Core.Models.Product.Product?>>();
+            .Produces<PagedResponse<Core.Models.Product.ProductByName?>>();
 
     private static async Task<IResult> HandlerAsync(
         string title,
