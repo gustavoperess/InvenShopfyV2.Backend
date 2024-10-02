@@ -275,30 +275,27 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 .GroupBy(x => new { x.ProductId, x.Product.Title, x.Product.ProductCode  })
                 .Select(g => new
                 {
+                    Id = g.Key.ProductId,
                     ProductCode = g.Key.ProductCode,
                     ProductName = g.Key.Title,
                     TotalQuantitySoldPerProduct = g.Count(),
-                    TotalPricePerProduct = g.Sum(x => x.TotalPricePerProduct),
                     
-                }).OrderByDescending(x => x.TotalQuantitySoldPerProduct);
-            var count = await query.CountAsync();
+                }).OrderByDescending(x => x.TotalQuantitySoldPerProduct).Take(5);
 
-            var sale = await query
-                .Skip((request.PageNumber - 1) * request.PageSize)
-                .Take(request.PageSize)
-                .ToListAsync();
+            var sale = await query.ToListAsync();
 
             var result = sale.Select(s => new Core.Models.Tradings.Sales.MostSoldProduct
             {
+                Id = s.Id,
                 ProductCode = s.ProductCode,
                 ProductName = s.ProductName,
                 TotalQuantitySoldPerProduct = s.TotalQuantitySoldPerProduct,
-                TotalPricePerProduct = s.TotalPricePerProduct,
+                
             }).ToList();
 
             return new PagedResponse<List<Core.Models.Tradings.Sales.MostSoldProduct>?>(
                 result,
-                count,
+                result.Count,
                 request.PageNumber,
                 request.PageSize);
         }
