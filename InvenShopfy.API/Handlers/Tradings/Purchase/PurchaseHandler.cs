@@ -15,6 +15,8 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
 {
     public async Task<Response<AddPurchase?>> CreateAsync(CreatePurchaseRequest request)
     {
+        
+        await using var transaction = await context.Database.BeginTransactionAsync(); // this ensure that all operations are successed. if one fail the whole thing fails
         try
         {
             var purchase = new AddPurchase
@@ -27,14 +29,35 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
                 ShippingCost = request.ShippingCost,
                 PurchaseNote = request.PurchaseNote,
             };
+
+            foreach (var item in request.ProductIdPlusQuantity)
+            {
+                var product = await context.Products.FirstOrDefaultAsync(p => p.Id == item.Key);
+                if (product == null)
+                {
+                    return new Response<AddPurchase?>(null, 400, $"Product with Id {item.Key} not found");
+                }
+
+                var pricePerProduct = product.Price * item.Value;
+                product.StockQuantity += item.Value;
+                var purchaseProduct = purchase.CreatePurchaseProduct(product.Id, pricePerProduct, item.Value);
+                purchase.PurchaseProduct.Add(purchaseProduct);
+                context.Products.Update(product);
+
+            }
+
+            purchase.TotalQuantityBought = purchase.PurchaseProduct.Sum(x => x.TotalQuantityBoughtPerProduct);
+            
             await context.Purchases.AddAsync(purchase);
             await context.SaveChangesAsync();
-
+            
+            await transaction.CommitAsync();
             return new Response<AddPurchase?>(purchase, 201, "Purchase created successfully");
 
         }
         catch
         {
+            await transaction.RollbackAsync(); // rollback if the transaction fails 
             return new Response<AddPurchase?>(null, 500, "It was not possible to create a new purchase");
         }
     }

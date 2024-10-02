@@ -15,6 +15,7 @@ public class CreatePurchaseRequest : Request
     [Required(ErrorMessage = "Invalid SupplierId Id")]
     public long ProductId { get; set; } // the product ID.
     
+    public Dictionary<long, int> ProductIdPlusQuantity { get; set; } = new Dictionary<long, int>();
     
     [Required(ErrorMessage = "Please inform the Purchase Status")]
     public int Quantity { get; set; }
