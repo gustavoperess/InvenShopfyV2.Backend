@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.Tradings.Purchase;
-using InvenShopfy.Core.Requests.Tradings.Purchase.Add;
+using InvenShopfy.Core.Requests.Tradings.Purchase.AddPurchase;
 using InvenShopfy.Core.Responses;
 
 namespace InvenShopfy.API.EndPoints.Tradings.Purchase.Add;

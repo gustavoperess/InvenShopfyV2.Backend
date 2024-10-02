@@ -5,7 +5,7 @@ using InvenShopfy.Core.Handlers.Tradings.Purchase;
 using InvenShopfy.Core.Models.Product;
 using InvenShopfy.Core.Models.Tradings.Purchase;
 using InvenShopfy.Core.Requests.Products.Brand;
-using InvenShopfy.Core.Requests.Tradings.Purchase.Add;
+using InvenShopfy.Core.Requests.Tradings.Purchase.AddPurchase;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
 
@@ -118,7 +118,7 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
                 .Purchases
                 .AsNoTracking()
                 .Where(x => x.UserId == request.UserId)
-                .OrderBy(x => x.Date);
+                .OrderBy(x => x.EntryDate);
 
             var purchase = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)

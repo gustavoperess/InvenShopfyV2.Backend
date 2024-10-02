@@ -43,6 +43,8 @@ namespace InvenShopfy.API.Data;
         
         public DbSet<SaleProduct> SaleProducts { get; set; } = null!;
 
+        public DbSet<PurchaseProduct> PurchaseProducts { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

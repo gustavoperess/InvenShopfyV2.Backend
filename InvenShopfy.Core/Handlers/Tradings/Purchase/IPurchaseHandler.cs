@@ -1,4 +1,4 @@
-using InvenShopfy.Core.Requests.Tradings.Purchase.Add;
+using InvenShopfy.Core.Requests.Tradings.Purchase.AddPurchase;
 using InvenShopfy.Core.Responses;
 
 namespace InvenShopfy.Core.Handlers.Tradings.Purchase;

@@ -1,4 +1,4 @@
-namespace InvenShopfy.Core.Requests.Tradings.Purchase.Add;
+namespace InvenShopfy.Core.Requests.Tradings.Purchase.AddPurchase;
 
 public class DeletePurchaseRequest : Request
 {

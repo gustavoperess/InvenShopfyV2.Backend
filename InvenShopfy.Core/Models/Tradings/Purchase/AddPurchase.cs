@@ -8,7 +8,7 @@ public class AddPurchase
     public long Id { get; set; }
     
     private static readonly Random RandomNumber = new Random();
-    public DateTime Date { get; set; } = DateTime.UtcNow;
+    public DateTime EntryDate { get; set; } = DateTime.UtcNow;
     
     public long WarehouseId { get; set; } 
     public Warehouse.Warehouse Warehouse { get; set; } = null!;
@@ -48,6 +48,7 @@ public class AddPurchase
         var purchaseProduct = new PurchaseProduct
         {
             ProductId = productId,
+            AddPurchase = this,
             TotalPricePaidPerProduct = totalPricePerProduct,
             TotalQuantityBoughtPerProduct = totalQuantitySoldPerProduct,
             PurchaseReferenceNumber = ReferenceNumber 

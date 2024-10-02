@@ -24,9 +24,6 @@ public class CreateProductRequest : Request
     [Required(ErrorMessage = "Invalid Image")] // NEED TO COME BACK AS I WILL BE ADDING THIS TO CLOUDNIARY
     public string ProductImage { get; set; } = null!;
     
-    [Required(ErrorMessage = "Invalid Stock Quantity")]
-    public int StockQuantity { get; set; }
-    
     [Required(ErrorMessage = "Invalid SubCategory")]
     public string Subcategory { get; set; } = string.Empty;
     
