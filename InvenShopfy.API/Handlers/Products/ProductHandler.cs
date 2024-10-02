@@ -207,9 +207,9 @@ public class ProductHandler : IProductHandler
                 }).OrderBy(x => x.StockQuantity)
                 .ToListAsync();
             
-            if (products == null || products.Count == 0)
+            if (products.Count == 0)
             {
-                return new PagedResponse<List<ProductByName>?>(null, 404, "Product not found");
+                return new PagedResponse<List<ProductByName>?>(new List<ProductByName>(), 200, "No products found");
             }
             
             return new PagedResponse<List<ProductByName>?>(products);

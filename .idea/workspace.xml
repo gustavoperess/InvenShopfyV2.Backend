@@ -6,12 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a198bd72-77c5-41a2-b2bc-caddea3eb970" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Handlers/Products/ProductHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/Handlers/Products/ProductHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Models/Product/ProductList.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Models/Product/ProductList.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfoInputs.cache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
