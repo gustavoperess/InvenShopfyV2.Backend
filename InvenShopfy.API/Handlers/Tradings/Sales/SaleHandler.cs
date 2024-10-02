@@ -68,7 +68,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
     }
 
 
-    public async Task<Response<Core.Models.Tradings.Sales.Sale?>> UpdateAsync(UpdateSalesRequest request)
+    public async Task<Response<Sale?>> UpdateAsync(UpdateSalesRequest request)
     {
         try
         {
@@ -78,7 +78,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
 
             if (sale is null)
             {
-                return new Response<Core.Models.Tradings.Sales.Sale?>(null, 404, "sale not found");
+                return new Response<Sale?>(null, 404, "sale not found");
             }
             
 

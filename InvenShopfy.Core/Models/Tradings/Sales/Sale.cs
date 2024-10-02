@@ -6,7 +6,7 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
     public class Sale
     {
         public long Id { get; set; }
-        private static readonly Random random = new Random();
+        private static readonly Random RandomNumber = new Random();
         public DateTime SaleDate { get; set; } 
         
         public long CustomerId { get; set; }
@@ -41,8 +41,8 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
         
         private static string GenerateRandomNumber()
         {
-            char letter = (char)random.Next('A', 'Z' + 1); 
-            int randNum = random.Next(1000000); 
+            char letter = (char)RandomNumber.Next('A', 'Z' + 1); 
+            int randNum = RandomNumber.Next(1000000); 
             return letter + "-" + randNum.ToString("D6"); 
         }
         

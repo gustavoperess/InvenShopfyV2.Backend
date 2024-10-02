@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace InvenShopfy.API.Data.Mapping.Tradings.Purchase;
 
-public class AddMapping : IEntityTypeConfiguration<AddPurchase>
+public class AddPurchaseMapping : IEntityTypeConfiguration<AddPurchase>
 {
     public void Configure(EntityTypeBuilder<AddPurchase> builder)
     {
