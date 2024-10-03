@@ -34,8 +34,8 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
                 }
                 
                 var pricePerProduct = product.Price * item.Value;
-                product.StockQuantity += item.Value;
                 var purchaseProduct = purchase.CreatePurchaseProduct(product.Id, pricePerProduct, item.Value);
+                product.StockQuantity += item.Value;
                 purchase.PurchaseProducts.Add(purchaseProduct);
                 context.Products.Update(product);
 
@@ -45,6 +45,8 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
             
             await context.Purchases.AddAsync(purchase);
             await context.SaveChangesAsync();
+            Console.WriteLine(purchase.Id);
+            Console.WriteLine("PURCHASE ID HERE TO TEST");
             
             await transaction.CommitAsync();
             return new Response<AddPurchase?>(purchase, 201, "Purchase created successfully");

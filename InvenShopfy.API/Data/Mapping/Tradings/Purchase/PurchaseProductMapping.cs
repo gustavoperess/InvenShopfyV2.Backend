@@ -9,13 +9,13 @@ public class PurchaseProductMapping : IEntityTypeConfiguration<PurchaseProduct>
     public void Configure(EntityTypeBuilder<PurchaseProduct> builder)
     {
         builder.ToTable("PurchaseProduct");
-        builder.HasKey(sp => new { sp.PurchaseId, sp.ProductId });
+        builder.HasKey(bp => new { bp.AddPurchaseId, bp.ProductId });
 
-        builder.Property(sp => sp.TotalQuantityBoughtPerProduct)
+        builder.Property(bp => bp.TotalQuantityBoughtPerProduct)
             .IsRequired(true)
             .HasColumnType("INTEGER");
 
-        builder.Property(sp => sp.TotalPricePaidPerProduct)
+        builder.Property(bp => bp.TotalPricePaidPerProduct)
             .IsRequired(true)
             .HasColumnType("NUMERIC(18,2)");
     }

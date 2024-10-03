@@ -4,7 +4,7 @@ namespace InvenShopfy.Core.Models.Tradings.Purchase;
 
 public class PurchaseProduct
 {
-    public long PurchaseId { get; set; }
+    public long AddPurchaseId { get; set; }
 
     [JsonIgnore]
     public AddPurchase AddPurchase { get; set; } = null!;
