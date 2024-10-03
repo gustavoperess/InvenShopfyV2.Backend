@@ -18,4 +18,10 @@
     <Folder Include="Requests\Tradings\SalesReturn\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="bin\Debug\net8.0\InvenShopfy.Core.deps.json" />
+    <Content Include="bin\Debug\net8.0\InvenShopfy.Core.dll" />
+    <Content Include="bin\Debug\net8.0\InvenShopfy.Core.pdb" />
+  </ItemGroup>
+
 </Project>

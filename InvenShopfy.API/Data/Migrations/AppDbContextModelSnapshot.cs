@@ -526,9 +526,6 @@ namespace InvenShopfy.API.Migrations
                     b.Property<DateTime>("EntryDate")
                         .HasColumnType("TIMESTAMP");
 
-                    b.Property<long>("ProductId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("PurchaseNote")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -562,8 +559,6 @@ namespace InvenShopfy.API.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.HasIndex("SupplierId");
 
@@ -1030,12 +1025,6 @@ namespace InvenShopfy.API.Migrations
 
             modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Purchase.AddPurchase", b =>
                 {
-                    b.HasOne("InvenShopfy.Core.Models.Product.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("InvenShopfy.Core.Models.People.Supplier", "Supplier")
                         .WithMany()
                         .HasForeignKey("SupplierId")
@@ -1048,8 +1037,6 @@ namespace InvenShopfy.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Product");
-
                     b.Navigation("Supplier");
 
                     b.Navigation("Warehouse");
@@ -1058,7 +1045,7 @@ namespace InvenShopfy.API.Migrations
             modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Purchase.PurchaseProduct", b =>
                 {
                     b.HasOne("InvenShopfy.Core.Models.Tradings.Purchase.AddPurchase", "AddPurchase")
-                        .WithMany("PurchaseProduct")
+                        .WithMany("PurchaseProducts")
                         .HasForeignKey("AddPurchaseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1181,7 +1168,7 @@ namespace InvenShopfy.API.Migrations
 
             modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Purchase.AddPurchase", b =>
                 {
-                    b.Navigation("PurchaseProduct");
+                    b.Navigation("PurchaseProducts");
                 });
 
             modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Sales.Sale", b =>

@@ -35,13 +35,20 @@
 
   <ItemGroup>
     <Folder Include="EndPoints\Products\" />
-    <Folder Include="logs\" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Common\Api\ErrorHandlingMiddleware.cs" />
     <Compile Remove="EndPoints\Identity\CreateRoleWithIdentityEndPoint.cs" />
     <Compile Remove="Models\ProductDto.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="logs\log-20241003.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="logs\log-20241003.txt" />
   </ItemGroup>
   
 

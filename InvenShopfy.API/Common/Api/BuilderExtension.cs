@@ -88,27 +88,51 @@ public static class BuilderExtension
     }
 
     public static void AddSerilog(this WebApplicationBuilder builder)
-    {
-        Log.Logger = new LoggerConfiguration()
-            .Enrich.FromLogContext()  
-            .WriteTo.Console()
-            .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
+{
+    var loggerConfiguration = new LoggerConfiguration()
+        .Enrich.FromLogContext();
+    loggerConfiguration.WriteTo.File(
+        "logs/log-.txt", 
+        rollingInterval: RollingInterval.Day, 
+        outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} StatusCode: {StatusCode} Message: {Message} {NewLine}{Exception}"
+    );
+    Log.Logger = loggerConfiguration.CreateLogger();
+    
+    var consoleLogger = new LoggerConfiguration()
+        .Enrich.FromLogContext()
+        .WriteTo.Console(
+            outputTemplate: "[{Timestamp:HH:mm:ss} StatusCode: {StatusCode} {Message}{NewLine}"
+        )
+        .Filter.ByIncludingOnly(logEvent =>
+        {
+            return logEvent.Properties.ContainsKey("StatusCode") &&
+                   logEvent.Properties["StatusCode"] is Serilog.Events.ScalarValue scalarValue &&
+                   scalarValue.Value is int statusCode &&
+                   statusCode >= 400;
+        })
+        .CreateLogger();
+
+    
+    Log.Logger = new LoggerConfiguration()
+        .Enrich.FromLogContext()
+        .WriteTo.Logger(lc => lc
+            .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day, 
+                outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} StatusCode: {StatusCode} Message: {Message} {NewLine}{Exception}"))
+        .WriteTo.Logger(lc => lc
             .Filter.ByIncludingOnly(logEvent =>
             {
-                if (logEvent.Properties.ContainsKey("StatusCode") &&
-                    logEvent.Properties["StatusCode"] is Serilog.Events.ScalarValue scalarValue &&
-                    scalarValue.Value is int statusCode)
-                {
-                    return statusCode >= 400;
-                }
-                return false; 
+                return logEvent.Properties.ContainsKey("StatusCode") &&
+                       logEvent.Properties["StatusCode"] is Serilog.Events.ScalarValue scalarValue &&
+                       scalarValue.Value is int statusCode &&
+                       statusCode >= 400;
             })
-            .CreateLogger();
+            .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} StatusCode: {StatusCode} {Message}{NewLine}"))
+        .CreateLogger();
 
-        builder.Host.UseSerilog();
-    }
+    builder.Host.UseSerilog();
+}
 
-
+    
     public static void AddServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddTransient<IProductHandler, ProductHandler>();

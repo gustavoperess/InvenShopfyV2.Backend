@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240927155013_UpdateSaleStatusColumns")]
-    partial class UpdateSaleStatusColumns
+    [Migration("20241003160417_minorchangeAgain")]
+    partial class minorchangeAgain
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -116,8 +116,9 @@ namespace InvenShopfy.API.Migrations
                     b.Property<long>("ExpenseCategoryId")
                         .HasColumnType("bigint");
 
-                    b.Property<short>("ExpenseType")
-                        .HasColumnType("SMALLINT");
+                    b.Property<string>("ExpenseType")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)");
 
                     b.Property<string>("PurchaseNote")
                         .IsRequired()
@@ -260,8 +261,9 @@ namespace InvenShopfy.API.Migrations
                         .HasMaxLength(80)
                         .HasColumnType("VARCHAR");
 
-                    b.Property<short>("CustomerGroup")
-                        .HasColumnType("SMALLINT");
+                    b.Property<string>("CustomerGroup")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -524,19 +526,21 @@ namespace InvenShopfy.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("TIMESTAMPTZ");
-
-                    b.Property<long>("ProductId")
-                        .HasColumnType("bigint");
+                    b.Property<DateTime>("EntryDate")
+                        .HasColumnType("TIMESTAMP");
 
                     b.Property<string>("PurchaseNote")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
-                    b.Property<short>("PurchaseStatus")
-                        .HasColumnType("SMALLINT");
+                    b.Property<string>("PurchaseStatus")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)");
+
+                    b.Property<string>("ReferenceNumber")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR");
 
                     b.Property<decimal>("ShippingCost")
                         .HasMaxLength(80)
@@ -544,6 +548,10 @@ namespace InvenShopfy.API.Migrations
 
                     b.Property<long>("SupplierId")
                         .HasColumnType("bigint");
+
+                    b.Property<decimal>("TotalQuantityBought")
+                        .HasMaxLength(80)
+                        .HasColumnType("NUMERIC(18,2)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -555,13 +563,41 @@ namespace InvenShopfy.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
-
                     b.HasIndex("SupplierId");
 
                     b.HasIndex("WarehouseId");
 
                     b.ToTable("Purchase", (string)null);
+                });
+
+            modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Purchase.PurchaseProduct", b =>
+                {
+                    b.Property<long>("PurchaseId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("AddPurchaseId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("PurchaseReferenceNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double>("TotalPricePaidPerProduct")
+                        .HasColumnType("NUMERIC(18,2)");
+
+                    b.Property<int>("TotalQuantityBoughtPerProduct")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("PurchaseId", "ProductId");
+
+                    b.HasIndex("AddPurchaseId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("PurchaseProduct", (string)null);
                 });
 
             modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Sales.Sale", b =>
@@ -707,8 +743,9 @@ namespace InvenShopfy.API.Migrations
                         .HasMaxLength(160)
                         .HasColumnType("VARCHAR");
 
-                    b.Property<short>("Gender")
-                        .HasColumnType("SMALLINT");
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -991,12 +1028,6 @@ namespace InvenShopfy.API.Migrations
 
             modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Purchase.AddPurchase", b =>
                 {
-                    b.HasOne("InvenShopfy.Core.Models.Product.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("InvenShopfy.Core.Models.People.Supplier", "Supplier")
                         .WithMany()
                         .HasForeignKey("SupplierId")
@@ -1009,11 +1040,28 @@ namespace InvenShopfy.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Product");
-
                     b.Navigation("Supplier");
 
                     b.Navigation("Warehouse");
+                });
+
+            modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Purchase.PurchaseProduct", b =>
+                {
+                    b.HasOne("InvenShopfy.Core.Models.Tradings.Purchase.AddPurchase", "AddPurchase")
+                        .WithMany("PurchaseProducts")
+                        .HasForeignKey("AddPurchaseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InvenShopfy.Core.Models.Product.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AddPurchase");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Sales.Sale", b =>
@@ -1119,6 +1167,11 @@ namespace InvenShopfy.API.Migrations
             modelBuilder.Entity("InvenShopfy.API.Models.User", b =>
                 {
                     b.Navigation("Roles");
+                });
+
+            modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Purchase.AddPurchase", b =>
+                {
+                    b.Navigation("PurchaseProducts");
                 });
 
             modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Sales.Sale", b =>

@@ -5,7 +5,7 @@
 namespace InvenShopfy.API.Migrations
 {
     /// <inheritdoc />
-    public partial class creatingAddPurchaseMigrationTwo : Migration
+    public partial class minorChange : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

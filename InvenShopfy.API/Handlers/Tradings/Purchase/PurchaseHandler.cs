@@ -1,10 +1,6 @@
 using InvenShopfy.API.Data;
-using InvenShopfy.API.EndPoints.Tradings.Purchase.Add;
-using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Handlers.Tradings.Purchase;
-using InvenShopfy.Core.Models.Product;
 using InvenShopfy.Core.Models.Tradings.Purchase;
-using InvenShopfy.Core.Requests.Products.Brand;
 using InvenShopfy.Core.Requests.Tradings.Purchase.AddPurchase;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
@@ -24,12 +20,11 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
                 UserId = request.UserId,
                 WarehouseId = request.WarehouseId,
                 SupplierId = request.SupplierId,
-                ProductId = request.ProductId,
                 PurchaseStatus = request.PurchaseStatus,
                 ShippingCost = request.ShippingCost,
                 PurchaseNote = request.PurchaseNote,
             };
-
+         
             foreach (var item in request.ProductIdPlusQuantity)
             {
                 var product = await context.Products.FirstOrDefaultAsync(p => p.Id == item.Key);
@@ -37,16 +32,16 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
                 {
                     return new Response<AddPurchase?>(null, 400, $"Product with Id {item.Key} not found");
                 }
-
+                
                 var pricePerProduct = product.Price * item.Value;
                 product.StockQuantity += item.Value;
                 var purchaseProduct = purchase.CreatePurchaseProduct(product.Id, pricePerProduct, item.Value);
-                purchase.PurchaseProduct.Add(purchaseProduct);
+                purchase.PurchaseProducts.Add(purchaseProduct);
                 context.Products.Update(product);
 
             }
 
-            purchase.TotalQuantityBought = purchase.PurchaseProduct.Sum(x => x.TotalQuantityBoughtPerProduct);
+            purchase.TotalQuantityBought = purchase.PurchaseProducts.Sum(x => x.TotalQuantityBoughtPerProduct);
             
             await context.Purchases.AddAsync(purchase);
             await context.SaveChangesAsync();
@@ -75,7 +70,6 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
             
             purchase.WarehouseId = request.WarehouseId;
             purchase.SupplierId = request.SupplierId;
-            purchase.ProductId = request.ProductId;
             purchase.PurchaseStatus = request.PurchaseStatus;
             purchase.ShippingCost = request.ShippingCost;
             purchase.PurchaseNote = request.PurchaseNote;

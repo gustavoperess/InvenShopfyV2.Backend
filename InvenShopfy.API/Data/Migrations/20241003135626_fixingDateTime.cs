@@ -5,7 +5,7 @@
 namespace InvenShopfy.API.Migrations
 {
     /// <inheritdoc />
-    public partial class creatingAddPurchaseMigrationThree : Migration
+    public partial class fixingDateTime : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
