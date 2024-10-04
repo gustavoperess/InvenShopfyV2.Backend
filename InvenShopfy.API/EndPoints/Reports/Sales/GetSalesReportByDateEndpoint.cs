@@ -2,7 +2,9 @@ using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Reports;
+using InvenShopfy.Core.Handlers.Reports.Sales;
 using InvenShopfy.Core.Requests.Reports;
+using InvenShopfy.Core.Requests.Reports.Sales;
 using InvenShopfy.Core.Responses;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,7 +29,7 @@ public class GetSalesReportByDateEndpoint : IEndPoint
         [FromQuery]int pageNumber = Configuration.DefaultPageNumber,
         [FromQuery]int pageSize = Configuration.DefaultPageSize)
     {
-        var request = new GetSalesReportRequest
+        var request = new GetSalesReportByDateRequest
         {
             UserId = user.Identity?.Name ?? string.Empty,
             PageNumber = pageNumber,

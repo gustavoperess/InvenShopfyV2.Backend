@@ -15,6 +15,7 @@ using InvenShopfy.Core.Handlers.Expenses;
 using InvenShopfy.Core.Handlers.People;
 using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Handlers.Reports;
+using InvenShopfy.Core.Handlers.Reports.Sales;
 using InvenShopfy.Core.Handlers.Tradings.Purchase;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
 using InvenShopfy.Core.Handlers.Warehouse;

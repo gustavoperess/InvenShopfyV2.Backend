@@ -16,6 +16,7 @@ using InvenShopfy.API.EndPoints.UserManagement.Role;
 using InvenShopfy.API.EndPoints.UserManagement.User;
 using InvenShopfy.API.EndPoints.Warehouses;
 using InvenShopfy.API.Models;
+using InvenShopfy.Core.Requests.Reports.Sales;
 using InvenShopfy.Core.Requests.Tradings.Sales;
 
 
@@ -175,7 +176,8 @@ public static class Endpoint
         salesReportGroup.MapGroup("SalesReport")
             .WithTags("SalesReport")
             .RequireAuthorization()
-            .MapEndpoint<GetSalesReportByDateEndpoint>();
+            .MapEndpoint<GetSalesReportByDateEndpoint>()
+            .MapEndpoint<GetSalesReportByWarehouseNameEndpoint>();
 
         
         // Management Group
