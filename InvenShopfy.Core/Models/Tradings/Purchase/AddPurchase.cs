@@ -10,7 +10,7 @@ public class AddPurchase
     public long Id { get; set; }
     
     private static readonly Random RandomNumber = new Random();
-    public DateTime EntryDate { get; set; }
+    public DateTime PurchaseDate { get; set; }
     
     public long WarehouseId { get; set; }
     public Warehouse.Warehouse Warehouse { get; set; } = null!;

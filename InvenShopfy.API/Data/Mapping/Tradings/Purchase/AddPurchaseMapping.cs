@@ -11,7 +11,7 @@ public class AddPurchaseMapping : IEntityTypeConfiguration<AddPurchase>
         builder.ToTable("Purchase");
         builder.HasKey(x => x.Id);
         
-        builder.Property(x => x.EntryDate)
+        builder.Property(x => x.PurchaseDate)
             .IsRequired(true)
             .HasColumnType("TIMESTAMP");
 

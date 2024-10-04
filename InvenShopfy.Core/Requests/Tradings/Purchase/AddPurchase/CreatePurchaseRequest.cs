@@ -6,19 +6,16 @@ namespace InvenShopfy.Core.Requests.Tradings.Purchase.AddPurchase;
 public class CreatePurchaseRequest : Request
 {
     
+    public DateTime PurchaseDate { get; set; } 
+    
     [Required(ErrorMessage = "Invalid WarehouseId Id")]
     public long WarehouseId { get; set; } // warehouse the product is 
     
     [Required(ErrorMessage = "Invalid SupplierId Id")]
     public long SupplierId { get; set; } // who I bought it from 
     
-    [Required(ErrorMessage = "Invalid SupplierId Id")]
-    public long ProductId { get; set; } // the product ID.
-    
     public Dictionary<long, int> ProductIdPlusQuantity { get; set; } = new Dictionary<long, int>();
     
-    [Required(ErrorMessage = "Please inform the Purchase Status")]
-    public int Quantity { get; set; }
     
     [Required(ErrorMessage = "Please inform the Purchase Status")]
     public string PurchaseStatus { get; set; } = EPurchaseStatus.Complete.ToString();

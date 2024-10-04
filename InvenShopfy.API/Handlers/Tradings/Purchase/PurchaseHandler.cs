@@ -23,8 +23,11 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
                 PurchaseStatus = request.PurchaseStatus,
                 ShippingCost = request.ShippingCost,
                 PurchaseNote = request.PurchaseNote,
+                PurchaseDate = request.PurchaseDate
             };
-         
+            
+            Console.WriteLine(request.PurchaseDate);
+            
             foreach (var item in request.ProductIdPlusQuantity)
             {
                 var product = await context.Products.FirstOrDefaultAsync(p => p.Id == item.Key);
@@ -45,8 +48,6 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
             
             await context.Purchases.AddAsync(purchase);
             await context.SaveChangesAsync();
-            Console.WriteLine(purchase.Id);
-            Console.WriteLine("PURCHASE ID HERE TO TEST");
             
             await transaction.CommitAsync();
             return new Response<AddPurchase?>(purchase, 201, "Purchase created successfully");
@@ -137,7 +138,7 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
                 .Purchases
                 .AsNoTracking()
                 .Where(x => x.UserId == request.UserId)
-                .OrderBy(x => x.EntryDate);
+                .OrderBy(x => x.PurchaseDate);
 
             var purchase = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)
