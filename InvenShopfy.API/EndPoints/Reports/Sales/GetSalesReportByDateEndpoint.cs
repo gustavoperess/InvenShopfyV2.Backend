@@ -11,11 +11,11 @@ namespace InvenShopfy.API.EndPoints.Reports.Sales;
 public class GetSalesReportByDateEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("/{startdate}", HandlerAsync)
+        => app.MapGet("/", HandlerAsync)
             .WithName("Reports: Get by date")
-            .WithSummary("Get sales by a date")
-            .WithDescription("Get sales by a date")
-            .WithOrder(4)
+            .WithSummary("Get a sale report by  date")
+            .WithDescription("Get a sale report by a date")
+            .WithOrder(1)
             .Produces<PagedResponse<List<Core.Models.Reports.SaleReport>?>>();
 
 
@@ -32,6 +32,8 @@ public class GetSalesReportByDateEndpoint : IEndPoint
             UserId = user.Identity?.Name ?? string.Empty,
             PageNumber = pageNumber,
             PageSize = pageSize,
+            StartDate = startDate,
+            EndDate = endDate
         };
 
         var result = await handler.GetByPeriodAsync(request);

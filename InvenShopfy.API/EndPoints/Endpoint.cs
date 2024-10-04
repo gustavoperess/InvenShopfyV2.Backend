@@ -9,6 +9,7 @@ using InvenShopfy.API.EndPoints.Products.Brands;
 using InvenShopfy.API.EndPoints.Products.Categories;
 using InvenShopfy.API.EndPoints.Products.Product;
 using InvenShopfy.API.EndPoints.Products.Units;
+using InvenShopfy.API.EndPoints.Reports.Sales;
 using InvenShopfy.API.EndPoints.Tradings.Purchase.Add;
 using InvenShopfy.API.EndPoints.Tradings.Sales;
 using InvenShopfy.API.EndPoints.UserManagement.Role;
@@ -165,8 +166,17 @@ public static class Endpoint
             .MapEndpoint<GetSalesByBestSellerEndpoint>()
             .MapEndpoint<GetMostSouldProductEndpoint>()
             .MapEndpoint<GetSaleByIdEnpoint>();
-
         
+        
+        // SalesReport GROUP
+        var salesReportGroup = endpoints.MapGroup("v2/SaleReport")
+            .WithTags("SaleReport");
+
+        salesReportGroup.MapGroup("SalesReport")
+            .WithTags("SalesReport")
+            .RequireAuthorization()
+            .MapEndpoint<GetSalesReportByDateEndpoint>();
+
         
         // Management Group
         endpoints.MapGroup("v2/identity")

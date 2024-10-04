@@ -1,4 +1,5 @@
 using InvenShopfy.API.Data;
+using InvenShopfy.Core.Common.Extension;
 using InvenShopfy.Core.Handlers.Reports;
 using InvenShopfy.Core.Models.Reports;
 using InvenShopfy.Core.Requests.Reports;
@@ -14,10 +15,25 @@ public class SalesReportHandler(AppDbContext context) : ISalesReportHandler
     {
         try
         {
+            request.StartDate ??= DateTime.Now.GetFirstDay();
+            request.EndDate ??= DateTime.Now.GetLastDay();
+        }
+        catch
+        {
+            return new PagedResponse<List<SaleReport>?>(null, 500,
+                "Not possible to determine the start or end date");
+        }
+        
+        try
+        {
             var query = context
                 .Sales
                 .AsNoTracking()
-                .Where(x => x.UserId == request.UserId)
+                .Include(x => x.Warehouse)
+                .Where(x =>
+                    x.SaleDate >= request.StartDate &&
+                    x.SaleDate <= request.EndDate &&
+                    x.UserId == request.UserId)
                 .OrderBy(x => x.SaleDate);
             
             var saleReport = await query
@@ -26,12 +42,14 @@ public class SalesReportHandler(AppDbContext context) : ISalesReportHandler
                 .ToListAsync();
             
             var result = saleReport.Select(s => new Core.Models.Reports.SaleReport
-            {
+            { 
                 Id = s.Id,
-               
-                
+               SalesDate = s.SaleDate,
+               Warehouse = s.Warehouse.WarehouseName,
+               NumberOfProductsSold = s.TotalQuantitySold,
+               TotalAmountSold = s.TotalAmount,
+               SaleStatus = s.SaleStatus
             }).ToList();
-            
             
             var count = await query.CountAsync();
             

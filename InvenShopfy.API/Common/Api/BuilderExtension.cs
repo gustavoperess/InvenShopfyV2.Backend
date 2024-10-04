@@ -4,6 +4,7 @@ using Serilog;
 using InvenShopfy.API.Handlers.Expenses;
 using InvenShopfy.API.Handlers.People;
 using InvenShopfy.API.Handlers.Products;
+using InvenShopfy.API.Handlers.Reports;
 using InvenShopfy.API.Handlers.Tradings.Purchase;
 using InvenShopfy.API.Handlers.Tradings.Sales;
 using InvenShopfy.API.Handlers.Warehouses;
@@ -13,6 +14,7 @@ using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Expenses;
 using InvenShopfy.Core.Handlers.People;
 using InvenShopfy.Core.Handlers.Product;
+using InvenShopfy.Core.Handlers.Reports;
 using InvenShopfy.Core.Handlers.Tradings.Purchase;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
 using InvenShopfy.Core.Handlers.Warehouse;
@@ -147,6 +149,7 @@ public static class BuilderExtension
         builder.Services.AddTransient<IWarehouseHandler, WarehouseHandler>();
         builder.Services.AddTransient<IPurchaseHandler, PurchaseHandler>();
         builder.Services.AddTransient<ISalesHandler, SaleHandler>();
+        builder.Services.AddTransient<ISalesReportHandler, SalesReportHandler>();
         builder.Services.AddTransient<CloudinaryService>();
        
       

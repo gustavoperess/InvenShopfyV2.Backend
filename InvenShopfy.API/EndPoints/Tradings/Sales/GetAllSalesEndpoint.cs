@@ -32,6 +32,8 @@ public class GetAllSalesEndpoint : IEndPoint
             UserId = user.Identity?.Name ?? string.Empty,
             PageNumber = pageNumber,
             PageSize = pageSize,
+            StartDate = startDate,
+            EndDate = endDate,
         };
 
         var result = await handler.GetByPeriodAsync(request);
