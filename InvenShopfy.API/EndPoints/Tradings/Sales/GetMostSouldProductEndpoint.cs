@@ -20,12 +20,16 @@ public class GetMostSouldProductEndpoint : IEndPoint
 
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,
-        ISalesHandler handler)
+        ISalesHandler handler,
+        [FromQuery]DateTime? startDate=null,
+        [FromQuery]DateTime? endDate=null)
         
     {
         var request = new GetMostSoldProduct
         {
             UserId = user.Identity?.Name ?? string.Empty,
+            StartDate = startDate,
+            EndDate = endDate
         };
 
         var result = await handler.GetMostSoldProductAsync(request);

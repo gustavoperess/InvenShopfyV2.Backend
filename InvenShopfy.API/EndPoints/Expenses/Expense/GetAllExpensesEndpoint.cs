@@ -22,8 +22,6 @@ public class GetAllExpensesEndpoint : IEndPoint
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,
         IExpenseHandler handler,
-        [FromQuery]DateTime? startDate=null,
-        [FromQuery]DateTime? endDate=null,
         [FromQuery]int pageNumber = Configuration.DefaultPageNumber,
         [FromQuery]int pageSize = Configuration.DefaultPageSize)
     {

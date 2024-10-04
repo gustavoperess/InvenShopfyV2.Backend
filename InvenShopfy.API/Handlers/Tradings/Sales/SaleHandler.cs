@@ -1,5 +1,7 @@
 using InvenShopfy.API.Data;
+using InvenShopfy.Core.Common.Extension;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
+using InvenShopfy.Core.Models.Reports;
 using InvenShopfy.Core.Models.Tradings.Sales;
 using InvenShopfy.Core.Requests.Tradings.Sales;
 using InvenShopfy.Core.Responses;
@@ -212,16 +214,27 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
     {
         try
         {
-            DateTime now = DateTime.Now;
-            var firstDayOfMonth = new DateTime(now.Year, now.Month, 1);
-            var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
-
+            request.StartDate ??= DateTime.Now.GetFirstDay();
+            request.EndDate ??= DateTime.Now.GetLastDay();
+        }
+        catch
+        {
+            return new PagedResponse<List<BestSeller>?>(null, 500,
+                "Not possible to determine the start or end date");
+        }
+        
+        
+        try
+        {
+           
             var query = context
                 .Sales
                 .AsNoTracking()
                 .Include(x => x.Biller)
-                .Where(x => x.UserId == request.UserId)
-                .Where(x => x.SaleDate > firstDayOfMonth && x.SaleDate < lastDayOfMonth)
+                .Where(x => 
+                    x.SaleDate >= request.StartDate && 
+                    x.SaleDate <= request.EndDate &&
+                    x.UserId == request.UserId)
                 .GroupBy(x => new { x.BillerId, x.Biller.Name })
                 .Select(g => new
                 {
@@ -260,18 +273,30 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
     
     public async Task<PagedResponse<List<Core.Models.Tradings.Sales.MostSoldProduct>?>> GetMostSoldProductAsync(GetMostSoldProduct request)
     {
+        
         try
         {
-            DateTime now = DateTime.Now;
-            var firstDayOfMonth = new DateTime(now.Year, now.Month, 1);
-            var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
+            request.StartDate ??= DateTime.Now.GetFirstDay();
+            request.EndDate ??= DateTime.Now.GetLastDay();
+        }
+        catch
+        {
+            return new PagedResponse<List<MostSoldProduct>?>(null, 500,
+                "Not possible to determine the start or end date");
+        }
+        
+        try
+        {
 
             var query = context
                 .SaleProducts
                 .AsNoTracking()
                 .Include(x => x.Sale)
                 .Include(x => x.Product)
-                .Where(x => x.Sale.SaleDate > firstDayOfMonth && x.Sale.SaleDate < lastDayOfMonth)
+                .Where(x => 
+                    x.Sale.SaleDate >= request.StartDate && 
+                    x.Sale.SaleDate <= request.EndDate &&
+                    x.Sale.UserId == request.UserId)
                 .GroupBy(x => new { x.ProductId, x.Product.Title, x.Product.ProductCode  })
                 .Select(g => new
                 {

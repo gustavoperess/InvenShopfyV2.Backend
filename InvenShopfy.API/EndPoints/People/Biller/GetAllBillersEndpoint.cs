@@ -21,8 +21,6 @@ public class GetAllBillersEndpoint : IEndPoint
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,
         IBillerHandler handler,
-        [FromQuery]DateTime? startDate=null,
-        [FromQuery]DateTime? endDate=null,
         [FromQuery]int pageNumber = Configuration.DefaultPageNumber,
         [FromQuery]int pageSize = Configuration.DefaultPageSize)
     {

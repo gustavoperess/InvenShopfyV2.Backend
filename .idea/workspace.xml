@@ -5,23 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a198bd72-77c5-41a2-b2bc-caddea3eb970" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Common/Api/BuilderExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/Common/Api/BuilderExtension.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Endpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Endpoint.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Reports/Sales/GetSalesReportByDateEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Reports/Sales/GetSalesReportByDateEndpoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Expenses/Expense/GetAllExpensesEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Expenses/Expense/GetAllExpensesEndpoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/People/Biller/GetAllBillersEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/People/Biller/GetAllBillersEndpoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Products/Product/GetAllProductsEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Products/Product/GetAllProductsEndpoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Tradings/Purchase/Add/GetAllPurchasesEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Tradings/Purchase/Add/GetAllPurchasesEndpoint.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Tradings/Sales/GetAllSalesEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Tradings/Sales/GetAllSalesEndpoint.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Handlers/Reports/SalesReportHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/Handlers/Reports/SalesReportHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Tradings/Sales/GetSalesByBestSellerEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Tradings/Sales/GetSalesByBestSellerEndpoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/UserManagement/Role/GetAllRolesEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/UserManagement/Role/GetAllRolesEndpoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/UserManagement/User/GetAllUsersEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/UserManagement/User/GetAllUsersEndpoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Handlers/Tradings/Sales/SaleHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/Handlers/Tradings/Sales/SaleHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/obj/rider.project.model.nuget.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/obj/rider.project.restore.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Models/Reports/SaleReport.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Models/Reports/SaleReport.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Requests/Reports/GetSalesReportRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Requests/Reports/GetSalesReportRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Requests/Expenses/Expense/GetAllExpensesRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Requests/Expenses/Expense/GetAllExpensesRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Requests/Expenses/ExpenseCategory/GetAllExpensesCategoriesRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Requests/Expenses/ExpenseCategory/GetAllExpensesCategoriesRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Requests/People/Biller/GetAllBillerRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Requests/People/Biller/GetAllBillerRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Requests/People/Customer/GetAllCustomersRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Requests/People/Customer/GetAllCustomersRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Requests/People/Supplier/GetAllSuppliersRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Requests/People/Supplier/GetAllSuppliersRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Requests/Products/Product/GetAllProductsRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Requests/Products/Product/GetAllProductsRequest.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Requests/Tradings/Sales/GetAllSalesRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Requests/Tradings/Sales/GetAllSalesRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Requests/Tradings/Sales/GetSalesByBestSeller.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Requests/Tradings/Sales/GetSalesByBestSeller.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Requests/UserManagement/Role/GetAllRolesRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Requests/UserManagement/Role/GetAllRolesRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Requests/UserManagement/User/GetAllUsersRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Requests/UserManagement/User/GetAllUsersRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Requests/Warehouse/GetAllWarehousesRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Requests/Warehouse/GetAllWarehousesRequest.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/obj/rider.project.model.nuget.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/obj/rider.project.restore.info" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

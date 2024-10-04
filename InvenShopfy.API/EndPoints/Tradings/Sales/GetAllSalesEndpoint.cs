@@ -22,8 +22,6 @@ public class GetAllSalesEndpoint : IEndPoint
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,
         ISalesHandler handler,
-        [FromQuery]DateTime? startDate=null,
-        [FromQuery]DateTime? endDate=null,
         [FromQuery]int pageNumber = Configuration.DefaultPageNumber,
         [FromQuery]int pageSize = Configuration.DefaultPageSize)
     {
@@ -32,8 +30,6 @@ public class GetAllSalesEndpoint : IEndPoint
             UserId = user.Identity?.Name ?? string.Empty,
             PageNumber = pageNumber,
             PageSize = pageSize,
-            StartDate = startDate,
-            EndDate = endDate,
         };
 
         var result = await handler.GetByPeriodAsync(request);
