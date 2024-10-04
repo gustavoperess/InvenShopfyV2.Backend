@@ -23,10 +23,10 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
                 PurchaseStatus = request.PurchaseStatus,
                 ShippingCost = request.ShippingCost,
                 PurchaseNote = request.PurchaseNote,
-                PurchaseDate = request.PurchaseDate
+                PurchaseDate = request.PurchaseDate,
+                TotalAmountBought = request.TotalAmountBought
             };
             
-            Console.WriteLine(request.PurchaseDate);
             
             foreach (var item in request.ProductIdPlusQuantity)
             {
@@ -43,8 +43,6 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
                 context.Products.Update(product);
 
             }
-
-            purchase.TotalQuantityBought = purchase.PurchaseProducts.Sum(x => x.TotalQuantityBoughtPerProduct);
             
             await context.Purchases.AddAsync(purchase);
             await context.SaveChangesAsync();

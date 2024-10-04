@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241003135626_fixingDateTime")]
-    partial class fixingDateTime
+    [Migration("20241004101825_fixingTotalAmountNaming")]
+    partial class fixingTotalAmountNaming
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -526,11 +526,8 @@ namespace InvenShopfy.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTime>("EntryDate")
+                    b.Property<DateTime>("PurchaseDate")
                         .HasColumnType("TIMESTAMP");
-
-                    b.Property<long>("ProductId")
-                        .HasColumnType("bigint");
 
                     b.Property<string>("PurchaseNote")
                         .IsRequired()
@@ -552,7 +549,7 @@ namespace InvenShopfy.API.Migrations
                     b.Property<long>("SupplierId")
                         .HasColumnType("bigint");
 
-                    b.Property<decimal>("TotalQuantityBought")
+                    b.Property<double>("TotalAmountBought")
                         .HasMaxLength(80)
                         .HasColumnType("NUMERIC(18,2)");
 
@@ -566,8 +563,6 @@ namespace InvenShopfy.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
-
                     b.HasIndex("SupplierId");
 
                     b.HasIndex("WarehouseId");
@@ -577,13 +572,10 @@ namespace InvenShopfy.API.Migrations
 
             modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Purchase.PurchaseProduct", b =>
                 {
-                    b.Property<long>("PurchaseId")
+                    b.Property<long>("AddPurchaseId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("ProductId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("AddPurchaseId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("PurchaseReferenceNumber")
@@ -596,9 +588,7 @@ namespace InvenShopfy.API.Migrations
                     b.Property<int>("TotalQuantityBoughtPerProduct")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("PurchaseId", "ProductId");
-
-                    b.HasIndex("AddPurchaseId");
+                    b.HasKey("AddPurchaseId", "ProductId");
 
                     b.HasIndex("ProductId");
 
@@ -1033,12 +1023,6 @@ namespace InvenShopfy.API.Migrations
 
             modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Purchase.AddPurchase", b =>
                 {
-                    b.HasOne("InvenShopfy.Core.Models.Product.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("InvenShopfy.Core.Models.People.Supplier", "Supplier")
                         .WithMany()
                         .HasForeignKey("SupplierId")
@@ -1051,8 +1035,6 @@ namespace InvenShopfy.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Product");
-
                     b.Navigation("Supplier");
 
                     b.Navigation("Warehouse");
@@ -1061,7 +1043,7 @@ namespace InvenShopfy.API.Migrations
             modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Purchase.PurchaseProduct", b =>
                 {
                     b.HasOne("InvenShopfy.Core.Models.Tradings.Purchase.AddPurchase", "AddPurchase")
-                        .WithMany("PurchaseProduct")
+                        .WithMany("PurchaseProducts")
                         .HasForeignKey("AddPurchaseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1184,7 +1166,7 @@ namespace InvenShopfy.API.Migrations
 
             modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Purchase.AddPurchase", b =>
                 {
-                    b.Navigation("PurchaseProduct");
+                    b.Navigation("PurchaseProducts");
                 });
 
             modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Sales.Sale", b =>

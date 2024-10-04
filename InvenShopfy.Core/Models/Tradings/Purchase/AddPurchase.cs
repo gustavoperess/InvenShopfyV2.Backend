@@ -28,7 +28,7 @@ public class AddPurchase
     public string UserId { get; set; } = string.Empty;
     
     public List<PurchaseProduct> PurchaseProducts { get; set; } = new List<PurchaseProduct>();
-    public int TotalQuantityBought { get; set; }
+    public double TotalAmountBought { get; set; }
     
     public AddPurchase()
     {

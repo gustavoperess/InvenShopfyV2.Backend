@@ -546,7 +546,7 @@ namespace InvenShopfy.API.Migrations
                     b.Property<long>("SupplierId")
                         .HasColumnType("bigint");
 
-                    b.Property<decimal>("TotalQuantityBought")
+                    b.Property<double>("TotalAmountBought")
                         .HasMaxLength(80)
                         .HasColumnType("NUMERIC(18,2)");
 

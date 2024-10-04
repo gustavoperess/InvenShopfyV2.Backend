@@ -25,7 +25,7 @@ public class AddPurchaseMapping : IEntityTypeConfiguration<AddPurchase>
             .HasColumnType("NUMERIC(18,2)")
             .HasMaxLength(80);
         
-        builder.Property(x => x.TotalQuantityBought)
+        builder.Property(x => x.TotalAmountBought)
             .IsRequired(true)
             .HasColumnType("NUMERIC(18,2)")
             .HasMaxLength(80);
