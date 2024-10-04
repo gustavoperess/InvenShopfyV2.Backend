@@ -9,5 +9,5 @@ public interface IPurchaseHandler
     Task<Response<Models.Tradings.Purchase.AddPurchase?>> UpdateAsync(UpdatePurchaseRequest request);
     Task<Response<Models.Tradings.Purchase.AddPurchase?>> DeleteAsync(DeletePurchaseRequest request);
     Task<Response<Models.Tradings.Purchase.AddPurchase?>> GetByIdAsync(GetPurchaseByIdRequest request);
-    Task<PagedResponse<List<Models.Tradings.Purchase.AddPurchase>?>> GetByPeriodAsync(GetAllPurchasesRequest request);
+    Task<PagedResponse<List<Models.Tradings.Purchase.PurchaseList>?>> GetByPeriodAsync(GetAllPurchasesRequest request);
 }

@@ -12,9 +12,6 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
 {
      public async Task<Response<Category?>> CreateAsync(CreateCategoryRequest request)
     {   
-        Console.WriteLine("CHECKING HERE");
-        Console.WriteLine(request.MainCategory);
-        Console.WriteLine(request.SubCategory);
         try
         {
             var existingCategory = await context.Categories.FirstOrDefaultAsync(c =>

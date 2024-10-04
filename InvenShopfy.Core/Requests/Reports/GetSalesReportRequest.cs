@@ -1,6 +1,6 @@
 namespace InvenShopfy.Core.Requests.Reports;
 
-public class SalesReport : Request
+public class GetSalesReportRequest : PagedRequest
 {
     
 }

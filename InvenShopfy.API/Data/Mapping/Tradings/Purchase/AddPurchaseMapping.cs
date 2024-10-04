@@ -44,6 +44,8 @@ public class AddPurchaseMapping : IEntityTypeConfiguration<AddPurchase>
             .IsRequired(true)
             .HasColumnType("VARCHAR");
         
-       
+        builder.Property(x => x.TotalNumberOfProductsBought)
+            .IsRequired(true)
+            .HasColumnType("BIGINT");
     }
 }

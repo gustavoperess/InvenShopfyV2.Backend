@@ -1,7 +1,5 @@
-using InvenShopfy.Core.Enum;
 using InvenShopfy.Core.Models.People;
-using System;
-using System.Collections.Generic;
+
 
 namespace InvenShopfy.Core.Models.Tradings.Purchase;
 
@@ -28,7 +26,10 @@ public class AddPurchase
     public string UserId { get; set; } = string.Empty;
     
     public List<PurchaseProduct> PurchaseProducts { get; set; } = new List<PurchaseProduct>();
-    public double TotalAmountBought { get; set; }
+    public decimal TotalAmountBought { get; set; }
+    
+    
+    public int TotalNumberOfProductsBought { get; set; }
     
     public AddPurchase()
     {
