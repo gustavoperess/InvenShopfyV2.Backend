@@ -1,3 +1,4 @@
+using InvenShopfy.Core.Common.RandomNumber;
 using InvenShopfy.Core.Models.People;
 
 
@@ -7,7 +8,6 @@ public class AddPurchase
 {
     public long Id { get; set; }
     
-    private static readonly Random RandomNumber = new Random();
     public DateTime PurchaseDate { get; set; }
     
     public long WarehouseId { get; set; }
@@ -22,26 +22,13 @@ public class AddPurchase
     
     public string PurchaseNote { get; set; } = string.Empty;
     
-    public string ReferenceNumber { get; private set; }
+    public string ReferenceNumber { get; private set; } = GenerateRandomNumber.RandomNumberGenerator();
     public string UserId { get; set; } = string.Empty;
     
     public List<PurchaseProduct> PurchaseProducts { get; set; } = new List<PurchaseProduct>();
     public decimal TotalAmountBought { get; set; }
     
-    
     public int TotalNumberOfProductsBought { get; set; }
-    
-    public AddPurchase()
-    {
-        ReferenceNumber = GenerateRandomNumber(); 
-    }
-        
-    private static string GenerateRandomNumber()
-    {
-        char letter = (char)RandomNumber.Next('A', 'Z' + 1); 
-        int randNum = RandomNumber.Next(1000000); 
-        return letter + "-" + randNum.ToString("D6"); 
-    }
     
     public PurchaseProduct CreatePurchaseProduct(long productId, double totalPricePerProduct, int totalQuantitySoldPerProduct)
     {
