@@ -1,11 +1,13 @@
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Common.Extension;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
-using InvenShopfy.Core.Models.Reports;
 using InvenShopfy.Core.Models.Tradings.Sales;
 using InvenShopfy.Core.Requests.Tradings.Sales;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
+
+
+
 
 namespace InvenShopfy.API.Handlers.Tradings.Sales;
 public class SaleHandler(AppDbContext context) : ISalesHandler 
@@ -13,7 +15,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
     public async Task<Response<Sale?>> CreateAsync(CreateSalesRequest request)
     {
         await using var transaction = await context.Database.BeginTransactionAsync();
-    
+
         try
         {
             var sale = new Sale
@@ -26,48 +28,43 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 Document = request.Document,
                 StaffNote = request.StaffNote,
                 SaleNote = request.SaleNote,
-                PaymentStatus = request.PaymentStatus, 
+                PaymentStatus = request.PaymentStatus,
                 SaleStatus = request.SaleStatus,
                 UserId = request.UserId,
                 TotalAmount = request.TotalAmount,
                 Discount = request.Discount
             };
             
-            foreach (var item in request.ProductIdPlusQuantity)
+            var productIds = request.ProductIdPlusQuantity.Keys;
+            var availableSaleProducts = await context.SaleProducts
+                .Include(sp => sp.Product) 
+                .Where(sp => productIds.Contains(sp.ProductId))
+                .ToListAsync();
+            
+            var productResponse = sale.AddProductsToSale(request.ProductIdPlusQuantity, availableSaleProducts);
+            if (!productResponse.IsSuccess)
             {
-             
-                var product = await context.Products.FirstOrDefaultAsync(p => p.Id == item.Key);
-                if (product == null)
-                {
-                    return new Response<Sale?>(null, 400, $"Product with Id {item.Key} not found");
-                }
-
-                if (product.StockQuantity < item.Value)
-                {
-                    return new Response<Sale?>(null, 400, $"Insufficient quantity for product Id {item.Key}");
-                }
-
-                var pricePerProduct = product.Price * item.Value;
-                var saleProduct = sale.CreateSaleProduct(product.Id, pricePerProduct, item.Value);
-                sale.SaleProducts.Add(saleProduct);
-                product.StockQuantity -= item.Value;
-                context.Products.Update(product);
+                return productResponse;
             }
             
-            sale.TotalQuantitySold = sale.SaleProducts.Sum(x => x.TotalQuantitySoldPerProduct);
-            
+            foreach (var saleProduct in availableSaleProducts)
+            {
+                context.Products.Update(saleProduct.Product);
+            }
+
             await context.Sales.AddAsync(sale);
             await context.SaveChangesAsync();
-            
             await transaction.CommitAsync();
 
             return new Response<Sale?>(sale, 201, "Sale created successfully");
         }
         catch
         {
+            await transaction.RollbackAsync();
             return new Response<Sale?>(null, 500, "It was not possible to create a new sale");
         }
     }
+
 
 
     public async Task<Response<Sale?>> UpdateAsync(UpdateSalesRequest request)
@@ -210,7 +207,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
         }
     }
     
-    public async Task<PagedResponse<List<Core.Models.Tradings.Sales.BestSeller>?>> GetByBestSellerAsync(GetSalesByBestSeller request)
+    public async Task<PagedResponse<List<BestSeller>?>> GetByBestSellerAsync(GetSalesByBestSeller request)
     {
         try
         {

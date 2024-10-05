@@ -1,10 +1,12 @@
 using InvenShopfy.Core.Enum;
 using System.ComponentModel.DataAnnotations;
 
+
 namespace InvenShopfy.Core.Requests.Tradings.Sales;
 
 public class CreateSalesRequest : Request
 {
+    
     [Required(ErrorMessage = "Invalid Customer Id")]
     public long CustomerId { get; set; }
     
@@ -14,8 +16,6 @@ public class CreateSalesRequest : Request
     [Required(ErrorMessage = "Invalid Biller Id")]
     public long BillerId { get; set; }
     
-    [Required(ErrorMessage = "Invalid Product Id")]
-    public Dictionary<long, int> ProductIdPlusQuantity { get; set; } = new Dictionary<long, int>();
     
     [Required(ErrorMessage = "Please inform the Payment Status")]
     public string PaymentStatus { get; set; } = EPaymentStatus.Complete.ToString(); 
@@ -48,5 +48,6 @@ public class CreateSalesRequest : Request
     [Required(ErrorMessage = "Invalid SaleDate")]
     public DateTime SaleDate { get; set; } 
     
+    public Dictionary<long, int> ProductIdPlusQuantity { get; set; } = new Dictionary<long, int>();
     
 }
