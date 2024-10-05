@@ -1,5 +1,4 @@
 using InvenShopfy.Core.Common.RandomNumber;
-using InvenShopfy.Core.Enum;
 using InvenShopfy.Core.Models.People;
 using InvenShopfy.Core.Responses;
 
@@ -27,6 +26,7 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
         public string ReferenceNumber { get; private set; } = GenerateRandomNumber.RandomNumberGenerator();
         public int Discount { get; set; }
         public List<SaleProduct> SaleProducts { get; set; } = new List<SaleProduct>();
+        
         
         // Handle Sale logic 
         public Response<Sale?> AddProductsToSale(Dictionary<long, int> productIdPlusQuantity, List<SaleProduct> availableProducts) 

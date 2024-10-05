@@ -102,7 +102,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
         }
     }
 
-    public async Task<Response<Core.Models.Tradings.Sales.Sale?>> DeleteAsync(DeleteSalesRequest request)
+    public async Task<Response<Sale?>> DeleteAsync(DeleteSalesRequest request)
     {
         try
         {

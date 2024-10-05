@@ -9,10 +9,10 @@ namespace InvenShopfy.API.Handlers.Tradings.Purchase;
 
 public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
 {
+    
     public async Task<Response<AddPurchase?>> CreateAsync(CreatePurchaseRequest request)
     {
-        int sumOfItems = 0;
-        await using var transaction = await context.Database.BeginTransactionAsync(); // this ensure that all operations are successed. if one fail the whole thing fails
+        await using var transaction = await context.Database.BeginTransactionAsync(); // this ensures that all operations are successed. if one fail the whole thing fails
         try
         {
             var purchase = new AddPurchase
@@ -27,25 +27,23 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
                 TotalAmountBought = request.TotalAmountBought,
             };
             
-            
-            foreach (var item in request.ProductIdPlusQuantity)
-            {
-                var product = await context.Products.FirstOrDefaultAsync(p => p.Id == item.Key);
-                if (product == null)
-                {
-                    return new Response<AddPurchase?>(null, 400, $"Product with Id {item.Key} not found");
-                }
-          
-                var pricePerProduct = product.Price * item.Value;
-                var purchaseProduct = purchase.CreatePurchaseProduct(product.Id, pricePerProduct, item.Value);
-                product.StockQuantity += item.Value;
-                sumOfItems += item.Value;
-                purchase.PurchaseProducts.Add(purchaseProduct);
-                context.Products.Update(product);
+            var productIds = request.ProductIdPlusQuantity.Keys;
+            var availablePurchaseProducts = await context.PurchaseProducts
+                .Include(sp => sp.Product) 
+                .Where(sp => productIds.Contains(sp.ProductId))
+                .ToListAsync();
 
+            var pruchaseRespose = purchase.AddPurchaseToPurchase(request.ProductIdPlusQuantity, availablePurchaseProducts);
+            if (!pruchaseRespose.IsSuccess)
+            {
+                return pruchaseRespose;
             }
             
-            purchase.TotalNumberOfProductsBought = sumOfItems;
+            foreach (var pur in availablePurchaseProducts)
+            {
+                context.Products.Update(pur.Product);
+            }
+            
             await context.Purchases.AddAsync(purchase);
             await context.SaveChangesAsync();
             
@@ -142,15 +140,15 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
                 .Where(x => x.UserId == request.UserId)
                 .Select(g => new
                 {
-                  Id = g.Id,  
-                  PurchaseDate = g.PurchaseDate,  
+                  g.Id,  
+                  g.PurchaseDate,  
                   SupplierName = g.Supplier.Name,  
-                  WarehouseName = g.Warehouse.WarehouseName,  
-                  PurchaseStatus = g.PurchaseStatus,  
-                  ShippingCost = g.ShippingCost,  
-                  TotalAmountBought = g.TotalAmountBought,  
-                  ReferenceNumber = g.ReferenceNumber,
-                  TotalNumberOfProductsBought = g.TotalNumberOfProductsBought
+                  g.Warehouse.WarehouseName,  
+                  g.PurchaseStatus,  
+                  g.ShippingCost,  
+                  g.TotalAmountBought,  
+                  g.ReferenceNumber,
+                  g.TotalNumberOfProductsBought
                 })
                 .OrderBy(x => x.PurchaseDate);
 
