@@ -18,8 +18,8 @@ public class SalesReportHandler(AppDbContext context) : ISalesReportHandler
     {
         try
         {
-            byDateRequest.StartDate ??= DateTime.Now.GetFirstDay();
-            byDateRequest.EndDate ??= DateTime.Now.GetLastDay();
+            byDateRequest.StartDate ??= DateOnly.FromDateTime(DateTime.Now).GetFirstDay();
+            byDateRequest.EndDate ??= DateOnly.FromDateTime(DateTime.Now).GetLastDay();
         }
         catch
         {

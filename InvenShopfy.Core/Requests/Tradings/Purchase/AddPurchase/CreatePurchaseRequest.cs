@@ -6,7 +6,11 @@ namespace InvenShopfy.Core.Requests.Tradings.Purchase.AddPurchase;
 public class CreatePurchaseRequest : Request
 {
     
-    public DateTime PurchaseDate { get; set; } 
+    
+    [Required(ErrorMessage = "Please enter the Date the product was created")]
+    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+    [DataType(DataType.Date)] 
+    public DateOnly PurchaseDate { get; set; }
     
     [Required(ErrorMessage = "Invalid WarehouseId Id")]
     public long WarehouseId { get; set; } // warehouse the product is 

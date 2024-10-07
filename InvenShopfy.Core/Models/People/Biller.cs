@@ -8,7 +8,7 @@ public class Biller
     private string _zipCode = string.Empty;
     public long Id { get; private set; }
     public string Name { get; set; } = String.Empty;
-    public DateTime DateOfJoin { get; private set; }
+    public DateOnly DateOfJoin { get; set; } = DateOnly.FromDateTime(DateTime.Now);
     public string Email { get; set; } = String.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
     public string Identification { get; set; } = string.Empty;

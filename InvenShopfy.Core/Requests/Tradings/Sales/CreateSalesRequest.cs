@@ -45,8 +45,11 @@ public class CreateSalesRequest : Request
     [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]
     public int Discount { get; set; } 
     
-    [Required(ErrorMessage = "Invalid SaleDate")]
-    public DateTime SaleDate { get; set; } 
+    
+    [Required(ErrorMessage = "Please enter the Date the product was sold")]
+    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+    [DataType(DataType.Date)] 
+    public DateOnly SaleDate { get; set; }
     
     public Dictionary<long, int> ProductIdPlusQuantity { get; set; } = new Dictionary<long, int>();
     

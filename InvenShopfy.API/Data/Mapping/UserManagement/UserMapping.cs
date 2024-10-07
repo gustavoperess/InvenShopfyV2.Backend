@@ -18,7 +18,7 @@ public class UserMapping : IEntityTypeConfiguration<User>
         
         builder.Property(x => x.DateOfJoin)
             .IsRequired(true)
-            .HasColumnType("TIMESTAMPTZ");
+            .HasColumnType("date");
         
         builder.Property(x => x.Email)
             .IsRequired(true)

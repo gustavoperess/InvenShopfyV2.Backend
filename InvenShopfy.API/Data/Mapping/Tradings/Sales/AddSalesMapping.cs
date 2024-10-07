@@ -13,7 +13,7 @@ public class AddSalesMapping : IEntityTypeConfiguration<Sale>
 
         builder.Property(x => x.SaleDate)
             .IsRequired(true)
-            .HasColumnType("TIMESTAMP");
+            .HasColumnType("date");
 
         builder.Property(x => x.ReferenceNumber)
             .IsRequired(true)

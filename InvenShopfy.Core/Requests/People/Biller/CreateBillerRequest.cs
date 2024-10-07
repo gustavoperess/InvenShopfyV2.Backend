@@ -11,15 +11,18 @@ public class CreateBillerRequest : Request
     [MaxLength(150, ErrorMessage = "Max length of 150 characters")]
     public string Name { get; set; } = string.Empty;
     
-    [Required(ErrorMessage = "Please enter the Date the biller Joined")]
-    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]  // Optional for display purposes
-    public DateTime DateOfJoin { get; set; }
+    [Required(ErrorMessage = "Please enter the Date the expense was created")]
+    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+    [DataType(DataType.Date)] 
+    public DateOnly DateOfJoin { get; set; }
 
     [Required(ErrorMessage = "Invalid Email Address")]
+    [EmailAddress]
     [MaxLength(160, ErrorMessage = "Max length of 160 characters")]
     public string Email { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "Invalid Phone Number")]
+    [Required(ErrorMessage = "Mobile no. is required")]
+    [RegularExpression("^(?:\\+1)?\\s?\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}$", ErrorMessage = "Please enter valid phone no.")]
     [MaxLength(80, ErrorMessage = "Max length of 80 characters")]
     public string PhoneNumber { get; set; } = string.Empty;
 

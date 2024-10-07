@@ -9,7 +9,7 @@ public class AddPurchase
 {
     public long Id { get; set; }
     
-    public DateTime PurchaseDate { get; set; }
+    public DateOnly PurchaseDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
     
     public long WarehouseId { get; set; }
     public Warehouse.Warehouse Warehouse { get; set; } = null!;

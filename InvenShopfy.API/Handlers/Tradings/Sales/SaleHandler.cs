@@ -211,8 +211,8 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
     {
         try
         {
-            request.StartDate ??= DateTime.Now.GetFirstDay();
-            request.EndDate ??= DateTime.Now.GetLastDay();
+            request.StartDate ??= DateOnly.FromDateTime(DateTime.Now).GetFirstDay();
+            request.EndDate ??= DateOnly.FromDateTime(DateTime.Now).GetLastDay();
         }
         catch
         {
@@ -273,8 +273,8 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
         
         try
         {
-            request.StartDate ??= DateTime.Now.GetFirstDay();
-            request.EndDate ??= DateTime.Now.GetLastDay();
+            request.StartDate ??= DateOnly.FromDateTime(DateTime.Now).GetFirstDay();
+            request.EndDate ??= DateOnly.FromDateTime(DateTime.Now).GetLastDay();
         }
         catch
         {

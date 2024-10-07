@@ -23,8 +23,8 @@ public class GetSalesByBestSellerEndpoint : IEndPoint
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,
         ISalesHandler handler,
-        [FromQuery]DateTime? startDate=null,
-        [FromQuery]DateTime? endDate=null,
+        [FromQuery]DateOnly? startDate=null,
+        [FromQuery]DateOnly? endDate=null,
         [FromQuery]int pageNumber = Configuration.DefaultPageNumber,
         [FromQuery]int pageSize = Configuration.DefaultPageSize)
     {

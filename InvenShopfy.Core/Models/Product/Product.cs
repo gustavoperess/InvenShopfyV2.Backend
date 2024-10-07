@@ -9,7 +9,7 @@ public class Product
     public int ProductCode { get; set; }
     
     public int StockQuantity { get; set; }
-    public DateTime CreateAt { get; set; } = DateTime.UtcNow;
+    public DateOnly CreateAt { get; set; } = DateOnly.FromDateTime(DateTime.Now);
 
     public long UnitId  { get; set; }
     public Unit Unit { get; set; } = null!;

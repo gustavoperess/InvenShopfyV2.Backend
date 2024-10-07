@@ -3,7 +3,7 @@ namespace InvenShopfy.Core.Models.Tradings.Purchase;
 public class PurchaseList
 {
     public long Id { get; set; }
-    public DateTime PurchaseDate { get; set; }
+    public DateOnly PurchaseDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
     public string SupplierName { get; set; }  = string.Empty;
     public string WarehouseName { get; set; }  = string.Empty;
     public string PurchaseStatus { get; set; } = string.Empty;

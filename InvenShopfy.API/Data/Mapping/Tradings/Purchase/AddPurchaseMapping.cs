@@ -13,7 +13,7 @@ public class AddPurchaseMapping : IEntityTypeConfiguration<AddPurchase>
         
         builder.Property(x => x.PurchaseDate)
             .IsRequired(true)
-            .HasColumnType("TIMESTAMP");
+            .HasColumnType("date");
 
         builder.Property(x => x.PurchaseStatus)
             .IsRequired(true)

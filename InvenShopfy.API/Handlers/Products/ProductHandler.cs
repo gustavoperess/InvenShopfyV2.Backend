@@ -30,7 +30,7 @@ public class ProductHandler : IProductHandler
                 Title = request.Title,
                 Price = request.Price,
                 ProductCode = request.ProductCode,
-                CreateAt = DateTime.Now,
+                CreateAt = DateOnly.FromDateTime(DateTime.Now),
                 UnitId = request.UnitId,
                 BrandId = request.BrandId,
                 CategoryId = request.CategoryId,
