@@ -4,7 +4,7 @@ public class ProductByName
 {
     public long Id { get; set; }
     public string Title { get; set; } = string.Empty;
-    public double Price { get; set; }
+    public decimal Price { get; set; }
     public int ProductCode { get; set; }
     public int StockQuantity { get; set; }
     public string Category { get; set; } = null!;

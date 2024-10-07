@@ -14,7 +14,7 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
         public Warehouse.Warehouse Warehouse { get; set; } = null!;
         public long BillerId { get; set; }
         public Biller Biller { get; set; } = null!;
-        public double ShippingCost { get; set; } 
+        public decimal ShippingCost { get; set; } 
         public string PaymentStatus { get; set; } = string.Empty;
         public string SaleStatus { get; set; } = string.Empty; 
         public string Document { get; set; } = string.Empty;
@@ -22,7 +22,7 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
         public string StaffNote { get; set; } = string.Empty;
         public int TotalQuantitySold { get; set; }
         public string UserId { get; set; } = string.Empty;
-        public double TotalAmount { get; set; } 
+        public decimal TotalAmount { get; set; } 
         public string ReferenceNumber { get; private set; } = GenerateRandomNumber.RandomNumberGenerator();
         public int Discount { get; set; }
         public List<SaleProduct> SaleProducts { get; set; } = new List<SaleProduct>();
@@ -56,7 +56,7 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
         
         
         // creates the sale product
-        private SaleProduct CreateSaleProduct(long productId, double totalPricePerProduct, int totalQuantitySoldPerProduct)
+        private SaleProduct CreateSaleProduct(long productId, decimal totalPricePerProduct, int totalQuantitySoldPerProduct)
         {
             var saleProduct = new SaleProduct
             {

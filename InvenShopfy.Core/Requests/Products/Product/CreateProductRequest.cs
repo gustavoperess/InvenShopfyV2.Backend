@@ -9,10 +9,11 @@ public class CreateProductRequest : Request
     public string Title { get; set; } = string.Empty;
     
     [Required(ErrorMessage = "Invalid Amount")]
-    public double Price { get; set; }
+    [Range(0.01, 1000000, ErrorMessage = "Amount must be between 0.01 and 1,000,000.")]
+    public decimal Price { get; set; }
     
     [Required(ErrorMessage = "Invalid Product Code")]
-    [MaxLength(20,  ErrorMessage= "Max len of 20 characters")]
+    [Range(1, 1000, ErrorMessage = "Product code for {0} must be between {1} and {2}.")]
     public int ProductCode { get; set; }
     
     [Required(ErrorMessage = "Invalid Category Id")]
@@ -21,7 +22,8 @@ public class CreateProductRequest : Request
     [Required(ErrorMessage = "Invalid Brand Id")]
     public long BrandId { get; set; }
     
-    [Required(ErrorMessage = "Invalid Image")] // NEED TO COME BACK AS I WILL BE ADDING THIS TO CLOUDNIARY
+    [Required(ErrorMessage = "Invalid Image")]
+    [Base64String]
     public string ProductImage { get; set; } = null!;
     
     [Required(ErrorMessage = "Invalid SubCategory")]

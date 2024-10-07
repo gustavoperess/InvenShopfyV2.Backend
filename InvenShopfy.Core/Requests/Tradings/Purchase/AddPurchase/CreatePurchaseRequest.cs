@@ -6,7 +6,6 @@ namespace InvenShopfy.Core.Requests.Tradings.Purchase.AddPurchase;
 public class CreatePurchaseRequest : Request
 {
     
-    
     [Required(ErrorMessage = "Please enter the Date the product was created")]
     [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
     [DataType(DataType.Date)] 
@@ -20,16 +19,16 @@ public class CreatePurchaseRequest : Request
     
     public Dictionary<long, int> ProductIdPlusQuantity { get; set; } = new Dictionary<long, int>();
     
-    
     [Required(ErrorMessage = "Please inform the Purchase Status")]
     public string PurchaseStatus { get; set; } = EPurchaseStatus.Complete.ToString();
     
     [Required(ErrorMessage = "Please inform total amount bought")]
+    [Range(0.01, 1000000, ErrorMessage = "Amount must be between 0.01 and 1,000,000.")]
     public decimal TotalAmountBought { get; set; }
     
     [Required(ErrorMessage = "Invalid ShippingCost")]
-    [MaxLength(20,  ErrorMessage= "Max len of 20 characters")]
-    public int ShippingCost { get; set; } 
+    [Range(0.01, 1000000, ErrorMessage = "Shipping Cost must be between 0.01 and 1,000,000.")]
+    public decimal ShippingCost { get; set; } 
     
     [Required(ErrorMessage = "Invalid PurchaseNote")]
     [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]

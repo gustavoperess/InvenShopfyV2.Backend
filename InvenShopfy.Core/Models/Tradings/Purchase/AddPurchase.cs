@@ -54,7 +54,7 @@ public class AddPurchase
         return new Response<AddPurchase?>(this, 200, "Products added to sale successfully");
     }
     
-    public PurchaseProduct CreatePurchaseProduct(long productId, double totalPricePerProduct, int totalQuantitySoldPerProduct)
+    public PurchaseProduct CreatePurchaseProduct(long productId, decimal totalPricePerProduct, int totalQuantitySoldPerProduct)
     {
         var purchaseProduct = new PurchaseProduct
         {

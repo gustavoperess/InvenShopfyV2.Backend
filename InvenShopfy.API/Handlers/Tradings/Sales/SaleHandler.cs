@@ -327,16 +327,16 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
         }
     }
 
-    public async Task<Response<double?>> GetTotalAmountSalesRequestAsync(GetTotalSalesAmountRequest request)
+    public async Task<Response<decimal?>> GetTotalAmountSalesRequestAsync(GetTotalSalesAmountRequest request)
     {
         try
         {
             var totalSalesAmount = await context.Sales.SumAsync(x => x.TotalAmount);
-            return new Response<double?>(totalSalesAmount, 200, "Total sales amount retrieved successfully");
+            return new Response<decimal?>(totalSalesAmount, 200, "Total sales amount retrieved successfully");
         }
         catch 
         {
-            return new Response<double?>(null, 500, "It was not possible to consult the total sale");
+            return new Response<decimal?>(null, 500, "It was not possible to consult the total sale");
         }
         
     }

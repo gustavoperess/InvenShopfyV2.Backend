@@ -12,7 +12,7 @@ public class SaleList
     public string PaymentStatus { get; set; } = string.Empty;
     public string SaleStatus { get; set; } = string.Empty;
     public int TotalQuantitySold { get; set; }
-    public double TotalAmount { get; set; }
+    public decimal TotalAmount { get; set; }
     public string ReferenceNumber { get;  set; }  = string.Empty;
     public int Discount { get; set; }
     

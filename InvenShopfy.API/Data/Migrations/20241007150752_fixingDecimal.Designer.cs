@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241004111347_updatingTotalNumberOfProductsBought")]
-    partial class updatingTotalNumberOfProductsBought
+    [Migration("20241007150752_fixingDecimal")]
+    partial class fixingDecimal
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -107,11 +107,11 @@ namespace InvenShopfy.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<double>("Amount")
+                    b.Property<decimal>("Amount")
                         .HasColumnType("NUMERIC(18,2)");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("TIMESTAMPTZ");
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
 
                     b.Property<long>("ExpenseCategoryId")
                         .HasColumnType("bigint");
@@ -195,8 +195,8 @@ namespace InvenShopfy.API.Migrations
                         .HasMaxLength(80)
                         .HasColumnType("VARCHAR");
 
-                    b.Property<DateTime>("DateOfJoin")
-                        .HasColumnType("TIMESTAMPTZ");
+                    b.Property<DateOnly>("DateOfJoin")
+                        .HasColumnType("date");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -526,8 +526,8 @@ namespace InvenShopfy.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTime>("PurchaseDate")
-                        .HasColumnType("TIMESTAMP");
+                    b.Property<DateOnly>("PurchaseDate")
+                        .HasColumnType("date");
 
                     b.Property<string>("PurchaseNote")
                         .IsRequired()
@@ -585,7 +585,7 @@ namespace InvenShopfy.API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<double>("TotalPricePaidPerProduct")
+                    b.Property<decimal>("TotalPricePaidPerProduct")
                         .HasColumnType("NUMERIC(18,2)");
 
                     b.Property<int>("TotalQuantityBoughtPerProduct")
@@ -627,8 +627,8 @@ namespace InvenShopfy.API.Migrations
                         .IsRequired()
                         .HasColumnType("VARCHAR");
 
-                    b.Property<DateTime>("SaleDate")
-                        .HasColumnType("TIMESTAMP");
+                    b.Property<DateOnly>("SaleDate")
+                        .HasColumnType("date");
 
                     b.Property<string>("SaleNote")
                         .IsRequired()
@@ -639,7 +639,7 @@ namespace InvenShopfy.API.Migrations
                         .IsRequired()
                         .HasColumnType("VARCHAR(50)");
 
-                    b.Property<double>("ShippingCost")
+                    b.Property<decimal>("ShippingCost")
                         .HasColumnType("NUMERIC(18,2)");
 
                     b.Property<string>("StaffNote")
@@ -647,7 +647,7 @@ namespace InvenShopfy.API.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("TotalAmount")
+                    b.Property<decimal>("TotalAmount")
                         .HasColumnType("NUMERIC(18,2)");
 
                     b.Property<int>("TotalQuantitySold")
@@ -684,7 +684,7 @@ namespace InvenShopfy.API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<double>("TotalPricePerProduct")
+                    b.Property<decimal>("TotalPricePerProduct")
                         .HasColumnType("NUMERIC(18,2)");
 
                     b.Property<int>("TotalQuantitySoldPerProduct")
@@ -733,8 +733,8 @@ namespace InvenShopfy.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTime>("DateOfJoin")
-                        .HasColumnType("TIMESTAMPTZ");
+                    b.Property<DateOnly>("DateOfJoin")
+                        .HasColumnType("date");
 
                     b.Property<string>("Email")
                         .IsRequired()

@@ -16,14 +16,18 @@ public class CreateSalesRequest : Request
     [Required(ErrorMessage = "Invalid Biller Id")]
     public long BillerId { get; set; }
     
-    
-    [Required(ErrorMessage = "Please inform the Payment Status")]
+    [Required(ErrorMessage = "Please Select one of the Payment status")]
+    [AllowedValues("Complete", "Incomplete", "Drafts",
+        ErrorMessage = "Please select one of the allowed values Complete, Incomplete, Drafts")]
     public string PaymentStatus { get; set; } = EPaymentStatus.Complete.ToString(); 
     
     [Required(ErrorMessage = "Please inform the Payment Status")]
-    public double ShippingCost { get; set; } 
+    [Range(0.01, 1000000, ErrorMessage = "Shipping Cost be between 0.01 and 1,000,000.")]
+    public decimal ShippingCost { get; set; } 
     
-    [Required(ErrorMessage = "Please inform the Sale Status")]
+    [Required(ErrorMessage = "Please Select one of the Sale status")]
+    [AllowedValues("Complete", "Incomplete", "Drafts",
+        ErrorMessage = "Please select one of the allowed values Complete, Incomplete, Drafts")]
     public string SaleStatus { get; set; } = ESaleStatus.Complete.ToString();
     
     [MaxLength(120, ErrorMessage = "Max len of 120 characters")]
@@ -38,11 +42,11 @@ public class CreateSalesRequest : Request
     public string StaffNote { get; set; } = null!;
     
     [Required(ErrorMessage = "Invalid TotalAmount")]
-    [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]
-    public double TotalAmount { get; set; } 
+    [Range(0.01, 1000000, ErrorMessage = "Total Amount must be between 0.01 and 1,000,000.")]
+    public decimal TotalAmount { get; set; } 
     
     [Required(ErrorMessage = "Invalid Discount")]
-    [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]
+    [Range(1, 100, ErrorMessage = "Discount for {0} must be between {1} and {2}.")]
     public int Discount { get; set; } 
     
     

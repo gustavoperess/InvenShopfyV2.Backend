@@ -19,16 +19,19 @@ public class UpdateSalesRequest : Request
     [Required(ErrorMessage = "Invalid Product Id")]
     public long ProductId { get; set; }
     
-    [Required(ErrorMessage = "Please inform the Payment Status")]
+    [Required(ErrorMessage = "Please Select one of the Payment status")]
+    [AllowedValues("Complete", "Incomplete", "Drafts",
+        ErrorMessage = "Please select one of the allowed values Complete, Incomplete, Drafts")]
     public string PaymentStatus { get; set; } = EPaymentStatus.Complete.ToString(); 
     
     [Required(ErrorMessage = "Please inform the Payment Status")]
-    public double ShippingCost { get; set; } 
+    [Range(0.01, 1000000, ErrorMessage = "Shipping Cost be between 0.01 and 1,000,000.")]
+    public decimal ShippingCost { get; set; } 
     
-    [Required(ErrorMessage = "Please inform the Payment Status")]
-    public int RandomNumber { get; set; } 
     
-    [Required(ErrorMessage = "Please inform the Sale Status")]
+    [Required(ErrorMessage = "Please Select one of the Sale status")]
+    [AllowedValues("Complete", "Incomplete", "Drafts",
+        ErrorMessage = "Please select one of the allowed values Complete, Incomplete, Drafts")]
     public string SaleStatus { get; set; } = ESaleStatus.Complete.ToString();
 
     [Required(ErrorMessage = "Invalid Document")]

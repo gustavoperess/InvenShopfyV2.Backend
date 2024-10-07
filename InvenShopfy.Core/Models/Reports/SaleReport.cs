@@ -8,7 +8,7 @@ public class SaleReport
     
     public int NumberOfProductsSold { get; set; }
 
-    public double TotalAmountSold { get; set; }
+    public decimal TotalAmountSold { get; set; }
 
     public string SaleStatus { get; set; } = String.Empty;
 }

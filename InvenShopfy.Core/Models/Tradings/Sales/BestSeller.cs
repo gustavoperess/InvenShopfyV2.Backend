@@ -8,7 +8,7 @@ public class BestSeller
     public long BillerId { get; set; }
     public int TotalQuantitySold { get; set; }
     public string Name { get; set; } = String.Empty;
-    public double TotalAmount { get; set; }
+    public decimal TotalAmount { get; set; }
 
 
 }

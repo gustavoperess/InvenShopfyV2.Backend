@@ -13,6 +13,6 @@ public class PurchaseProduct
     public Product.Product Product { get; set; } = null!;
     
     public int TotalQuantityBoughtPerProduct { get; set; }
-    public double TotalPricePaidPerProduct { get; set; }
+    public decimal TotalPricePaidPerProduct { get; set; }
     public string PurchaseReferenceNumber { get; set; } = string.Empty;
 }

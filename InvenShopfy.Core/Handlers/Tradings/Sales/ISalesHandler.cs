@@ -16,6 +16,6 @@ public interface ISalesHandler
     Task<PagedResponse<List<Models.Tradings.Sales.MostSoldProduct>?>> GetMostSoldProductAsync(GetMostSoldProduct request);
     Task<Response<Models.Tradings.Sales.Sale?>> GetSalesBySellerAsync(GetSalesBySeller request);
     
-    Task<Response<double?>> GetTotalAmountSalesRequestAsync(GetTotalSalesAmountRequest request);
+    Task<Response<decimal?>> GetTotalAmountSalesRequestAsync(GetTotalSalesAmountRequest request);
     
 }

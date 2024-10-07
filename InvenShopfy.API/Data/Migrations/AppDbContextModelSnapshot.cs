@@ -582,7 +582,7 @@ namespace InvenShopfy.API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<double>("TotalPricePaidPerProduct")
+                    b.Property<decimal>("TotalPricePaidPerProduct")
                         .HasColumnType("NUMERIC(18,2)");
 
                     b.Property<int>("TotalQuantityBoughtPerProduct")
@@ -636,7 +636,7 @@ namespace InvenShopfy.API.Migrations
                         .IsRequired()
                         .HasColumnType("VARCHAR(50)");
 
-                    b.Property<double>("ShippingCost")
+                    b.Property<decimal>("ShippingCost")
                         .HasColumnType("NUMERIC(18,2)");
 
                     b.Property<string>("StaffNote")
@@ -644,7 +644,7 @@ namespace InvenShopfy.API.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("TotalAmount")
+                    b.Property<decimal>("TotalAmount")
                         .HasColumnType("NUMERIC(18,2)");
 
                     b.Property<int>("TotalQuantitySold")
@@ -681,7 +681,7 @@ namespace InvenShopfy.API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<double>("TotalPricePerProduct")
+                    b.Property<decimal>("TotalPricePerProduct")
                         .HasColumnType("NUMERIC(18,2)");
 
                     b.Property<int>("TotalQuantitySoldPerProduct")

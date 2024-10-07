@@ -13,15 +13,16 @@ public class UpdatePurchaseRequest : Request
     [Required(ErrorMessage = "Invalid SupplierId Id")]
     public long SupplierId { get; set; }
     
-    [Required(ErrorMessage = "Invalid SupplierId Id")]
-    public long ProductId { get; set; }
-    
     [Required(ErrorMessage = "Please inform the Purchase Status")]
     public string PurchaseStatus { get; set; } = EPurchaseStatus.Complete.ToString();
     
+    [Required(ErrorMessage = "Please inform total amount bought")]
+    [Range(0.01, 1000000, ErrorMessage = "Amount must be between 0.01 and 1,000,000.")]
+    public decimal TotalAmountBought { get; set; }
+    
     [Required(ErrorMessage = "Invalid ShippingCost")]
-    [MaxLength(20,  ErrorMessage= "Max len of 20 characters")]
-    public int ShippingCost { get; set; }
+    [Range(0.01, 1000000, ErrorMessage = "Shipping Cost must be between 0.01 and 1,000,000.")]
+    public decimal ShippingCost { get; set; } 
     
     [Required(ErrorMessage = "Invalid PurchaseNote")]
     [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]

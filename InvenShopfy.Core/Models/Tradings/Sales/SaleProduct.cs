@@ -13,7 +13,7 @@ public class SaleProduct
     public Product.Product Product { get; set; } = null!;
     
     public int TotalQuantitySoldPerProduct { get; set; }
-    public double TotalPricePerProduct { get; set; }
+    public decimal TotalPricePerProduct { get; set; }
 
     public string ReferenceNumber { get; set; } = null!;
 }
