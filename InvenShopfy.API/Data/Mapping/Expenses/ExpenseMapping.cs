@@ -15,7 +15,7 @@ public class ExpenseMapping : IEntityTypeConfiguration<Expense>
         
         builder.Property(x => x.Date)
             .IsRequired(true)
-            .HasColumnType("TIMESTAMPTZ");
+            .HasColumnType("date");
         
         builder.Property(x => x.ExpenseType)
             .IsRequired(true)

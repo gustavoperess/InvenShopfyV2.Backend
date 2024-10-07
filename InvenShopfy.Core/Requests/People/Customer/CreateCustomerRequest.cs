@@ -27,7 +27,7 @@ public class CreateCustomerRequest : Request
     public string City { get; set; } = string.Empty;
     
     [Required(ErrorMessage = "Invalid Country")]
-    [MaxLength(80, ErrorMessage = "Max length of 30 characters")]
+    [MaxLength(30, ErrorMessage = "Max length of 30 characters")]
     public string Country { get; set; } = string.Empty;
     
     [Required(ErrorMessage = "Invalid Address")]
@@ -50,8 +50,7 @@ public class CreateCustomerRequest : Request
     
     [Required(ErrorMessage = "Please Select one of the Customers")]
     [AllowedValues("General", "WalkIn", "Local", "Foreign",
-        ErrorMessage = "Please select one of the allowed values General, Walkin, Local, Foreign")]
-    [EnumDataType(typeof(ECustomerGroup))]
+        ErrorMessage = "Please select one of the allowed values General, WalkIn, Local, Foreign")]
     public string CustomerGroup { get; set; } = ECustomerGroup.WalkIn.ToString();
     
 }
