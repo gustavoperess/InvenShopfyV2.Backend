@@ -14,10 +14,15 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
 {
     public async Task<Response<Sale?>> CreateAsync(CreateSalesRequest request)
     {
-        await using var transaction = await context.Database.BeginTransactionAsync();
 
         try
         {
+            var productIds = request.ProductIdPlusQuantity.Keys;
+            var availableSaleProducts = await context.SaleProducts
+                .Include(sp => sp.Product) 
+                .Where(sp => productIds.Contains(sp.ProductId))
+                .ToListAsync();
+
             var sale = new Sale
             {
                 CustomerId = request.CustomerId,
@@ -35,18 +40,14 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 Discount = request.Discount
             };
             
-            var productIds = request.ProductIdPlusQuantity.Keys;
-            var availableSaleProducts = await context.SaleProducts
-                .Include(sp => sp.Product) 
-                .Where(sp => productIds.Contains(sp.ProductId))
-                .ToListAsync();
-            
+         
             var productResponse = sale.AddProductsToSale(request.ProductIdPlusQuantity, availableSaleProducts);
             if (!productResponse.IsSuccess)
             {
                 return productResponse;
             }
             
+            await using var transaction = await context.Database.BeginTransactionAsync();
             foreach (var saleProduct in availableSaleProducts)
             {
                 context.Products.Update(saleProduct.Product);
@@ -60,7 +61,6 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
         }
         catch
         {
-            await transaction.RollbackAsync();
             return new Response<Sale?>(null, 500, "It was not possible to create a new sale");
         }
     }

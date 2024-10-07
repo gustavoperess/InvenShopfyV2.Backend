@@ -14,10 +14,11 @@ public class CustomerHandler (AppDbContext context) : ICustomerHandler
     {
         try
         {
-            if (!Enum.IsDefined(typeof(ECustomerGroup), request.CustomerGroup))
-            {
-                return new Response<Customer?>(null, 400, "Invalid Customer Group");
-            }
+            // if (!Enum.IsDefined(typeof(ECustomerGroup), request.CustomerGroup))
+            // {
+            //     return new Response<Customer?>(null, 400, "Invalid Customer Group");
+            // }
+            
             
             var customer = new Customer
             {

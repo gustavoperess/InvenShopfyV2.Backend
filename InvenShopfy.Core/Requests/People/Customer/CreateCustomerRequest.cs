@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using InvenShopfy.Core.Enum;
-using InvenShopfy.Core.Models.People;
 using InvenShopfy.Core.Standards;
 
 namespace InvenShopfy.Core.Requests.People.Customer;
@@ -14,10 +13,12 @@ public class CreateCustomerRequest : Request
     public string Name { get; set; } = String.Empty;
     
     [Required(ErrorMessage = "Invalid Email")]
+    [EmailAddress]
     [MaxLength(160, ErrorMessage = "Max length of 160 characters")]
     public string Email { get; set; } = String.Empty;
     
-    [Required(ErrorMessage = "Invalid Phone Number")]
+    [Required(ErrorMessage = "Mobile no. is required")]
+    [RegularExpression("^(?:\\+1)?\\s?\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}$", ErrorMessage = "Please enter valid phone no.")]
     [MaxLength(80, ErrorMessage = "Max length of 80 characters")]
     public string PhoneNumber { get; set; } = string.Empty;
     
@@ -29,7 +30,6 @@ public class CreateCustomerRequest : Request
     [MaxLength(80, ErrorMessage = "Max length of 30 characters")]
     public string Country { get; set; } = string.Empty;
     
-    
     [Required(ErrorMessage = "Invalid Address")]
     [MaxLength(160, ErrorMessage = "Max length of 160 characters")]
     public string Address { get; set; } = string.Empty;
@@ -37,19 +37,21 @@ public class CreateCustomerRequest : Request
     private string _zipCode = string.Empty;
     [Required(ErrorMessage = "Invalid Zip Code")]
     [MaxLength(20, ErrorMessage = "Max length of 20 characters")]
+
     public string ZipCode
     {
         get => _zipCode;
         set => _zipCode = _zipCodeFormatter.FormatZipCode(value);
     }   
-
+    //
     [Required(ErrorMessage = "Invalid Rewards Point")]
-    [MaxLength(30, ErrorMessage = "Max length of 30 characters")]
+    [Range(1, 1000, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
     public long RewardPoint { get; set; }
     
     [Required(ErrorMessage = "Please Select one of the Customers")]
+    [AllowedValues("General", "WalkIn", "Local", "Foreign",
+        ErrorMessage = "Please select one of the allowed values General, Walkin, Local, Foreign")]
     [EnumDataType(typeof(ECustomerGroup))]
     public string CustomerGroup { get; set; } = ECustomerGroup.WalkIn.ToString();
     
- 
 }

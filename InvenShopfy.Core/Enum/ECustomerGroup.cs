@@ -7,3 +7,4 @@ public enum ECustomerGroup
     Local = 3,
     Foreign = 4
 }
+

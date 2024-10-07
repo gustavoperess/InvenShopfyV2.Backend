@@ -1,7 +1,7 @@
+using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.People;
-using InvenShopfy.Core.Requests.People.Biller;
 using InvenShopfy.Core.Requests.People.Customer;
 using InvenShopfy.Core.Responses;
 
@@ -22,6 +22,22 @@ public class CreateCustomerEndpoint : IEndPoint
         CreateCustomerRequest request)
     {
         request.UserId = user.Identity?.Name ?? string.Empty;
+        
+        var validationResults = new List<ValidationResult>();
+        var validationContext = new ValidationContext(request);
+        bool isValid = Validator.TryValidateObject(request, validationContext, validationResults, true);
+        
+        if (!isValid)
+        {
+            var errors = validationResults.Select(v => v.ErrorMessage).ToList();
+            foreach (var i in errors)
+            {
+                Console.WriteLine($"{i}");
+                return TypedResults.BadRequest(new Response<Core.Models.People.Customer?>(null, 400, i));
+            }
+
+        }
+        
         var result = await handler.CreateAsync(request);
         return result.IsSuccess
             ? TypedResults.Created($"/{result.Data?.Id}", result)

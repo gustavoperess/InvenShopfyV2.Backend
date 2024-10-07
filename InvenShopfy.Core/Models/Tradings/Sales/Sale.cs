@@ -53,6 +53,8 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
         }
         
         
+        
+        
         // creates the sale product
         private SaleProduct CreateSaleProduct(long productId, double totalPricePerProduct, int totalQuantitySoldPerProduct)
         {

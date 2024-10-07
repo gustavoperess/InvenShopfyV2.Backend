@@ -46,10 +46,6 @@
   <ItemGroup>
     <None Remove="logs\log-20241003.txt" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="logs\log-20241003.txt" />
-  </ItemGroup>
   
 
 </Project>

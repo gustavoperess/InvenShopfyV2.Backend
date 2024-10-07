@@ -46,8 +46,8 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
             
             await context.Purchases.AddAsync(purchase);
             await context.SaveChangesAsync();
-            
             await transaction.CommitAsync();
+            
             return new Response<AddPurchase?>(purchase, 201, "Purchase created successfully");
 
         }

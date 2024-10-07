@@ -9,6 +9,7 @@ public class CreateBrandRequest : Request
     public string Title { get; set; }= string.Empty;
     
     [Required(ErrorMessage = "Invalid Image")]
+    [Base64String]
     public string BrandImage { get; set; } = null!;
     
 }
