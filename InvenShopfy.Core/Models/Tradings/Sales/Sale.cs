@@ -6,6 +6,29 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
 {
     public class Sale
     {
+        public Sale() {}
+        public Sale(long id, DateOnly? saleDate, long customerId, long warehouseId, long billerId, 
+            decimal shippingCost, string paymentStatus, string saleStatus, string document, string saleNote,
+            string staffNote, int totalQuantitySold, decimal totalAmount, int discount, string userId)
+        {
+            Id = id;
+            SaleDate = saleDate ?? DateOnly.FromDateTime(DateTime.Now);
+            CustomerId = customerId;
+            WarehouseId = warehouseId;
+            BillerId = billerId;
+            ShippingCost = shippingCost;
+            PaymentStatus = paymentStatus;
+            SaleStatus = saleStatus;
+            Document = document;
+            SaleNote = saleNote;
+            StaffNote = staffNote;
+            TotalQuantitySold = totalQuantitySold;
+            TotalAmount = totalAmount;
+            ReferenceNumber = GenerateRandomNumber.RandomNumberGenerator();
+            Discount = discount;
+            UserId = userId;
+        }
+
         public long Id { get; set; }
         public DateOnly SaleDate { get; set; }  = DateOnly.FromDateTime(DateTime.Now);
         public long CustomerId { get; set; }
@@ -21,12 +44,13 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
         public string SaleNote { get; set; } = string.Empty;
         public string StaffNote { get; set; } = string.Empty;
         public int TotalQuantitySold { get; set; }
-        public string UserId { get; set; } = string.Empty;
+
         public decimal TotalAmount { get; set; } 
         public string ReferenceNumber { get; private set; } = GenerateRandomNumber.RandomNumberGenerator();
         public int Discount { get; set; }
         public List<SaleProduct> SaleProducts { get; set; } = new List<SaleProduct>();
         
+        public string UserId { get; set; } = string.Empty;
         
         // Handle Sale logic 
         public Response<Sale?> AddProductsToSale(Dictionary<long, int> productIdPlusQuantity, List<SaleProduct> availableProducts) 
@@ -53,8 +77,6 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
         }
         
         
-        
-        
         // creates the sale product
         private SaleProduct CreateSaleProduct(long productId, decimal totalPricePerProduct, int totalQuantitySoldPerProduct)
         {
@@ -68,5 +90,6 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
             };
             return saleProduct;
         }
+        
     }
 }

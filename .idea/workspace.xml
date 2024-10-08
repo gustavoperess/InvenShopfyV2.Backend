@@ -6,13 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="a198bd72-77c5-41a2-b2bc-caddea3eb970" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Handlers/People/BillerHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/Handlers/People/BillerHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Models/People/Biller.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Models/People/Biller.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Requests/People/Biller/CreateBillerRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Requests/People/Biller/CreateBillerRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Models/Product/Brand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Models/Product/Brand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Models/Product/Category.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Models/Product/Category.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Models/Product/Product.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Models/Product/Product.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Models/Product/Unit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Models/Product/Unit.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Models/Tradings/Sales/Sale.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Models/Tradings/Sales/Sale.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Models/Tradings/Sales/SaleProduct.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Models/Tradings/Sales/SaleProduct.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/invenShopfy.Tests/Core/Models/Expenses/ExpenseTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/invenShopfy.Tests/Core/Models/Expenses/ExpenseTest.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/invenShopfy.Tests/Core/Models/Sales/SaleTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/invenShopfy.Tests/Core/Models/Sales/SaleTest.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/invenShopfy.Tests/HelperTest/ClassesForTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/invenShopfy.Tests/HelperTest/ClassesForTests.cs" afterDir="false" />
     </list>

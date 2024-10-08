@@ -2,6 +2,26 @@ namespace InvenShopfy.Core.Models.Product;
 
 public class Product
 {
+    public Product()
+    {
+    }
+    public Product(long id, decimal price, int productCode, int stockQuantity, long unitId, long brandId, long categoryId, string productImage, bool featured, bool differPriceWarehouse, bool expired, bool sale, string  userId)
+    {
+        Id = id;
+        Price = price;
+        ProductCode = productCode;
+        StockQuantity = stockQuantity;
+        UnitId = unitId;
+        BrandId = brandId;
+        CategoryId = categoryId;
+        ProductImage = productImage;
+        Featured = featured;
+        DifferPriceWarehouse = differPriceWarehouse;
+        Expired = expired;
+        Sale = sale;
+        UserId = userId;
+    }
+
     public long Id { get; set; }
     public string Title { get; set; } = string.Empty;
     public decimal Price { get; set; }

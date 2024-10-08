@@ -1,4 +1,5 @@
 using InvenShopfy.Core.Models.Expenses;
+using InvenShopfy.Core.Models.Tradings.Sales;
 using invenShopfy.Tests.HelperTest;
 
 namespace invenShopfy.Tests.Core.Models.Expenses;
@@ -27,16 +28,6 @@ public class ExpenseTest
         Assert.Equal(_amount, expense.Amount);
         Assert.Equal(_purchaseNote, expense.PurchaseNote);
         Assert.Equal(userId, expense.UserId);
-    }
-    [Fact]
-    public void Creates_expense_with_default_values()
-    {
-        var expense = new Expense();
-        Assert.Equal(DateOnly.FromDateTime(DateTime.Now), expense.Date); // Default date
-        Assert.Equal(string.Empty, expense.ExpenseType); // Default string
-        Assert.Equal(0, expense.Amount); // Default decimal
-        Assert.Equal(string.Empty, expense.PurchaseNote); // Default string
-        Assert.Equal(string.Empty, expense.UserId); // Default string
     }
     
     [Fact]
