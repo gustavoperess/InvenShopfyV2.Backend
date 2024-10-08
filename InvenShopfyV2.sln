@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvenShopfy.Core", "InvenSh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvenShopfy.API", "InvenShopfy.API\InvenShopfy.API.csproj", "{4B466450-489C-40F1-B5EF-F8BB6DF9D954}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "invenShopfy.Tests", "invenShopfy.Tests\invenShopfy.Tests.csproj", "{1CA12F76-202B-4353-904E-58EEC51A1E61}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{4B466450-489C-40F1-B5EF-F8BB6DF9D954}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B466450-489C-40F1-B5EF-F8BB6DF9D954}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B466450-489C-40F1-B5EF-F8BB6DF9D954}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CA12F76-202B-4353-904E-58EEC51A1E61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CA12F76-202B-4353-904E-58EEC51A1E61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CA12F76-202B-4353-904E-58EEC51A1E61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CA12F76-202B-4353-904E-58EEC51A1E61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -14,7 +14,8 @@ public class Biller
     public string Identification { get; set; } = string.Empty;
     public string Address { get; set; } = string.Empty;
     public string Country { get; set; } = string.Empty;
-    public string ZipCode { get => _zipCode; set => _zipCode = _zipCodeFormatter.FormatZipCode(value); }
+    public string ZipCode { get => _zipCode; 
+        set => _zipCode = _zipCodeFormatter.FormatZipCode(value); }
     public long BillerCode { get; set; } 
     public string UserId { get; set; } = string.Empty;
     

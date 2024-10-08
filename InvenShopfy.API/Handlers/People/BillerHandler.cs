@@ -5,6 +5,7 @@ using InvenShopfy.Core.Requests.People.Biller;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace InvenShopfy.API.Handlers.People;
 
 public class BillerHandler (AppDbContext context) : IBillerHandler
@@ -20,6 +21,7 @@ public class BillerHandler (AppDbContext context) : IBillerHandler
                 Email = request.Email,
                 PhoneNumber = request.PhoneNumber,
                 Identification = request.Identification,
+                DateOfJoin = request.DateOfJoin,
                 Address = request.Address,
                 Country = request.Country,
                 ZipCode = request.ZipCode,
@@ -34,7 +36,7 @@ public class BillerHandler (AppDbContext context) : IBillerHandler
         }
         catch
         {
-            return new Response<Biller?>(null, 500, "It was not possible to create a new Biller");
+            return new Response<Biller?>(null, 500, $"It was not possible to create a new Biller ");
         }
     }
 
