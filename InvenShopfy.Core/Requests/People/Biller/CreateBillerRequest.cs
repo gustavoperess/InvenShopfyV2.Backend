@@ -5,6 +5,7 @@ namespace InvenShopfy.Core.Requests.People.Biller;
 
 public class CreateBillerRequest : Request
 {
+    
     private readonly ZipCode _zipCodeFormatter = new ZipCode();
     
     [Required(ErrorMessage = "Invalid Voucher Name")]

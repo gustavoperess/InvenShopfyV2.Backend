@@ -47,5 +47,17 @@ public class TestHelper
             _ => throw new ArgumentException("Invalid Customer")
         };
     }
+    public static Biller ReturnBiller(int billerId)
+    {
+        var biller01 = new Biller(1, "Biller A", new DateOnly(2024, 09, 11), "biller_a@example.com", "1234567890", "ID1234", "123 Billing St.", "USA", "10004", 101, 1, "UserId");
+        var biller02 = new Biller(2, "Biller B", new DateOnly(2024, 09, 12), "biller_b@example.com", "0987654321", "ID5678", "456 Billing Ave.", "USA", "90004", 102, 1, "UserId");
+
+        return billerId switch
+        {
+            1 => biller01,
+            2 => biller01,
+            _ => throw new ArgumentException("Invalid Biller")
+        };
+    }
     
 }
