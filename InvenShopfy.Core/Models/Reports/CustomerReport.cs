@@ -1,6 +1,6 @@
 namespace InvenShopfy.Core.Models.Reports;
 
-public class Product
+public class CustomerReport
 {
     
 }
