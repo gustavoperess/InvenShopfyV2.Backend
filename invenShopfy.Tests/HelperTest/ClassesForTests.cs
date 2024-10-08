@@ -1,7 +1,8 @@
 using InvenShopfy.Core.Models.Expenses;
+using InvenShopfy.Core.Models.People;
 using InvenShopfy.Core.Models.Warehouse;
 
-namespace invenShopfy.Tests.NewClassesForTest;
+namespace invenShopfy.Tests.HelperTest;
 
 public class TestHelper
 {
@@ -17,7 +18,7 @@ public class TestHelper
         {
             1 => warehouse01,
             2 => warehouse02,
-            _ => throw new ArgumentException("Invalid Warehouse 1")
+            _ => throw new ArgumentException("Invalid Warehouse")
         };
     }
 
@@ -30,7 +31,20 @@ public class TestHelper
         {
             1 => expenseCategory01,
             2 => expenseCategory02,
-            _ => throw new ArgumentException("Invalid expensive category 1")
+            _ => throw new ArgumentException("Invalid expensive category")
+        };
+    }
+    
+    public static Customer ReturnCustomer(int customerId)
+    {
+        var customer01 = new Customer(1,"John Doe","johndoe@example.com","123-456-7890","New York","USA","123 Main St","BW1-string",100,"Local",UserId); 
+        var customer02 = new Customer(2,"Walk In","Walk In@gmail.com","123-456-7890","New York","USA","123 Main St","BW1-string",100,"Local", UserId); 
+        
+        return customerId switch
+        {
+            1 => customer01,
+            2 => customer02,
+            _ => throw new ArgumentException("Invalid Customer")
         };
     }
     

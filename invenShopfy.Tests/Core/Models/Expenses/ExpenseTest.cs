@@ -1,5 +1,5 @@
 using InvenShopfy.Core.Models.Expenses;
-using invenShopfy.Tests.NewClassesForTest;
+using invenShopfy.Tests.HelperTest;
 
 namespace invenShopfy.Tests.Core.Models.Expenses;
 
