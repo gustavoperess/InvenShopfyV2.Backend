@@ -4,30 +4,12 @@ namespace InvenShopfy.Core.Models.People;
 
 public class Biller 
 {
-    public Biller() { }
-    public Biller(long id, string name, DateOnly? dateOfJoin, string email, 
-        string phoneNumber, string identification, string address, string country, 
-        string zipCode, long billerCode, long warehouseId, string userId)
-    {
-        Id = id;
-        Name = name;
-        DateOfJoin = dateOfJoin ?? DateOnly.FromDateTime(DateTime.Now);
-        Email = email;
-        PhoneNumber = phoneNumber;
-        Identification = identification;
-        Address = address;
-        Country = country;
-        ZipCode = zipCode;  
-        BillerCode = billerCode;
-        WarehouseId = warehouseId;
-        UserId = userId;
-    }
 
     private readonly ZipCode _zipCodeFormatter = new ZipCode();
     private string _zipCode = string.Empty;
-    public long Id { get; private set; }
+    public long Id { get; init; }
     public string Name { get; set; } = String.Empty;
-    public DateOnly DateOfJoin { get; set; }
+    public DateOnly DateOfJoin { get; init; }
     public string Email { get; set; } = String.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
     public string Identification { get; set; } = string.Empty;
@@ -38,7 +20,7 @@ public class Biller
     public long BillerCode { get; set; } 
     
     public long WarehouseId { get; set; }
-    public Warehouse.Warehouse Warehouse { get; set; } = null!;
+    public Warehouse.Warehouse Warehouse { get; init; } = null!;
     
     public string UserId { get; set; } = string.Empty;
     

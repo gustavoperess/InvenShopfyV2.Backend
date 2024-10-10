@@ -6,7 +6,7 @@ public class ProductByName
     public string Title { get; set; } = string.Empty;
     public decimal Price { get; set; }
     public int ProductCode { get; set; }
-    public int StockQuantity { get; set; }
+    public int StockQuantity { get; init; }
     public string Category { get; set; } = null!;
     public string ProductImage { get; set; } = null!;
     public string Subcategory { get; set; } = string.Empty;

@@ -4,7 +4,7 @@ namespace InvenShopfy.Core.Models.Tradings.Sales;
 
 public class SaleList
 {
-    public long Id { get; set; }
+    public long Id { get; init; }
     public DateOnly SaleDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
     public string CustomerName { get; set; }  = string.Empty;
     public string WarehouseName { get; set; }  = string.Empty;

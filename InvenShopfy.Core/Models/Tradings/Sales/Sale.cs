@@ -11,29 +11,6 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
  
     public class Sale
     {
-        public Sale() {}
-        public Sale(long id, DateOnly? saleDate, long customerId, long warehouseId, long billerId, 
-            decimal shippingCost, string paymentStatus, string saleStatus, string document, string saleNote,
-            string staffNote, int totalQuantitySold, decimal totalAmount, int discount, string userId)
-        {
-            Id = id;
-            SaleDate = saleDate ?? DateOnly.FromDateTime(DateTime.Now);
-            CustomerId = customerId;
-            WarehouseId = warehouseId;
-            BillerId = billerId;
-            ShippingCost = shippingCost;
-            PaymentStatus = paymentStatus;
-            SaleStatus = saleStatus;
-            Document = document;
-            SaleNote = saleNote;
-            StaffNote = staffNote;
-            TotalQuantitySold = totalQuantitySold;
-            TotalAmount = totalAmount;
-            ReferenceNumber = GenerateRandomNumber.RandomNumberGenerator();
-            Discount = discount;
-            UserId = userId;
-        }
-
         public long Id { get; init; }
         public DateOnly SaleDate { get; init; }  = DateOnly.FromDateTime(DateTime.Now);
         public long CustomerId { get; set; }

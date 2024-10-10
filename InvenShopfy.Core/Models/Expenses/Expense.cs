@@ -6,22 +6,6 @@ namespace InvenShopfy.Core.Models.Expenses;
 
 public class Expense
 {
-    public Expense(long id, DateOnly date, Warehouse.Warehouse warehouse, string expenseType, ExpenseCategory 
-        expenseCategory, long voucherNumber, decimal amount, string purchaseNote, string userId)
-    {
-        Id = id;
-        Date = date;
-        Warehouse = warehouse;
-        ExpenseType = expenseType;
-        ExpenseCategory = expenseCategory;
-        VoucherNumber = voucherNumber;
-        Amount = amount;
-        PurchaseNote = purchaseNote;
-        UserId = userId;
-    }
-    public Expense()
-    {
-    }
     
     public long Id { get; set; }
     public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);
