@@ -28,10 +28,12 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
             };
             
             var productIds = request.ProductIdPlusQuantity.Keys;
-            var availablePurchaseProducts = await context.PurchaseProducts
-                .Include(sp => sp.Product) 
-                .Where(sp => productIds.Contains(sp.ProductId))
-                .ToListAsync();
+            var availablePurchaseProducts =
+                await context.Products.Where(sp => productIds.Contains(sp.Id)).ToListAsync();
+            // var availablePurchaseProducts = await context.PurchaseProducts
+            //     .Include(sp => sp.Product) 
+            //     .Where(sp => productIds.Contains(sp.ProductId))
+            //     .ToListAsync();
 
             var pruchaseRespose = purchase.AddPurchaseToPurchase(request.ProductIdPlusQuantity, availablePurchaseProducts);
             if (!pruchaseRespose.IsSuccess)
@@ -39,11 +41,11 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
                 return pruchaseRespose;
             }
             
-            foreach (var pur in availablePurchaseProducts)
-            {
-                context.Products.Update(pur.Product);
-            }
-            
+            // foreach (var pur in availablePurchaseProducts)
+            // {
+            //     context.Products.Update(pur.Product);
+            // }
+            //
             await context.Purchases.AddAsync(purchase);
             await context.SaveChangesAsync();
             await transaction.CommitAsync();

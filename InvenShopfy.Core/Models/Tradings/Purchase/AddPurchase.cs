@@ -7,15 +7,15 @@ namespace InvenShopfy.Core.Models.Tradings.Purchase;
 
 public class AddPurchase
 {
-    public long Id { get; set; }
+    public long Id { get; init; }
     
-    public DateOnly PurchaseDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+    public DateOnly PurchaseDate { get; init; } = DateOnly.FromDateTime(DateTime.Now);
     
     public long WarehouseId { get; set; }
-    public Warehouse.Warehouse Warehouse { get; set; } = null!;
+    public Warehouse.Warehouse Warehouse { get; init; } = null!;
     
     public long SupplierId { get; set; }
-    public Supplier Supplier { get; set; } = null!;
+    public Supplier Supplier { get; init; } = null!;
     
     public string PurchaseStatus { get; set; } = string.Empty;
     
@@ -24,27 +24,27 @@ public class AddPurchase
     public string PurchaseNote { get; set; } = string.Empty;
     
     public string ReferenceNumber { get; private set; } = GenerateRandomNumber.RandomNumberGenerator();
-    public string UserId { get; set; } = string.Empty;
+    public string UserId { get; init; } = string.Empty;
     
-    public decimal TotalAmountBought { get; set; }
+    public decimal TotalAmountBought { get; init; }
     
     public int TotalNumberOfProductsBought { get; set; }
-    public List<PurchaseProduct> PurchaseProducts { get; set; } = new List<PurchaseProduct>();
+    public List<PurchaseProduct> PurchaseProducts { get; init; } = new List<PurchaseProduct>();
     
-    public Response<AddPurchase?> AddPurchaseToPurchase(Dictionary<long, int> productIdPlusQuantity, List<PurchaseProduct> purchase)
+    public Response<AddPurchase?> AddPurchaseToPurchase(Dictionary<long, int> productIdPlusQuantity, List<Product.Product> purchase)
     {
         int sumOfItems = 0;
         foreach (var item in productIdPlusQuantity)
         {
-            var product = purchase.FirstOrDefault(p => p.Product.Id == item.Key);
+            var product = purchase.FirstOrDefault(p => p.Id == item.Key);
             if (product == null)
             {
                 return new Response<AddPurchase?>(null, 400, $"Product with Id {item.Key} not found");
             }
           
-            var pricePerProduct = product.Product.Price * item.Value;
-            var purchaseProduct = CreatePurchaseProduct(product.Product.Id, pricePerProduct, item.Value);
-            product.Product.StockQuantity += item.Value;
+            var pricePerProduct = product.Price * item.Value;
+            var purchaseProduct = CreatePurchaseProduct(product.Id, pricePerProduct, item.Value);
+            product.StockQuantity += item.Value;
             sumOfItems += item.Value;
             PurchaseProducts.Add(purchaseProduct);
      
@@ -54,7 +54,7 @@ public class AddPurchase
         return new Response<AddPurchase?>(this, 200, "Products added to sale successfully");
     }
     
-    public PurchaseProduct CreatePurchaseProduct(long productId, decimal totalPricePerProduct, int totalQuantitySoldPerProduct)
+    private PurchaseProduct CreatePurchaseProduct(long productId, decimal totalPricePerProduct, int totalQuantitySoldPerProduct)
     {
         var purchaseProduct = new PurchaseProduct
         {

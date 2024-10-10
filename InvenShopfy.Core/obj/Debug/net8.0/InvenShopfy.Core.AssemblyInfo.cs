@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("InvenShopfy.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+00f6a1f33959438e4c8ce2014859315e26e1c49b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f3d0e8f3695a3a761a7b0d125eee35ec1f983b52")]
 [assembly: System.Reflection.AssemblyProductAttribute("InvenShopfy.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("InvenShopfy.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
