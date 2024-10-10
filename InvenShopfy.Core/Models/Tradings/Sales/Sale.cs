@@ -1,10 +1,14 @@
+
 using InvenShopfy.Core.Common.RandomNumber;
 using InvenShopfy.Core.Models.People;
 using InvenShopfy.Core.Responses;
+using System.Runtime.CompilerServices;
 
 
+[assembly: InternalsVisibleTo("InvenShopfy.Tests")]
 namespace InvenShopfy.Core.Models.Tradings.Sales
 {
+ 
     public class Sale
     {
         public Sale() {}
@@ -60,7 +64,6 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
             var listOfProducts = CheckIfProductIsAvalible(productIdPlusQuantity, availableProducts);
             foreach (var item in listOfProducts)
             {
-               
                 var quantityToSell = int.Parse(item.Value);
                 if (quantityToSell == 0)
                 {
@@ -81,7 +84,7 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
             return new Response<Sale?>(this, 200, "Products added to sale successfully");
         }
 
-        private Dictionary<long, string> CheckIfProductIsAvalible(Dictionary<long, int> productIdPlusQuantity,  List<Product.Product> availableProducts)
+        internal Dictionary<long, string> CheckIfProductIsAvalible(Dictionary<long, int> productIdPlusQuantity,  List<Product.Product> availableProducts)
         {
             var listOfAvaliableProducts = new Dictionary<long, string>();
             foreach (var item in productIdPlusQuantity)
@@ -106,7 +109,7 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
         
         
         // creates the sale product
-        private SaleProduct CreateSaleProduct(long productId, decimal totalPricePerProduct, int totalQuantitySoldPerProduct)
+        internal SaleProduct CreateSaleProduct(long productId, decimal totalPricePerProduct, int totalQuantitySoldPerProduct)
         {
             var saleProduct = new SaleProduct
             {

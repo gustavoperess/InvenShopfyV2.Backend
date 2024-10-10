@@ -152,51 +152,51 @@ public class TestHelper
     }
     
 
-    public static Product ReturnProduct(int productId)
-    {
-    
-        var unit01 = ReturnProductUnit(1);
-        var brand01 = ReturnProductBrand(1);
-        var category01 = ReturnProductCategory(1);
-        var product01 = new Product(
-            1, // Id: long
-            3121.00m, // Price: decimal
-            123123, // ProductCode: int
-            100, // StockQuantity: int
-            unit01.Id, // UnitId: long
-            brand01.Id, // BrandId: long
-            category01.Id, // CategoryId: long
-            "https://res.cloudinary.com/dououppib/image/upload/v1728311668/invenShopfy/Products/prxctztztqpglbo8p4ye.png", // ProductImage: string
-            false, // Featured: bool
-            false, // DifferPriceWarehouse: bool
-            false, // Expired: bool
-            false, // Sale: bool
-            UserId // UserId: string
-        );
-        var unit02 = ReturnProductUnit(2);
-        var brand02 = ReturnProductBrand(2);
-        var category02 = ReturnProductCategory(2);
-        var product02 = new Product(
-            2, // Id: long
-            100.00m, // Price: decimal
-            123, // ProductCode: int
-            50, // StockQuantity: int
-            unit02.Id, // UnitId: long
-            brand02.Id, // BrandId: long
-            category02.Id, // CategoryId: long
-            "https://res.cloudinary.com/dououppib/image/upload/v1728311668/invenShopfy/Products/prxctztztqpglbo8p4ye.png", // ProductImage: string
-            true, // Featured: bool
-            true, // DifferPriceWarehouse: bool
-            true, // Expired: bool
-            true, // Sale: bool
-            UserId // UserId: string
-        );
-
-        return productId switch
-        {
-            1 => product01,
-            2 => product02,
-            _ => throw new ArgumentException("Invalid Product")
-        };
-    }
+    // public static Product ReturnProduct(int productId)
+    // {
+    //
+    //     var unit01 = ReturnProductUnit(1);
+    //     var brand01 = ReturnProductBrand(1);
+    //     var category01 = ReturnProductCategory(1);
+    //     var product01 = new Product(
+    //         1, // Id: long
+    //         3121.00m, // Price: decimal
+    //         123123, // ProductCode: int
+    //         100, // StockQuantity: int
+    //         unit01.Id, // UnitId: long
+    //         brand01.Id, // BrandId: long
+    //         category01.Id, // CategoryId: long
+    //         "https://res.cloudinary.com/dououppib/image/upload/v1728311668/invenShopfy/Products/prxctztztqpglbo8p4ye.png", // ProductImage: string
+    //         false, // Featured: bool
+    //         false, // DifferPriceWarehouse: bool
+    //         false, // Expired: bool
+    //         false, // Sale: bool
+    //         UserId // UserId: string
+    //     );
+    //     var unit02 = ReturnProductUnit(2);
+    //     var brand02 = ReturnProductBrand(2);
+    //     var category02 = ReturnProductCategory(2);
+    //     var product02 = new Product(
+    //         2, // Id: long
+    //         100.00m, // Price: decimal
+    //         123, // ProductCode: int
+    //         50, // StockQuantity: int
+    //         unit02.Id, // UnitId: long
+    //         brand02.Id, // BrandId: long
+    //         category02.Id, // CategoryId: long
+    //         "https://res.cloudinary.com/dououppib/image/upload/v1728311668/invenShopfy/Products/prxctztztqpglbo8p4ye.png", // ProductImage: string
+    //         true, // Featured: bool
+    //         true, // DifferPriceWarehouse: bool
+    //         true, // Expired: bool
+    //         true, // Sale: bool
+    //         UserId // UserId: string
+    //     );
+    //
+    //     return productId switch
+    //     {
+    //         1 => product01,
+    //         2 => product02,
+    //         _ => throw new ArgumentException("Invalid Product")
+    //     };
+    // }
 }
