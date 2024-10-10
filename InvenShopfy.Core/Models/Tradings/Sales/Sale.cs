@@ -30,28 +30,28 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
             UserId = userId;
         }
 
-        public long Id { get; set; }
-        public DateOnly SaleDate { get; set; }  = DateOnly.FromDateTime(DateTime.Now);
+        public long Id { get; init; }
+        public DateOnly SaleDate { get; init; }  = DateOnly.FromDateTime(DateTime.Now);
         public long CustomerId { get; set; }
-        public Customer Customer { get; set; } = null!;
+        public Customer Customer { get; init; } = null!;
         public long WarehouseId { get; set; }
-        public Warehouse.Warehouse Warehouse { get; set; } = null!;
+        public Warehouse.Warehouse Warehouse { get; init; } = null!;
         public long BillerId { get; set; }
-        public Biller Biller { get; set; } = null!;
+        public Biller Biller { get; init; } = null!;
         public decimal ShippingCost { get; set; } 
-        public string PaymentStatus { get; set; } = string.Empty;
-        public string SaleStatus { get; set; } = string.Empty; 
+        public string PaymentStatus { get; init; } = string.Empty;
+        public string SaleStatus { get; init; } = string.Empty; 
         public string Document { get; set; } = string.Empty;
         public string SaleNote { get; set; } = string.Empty;
         public string StaffNote { get; set; } = string.Empty;
         public int TotalQuantitySold { get; set; }
 
-        public decimal TotalAmount { get; set; } 
-        public string ReferenceNumber { get; private set; } = GenerateRandomNumber.RandomNumberGenerator();
-        public int Discount { get; set; }
-        public List<SaleProduct> SaleProducts { get; set; } = new List<SaleProduct>();
+        public decimal TotalAmount { get; init; } 
+        public string ReferenceNumber { get; init; } = GenerateRandomNumber.RandomNumberGenerator();
+        public int Discount { get; init; }
+        public List<SaleProduct> SaleProducts { get; init; } = new List<SaleProduct>();
         
-        public string UserId { get; set; } = string.Empty;
+        public string UserId { get; init; } = string.Empty;
         
         
         // Handle Sale logic 

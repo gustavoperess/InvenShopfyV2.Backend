@@ -70,11 +70,9 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 return new Response<Sale?>(null, 404, "sale not found");
             }
             
-
             sale.CustomerId = request.CustomerId;
             sale.WarehouseId = request.WarehouseId;
             sale.BillerId = request.BillerId;
-            // sale.ProductId = request.ProductId;
             sale.ShippingCost = request.ShippingCost;
             sale.Document = request.Document;
             sale.StaffNote = request.StafNote;
@@ -82,13 +80,13 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
     
             context.Sales.Update(sale);
             await context.SaveChangesAsync();
-            return new Response<Core.Models.Tradings.Sales.Sale?>(sale, message: "sale updated successfully");
+            return new Response<Sale?>(sale, message: "sale updated successfully");
             
 
         }
         catch
         {
-            return new Response<Core.Models.Tradings.Sales.Sale?>(null, 500, "It was not possible to update this sale");
+            return new Response<Sale?>(null, 500, "It was not possible to update this sale");
         }
     }
 
@@ -100,21 +98,21 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
 
             if (sale is null)
             {
-                return new Response<Core.Models.Tradings.Sales.Sale?>(null, 404, "sale not found");
+                return new Response<Sale?>(null, 404, "sale not found");
             }
 
             context.Sales.Remove(sale);
             await context.SaveChangesAsync();
-            return new Response<Core.Models.Tradings.Sales.Sale?>(sale, message: "sale removed successfully");
+            return new Response<Sale?>(sale, message: "sale removed successfully");
 
         }
         catch
         {
-            return new Response<Core.Models.Tradings.Sales.Sale?>(null, 500, "It was not possible to delete this sale");
+            return new Response<Sale?>(null, 500, "It was not possible to delete this sale");
         }
     }
 
-    public async Task<Response<Core.Models.Tradings.Sales.Sale?>> GetByIdAsync(GetSalesByIdRequest request)
+    public async Task<Response<Sale?>> GetByIdAsync(GetSalesByIdRequest request)
     {
         try
         {
@@ -122,19 +120,19 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
 
             if (sale is null)
             {
-                return new Response<Core.Models.Tradings.Sales.Sale?>(null, 404, "sale not found");
+                return new Response<Sale?>(null, 404, "sale not found");
             }
 
-            return new Response<Core.Models.Tradings.Sales.Sale?>(sale);
+            return new Response<Sale?>(sale);
 
         }
         catch
         {
-            return new Response<Core.Models.Tradings.Sales.Sale?>(null, 500, "It was not possible to find this sale");
+            return new Response<Sale?>(null, 500, "It was not possible to find this sale");
         }
     }
 
-    public async Task<PagedResponse<List<Core.Models.Tradings.Sales.SaleList>?>> GetByPeriodAsync(GetAllSalesRequest request)
+    public async Task<PagedResponse<List<SaleList>?>> GetByPeriodAsync(GetAllSalesRequest request)
     {
         try
         {
@@ -169,7 +167,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
 
             var count = await query.CountAsync();
             
-            var result = sale.Select(s => new Core.Models.Tradings.Sales.SaleList
+            var result = sale.Select(s => new SaleList
             {
                 Id = s.Id,
                 SaleDate = s.SaleDate,
@@ -185,7 +183,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 
             }).ToList();
 
-            return new PagedResponse<List<Core.Models.Tradings.Sales.SaleList>?>(
+            return new PagedResponse<List<SaleList>?>(
                 result,
                 count,
                 request.PageNumber,
@@ -193,7 +191,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
         }
         catch
         {
-            return new PagedResponse<List<Core.Models.Tradings.Sales.SaleList>?>(null, 500, "It was not possible to consult all sale");
+            return new PagedResponse<List<SaleList>?>(null, 500, "It was not possible to consult all sale");
         }
     }
     
@@ -238,7 +236,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 .Take(request.PageSize)
                 .ToListAsync();
 
-            var result = sale.Select(s => new Core.Models.Tradings.Sales.BestSeller
+            var result = sale.Select(s => new BestSeller
             {
                 BillerId = s.BillerId,
                 Name = s.BillerName,
@@ -246,7 +244,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 TotalAmount = s.TotalAmount,
             }).ToList();
 
-            return new PagedResponse<List<Core.Models.Tradings.Sales.BestSeller>?>(
+            return new PagedResponse<List<BestSeller>?>(
                 result,
                 count,
                 request.PageNumber,
@@ -254,11 +252,11 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
         }
         catch
         {
-            return new PagedResponse<List<Core.Models.Tradings.Sales.BestSeller>?>(null, 500, "It was not possible to consult all sale");
+            return new PagedResponse<List<BestSeller>?>(null, 500, "It was not possible to consult all sale");
         }
     }
     
-    public async Task<PagedResponse<List<Core.Models.Tradings.Sales.MostSoldProduct>?>> GetMostSoldProductAsync(GetMostSoldProduct request)
+    public async Task<PagedResponse<List<MostSoldProduct>?>> GetMostSoldProductAsync(GetMostSoldProduct request)
     {
         
         try
@@ -296,7 +294,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
 
             var sale = await query.ToListAsync();
 
-            var result = sale.Select(s => new Core.Models.Tradings.Sales.MostSoldProduct
+            var result = sale.Select(s => new MostSoldProduct
             {
                 Id = s.Id,
                 ProductCode = s.ProductCode,
@@ -305,7 +303,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 
             }).ToList();
 
-            return new PagedResponse<List<Core.Models.Tradings.Sales.MostSoldProduct>?>(
+            return new PagedResponse<List<MostSoldProduct>?>(
                 result,
                 result.Count,
                 request.PageNumber,
@@ -313,7 +311,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
         }
         catch
         {
-            return new PagedResponse<List<Core.Models.Tradings.Sales.MostSoldProduct>?>(null, 500, "It was not possible to consult all sale");
+            return new PagedResponse<List<MostSoldProduct>?>(null, 500, "It was not possible to consult all sale");
         }
     }
 
@@ -331,7 +329,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
         
     }
     
-    public async Task<Response<Core.Models.Tradings.Sales.Sale?>> GetSalesBySellerAsync(GetSalesBySeller request)
+    public async Task<Response<Sale?>> GetSalesBySellerAsync(GetSalesBySeller request)
     {
         try
         {
@@ -339,15 +337,15 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
 
             if (sale is null)
             {
-                return new Response<Core.Models.Tradings.Sales.Sale?>(null, 404, "sale not found");
+                return new Response<Sale?>(null, 404, "sale not found");
             }
 
-            return new Response<Core.Models.Tradings.Sales.Sale?>(sale);
+            return new Response<Sale?>(sale);
 
         }
         catch
         {
-            return new Response<Core.Models.Tradings.Sales.Sale?>(null, 500, "It was not possible to find this sale");
+            return new Response<Sale?>(null, 500, "It was not possible to find this sale");
         }
     }
 }
