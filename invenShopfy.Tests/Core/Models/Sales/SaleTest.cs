@@ -1,6 +1,4 @@
-using InvenShopfy.Core.Common.RandomNumber;
 using InvenShopfy.Core.Models.Product;
-using invenShopfy.Tests.HelperTest;
 using InvenShopfy.Core.Models.Tradings.Sales;
 
 namespace invenShopfy.Tests.Core.Models.Sales;

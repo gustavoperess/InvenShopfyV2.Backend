@@ -26,7 +26,7 @@ public class AddPurchase
     public string ReferenceNumber { get; private set; } = GenerateRandomNumber.RandomNumberGenerator();
     public string UserId { get; init; } = string.Empty;
     
-    public decimal TotalAmountBought { get; init; }
+    public decimal TotalAmountBought { get; set; }
     
     public int TotalNumberOfProductsBought { get; set; }
     public List<PurchaseProduct> PurchaseProducts { get; init; } = new List<PurchaseProduct>();
@@ -40,6 +40,10 @@ public class AddPurchase
             if (product == null)
             {
                 return new Response<AddPurchase?>(null, 400, $"Product with Id {item.Key} not found");
+            }
+            if (item.Value <= 0)
+            {
+                continue; 
             }
           
             var pricePerProduct = product.Price * item.Value;
