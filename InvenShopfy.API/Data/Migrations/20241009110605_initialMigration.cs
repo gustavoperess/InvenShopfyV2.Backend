@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -7,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreation : Migration
+    public partial class initialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,8 +20,8 @@ namespace InvenShopfy.API.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Title = table.Column<string>(type: "VARCHAR", maxLength: 80, nullable: false),
-                    UserId = table.Column<string>(type: "VARCHAR", maxLength: 160, nullable: false),
-                    BrandImage = table.Column<string>(type: "VARCHAR", maxLength: 80, nullable: true)
+                    BrandImage = table.Column<string>(type: "VARCHAR", maxLength: 80, nullable: true),
+                    UserId = table.Column<string>(type: "VARCHAR", maxLength: 160, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,9 +34,8 @@ namespace InvenShopfy.API.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(type: "VARCHAR", maxLength: 80, nullable: false),
-                    SubCategory = table.Column<string>(type: "VARCHAR", maxLength: 80, nullable: false),
                     MainCategory = table.Column<string>(type: "VARCHAR", maxLength: 80, nullable: false),
+                    SubCategory = table.Column<List<string>>(type: "text[]", nullable: false),
                     UserId = table.Column<string>(type: "VARCHAR", maxLength: 160, nullable: false)
                 },
                 constraints: table =>
@@ -57,7 +57,7 @@ namespace InvenShopfy.API.Migrations
                     Address = table.Column<string>(type: "VARCHAR", maxLength: 160, nullable: false),
                     ZipCode = table.Column<string>(type: "VARCHAR", maxLength: 20, nullable: false),
                     RewardPoint = table.Column<long>(type: "BIGINT", maxLength: 30, nullable: false),
-                    CustomerGroup = table.Column<short>(type: "SMALLINT", nullable: false),
+                    CustomerGroup = table.Column<string>(type: "VARCHAR(50)", nullable: false),
                     UserId = table.Column<string>(type: "VARCHAR", maxLength: 160, nullable: false)
                 },
                 constraints: table =>
@@ -300,10 +300,10 @@ namespace InvenShopfy.API.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "VARCHAR", maxLength: 150, nullable: false),
-                    DateOfJoin = table.Column<DateTime>(type: "TIMESTAMPTZ", nullable: false),
+                    DateOfJoin = table.Column<DateOnly>(type: "date", nullable: false),
                     Email = table.Column<string>(type: "VARCHAR", maxLength: 160, nullable: false),
                     PhoneNumber = table.Column<string>(type: "VARCHAR", maxLength: 80, nullable: false),
-                    Gender = table.Column<short>(type: "SMALLINT", nullable: false),
+                    Gender = table.Column<string>(type: "VARCHAR(50)", nullable: false),
                     Username = table.Column<string>(type: "VARCHAR", maxLength: 80, nullable: false),
                     ProfileImage = table.Column<string>(type: "VARCHAR", nullable: true),
                     Password = table.Column<string>(type: "VARCHAR", maxLength: 160, nullable: false),
@@ -330,13 +330,18 @@ namespace InvenShopfy.API.Migrations
                     Title = table.Column<string>(type: "VARCHAR", maxLength: 80, nullable: false),
                     Price = table.Column<decimal>(type: "MONEY", nullable: false),
                     ProductCode = table.Column<string>(type: "VARCHAR", maxLength: 80, nullable: false),
-                    Quantity = table.Column<long>(type: "BIGINT", nullable: false),
+                    StockQuantity = table.Column<long>(type: "BIGINT", nullable: false),
                     CreateAt = table.Column<string>(type: "VARCHAR", maxLength: 255, nullable: false),
                     UnitId = table.Column<long>(type: "bigint", nullable: false),
                     BrandId = table.Column<long>(type: "bigint", nullable: false),
                     CategoryId = table.Column<long>(type: "bigint", nullable: false),
                     ProductImage = table.Column<string>(type: "VARCHAR", maxLength: 255, nullable: true),
-                    UserId = table.Column<string>(type: "text", nullable: false)
+                    UserId = table.Column<string>(type: "VARCHAR", maxLength: 160, nullable: false),
+                    Subcategory = table.Column<string>(type: "VARCHAR", maxLength: 255, nullable: false),
+                    Featured = table.Column<bool>(type: "BOOLEAN", nullable: false),
+                    DifferPriceWarehouse = table.Column<bool>(type: "BOOLEAN", nullable: false),
+                    Expired = table.Column<bool>(type: "BOOLEAN", nullable: false),
+                    Sale = table.Column<bool>(type: "BOOLEAN", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -368,7 +373,7 @@ namespace InvenShopfy.API.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "VARCHAR", maxLength: 150, nullable: false),
-                    DateOfJoin = table.Column<DateTime>(type: "TIMESTAMPTZ", nullable: false),
+                    DateOfJoin = table.Column<DateOnly>(type: "date", nullable: false),
                     Email = table.Column<string>(type: "VARCHAR", maxLength: 160, nullable: false),
                     PhoneNumber = table.Column<string>(type: "VARCHAR", maxLength: 80, nullable: false),
                     Identification = table.Column<string>(type: "VARCHAR", maxLength: 30, nullable: false),
@@ -376,8 +381,8 @@ namespace InvenShopfy.API.Migrations
                     Country = table.Column<string>(type: "VARCHAR", maxLength: 80, nullable: false),
                     ZipCode = table.Column<string>(type: "VARCHAR", maxLength: 20, nullable: false),
                     BillerCode = table.Column<long>(type: "BIGINT", maxLength: 160, nullable: false),
-                    UserId = table.Column<string>(type: "VARCHAR", maxLength: 160, nullable: false),
-                    WarehouseId = table.Column<long>(type: "bigint", nullable: false)
+                    WarehouseId = table.Column<long>(type: "bigint", nullable: false),
+                    UserId = table.Column<string>(type: "VARCHAR", maxLength: 160, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -396,12 +401,12 @@ namespace InvenShopfy.API.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Date = table.Column<DateTime>(type: "TIMESTAMPTZ", nullable: false),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false),
                     WarehouseId = table.Column<long>(type: "bigint", nullable: false),
-                    ExpenseType = table.Column<short>(type: "SMALLINT", nullable: false),
+                    ExpenseType = table.Column<string>(type: "VARCHAR(50)", nullable: false),
                     ExpenseCategoryId = table.Column<long>(type: "bigint", nullable: false),
                     VoucherNumber = table.Column<long>(type: "BIGINT", nullable: false),
-                    Amount = table.Column<double>(type: "numeric(18,2)", nullable: false),
+                    Amount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     PurchaseNote = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false),
                     UserId = table.Column<string>(type: "VARCHAR", maxLength: 160, nullable: false)
                 },
@@ -428,24 +433,20 @@ namespace InvenShopfy.API.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Date = table.Column<DateTime>(type: "TIMESTAMPTZ", nullable: false),
+                    PurchaseDate = table.Column<DateOnly>(type: "date", nullable: false),
                     WarehouseId = table.Column<long>(type: "bigint", nullable: false),
                     SupplierId = table.Column<long>(type: "bigint", nullable: false),
-                    ProductId = table.Column<long>(type: "bigint", nullable: false),
-                    PurchaseStatus = table.Column<short>(type: "SMALLINT", nullable: false),
+                    PurchaseStatus = table.Column<string>(type: "VARCHAR(50)", nullable: false),
                     ShippingCost = table.Column<decimal>(type: "numeric(18,2)", maxLength: 80, nullable: false),
                     PurchaseNote = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false),
-                    UserId = table.Column<string>(type: "VARCHAR", maxLength: 160, nullable: false)
+                    ReferenceNumber = table.Column<string>(type: "VARCHAR", nullable: false),
+                    UserId = table.Column<string>(type: "VARCHAR", maxLength: 160, nullable: false),
+                    TotalAmountBought = table.Column<decimal>(type: "numeric(18,2)", maxLength: 80, nullable: false),
+                    TotalNumberOfProductsBought = table.Column<long>(type: "BIGINT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Purchase", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Purchase_Product_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Product",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Purchase_Supplier_SupplierId",
                         column: x => x.SupplierId,
@@ -456,6 +457,105 @@ namespace InvenShopfy.API.Migrations
                         name: "FK_Purchase_Warehouse_WarehouseId",
                         column: x => x.WarehouseId,
                         principalTable: "Warehouse",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sale",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    SaleDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    CustomerId = table.Column<long>(type: "bigint", nullable: false),
+                    WarehouseId = table.Column<long>(type: "bigint", nullable: false),
+                    BillerId = table.Column<long>(type: "bigint", nullable: false),
+                    ShippingCost = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    PaymentStatus = table.Column<string>(type: "VARCHAR(50)", nullable: false),
+                    SaleStatus = table.Column<string>(type: "VARCHAR(50)", nullable: false),
+                    Document = table.Column<string>(type: "VARCHAR(120)", nullable: false),
+                    SaleNote = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false),
+                    StaffNote = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false),
+                    TotalQuantitySold = table.Column<int>(type: "integer", nullable: false),
+                    TotalAmount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    ReferenceNumber = table.Column<string>(type: "VARCHAR", nullable: false),
+                    Discount = table.Column<int>(type: "INT", nullable: false),
+                    UserId = table.Column<string>(type: "VARCHAR", maxLength: 160, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sale", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Sale_Biller_BillerId",
+                        column: x => x.BillerId,
+                        principalTable: "Biller",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Sale_Customer_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customer",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Sale_Warehouse_WarehouseId",
+                        column: x => x.WarehouseId,
+                        principalTable: "Warehouse",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PurchaseProduct",
+                columns: table => new
+                {
+                    AddPurchaseId = table.Column<long>(type: "bigint", nullable: false),
+                    ProductId = table.Column<long>(type: "bigint", nullable: false),
+                    TotalQuantityBoughtPerProduct = table.Column<int>(type: "INTEGER", nullable: false),
+                    TotalPricePaidPerProduct = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    PurchaseReferenceNumber = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PurchaseProduct", x => new { x.AddPurchaseId, x.ProductId });
+                    table.ForeignKey(
+                        name: "FK_PurchaseProduct_Product_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Product",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PurchaseProduct_Purchase_AddPurchaseId",
+                        column: x => x.AddPurchaseId,
+                        principalTable: "Purchase",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SaleProduct",
+                columns: table => new
+                {
+                    SaleId = table.Column<long>(type: "bigint", nullable: false),
+                    ProductId = table.Column<long>(type: "bigint", nullable: false),
+                    TotalQuantitySoldPerProduct = table.Column<int>(type: "INTEGER", nullable: false),
+                    TotalPricePerProduct = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    ReferenceNumber = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SaleProduct", x => new { x.SaleId, x.ProductId });
+                    table.ForeignKey(
+                        name: "FK_SaleProduct_Product_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Product",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SaleProduct_Sale_SaleId",
+                        column: x => x.SaleId,
+                        principalTable: "Sale",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -524,11 +624,6 @@ namespace InvenShopfy.API.Migrations
                 column: "UnitId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Purchase_ProductId",
-                table: "Purchase",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Purchase_SupplierId",
                 table: "Purchase",
                 column: "SupplierId");
@@ -539,6 +634,31 @@ namespace InvenShopfy.API.Migrations
                 column: "WarehouseId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PurchaseProduct_ProductId",
+                table: "PurchaseProduct",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Sale_BillerId",
+                table: "Sale",
+                column: "BillerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Sale_CustomerId",
+                table: "Sale",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Sale_WarehouseId",
+                table: "Sale",
+                column: "WarehouseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SaleProduct_ProductId",
+                table: "SaleProduct",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_User_RoleId",
                 table: "User",
                 column: "RoleId");
@@ -547,12 +667,6 @@ namespace InvenShopfy.API.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Biller");
-
-            migrationBuilder.DropTable(
-                name: "Customer");
-
             migrationBuilder.DropTable(
                 name: "Expense");
 
@@ -575,7 +689,10 @@ namespace InvenShopfy.API.Migrations
                 name: "IdentityUserToken");
 
             migrationBuilder.DropTable(
-                name: "Purchase");
+                name: "PurchaseProduct");
+
+            migrationBuilder.DropTable(
+                name: "SaleProduct");
 
             migrationBuilder.DropTable(
                 name: "User");
@@ -587,16 +704,19 @@ namespace InvenShopfy.API.Migrations
                 name: "IdentityUser");
 
             migrationBuilder.DropTable(
+                name: "Purchase");
+
+            migrationBuilder.DropTable(
                 name: "Product");
 
             migrationBuilder.DropTable(
-                name: "Supplier");
-
-            migrationBuilder.DropTable(
-                name: "Warehouse");
+                name: "Sale");
 
             migrationBuilder.DropTable(
                 name: "Role");
+
+            migrationBuilder.DropTable(
+                name: "Supplier");
 
             migrationBuilder.DropTable(
                 name: "Brand");
@@ -606,6 +726,15 @@ namespace InvenShopfy.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "Unit");
+
+            migrationBuilder.DropTable(
+                name: "Biller");
+
+            migrationBuilder.DropTable(
+                name: "Customer");
+
+            migrationBuilder.DropTable(
+                name: "Warehouse");
         }
     }
 }

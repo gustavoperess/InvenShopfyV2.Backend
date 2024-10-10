@@ -7,22 +7,17 @@ using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
 
 
-
-
 namespace InvenShopfy.API.Handlers.Tradings.Sales;
 public class SaleHandler(AppDbContext context) : ISalesHandler 
 {
     public async Task<Response<Sale?>> CreateAsync(CreateSalesRequest request)
     {
-
+      
         try
         {
             var productIds = request.ProductIdPlusQuantity.Keys;
-            var availableSaleProducts = await context.SaleProducts
-                .Include(sp => sp.Product) 
-                .Where(sp => productIds.Contains(sp.ProductId))
-                .ToListAsync();
-
+            var availableSaleProducts = await context.Products.Where(sp => productIds.Contains(sp.Id)).ToListAsync();
+            
             var sale = new Sale
             {
                 CustomerId = request.CustomerId,
@@ -40,27 +35,22 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 Discount = request.Discount
             };
             
-         
             var productResponse = sale.AddProductsToSale(request.ProductIdPlusQuantity, availableSaleProducts);
             if (!productResponse.IsSuccess)
             {
                 return productResponse;
             }
-            
             await using var transaction = await context.Database.BeginTransactionAsync();
-            foreach (var saleProduct in availableSaleProducts)
-            {
-                context.Products.Update(saleProduct.Product);
-            }
-
             await context.Sales.AddAsync(sale);
             await context.SaveChangesAsync();
             await transaction.CommitAsync();
 
             return new Response<Sale?>(sale, 201, "Sale created successfully");
         }
-        catch
+        catch (Exception ex)
         {
+            Console.WriteLine($"An error occurred: {ex.Message}");
+            Console.WriteLine($"Stack Trace: {ex.StackTrace}");
             return new Response<Sale?>(null, 500, "It was not possible to create a new sale");
         }
     }

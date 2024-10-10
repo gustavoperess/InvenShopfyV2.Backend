@@ -14,9 +14,14 @@ public class SaleProductMapping : IEntityTypeConfiguration<SaleProduct>
         builder.Property(sp => sp.TotalQuantitySoldPerProduct)
             .IsRequired(true)
             .HasColumnType("INTEGER");
-
+        
         builder.Property(sp => sp.TotalPricePerProduct)
             .IsRequired(true)
             .HasColumnType("NUMERIC(18,2)");
+        
+        builder.HasOne(sp => sp.Product)
+            .WithMany() 
+            .HasForeignKey(sp => sp.ProductId);
+
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal" created-in="DB-242.21829.162">
-    <data-source name="InvenShopfyV2@localhost" uuid="a11e4da6-10a2-4498-a20a-e9c7d4bdfcc2">
+    <data-source name="InvenShopfyV2@localhost" uuid="e44bd120-b7f2-4364-a9ed-5bbfd22172fb">
       <database-info product="PostgreSQL" version="15.6 (Homebrew)" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.6.0" dbms="POSTGRES" exact-version="15.6" exact-driver-version="42.6">
         <identifier-quote-string>&quot;</identifier-quote-string>
       </database-info>

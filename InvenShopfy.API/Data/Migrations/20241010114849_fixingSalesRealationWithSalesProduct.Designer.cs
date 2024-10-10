@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241007150752_fixingDecimal")]
-    partial class fixingDecimal
+    [Migration("20241010114849_fixingSalesRealationWithSalesProduct")]
+    partial class fixingSalesRealationWithSalesProduct
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

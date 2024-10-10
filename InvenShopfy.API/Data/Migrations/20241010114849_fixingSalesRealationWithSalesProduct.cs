@@ -5,7 +5,7 @@
 namespace InvenShopfy.API.Migrations
 {
     /// <inheritdoc />
-    public partial class fixingDecimal : Migration
+    public partial class fixingSalesRealationWithSalesProduct : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

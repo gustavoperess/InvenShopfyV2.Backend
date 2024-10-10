@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241007142656_updatingDatetime")]
-    partial class updatingDatetime
+    [Migration("20241009110605_initialMigration")]
+    partial class initialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -585,7 +585,7 @@ namespace InvenShopfy.API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<double>("TotalPricePaidPerProduct")
+                    b.Property<decimal>("TotalPricePaidPerProduct")
                         .HasColumnType("NUMERIC(18,2)");
 
                     b.Property<int>("TotalQuantityBoughtPerProduct")
@@ -639,7 +639,7 @@ namespace InvenShopfy.API.Migrations
                         .IsRequired()
                         .HasColumnType("VARCHAR(50)");
 
-                    b.Property<double>("ShippingCost")
+                    b.Property<decimal>("ShippingCost")
                         .HasColumnType("NUMERIC(18,2)");
 
                     b.Property<string>("StaffNote")
@@ -647,7 +647,7 @@ namespace InvenShopfy.API.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("TotalAmount")
+                    b.Property<decimal>("TotalAmount")
                         .HasColumnType("NUMERIC(18,2)");
 
                     b.Property<int>("TotalQuantitySold")
@@ -684,7 +684,7 @@ namespace InvenShopfy.API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<double>("TotalPricePerProduct")
+                    b.Property<decimal>("TotalPricePerProduct")
                         .HasColumnType("NUMERIC(18,2)");
 
                     b.Property<int>("TotalQuantitySoldPerProduct")

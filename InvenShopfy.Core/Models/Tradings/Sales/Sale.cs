@@ -2,6 +2,7 @@ using InvenShopfy.Core.Common.RandomNumber;
 using InvenShopfy.Core.Models.People;
 using InvenShopfy.Core.Responses;
 
+
 namespace InvenShopfy.Core.Models.Tradings.Sales
 {
     public class Sale
@@ -52,28 +53,55 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
         
         public string UserId { get; set; } = string.Empty;
         
+        
         // Handle Sale logic 
-        public Response<Sale?> AddProductsToSale(Dictionary<long, int> productIdPlusQuantity, List<SaleProduct> availableProducts) 
+        public Response<Sale?> AddProductsToSale(Dictionary<long, int> productIdPlusQuantity, List<Product.Product> availableProducts)
         {
-            foreach (var item in productIdPlusQuantity)
+            var listOfProducts = CheckIfProductIsAvalible(productIdPlusQuantity, availableProducts);
+            foreach (var item in listOfProducts)
             {
-                var product = availableProducts.FirstOrDefault(po => po.Product.Id == item.Key);
-                if (product == null)
+               
+                var quantityToSell = int.Parse(item.Value);
+                if (quantityToSell == 0)
                 {
-                    return new Response<Sale?>(null, 400, $"Product with Id {item.Key} not found");
+                    return new Response<Sale?>(null, 400, $"Some products with id's {item.Key} are unavailable or insufficient in stock: {item.Value}");
                 }
-                if (product.Product.StockQuantity < item.Value)
+                
+                var product = availableProducts.FirstOrDefault(po => po.Id == item.Key);
+                if (product != null)
                 {
-                    return new Response<Sale?>(null, 400, $"Insufficient quantity for product Id {item.Key}");
+                    var pricePerProduct = product.Price * quantityToSell;
+                    var saleProduct = CreateSaleProduct(product.Id, pricePerProduct, quantityToSell);
+                    SaleProducts.Add(saleProduct);
+                    product.StockQuantity -= quantityToSell;
                 }
-                var pricePerProduct = product.Product.Price * item.Value;
-                var saleProduct = CreateSaleProduct(product.Product.Id, pricePerProduct, item.Value);
-                SaleProducts.Add(saleProduct);
-                product.Product.StockQuantity -= item.Value;
+        
             }
-            
             TotalQuantitySold = SaleProducts.Sum(x => x.TotalQuantitySoldPerProduct);
             return new Response<Sale?>(this, 200, "Products added to sale successfully");
+        }
+
+        private Dictionary<long, string> CheckIfProductIsAvalible(Dictionary<long, int> productIdPlusQuantity,  List<Product.Product> availableProducts)
+        {
+            var listOfAvaliableProducts = new Dictionary<long, string>();
+            foreach (var item in productIdPlusQuantity)
+            {
+                var product = availableProducts.FirstOrDefault(po => po.Id == item.Key);
+                if (product != null)
+                {
+                    if (product.StockQuantity >= item.Value)
+                    {
+                        listOfAvaliableProducts[item.Key] = item.Value.ToString();
+                    }
+                    else if (item.Value > product.StockQuantity)
+                    {
+                        listOfAvaliableProducts[item.Key] = product.StockQuantity.ToString();
+                        
+                    } 
+                }
+            }
+            
+            return listOfAvaliableProducts;
         }
         
         
