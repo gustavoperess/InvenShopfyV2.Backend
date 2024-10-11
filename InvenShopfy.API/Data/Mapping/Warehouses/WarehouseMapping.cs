@@ -16,25 +16,34 @@ public class WarehouseMapping : IEntityTypeConfiguration<Warehouse>
             .HasColumnType("VARCHAR")
             .HasMaxLength(50);
         
-        builder.Property(x => x.PhoneNumber)
+        builder.Property(x => x.WarehousePhoneNumber)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
             .HasMaxLength(80);
         
-        builder.Property(x => x.Email)
+        builder.Property(x => x.WarehouseEmail)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
             .HasMaxLength(160);
         
-        builder.Property(x => x.Address)
+        builder.Property(x => x.WarehouseCity)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
             .HasMaxLength(160);
 
-        builder.Property(x => x.ZipCode)
+        builder.Property(x => x.WarehouseZipCode)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
             .HasMaxLength(20);
+        
+        builder.Property(x => x.WarehouseCountry)
+            .IsRequired(true)
+            .HasColumnType("VARCHAR")
+            .HasMaxLength(80);
+
+        builder.Property(x => x.WarehouseOpeningNotes)
+            .IsRequired(false)
+            .HasColumnType("TEXT");
         
         builder.Property(x => x.UserId)
             .IsRequired(true)

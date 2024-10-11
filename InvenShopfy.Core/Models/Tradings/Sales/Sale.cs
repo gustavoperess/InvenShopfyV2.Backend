@@ -74,8 +74,8 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
                         listOfAvaliableProducts[item.Key] = item.Value.ToString();
                     }
                     else if (item.Value > product.StockQuantity)
-                    {
-                        listOfAvaliableProducts[item.Key] = product.StockQuantity.ToString();
+                    { // if the request is > than the requested quantity, then we add the request quantity
+                        listOfAvaliableProducts[item.Key] = product.StockQuantity.ToString(); 
                         
                     } 
                 }

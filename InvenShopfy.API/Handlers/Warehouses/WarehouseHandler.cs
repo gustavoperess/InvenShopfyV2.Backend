@@ -17,10 +17,12 @@ public class WarehouseHandler (AppDbContext context) : IWarehouseHandler
             {
                 UserId = request.UserId,
                 WarehouseName = request.WarehouseName,
-                PhoneNumber = request.UserId,
-                Email = request.UserId,
-                Address = request.Address,
-                ZipCode = request.ZipCode,
+                WarehousePhoneNumber = request.WarehousePhoneNumber,
+                WarehouseEmail = request.WarehouseEmail,
+                WarehouseCity = request.WarehouseCity,
+                WarehouseCountry = request.WarehouseCountry,
+                WarehouseZipCode = request.WarehouseZipCode,
+                WarehouseOpeningNotes = request.WarehouseOpeningNotes
             };
             await context.Warehouses.AddAsync(warehouse);
             await context.SaveChangesAsync();
@@ -46,10 +48,12 @@ public class WarehouseHandler (AppDbContext context) : IWarehouseHandler
             }
 
             warehouse.WarehouseName = request.WarehouseName;
-            warehouse.PhoneNumber = request.UserId;
-            warehouse.Email = request.UserId;
-            warehouse.Address = request.Address;
-            warehouse.ZipCode = request.ZipCode;
+            warehouse.WarehousePhoneNumber = request.WarehousePhoneNumber;
+            warehouse.WarehouseEmail = request.WarehouseEmail;
+            warehouse.WarehouseCity = request.WarehouseCity;
+            warehouse.WarehouseZipCode = request.WarehouseZipCode;
+            warehouse.WarehouseCountry = request.WarehouseCountry;
+            warehouse.WarehouseOpeningNotes = request.WarehouseOpeningNotes;
             context.Warehouses.Update(warehouse);
             await context.SaveChangesAsync();
             return new Response<Warehouse?>(warehouse, message: "Warehouse updated successfully");
@@ -110,7 +114,7 @@ public class WarehouseHandler (AppDbContext context) : IWarehouseHandler
                 .Warehouses
                 .AsNoTracking()
                 .Where(x => x.UserId == request.UserId)
-                .OrderBy(x => x.WarehouseName);
+                .OrderBy(x => x.Id);
             
             var warehouse = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)
