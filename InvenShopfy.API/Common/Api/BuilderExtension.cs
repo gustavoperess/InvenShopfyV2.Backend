@@ -14,13 +14,11 @@ using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Expenses;
 using InvenShopfy.Core.Handlers.People;
 using InvenShopfy.Core.Handlers.Product;
-using InvenShopfy.Core.Handlers.Reports;
 using InvenShopfy.Core.Handlers.Reports.Sales;
 using InvenShopfy.Core.Handlers.Tradings.Purchase;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
 using InvenShopfy.Core.Handlers.Warehouse;
 using Microsoft.EntityFrameworkCore;
-using Serilog.Filters.Expressions;
 
 
 namespace InvenShopfy.API.Common.Api;
@@ -65,7 +63,6 @@ public static class BuilderExtension
             .AddIdentityCookies();
 
         builder.Services.AddAuthorization();
-
     }
     
     public static void AddDataContexts(this WebApplicationBuilder builder)
