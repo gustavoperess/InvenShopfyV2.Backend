@@ -1,4 +1,5 @@
 using System.Reflection;
+using InvenShopfy.API.Models;
 using InvenShopfy.Core.Models.Expenses;
 using InvenShopfy.Core.Models.People;
 using InvenShopfy.Core.Models.Product;
@@ -8,14 +9,12 @@ using InvenShopfy.Core.Models.Warehouse;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using User = InvenShopfy.API.Models.User;
+using CustomLogin = InvenShopfy.API.Models.CustomLoginRequest;
 
 namespace InvenShopfy.API.Data;
 
     public class AppDbContext(DbContextOptions<AppDbContext> options)
-        : IdentityDbContext<User, 
-            IdentityRole<long>,
-            long,
+        : IdentityDbContext<CustomUserRequest,IdentityRole<long>, long,
             IdentityUserClaim<long>,
             IdentityUserRole<long>,
             IdentityUserLogin<long>,

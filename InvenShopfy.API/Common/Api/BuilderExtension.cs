@@ -73,7 +73,7 @@ public static class BuilderExtension
         builder.Services.AddDbContext<AppDbContext>(
             x => x.UseNpgsql(Configuration.ConnectionString));
     
-        builder.Services.AddIdentityCore<User>().AddRoles<IdentityRole<long>>()
+        builder.Services.AddIdentityCore<CustomUserRequest>().AddRoles<IdentityRole<long>>()
             .AddEntityFrameworkStores<AppDbContext>()
             .AddApiEndpoints();
     

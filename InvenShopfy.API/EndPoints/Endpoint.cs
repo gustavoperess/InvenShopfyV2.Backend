@@ -183,14 +183,15 @@ public static class Endpoint
         // Management Group
         endpoints.MapGroup("v2/identity")
             .WithTags("Identity")
-            .MapIdentityApi<User>();
+            .MapIdentityApi<CustomUserRequest>();
 
         endpoints.MapGroup("v2/identity")
             .WithTags("Identity")
             .MapEndpoint<LogoutEndpoint>()
             .MapEndpoint<GetRolesEndpoint>()
             .MapEndpoint<GetIdentityRolesEndpoint>()
-            .MapEndpoint<CreateRoleIdentityEndpoint>();
+            .MapEndpoint<CreateRoleIdentityEndpoint>()
+            .MapEndpoint<LoginEndpointEndpoint>(); 
     }
 
     private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app)
