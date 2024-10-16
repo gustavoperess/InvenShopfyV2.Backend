@@ -1,3 +1,4 @@
+using InvenShopfy.API.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -11,5 +12,15 @@ public class IdentityUserRoleMapping
     {
         builder.ToTable("IdentityUserRole");
         builder.HasKey(r => new { r.UserId, r.RoleId });
+        
+        builder.HasOne<CustomUserRequest>()
+            .WithMany(u => u.UserRoles) 
+            .HasForeignKey(ur => ur.UserId)
+            .IsRequired();
+        
+        builder.HasOne<IdentityRole<long>>()
+            .WithMany() // Roles have no navigation property back to users
+            .HasForeignKey(ur => ur.RoleId)
+            .IsRequired();
     }
 }
