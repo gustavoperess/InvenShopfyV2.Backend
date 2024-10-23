@@ -9,7 +9,7 @@ namespace InvenShopfy.API.EndPoints.Identity;
 public class CreateRoleIdentityEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapPost("/roles", Handle).RequireAuthorization();
+        => app.MapPost("/create-role-custom", Handle).RequireAuthorization();
 
     private static async Task<IResult> Handle(
         [FromServices] RoleManager<CustomIdentityRole> roleManager,
@@ -27,7 +27,7 @@ public class CreateRoleIdentityEndpoint : IEndPoint
         {
             Name = request.RoleName,
             Description = request.Description,
-            
+            ConcurrencyStamp = Guid.NewGuid().ToString()
         };
 
         var result = await roleManager.CreateAsync(role);

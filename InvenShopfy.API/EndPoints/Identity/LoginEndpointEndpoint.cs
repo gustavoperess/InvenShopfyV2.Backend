@@ -8,7 +8,7 @@ namespace InvenShopfy.API.EndPoints.Identity;
 public class LoginEndpointEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapPost("/handleLoginApplication", Handle);
+        => app.MapPost("/login-custom", Handle);
 
     private static async Task<IResult> Handle(
         [FromBody] CustomLoginRequest request,

@@ -7,7 +7,7 @@ namespace InvenShopfy.API.EndPoints.Identity;
 public class LogoutEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapPost("/logout", HandleAsync).RequireAuthorization();
+        => app.MapPost("/logout-custom", HandleAsync).RequireAuthorization();
     
     private static async Task<IResult> HandleAsync(
         SignInManager<CustomUserRequest> signInManage)

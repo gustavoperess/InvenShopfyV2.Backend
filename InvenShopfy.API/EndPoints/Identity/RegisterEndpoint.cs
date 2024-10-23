@@ -14,8 +14,6 @@ namespace InvenShopfy.API.EndPoints.Identity
             [FromBody] CustomUserRequest request,
             [FromServices] UserManager<CustomUserRequest> userManager)
         {
-            Console.WriteLine("CHECK ROLES NAME HERE 1");
-            Console.WriteLine(request.RoleName);
             
         if (string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.UserName))
         {
