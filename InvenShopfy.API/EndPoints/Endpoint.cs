@@ -12,12 +12,9 @@ using InvenShopfy.API.EndPoints.Products.Units;
 using InvenShopfy.API.EndPoints.Reports.Sales;
 using InvenShopfy.API.EndPoints.Tradings.Purchase.Add;
 using InvenShopfy.API.EndPoints.Tradings.Sales;
-using InvenShopfy.API.EndPoints.UserManagement.Role;
-using InvenShopfy.API.EndPoints.UserManagement.User;
 using InvenShopfy.API.EndPoints.Warehouses;
 using InvenShopfy.API.Models;
-using InvenShopfy.Core.Requests.Reports.Sales;
-using InvenShopfy.Core.Requests.Tradings.Sales;
+
 
 
 namespace InvenShopfy.API.EndPoints;

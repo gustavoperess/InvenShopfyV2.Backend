@@ -14,7 +14,7 @@ public class IdentityUserRoleMapping
         builder.HasKey(r => new { r.UserId, r.RoleId });
         
         builder.HasOne<CustomUserRequest>()
-            .WithMany(u => u.UserRoles) 
+            .WithMany(u => u.UserRoles) // Each user can have many roles
             .HasForeignKey(ur => ur.UserId)
             .IsRequired();
         

@@ -6,11 +6,26 @@
   <component name="ChangeListManager">
     <list default="true" id="a198bd72-77c5-41a2-b2bc-caddea3eb970" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Identity/CreateRoleIdentityEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Identity/CreateRoleIdentityEndpoint.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Identity/GetIdentityRolesEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Identity/GetIdentityRolesEndpoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Data/Mapping/Identity/IdentityUserMapping.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/Data/Mapping/Identity/IdentityUserMapping.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Data/Mapping/Identity/IdentityUserRoleMapping.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/Data/Mapping/Identity/IdentityUserRoleMapping.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Data/Migrations/AppDbContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/Data/Migrations/AppDbContextModelSnapshot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Endpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Endpoint.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Identity/RegisterEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Identity/RegisterEndpoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/UserManagement/Role/CreateRoleEndpoint.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/UserManagement/Role/DeleteRoleEndpoint.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/UserManagement/Role/GetAllRolesEndpoint.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/UserManagement/Role/GetRoleByIdEndpoint.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/UserManagement/Role/UpdateRoleEndpoint.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/UserManagement/User/CreateUserEndpoint.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/UserManagement/User/DeleteUserEndpoint.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/UserManagement/User/GetAllUsersEndpoint.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/UserManagement/User/GetUserByIdEndpoint.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/UserManagement/User/UpdateUserEndpoint.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Models/CustomLoginRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/Models/CustomLoginRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Models/CustomUserRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/Models/CustomUserRequest.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Requests/UserManagement/User/CreateUserRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Requests/UserManagement/User/CreateUserRequest.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfoInputs.cache" afterDir="false" />
     </list>

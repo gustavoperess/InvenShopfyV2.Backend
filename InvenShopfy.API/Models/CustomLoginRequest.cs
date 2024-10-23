@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Identity;
-
 namespace InvenShopfy.API.Models;
 
 public class CustomLoginRequest 
