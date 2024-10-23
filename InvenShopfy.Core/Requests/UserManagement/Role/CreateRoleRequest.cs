@@ -9,12 +9,7 @@ public class CreateRoleRequest : Request
     public string RoleName { get; set; } = String.Empty;
     
     [Required(ErrorMessage = "Invalid Description")]
-    [MaxLength(80,  ErrorMessage= "Max len of 80 characters")]
-    public string Description { get; set; } = String.Empty;
+    [MaxLength(256,  ErrorMessage= "Max len of 80 characters")]
+    public string Description { get; set; } = null!;
     
-    
-    [Required(ErrorMessage = "Invalid Description")]
-    [MaxLength(80,  ErrorMessage= "Max len of 80 characters")]
-    public string ConcurrencyStamp { get; set; } = String.Empty;
-
 }

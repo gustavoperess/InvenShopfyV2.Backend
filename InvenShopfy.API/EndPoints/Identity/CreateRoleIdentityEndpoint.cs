@@ -26,9 +26,8 @@ public class CreateRoleIdentityEndpoint : IEndPoint
         var role = new CustomIdentityRole
         {
             Name = request.RoleName,
-            NormalizedName = request.RoleName,
-            ConcurrencyStamp = request.ConcurrencyStamp,
-            Description = request.Description
+            Description = request.Description,
+            
         };
 
         var result = await roleManager.CreateAsync(role);
