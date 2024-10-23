@@ -9,7 +9,7 @@ namespace InvenShopfy.API.EndPoints.Identity;
 public class GetIdentityRolesEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("/GetAllRoles", Handle).RequireAuthorization();
+        => app.MapGet("/roles", Handle).RequireAuthorization();
     
     private static async Task<IResult> Handle(
         ClaimsPrincipal user,

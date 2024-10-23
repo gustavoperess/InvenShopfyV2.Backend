@@ -9,12 +9,11 @@ using InvenShopfy.Core.Models.Warehouse;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using CustomLogin = InvenShopfy.API.Models.CustomLoginRequest;
 
 namespace InvenShopfy.API.Data;
 
     public class AppDbContext(DbContextOptions<AppDbContext> options)
-        : IdentityDbContext<CustomUserRequest,IdentityRole<long>, long,
+        : IdentityDbContext<CustomUserRequest,CustomIdentityRole, long,
             IdentityUserClaim<long>,
             IdentityUserRole<long>,
             IdentityUserLogin<long>,

@@ -1,4 +1,5 @@
 using InvenShopfy.API.Common.Api;
+using InvenShopfy.API.Models;
 using InvenShopfy.Core.Requests.UserManagement.Role;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +12,7 @@ public class CreateRoleIdentityEndpoint : IEndPoint
         => app.MapPost("/roles", Handle).RequireAuthorization();
 
     private static async Task<IResult> Handle(
-        [FromServices] RoleManager<IdentityRole<long>> roleManager,
+        [FromServices] RoleManager<CustomIdentityRole> roleManager,
         [FromBody] CreateRoleRequest request)
     {
         // Check if role already exists
@@ -22,11 +23,12 @@ public class CreateRoleIdentityEndpoint : IEndPoint
         }
 
         // Create new role
-        var role = new IdentityRole<long>
+        var role = new CustomIdentityRole
         {
             Name = request.RoleName,
             NormalizedName = request.RoleName,
             ConcurrencyStamp = request.ConcurrencyStamp,
+            Description = request.Description
         };
 
         var result = await roleManager.CreateAsync(role);
