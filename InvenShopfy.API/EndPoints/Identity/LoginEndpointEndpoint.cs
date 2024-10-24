@@ -15,15 +15,15 @@ public class LoginEndpointEndpoint : IEndPoint
         [FromServices] UserManager<CustomUserRequest> userManager,
         [FromServices] SignInManager<CustomUserRequest> signInManager)
     {
+        Console.WriteLine(request.UserName);
+        Console.WriteLine(request.Password);
+        Console.WriteLine(request.Email);
         
         var user = await userManager.FindByNameAsync(request.UserName);
-        
-        
         if (user == null)
         {
             user = await userManager.FindByEmailAsync(request.Email);
         }
-        
         if (user == null)
         {
             return Results.NotFound("User not found");
