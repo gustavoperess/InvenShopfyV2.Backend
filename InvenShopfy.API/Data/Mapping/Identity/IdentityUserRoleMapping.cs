@@ -18,7 +18,7 @@ public class IdentityUserRoleMapping
             .HasForeignKey(ur => ur.UserId)
             .IsRequired();
         
-        builder.HasOne<IdentityRole<long>>()
+        builder.HasOne<CustomIdentityRole>()
             .WithMany() // Roles have no navigation property back to users
             .HasForeignKey(ur => ur.RoleId)
             .IsRequired();
