@@ -21,7 +21,7 @@ public class CloudinaryService
 
     public async Task<ImageUploadResult> UploadImageAsync(string base64Image, string folderName)
     {
-        var base64Data = base64Image.Substring(base64Image.IndexOf(",") + 1);
+        var base64Data = base64Image.Substring(base64Image.IndexOf(",") + 1); 
         var imageBytes = Convert.FromBase64String(base64Data);
         using (var stream = new MemoryStream(imageBytes))
         {

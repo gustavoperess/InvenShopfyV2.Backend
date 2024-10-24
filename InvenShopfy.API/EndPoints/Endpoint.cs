@@ -70,7 +70,7 @@ public static class Endpoint
             .MapEndpoint<GetCategoryByIdEndpoint>();
         
         // Expense Group
-        var expenseGroup = endpoints.MapGroup("v2/expenses")
+        var expenseGroup = endpoints.MapGroup("v2")
             .WithTags("Expenses");
         
         expenseGroup.MapGroup("Expenses")
@@ -123,7 +123,7 @@ public static class Endpoint
             .MapEndpoint<GetSupplierByIdEndpoint>();
         
         // WAREHOUSE GROUP
-        var warehouseGroup = endpoints.MapGroup("v2/Warehouse")
+        var warehouseGroup = endpoints.MapGroup("v2")
             .WithTags("Warehouse");
         
         warehouseGroup.MapGroup("Warehouse")
@@ -137,7 +137,7 @@ public static class Endpoint
             .MapEndpoint<GetWarehouseByIdEndpoint>();
         
         // Purchase GROUP
-        var purchaseGroup = endpoints.MapGroup("v2/Purchase")
+        var purchaseGroup = endpoints.MapGroup("v2")
             .WithTags("Purchase");
         
         purchaseGroup.MapGroup("Purchase")
@@ -150,7 +150,7 @@ public static class Endpoint
             .MapEndpoint<GetPurchaseByIdEndpoint>();
         
         // Sales GROUP
-        var salesGroup = endpoints.MapGroup("v2/Sale")
+        var salesGroup = endpoints.MapGroup("v2")
             .WithTags("Sale");
 
         salesGroup.MapGroup("Sale")
@@ -167,7 +167,7 @@ public static class Endpoint
         
         
         // SalesReport GROUP
-        var salesReportGroup = endpoints.MapGroup("v2/SaleReport")
+        var salesReportGroup = endpoints.MapGroup("v2")
             .WithTags("SaleReport");
 
         salesReportGroup.MapGroup("SalesReport")

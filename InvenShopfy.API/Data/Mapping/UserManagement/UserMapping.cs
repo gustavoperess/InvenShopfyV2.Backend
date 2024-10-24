@@ -41,7 +41,7 @@ public class UserMapping : IEntityTypeConfiguration<User>
 
         builder.Property(x => x.ProfileImage)
             .IsRequired(false)
-            .HasColumnType("VARCHAR");
+            .HasColumnType("TEXT");
 
         builder.Property(x => x.Password)
             .IsRequired(true)
