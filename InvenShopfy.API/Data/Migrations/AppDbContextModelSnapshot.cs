@@ -484,7 +484,7 @@ namespace InvenShopfy.API.Migrations
 
                     b.Property<string>("ProductCode")
                         .IsRequired()
-                        .HasMaxLength(80)
+                        .HasMaxLength(20)
                         .HasColumnType("VARCHAR");
 
                     b.Property<string>("ProductImage")

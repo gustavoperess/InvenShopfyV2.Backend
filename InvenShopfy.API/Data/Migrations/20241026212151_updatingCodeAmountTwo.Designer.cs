@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241023170544_tryingUserLoginmapping")]
-    partial class tryingUserLoginmapping
+    [Migration("20241026212151_updatingCodeAmountTwo")]
+    partial class updatingCodeAmountTwo
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,41 +57,6 @@ namespace InvenShopfy.API.Migrations
                         .IsUnique();
 
                     b.ToTable("IdentityRole", (string)null);
-                });
-
-            modelBuilder.Entity("InvenShopfy.API.Models.CustomLoginRequest", b =>
-                {
-                    b.Property<string>("UserName")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
-
-                    b.Property<string>("Password")
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.Property<string>("LoginProvider")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ProviderKey")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("UserName", "Email", "Password");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("IdentityUserLogin", (string)null);
                 });
 
             modelBuilder.Entity("InvenShopfy.API.Models.CustomUserRequest", b =>
@@ -152,11 +117,6 @@ namespace InvenShopfy.API.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
-
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
@@ -450,8 +410,7 @@ namespace InvenShopfy.API.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("BrandImage")
-                        .HasMaxLength(80)
-                        .HasColumnType("VARCHAR");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -528,12 +487,11 @@ namespace InvenShopfy.API.Migrations
 
                     b.Property<string>("ProductCode")
                         .IsRequired()
-                        .HasMaxLength(80)
+                        .HasMaxLength(20)
                         .HasColumnType("VARCHAR");
 
                     b.Property<string>("ProductImage")
-                        .HasMaxLength(255)
-                        .HasColumnType("VARCHAR");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("Sale")
                         .HasColumnType("BOOLEAN");
@@ -841,7 +799,7 @@ namespace InvenShopfy.API.Migrations
                         .HasColumnType("VARCHAR");
 
                     b.Property<string>("ProfileImage")
-                        .HasColumnType("VARCHAR");
+                        .HasColumnType("TEXT");
 
                     b.Property<long>("RoleId")
                         .HasColumnType("bigint");
@@ -914,28 +872,6 @@ namespace InvenShopfy.API.Migrations
                     b.ToTable("Warehouse", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<long>", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NormalizedName")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("IdentityRole<long>");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
                 {
                     b.Property<int>("Id")
@@ -986,6 +922,30 @@ namespace InvenShopfy.API.Migrations
                     b.ToTable("IdentityClaim", (string)null);
                 });
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<long>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("IdentityUserLogin", (string)null);
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<long>", b =>
                 {
                     b.Property<long>("UserId")
@@ -1020,15 +980,6 @@ namespace InvenShopfy.API.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("IdentityUserToken", (string)null);
-                });
-
-            modelBuilder.Entity("InvenShopfy.API.Models.CustomLoginRequest", b =>
-                {
-                    b.HasOne("InvenShopfy.API.Models.CustomUserRequest", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("InvenShopfy.Core.Models.Expenses.Expense", b =>
@@ -1192,9 +1143,18 @@ namespace InvenShopfy.API.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<long>", b =>
+                {
+                    b.HasOne("InvenShopfy.API.Models.CustomUserRequest", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<long>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<long>", null)
+                    b.HasOne("InvenShopfy.API.Models.CustomIdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)

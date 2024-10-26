@@ -21,7 +21,6 @@ public class ProductHandler : IProductHandler
   
     public async Task<Response<Product?>> CreateAsync(CreateProductRequest request)
     {
-   
         try
         {
             var product = new Product
@@ -41,8 +40,15 @@ public class ProductHandler : IProductHandler
                 Sale = request.Sale
         
             };
-            var uploadResult = await _cloudinaryService.UploadImageAsync(request.ProductImage, "invenShopfy/Products");
-            product.ProductImage = uploadResult.SecureUrl.ToString(); 
+            if (request.ProductImage == null)
+            {
+                product.ProductImage = "https://res.cloudinary.com/dououppib/image/upload/v1729977408/InvenShopfy/Products/mfbbhovoccem7sxsberb.png";
+            }
+            else
+            {
+                var uploadResult = await _cloudinaryService.UploadImageAsync(request.ProductImage, "invenShopfy/Products");
+                product.ProductImage = uploadResult.SecureUrl.ToString(); 
+            }
             
             await _context.Products.AddAsync(product);
             await _context.SaveChangesAsync();
@@ -50,6 +56,7 @@ public class ProductHandler : IProductHandler
         }
         catch
         {
+            
             return new Response<Product?>(null, 500, "It was not possible to create a new Product");
         }
     }

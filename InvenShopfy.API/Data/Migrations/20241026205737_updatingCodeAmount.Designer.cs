@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241024113740_changingIdentityRoleTwo")]
-    partial class changingIdentityRoleTwo
+    [Migration("20241026205737_updatingCodeAmount")]
+    partial class updatingCodeAmount
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -410,8 +410,7 @@ namespace InvenShopfy.API.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("BrandImage")
-                        .HasMaxLength(80)
-                        .HasColumnType("VARCHAR");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -488,12 +487,11 @@ namespace InvenShopfy.API.Migrations
 
                     b.Property<string>("ProductCode")
                         .IsRequired()
-                        .HasMaxLength(80)
+                        .HasMaxLength(20)
                         .HasColumnType("VARCHAR");
 
                     b.Property<string>("ProductImage")
-                        .HasMaxLength(255)
-                        .HasColumnType("VARCHAR");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("Sale")
                         .HasColumnType("BOOLEAN");
@@ -801,7 +799,7 @@ namespace InvenShopfy.API.Migrations
                         .HasColumnType("VARCHAR");
 
                     b.Property<string>("ProfileImage")
-                        .HasColumnType("VARCHAR");
+                        .HasColumnType("TEXT");
 
                     b.Property<long>("RoleId")
                         .HasColumnType("bigint");

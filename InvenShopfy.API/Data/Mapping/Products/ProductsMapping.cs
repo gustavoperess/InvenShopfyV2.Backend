@@ -23,7 +23,7 @@ public class ProductsMapping : IEntityTypeConfiguration<Product>
         builder.Property(x => x.ProductCode)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
-            .HasMaxLength(80);
+            .HasMaxLength(20);
         
         builder.Property(x => x.CreateAt)
             .IsRequired(true)
