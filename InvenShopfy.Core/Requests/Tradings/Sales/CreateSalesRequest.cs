@@ -33,11 +33,11 @@ public class CreateSalesRequest : Request
     [MaxLength(120, ErrorMessage = "Max len of 120 characters")]
     public string Document { get; set; } = string.Empty;
     
-    [Required(ErrorMessage = "Invalid SaleNote")]
+
     [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]
     public string SaleNote { get; set; } = null!;
     
-    [Required(ErrorMessage = "Invalid StaffNote")]
+
     [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]
     public string StaffNote { get; set; } = null!;
     
@@ -54,7 +54,6 @@ public class CreateSalesRequest : Request
     [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
     [DataType(DataType.Date)] 
     public DateOnly SaleDate { get; set; }
-    
     public Dictionary<long, int> ProductIdPlusQuantity { get; set; } = new Dictionary<long, int>();
     
 }

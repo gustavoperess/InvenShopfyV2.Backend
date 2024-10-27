@@ -10,5 +10,7 @@ public class ProductByName
     public string Category { get; set; } = null!;
     public string ProductImage { get; set; } = null!;
     public string Subcategory { get; set; } = string.Empty;
+    
+    public bool Expired { get; set; }
     public string UserId { get; set; } = string.Empty;
 }

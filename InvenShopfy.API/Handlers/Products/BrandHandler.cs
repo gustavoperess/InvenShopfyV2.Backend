@@ -27,9 +27,15 @@ public class BrandHandler : IBrandHandler
                 UserId = request.UserId,
                 Title = request.Title,
             };
-            
-            var uploadResult = await _cloudinaryService.UploadImageAsync(request.BrandImage, "invenShopfy/Brands");
-            brand.BrandImage = uploadResult.SecureUrl.ToString();
+            if (request.BrandImage == null)
+            {
+                brand.BrandImage = "https://res.cloudinary.com/dououppib/image/upload/v1729977408/InvenShopfy/Products/mfbbhovoccem7sxsberb.png";
+            }
+            else
+            {
+                var uploadResult = await _cloudinaryService.UploadImageAsync(request.BrandImage, "invenShopfy/Brands");
+                brand.BrandImage = uploadResult.SecureUrl.ToString();
+            }
             
             await _context.Brands.AddAsync(brand);
             await _context.SaveChangesAsync();

@@ -209,7 +209,8 @@ public class ProductHandler : IProductHandler
                     ProductCode = g.ProductCode,
                     Category = g.Category.MainCategory,
                     Subcategory = g.Subcategory,
-                    UserId = g.UserId
+                    UserId = g.UserId,
+                    Expired = g.Expired
                     
                 }).OrderBy(x => x.StockQuantity)
                 .ToListAsync();
