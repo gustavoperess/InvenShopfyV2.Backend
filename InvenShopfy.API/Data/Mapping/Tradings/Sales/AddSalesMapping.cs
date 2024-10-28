@@ -44,11 +44,7 @@ public class AddSalesMapping : IEntityTypeConfiguration<Sale>
             .IsRequired(true)
             .HasColumnType("TEXT")
             .HasMaxLength(500);
-
-        builder.Property(x => x.Document)
-            .IsRequired(true)
-            .HasColumnType("VARCHAR(120)");
-
+        
         builder.Property(x => x.UserId)
             .IsRequired(true)
             .HasColumnType("VARCHAR")

@@ -22,7 +22,6 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
         public decimal ShippingCost { get; set; } 
         public string PaymentStatus { get; init; } = string.Empty;
         public string SaleStatus { get; init; } = string.Empty; 
-        public string Document { get; set; } = string.Empty;
         public string SaleNote { get; set; } = string.Empty;
         public string StaffNote { get; set; } = string.Empty;
         public int TotalQuantitySold { get; set; }

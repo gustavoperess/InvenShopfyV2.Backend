@@ -30,9 +30,6 @@ public class CreateSalesRequest : Request
         ErrorMessage = "Please select one of the allowed values Complete, Incomplete, Drafts")]
     public string SaleStatus { get; set; } = ESaleStatus.Complete.ToString();
     
-    [MaxLength(120, ErrorMessage = "Max len of 120 characters")]
-    public string Document { get; set; } = string.Empty;
-    
 
     [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]
     public string SaleNote { get; set; } = null!;
@@ -46,7 +43,7 @@ public class CreateSalesRequest : Request
     public decimal TotalAmount { get; set; } 
     
     [Required(ErrorMessage = "Invalid Discount")]
-    [Range(1, 100, ErrorMessage = "Discount for {0} must be between {1} and {2}.")]
+    [Range(0.01, 1000000, ErrorMessage = "Total Discount must be between 0.01 and 1,000,000.")]
     public int Discount { get; set; } 
     
     

@@ -12,11 +12,11 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
 {
     public async Task<Response<Sale?>> CreateAsync(CreateSalesRequest request)
     {
-      
         try
         {
             var productIds = request.ProductIdPlusQuantity.Keys;
             var availableSaleProducts = await context.Products.Where(sp => productIds.Contains(sp.Id)).ToListAsync();
+          
             
             var sale = new Sale
             {
@@ -25,7 +25,6 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 BillerId = request.BillerId,
                 SaleDate = request.SaleDate,
                 ShippingCost = request.ShippingCost,
-                Document = request.Document,
                 StaffNote = request.StaffNote,
                 SaleNote = request.SaleNote,
                 PaymentStatus = request.PaymentStatus,
@@ -74,7 +73,6 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
             sale.WarehouseId = request.WarehouseId;
             sale.BillerId = request.BillerId;
             sale.ShippingCost = request.ShippingCost;
-            sale.Document = request.Document;
             sale.StaffNote = request.StafNote;
             sale.SaleNote = request.SaleNote;
     

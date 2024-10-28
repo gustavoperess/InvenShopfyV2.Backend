@@ -10,10 +10,10 @@ namespace InvenShopfy.API.EndPoints.Tradings.Sales;
 
 public class CreateSaleEndpoint  : IEndPoint
     {
-        public static void Map(IEndpointRouteBuilder app) => app.MapPost("/", HandleAsync)
-            .WithName("Sales: Add a sale")
-            .WithSummary("Create: a sale")
-            .WithDescription("Create: a sale")
+        public static void Map(IEndpointRouteBuilder app) => app.MapPost("/create-sale", HandleAsync)
+            .WithName("Create: a new sale")
+            .WithSummary("Create a new sale")
+            .WithDescription("This endpoint creates a new sale")
             .WithOrder(1)
             .Produces<Response<Core.Models.Tradings.Sales.Sale?>>();
 
