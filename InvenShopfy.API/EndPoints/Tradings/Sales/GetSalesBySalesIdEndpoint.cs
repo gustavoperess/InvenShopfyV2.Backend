@@ -1,0 +1,35 @@
+using System.Security.Claims;
+using InvenShopfy.API.Common.Api;
+using InvenShopfy.Core.Handlers.Tradings.Sales;
+using InvenShopfy.Core.Requests.Tradings.Sales;
+using InvenShopfy.Core.Responses;
+
+namespace InvenShopfy.API.EndPoints.Tradings.Sales;
+
+public class GetSalesBySalesIdEndpoint : IEndPoint
+{
+    public static void Map(IEndpointRouteBuilder app)
+        => app.MapGet("/{salesId}", HandlerAsync)
+            .WithName("GetBySaleId")
+            .WithSummary("Get the sales by sales Id")
+            .WithDescription("Get the sales by sales Id")
+            .WithOrder(10)
+            .Produces<Response<Core.Models.Tradings.Sales.SalePerProduct?>>();
+
+    private static async Task<IResult> HandlerAsync(
+        ClaimsPrincipal user,
+        ISalesHandler handler,
+        long saleId)
+    {
+        var request = new GetSalesBySaleIdRequest
+        {
+            UserId = user.Identity?.Name ?? string.Empty,
+            SalesId = saleId
+        };
+
+        var result = await handler.GetSalesBySalesIdAsync(request);
+        return result.IsSuccess
+            ? TypedResults.Ok(result)
+            : TypedResults.BadRequest(result);
+    }
+}

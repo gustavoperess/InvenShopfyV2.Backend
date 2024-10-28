@@ -16,8 +16,6 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
         {
             var productIds = request.ProductIdPlusQuantity.Keys;
             var availableSaleProducts = await context.Products.Where(sp => productIds.Contains(sp.Id)).ToListAsync();
-          
-            
             var sale = new Sale
             {
                 CustomerId = request.CustomerId,
@@ -326,6 +324,57 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
         }
         
     }
+    
+    
+    public async  Task<Response<List<SalePerProduct>?>> GetSalesBySalesIdAsync(GetSalesBySaleIdRequest request)
+    {
+        
+        try
+        {
+            var query = context
+                .SaleProducts
+                .AsNoTracking()
+                .Include(x => x.Sale)
+                .Include(x => x.Product)
+                .Where(x => x.Sale.UserId == request.UserId && x.SaleId == request.SalesId)
+                .GroupBy(x => new
+                {
+                    x.ProductId, x.Product.Title, x.ReferenceNumber, x.TotalQuantitySoldPerProduct, x.Product.Unit.ShortName,
+                    
+                })
+                .Select(g => new
+                {
+                    Id = g.Key.ProductId,
+                    ReferenceNumber = g.Key.ReferenceNumber,
+                    ProductName = g.Key.Title,
+                    TotalQuantitySoldPerProduct = g.Key.TotalQuantitySoldPerProduct,
+                    UnitShortName = g.Key.ShortName
+                    
+                });
+
+            var sale = await query.ToListAsync();
+
+            var result = sale.Select(s => new SalePerProduct
+            {
+                ProductId = s.Id,
+                UnitShortName = s.UnitShortName,
+                ReferenceNumber = s.ReferenceNumber,
+                TotalPricePerProduct = s.TotalQuantitySoldPerProduct,
+                TotalQuantitySoldPerProduct = s.TotalQuantitySoldPerProduct,
+                
+            }).ToList();
+
+            return new Response<List<SalePerProduct>?>(result, 200, "Items retrived Successfully");
+        }
+        catch
+        {
+            return new Response<List<SalePerProduct>?>(null, 500, "It was not possible to consult all sale");
+        }
+        
+    }
+    
+    
+    
     
     public async Task<Response<Sale?>> GetSalesBySellerAsync(GetSalesBySeller request)
     {
