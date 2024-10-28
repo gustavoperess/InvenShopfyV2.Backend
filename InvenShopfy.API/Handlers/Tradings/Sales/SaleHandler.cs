@@ -119,7 +119,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 return new Response<Sale?>(null, 404, "sale not found");
             }
 
-            return new Response<Sale?>(sale);
+            return new Response<Sale?>(sale, 200, "Sale retrived successfully");
 
         }
         catch
@@ -179,11 +179,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 
             }).ToList();
 
-            return new PagedResponse<List<SaleList>?>(
-                result,
-                count,
-                request.PageNumber,
-                request.PageSize);
+            return new PagedResponse<List<SaleList>?>(result, count, request.PageNumber, request.PageSize);
         }
         catch
         {
@@ -240,11 +236,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 TotalAmount = s.TotalAmount,
             }).ToList();
 
-            return new PagedResponse<List<BestSeller>?>(
-                result,
-                count,
-                request.PageNumber,
-                request.PageSize);
+            return new PagedResponse<List<BestSeller>?>(result, count, request.PageNumber, request.PageSize);
         }
         catch
         {
@@ -328,7 +320,6 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
     
     public async  Task<Response<List<SalePerProduct>?>> GetSalesBySalesIdAsync(GetSalesBySaleIdRequest request)
     {
-        
         try
         {
             var query = context
@@ -336,17 +327,22 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 .AsNoTracking()
                 .Include(x => x.Sale)
                 .Include(x => x.Product)
-                .Where(x => x.Sale.UserId == request.UserId && x.SaleId == request.SalesId)
+                .Where(x => x.Sale.UserId == request.UserId && x.SaleId == request.SaleId)
                 .GroupBy(x => new
                 {
-                    x.ProductId, x.Product.Title, x.ReferenceNumber, x.TotalQuantitySoldPerProduct, x.Product.Unit.ShortName,
+                    x.ProductId, x.Product.Title, x.ReferenceNumber, x.TotalPricePerProduct, x.Sale.Discount, 
+                    x.TotalQuantitySoldPerProduct, x.Product.Unit.ShortName, x.Sale.TotalAmount, x.Product.Price
                     
                 })
                 .Select(g => new
                 {
                     Id = g.Key.ProductId,
+                    ProductPrice = g.Key.Price,
+                    TotalAmount = g.Key.TotalAmount,
                     ReferenceNumber = g.Key.ReferenceNumber,
                     ProductName = g.Key.Title,
+                    Discount = g.Key.Discount,
+                    TotalPricePerProduct = g.Key.TotalPricePerProduct,
                     TotalQuantitySoldPerProduct = g.Key.TotalQuantitySoldPerProduct,
                     UnitShortName = g.Key.ShortName
                     
@@ -356,14 +352,23 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
 
             var result = sale.Select(s => new SalePerProduct
             {
+                TotalAmount = s.TotalAmount,
+                ProductPrice = s.ProductPrice,
                 ProductId = s.Id,
+                ProductName = s.ProductName,
                 UnitShortName = s.UnitShortName,
                 ReferenceNumber = s.ReferenceNumber,
-                TotalPricePerProduct = s.TotalQuantitySoldPerProduct,
+                TotalPricePerProduct = s.TotalPricePerProduct,
                 TotalQuantitySoldPerProduct = s.TotalQuantitySoldPerProduct,
+                Discount = s.Discount
                 
             }).ToList();
 
+            if (result.Count == 0)
+            {
+                return new Response<List<SalePerProduct>?>(result, 400, "No item found with this Id");
+              
+            }
             return new Response<List<SalePerProduct>?>(result, 200, "Items retrived Successfully");
         }
         catch

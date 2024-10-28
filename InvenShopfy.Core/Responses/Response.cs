@@ -4,7 +4,6 @@ namespace InvenShopfy.Core.Responses;
 
 public class Response<TData>
 {
-
     private readonly int _code;
     
     [JsonConstructor]

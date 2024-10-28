@@ -9,8 +9,8 @@ namespace InvenShopfy.API.EndPoints.Tradings.Sales;
 public class GetSalesBySalesIdEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("/{salesId}", HandlerAsync)
-            .WithName("GetBySaleId")
+        => app.MapGet("/GetBySalesId/{SaleId}", HandlerAsync)
+            .WithName("Get by SalesID")
             .WithSummary("Get the sales by sales Id")
             .WithDescription("Get the sales by sales Id")
             .WithOrder(10)
@@ -24,7 +24,7 @@ public class GetSalesBySalesIdEndpoint : IEndPoint
         var request = new GetSalesBySaleIdRequest
         {
             UserId = user.Identity?.Name ?? string.Empty,
-            SalesId = saleId
+            SaleId = saleId
         };
 
         var result = await handler.GetSalesBySalesIdAsync(request);
