@@ -331,7 +331,8 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 .GroupBy(x => new
                 {
                     x.ProductId, x.Product.Title, x.ReferenceNumber, x.TotalPricePerProduct, x.Sale.Discount, 
-                    x.TotalQuantitySoldPerProduct, x.Product.Unit.ShortName, x.Sale.TotalAmount, x.Product.Price
+                    x.TotalQuantitySoldPerProduct, x.Product.Unit.ShortName, x.Sale.TotalAmount, x.Product.Price, x.Sale.ShippingCost,
+                    x.Sale.SaleNote, x.Sale.StaffNote, x.Sale.Biller.Name, x.Sale.Biller.Email
                     
                 })
                 .Select(g => new
@@ -344,7 +345,12 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                     Discount = g.Key.Discount,
                     TotalPricePerProduct = g.Key.TotalPricePerProduct,
                     TotalQuantitySoldPerProduct = g.Key.TotalQuantitySoldPerProduct,
-                    UnitShortName = g.Key.ShortName
+                    UnitShortName = g.Key.ShortName,
+                    ShippingCost = g.Key.ShippingCost,
+                    SaleNote = g.Key.SaleNote,
+                    StaffNote = g.Key.StaffNote,
+                    BillerName = g.Key.Name,
+                    BillerEmail = g.Key.Email
                     
                 });
 
@@ -360,7 +366,13 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 ReferenceNumber = s.ReferenceNumber,
                 TotalPricePerProduct = s.TotalPricePerProduct,
                 TotalQuantitySoldPerProduct = s.TotalQuantitySoldPerProduct,
-                Discount = s.Discount
+                Discount = s.Discount,
+                ShippingCost = s.ShippingCost,
+                SaleNote = s.SaleNote,
+                StaffNote = s.StaffNote,
+                BillerName = s.BillerName,
+                BillerEmail = s.BillerEmail
+                
                 
             }).ToList();
 
