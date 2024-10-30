@@ -16,7 +16,7 @@ public class GetAllBillersEndpoint : IEndPoint
             .WithSummary("Get All Billers")
             .WithDescription("Get all Billers")
             .WithOrder(5)
-            .Produces<PagedResponse<List<Core.Models.People.Biller>?>>();
+            .Produces<PagedResponse<List<Core.Models.People.BillerDto>?>>();
 
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,
@@ -32,7 +32,7 @@ public class GetAllBillersEndpoint : IEndPoint
             PageSize = pageSize,
         };
 
-        var result = await handler.GetByPeriodAsync(request);
+        var result = await handler.GetBillerByPeriodAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

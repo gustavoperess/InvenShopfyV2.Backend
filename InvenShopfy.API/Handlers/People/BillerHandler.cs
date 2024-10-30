@@ -10,7 +10,7 @@ namespace InvenShopfy.API.Handlers.People;
 
 public class BillerHandler (AppDbContext context) : IBillerHandler
 {
-    public async Task<Response<Biller?>> CreateAsync(CreateBillerRequest request)
+    public async Task<Response<Biller?>> CreateBillerAsync(CreateBillerRequest request)
     {
         try
         {
@@ -41,7 +41,7 @@ public class BillerHandler (AppDbContext context) : IBillerHandler
         }
     }
 
-    public async Task<Response<Biller?>> UpdateAsync(UpdateBillerRequest request)
+    public async Task<Response<Biller?>> UpdateBillerAsync(UpdateBillerRequest request)
     {
         try
         {
@@ -73,7 +73,7 @@ public class BillerHandler (AppDbContext context) : IBillerHandler
         }
     }
 
-    public async Task<Response<Biller?>> DeleteAsync(DeleteBillerRequest request)
+    public async Task<Response<Biller?>> DeleteBillerAsync(DeleteBillerRequest request)
     {
         try
         {
@@ -95,7 +95,7 @@ public class BillerHandler (AppDbContext context) : IBillerHandler
         }
     }
     
-    public async Task<Response<Biller?>> GetByIdAsync(GetBillerByIdRequest request)
+    public async Task<Response<Biller?>> GetBillerByIdAsync(GetBillerByIdRequest request)
     {
         try
         {
@@ -114,32 +114,66 @@ public class BillerHandler (AppDbContext context) : IBillerHandler
             return new Response<Biller?>(null, 500, "It was not possible to find this Biller");
         }
     }
-    public async Task<PagedResponse<List<Biller>?>> GetByPeriodAsync(GetAllBillerRequest request)
+    public async Task<PagedResponse<List<BillerDto>?>> GetBillerByPeriodAsync(GetAllBillerRequest request)
     {
         try
         {
             var query = context
                 .Billers
                 .AsNoTracking()
+                .Include(x => x.Warehouse)
                 .Where(x => x.UserId == request.UserId)
-                .OrderBy(x => x.WarehouseId);
+                .GroupBy(x => new
+                {
+                    x.PhoneNumber, x.Address, x.Id, x.Country, x.Email, x.Identification,
+                    x.Name, x.Warehouse.WarehouseName, x.ZipCode, x.DateOfJoin, x.BillerCode
+                })
+                .Select(g => new
+                {
+                    Id = g.Key.Id,
+                    PhoneNumber = g.Key.PhoneNumber,
+                    Address = g.Key.Address,
+                    Country = g.Key.Country,
+                    Email = g.Key.Email,
+                    Identification = g.Key.Identification,
+                    Name = g.Key.Name,
+                    WarehouseName = g.Key.WarehouseName,
+                    ZipCode = g.Key.ZipCode,
+                    DateOfJoin = g.Key.DateOfJoin,
+                    BillerCode = g.Key.BillerCode
+                });
             
             var biller = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToListAsync();
+
+            var result = biller.Select(s => new BillerDto
+            {
+                Id = s.Id,
+                PhoneNumber = s.PhoneNumber,
+                Address = s.Address,
+                Country = s.Country,
+                Email = s.Email,
+                Identification = s.Identification,
+                Name = s.Name,
+                WarehouseName = s.WarehouseName,
+                ZipCode = s.ZipCode,
+                DateOfJoin = s.DateOfJoin,
+                BillerCode = s.BillerCode
+            }).ToList();
+            
+         
             
             var count = await query.CountAsync();
             
-            return new PagedResponse<List<Biller>?>(
-                biller,
-                count,
+            return new PagedResponse<List<BillerDto>?>(result, count,
                 request.PageNumber,
                 request.PageSize);
         }
         catch 
         {
-            return new PagedResponse<List<Biller>?>(null, 500, "It was not possible to consult all Billers");
+            return new PagedResponse<List<BillerDto>?>(null, 500, "It was not possible to consult all Billers");
         }
     }
 }

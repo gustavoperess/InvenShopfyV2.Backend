@@ -43,13 +43,11 @@ public class CreateCustomerRequest : Request
         get => _zipCode;
         set => _zipCode = _zipCodeFormatter.FormatZipCode(value);
     }   
-    //
-    [Required(ErrorMessage = "Invalid Rewards Point")]
-    [Range(1, 1000, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
-    public long RewardPoint { get; set; }
+    [Range(1, 100000, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
+    public long? RewardPoint { get; set; }
     
     [Required(ErrorMessage = "Please Select one of the Customers")]
-    [AllowedValues("General", "WalkIn", "Local", "Foreign",
+    [AllowedValues("General", "Walk In", "Local", "Foreign",
         ErrorMessage = "Please select one of the allowed values General, WalkIn, Local, Foreign")]
     public string CustomerGroup { get; set; } = ECustomerGroup.WalkIn.ToString();
     

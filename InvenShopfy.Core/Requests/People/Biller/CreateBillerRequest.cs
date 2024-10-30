@@ -8,7 +8,7 @@ public class CreateBillerRequest : Request
     
     private readonly ZipCode _zipCodeFormatter = new ZipCode();
     
-    [Required(ErrorMessage = "Invalid Voucher Name")]
+    [Required(ErrorMessage = "Invalid Biller/Seller Name")]
     [MaxLength(150, ErrorMessage = "Max length of 150 characters")]
     public string Name { get; set; } = string.Empty;
     
@@ -19,11 +19,12 @@ public class CreateBillerRequest : Request
 
     [Required(ErrorMessage = "Invalid Email Address")]
     [EmailAddress]
-    [MaxLength(160, ErrorMessage = "Max length of 160 characters")]
+    [MaxLength(80, ErrorMessage = "Max length of 80 characters")]
     public string Email { get; set; } = string.Empty;
-
-    [Required(ErrorMessage = "Mobile no. is required")]
-    [RegularExpression("^(?:\\+1)?\\s?\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}$", ErrorMessage = "Please enter valid phone no.")]
+    
+    
+    [Required(ErrorMessage = "Mobile number is required")]
+    [RegularExpression(@"^\+?[1-9]\d{0,2}\s?\(?\d{1,4}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$", ErrorMessage = "Please enter a valid phone number.")]
     [MaxLength(80, ErrorMessage = "Max length of 80 characters")]
     public string PhoneNumber { get; set; } = string.Empty;
 
@@ -49,7 +50,7 @@ public class CreateBillerRequest : Request
     }
     
     [Required(ErrorMessage = "Invalid Biller Code")]
-    [Range(0, 9999999999, ErrorMessage = "Biller Code must be between 0 and 9999999999")]
+    [Range(0, 100000000, ErrorMessage = "Biller Code must be between 0 and 100000000")]
     public long BillerCode { get; set; }
 
     [Required(ErrorMessage = "Invalid Warehouse")]

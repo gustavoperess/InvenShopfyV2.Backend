@@ -47,7 +47,7 @@ public class CustomerMapping : IEntityTypeConfiguration<Customer>
             .HasMaxLength(20);
         
         builder.Property(x => x.RewardPoint)
-            .IsRequired(true)
+            .IsRequired(false)
             .HasColumnType("BIGINT")
             .HasMaxLength(30);
 

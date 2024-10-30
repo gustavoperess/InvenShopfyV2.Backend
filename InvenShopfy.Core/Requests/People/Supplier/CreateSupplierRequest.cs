@@ -20,11 +20,11 @@ public class CreateSupplierRequest : Request
     public string Email { get; set; } = String.Empty;
     
     [Required(ErrorMessage = "Invalid Supplier Code")]
-    [MaxLength(30, ErrorMessage = "Max length of 30 characters")]
+    [Range(1, 100000, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
     public long SupplierCode { get; set; }
     
     [Required(ErrorMessage = "Invalid Country")]
-    [MaxLength(80, ErrorMessage = "Max length of 80 characters")]
+    [MaxLength(30, ErrorMessage = "Max length of 30 characters")]
     public string Country { get; set; } = String.Empty;
     
     [Required(ErrorMessage = "Invalid City")]
