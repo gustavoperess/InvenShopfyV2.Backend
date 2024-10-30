@@ -9,7 +9,7 @@ namespace InvenShopfy.API.Handlers.Warehouses;
 
 public class WarehouseHandler (AppDbContext context) : IWarehouseHandler
 {
-    public async Task<Response<Warehouse?>> CreateAsync(CreateWarehouseRequest request)
+    public async Task<Response<Warehouse?>> CreateWarehouseAsync(CreateWarehouseRequest request)
     {
         try
         {
@@ -36,7 +36,7 @@ public class WarehouseHandler (AppDbContext context) : IWarehouseHandler
         }
     }
 
-    public async Task<Response<Warehouse?>> UpdateAsync(UpdateWarehouseRequest request)
+    public async Task<Response<Warehouse?>> UpdateWarehouseAsync(UpdateWarehouseRequest request)
     {
         try
         {
@@ -65,7 +65,7 @@ public class WarehouseHandler (AppDbContext context) : IWarehouseHandler
         }
     }
 
-    public async Task<Response<Warehouse?>> DeleteAsync(DeleteWarehouseRequest request)
+    public async Task<Response<Warehouse?>> DeleteWarehouseAsync(DeleteWarehouseRequest request)
     {
         try
         {
@@ -87,7 +87,7 @@ public class WarehouseHandler (AppDbContext context) : IWarehouseHandler
         }
     }
     
-    public async Task<Response<Warehouse?>> GetByIdAsync(GetWarehouseByIdRequest byIdRequest)
+    public async Task<Response<Warehouse?>> GetWarehouseByIdAsync(GetWarehouseByIdRequest byIdRequest)
     {
         try
         {
@@ -106,7 +106,7 @@ public class WarehouseHandler (AppDbContext context) : IWarehouseHandler
             return new Response<Warehouse?>(null, 500, "It was not possible to find this warehouse");
         }
     }
-    public async Task<PagedResponse<List<Warehouse>?>> GetByPeriodAsync(GetAllWarehousesRequest request)
+    public async Task<PagedResponse<List<Warehouse>?>> GetWarehouseByPeriodAsync(GetAllWarehousesRequest request)
     {
         try
         {

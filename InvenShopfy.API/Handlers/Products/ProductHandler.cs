@@ -19,7 +19,7 @@ public class ProductHandler : IProductHandler
         _cloudinaryService = cloudinaryService;
     }
   
-    public async Task<Response<Product?>> CreateAsync(CreateProductRequest request)
+    public async Task<Response<Product?>> CreateProductAsync(CreateProductRequest request)
     {
         try
         {
@@ -61,7 +61,7 @@ public class ProductHandler : IProductHandler
         }
     }
     
-    public async Task<Response<Product?>> UpdateAsync(UpdateProductRequest request)
+    public async Task<Response<Product?>> UpdateProductAsync(UpdateProductRequest request)
     {
         try
         {
@@ -90,7 +90,7 @@ public class ProductHandler : IProductHandler
         }
     }
 
-    public async Task<Response<Product?>> DeleteAsync(DeleteProductRequest request)
+    public async Task<Response<Product?>> DeleteProductAsync(DeleteProductRequest request)
     {
         try
         {
@@ -112,7 +112,7 @@ public class ProductHandler : IProductHandler
         }
     }
     
-    public async Task<Response<Product?>> GetByIdAsync(GetProductByIdRequest request)
+    public async Task<Response<Product?>> GetProductByIdAsync(GetProductByIdRequest request)
     {
         try
         {
@@ -130,7 +130,7 @@ public class ProductHandler : IProductHandler
             return new Response<Product?>(null, 500, "It was not possible to find this Product");
         }
     }
-    public async Task<PagedResponse<List<ProductList>?>> GetByPeriodAsync(GetAllProductsRequest request)
+    public async Task<PagedResponse<List<ProductList>?>> GetProductByPeriodAsync(GetAllProductsRequest request)
     {
         try
         {
@@ -191,7 +191,7 @@ public class ProductHandler : IProductHandler
         }
     }
 
-    public async Task<PagedResponse<List<ProductByName>?>> GetByPartialNameAsync(GetProductByNameRequest request)
+    public async Task<PagedResponse<List<ProductByName>?>> GetProductByPartialNameAsync(GetProductByNameRequest request)
     {
         try
         {

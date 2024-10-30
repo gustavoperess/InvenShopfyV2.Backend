@@ -10,7 +10,7 @@ namespace InvenShopfy.API.Handlers.Tradings.Purchase;
 public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
 {
     
-    public async Task<Response<AddPurchase?>> CreateAsync(CreatePurchaseRequest request)
+    public async Task<Response<AddPurchase?>> CreatePurchaseAsync(CreatePurchaseRequest request)
     {
        
         try
@@ -50,7 +50,7 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
         }
     }
 
-    public async Task<Response<AddPurchase?>> UpdateAsync(UpdatePurchaseRequest request)
+    public async Task<Response<AddPurchase?>> UpdatePurchaseAsync(UpdatePurchaseRequest request)
     {
         try
         {
@@ -78,7 +78,7 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
         }
     }
 
-    public async Task<Response<AddPurchase?>> DeleteAsync(DeletePurchaseRequest request)
+    public async Task<Response<AddPurchase?>> DeletePurchaseAsync(DeletePurchaseRequest request)
     {
         try
         {
@@ -100,7 +100,7 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
         }
     }
 
-    public async Task<Response<AddPurchase?>> GetByIdAsync(GetPurchaseByIdRequest request)
+    public async Task<Response<AddPurchase?>> GetPurchaseByIdAsync(GetPurchaseByIdRequest request)
     {
         try
         {
@@ -120,7 +120,7 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
         }
     }
 
-    public async Task<PagedResponse<List<PurchaseList>?>> GetByPeriodAsync(GetAllPurchasesRequest request)
+    public async Task<PagedResponse<List<PurchaseList>?>> GetPurchaseByPeriodAsync(GetAllPurchasesRequest request)
     {
         try
         {

@@ -29,7 +29,7 @@ public class GetWarehouseByIdEndpoint : IEndPoint
             Id = id
         };
 
-        var result = await handler.GetByIdAsync(request);
+        var result = await handler.GetWarehouseByIdAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

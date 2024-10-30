@@ -40,7 +40,7 @@ public class UpdateCategoryEndpoint : IEndPoint
         }
         request.UserId = user.Identity?.Name ?? string.Empty;
         request.Id = id;
-        var result = await handler.UpdateAsync(request);
+        var result = await handler.UpdateProductCategoryAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

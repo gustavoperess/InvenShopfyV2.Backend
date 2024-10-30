@@ -28,7 +28,7 @@ public class GetExpenseCategoryByIdEndpoint : IEndPoint
             Id = id
         };
 
-        var result = await handler.GetByIdAsync(request);
+        var result = await handler.GetExpenseCategoryByIdAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

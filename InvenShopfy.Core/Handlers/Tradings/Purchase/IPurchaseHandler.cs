@@ -5,9 +5,9 @@ namespace InvenShopfy.Core.Handlers.Tradings.Purchase;
 
 public interface IPurchaseHandler
 {
-    Task<Response<Models.Tradings.Purchase.AddPurchase?>> CreateAsync(CreatePurchaseRequest request);
-    Task<Response<Models.Tradings.Purchase.AddPurchase?>> UpdateAsync(UpdatePurchaseRequest request);
-    Task<Response<Models.Tradings.Purchase.AddPurchase?>> DeleteAsync(DeletePurchaseRequest request);
-    Task<Response<Models.Tradings.Purchase.AddPurchase?>> GetByIdAsync(GetPurchaseByIdRequest request);
-    Task<PagedResponse<List<Models.Tradings.Purchase.PurchaseList>?>> GetByPeriodAsync(GetAllPurchasesRequest request);
+    Task<Response<Models.Tradings.Purchase.AddPurchase?>> CreatePurchaseAsync(CreatePurchaseRequest request);
+    Task<Response<Models.Tradings.Purchase.AddPurchase?>> UpdatePurchaseAsync(UpdatePurchaseRequest request);
+    Task<Response<Models.Tradings.Purchase.AddPurchase?>> DeletePurchaseAsync(DeletePurchaseRequest request);
+    Task<Response<Models.Tradings.Purchase.AddPurchase?>> GetPurchaseByIdAsync(GetPurchaseByIdRequest request);
+    Task<PagedResponse<List<Models.Tradings.Purchase.PurchaseList>?>> GetPurchaseByPeriodAsync(GetAllPurchasesRequest request);
 }

@@ -28,7 +28,7 @@ public class DeleteCustomerEndpoint : IEndPoint
             Id = id
         };
 
-        var result = await handler.DeleteAsync(request);
+        var result = await handler.DeleteCustomerAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

@@ -39,7 +39,7 @@ public class CreateExpenseCategoryEndpoint : IEndPoint
         }
 
         request.UserId = user.Identity?.Name ?? string.Empty;
-        var result = await handler.CreateAsync(request);
+        var result = await handler.CreateExpenseCategoryAsync(request);
         return result.IsSuccess
             ? TypedResults.Created($"/{result.Data?.Id}", result)
             : TypedResults.BadRequest(result);

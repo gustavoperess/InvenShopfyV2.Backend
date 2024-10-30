@@ -27,7 +27,7 @@ public class GetPurchaseByIdEndpoint : IEndPoint
             Id = id
         };
 
-        var result = await handler.GetByIdAsync(request);
+        var result = await handler.GetPurchaseByIdAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

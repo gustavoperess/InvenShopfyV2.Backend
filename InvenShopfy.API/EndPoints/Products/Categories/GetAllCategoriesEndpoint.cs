@@ -32,7 +32,7 @@ public class GetAllCategoriesEndpoint : IEndPoint
             PageSize = pageSize,
         };
 
-        var result = await handler.GetByPeriodAsync(request);
+        var result = await handler.GetProductCateogyByPeriodAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

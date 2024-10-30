@@ -38,7 +38,7 @@ public class CreateWarehouseEndpoint : IEndPoint
 
         }
         request.UserId = user.Identity?.Name ?? string.Empty;
-        var result = await handler.CreateAsync(request);
+        var result = await handler.CreateWarehouseAsync(request);
         return result.IsSuccess
             ? TypedResults.Created($"/{result.Data?.Id}", result)
             : TypedResults.BadRequest(result);

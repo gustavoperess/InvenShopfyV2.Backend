@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace InvenShopfy.API.Handlers.Tradings.Sales;
 public class SaleHandler(AppDbContext context) : ISalesHandler 
 {
-    public async Task<Response<Sale?>> CreateAsync(CreateSalesRequest request)
+    public async Task<Response<Sale?>> CreateSaleAsync(CreateSalesRequest request)
     {
         try
         {
@@ -54,7 +54,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
 
 
 
-    public async Task<Response<Sale?>> UpdateAsync(UpdateSalesRequest request)
+    public async Task<Response<Sale?>> UpdateSaleAsync(UpdateSalesRequest request)
     {
         try
         {
@@ -86,7 +86,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
         }
     }
 
-    public async Task<Response<Sale?>> DeleteAsync(DeleteSalesRequest request)
+    public async Task<Response<Sale?>> DeleteSaleAsync(DeleteSalesRequest request)
     {
         try
         {
@@ -108,7 +108,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
         }
     }
 
-    public async Task<Response<Sale?>> GetByIdAsync(GetSalesByIdRequest request)
+    public async Task<Response<Sale?>> GetSaleByIdAsync(GetSalesByIdRequest request)
     {
         try
         {
@@ -128,7 +128,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
         }
     }
 
-    public async Task<PagedResponse<List<SaleList>?>> GetByPeriodAsync(GetAllSalesRequest request)
+    public async Task<PagedResponse<List<SaleList>?>> GetSaleByPeriodAsync(GetAllSalesRequest request)
     {
         try
         {
@@ -318,7 +318,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
     }
     
     
-    public async  Task<Response<List<SalePerProduct>?>> GetSalesBySalesIdAsync(GetSalesBySaleIdRequest request)
+    public async  Task<Response<List<SalePerProduct>?>> GetSalesBySaleIdAsync(GetSalesBySaleIdRequest request)
     {
         try
         {

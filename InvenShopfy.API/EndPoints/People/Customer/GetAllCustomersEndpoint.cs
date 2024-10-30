@@ -32,7 +32,7 @@ public class GetAllCustomersEndpoint : IEndPoint
             PageSize = pageSize,
         };
 
-        var result = await handler.GetByPeriodAsync(request);
+        var result = await handler.GetCustomerByPeriodAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

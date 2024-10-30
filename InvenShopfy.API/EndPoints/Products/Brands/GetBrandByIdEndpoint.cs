@@ -28,7 +28,7 @@ public class GetBrandByIdEndpoint : IEndPoint
             Id = id
         };
 
-        var result = await handler.GetByIdAsync(request);
+        var result = await handler.GetProductBrandByIdAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

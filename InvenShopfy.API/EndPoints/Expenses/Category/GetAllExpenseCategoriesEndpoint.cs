@@ -34,7 +34,7 @@ public class GetAllExpenseCategoriesEndpoint : IEndPoint
             PageSize = pageSize,
         };
 
-        var result = await handler.GetByPeriodAsync(request);
+        var result = await handler.GetExpenseCategoryByPeriodAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

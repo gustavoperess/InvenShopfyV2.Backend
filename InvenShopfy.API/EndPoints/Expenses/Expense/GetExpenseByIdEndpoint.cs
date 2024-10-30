@@ -28,7 +28,7 @@ public class GetExpenseByIdEndpoint : IEndPoint
             Id = id
         };
 
-        var result = await handler.GetByIdAsync(request);
+        var result = await handler.GetExpenseByIdAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

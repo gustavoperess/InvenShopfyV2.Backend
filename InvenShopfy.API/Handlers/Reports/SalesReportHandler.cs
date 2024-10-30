@@ -14,7 +14,7 @@ namespace InvenShopfy.API.Handlers.Reports;
 public class SalesReportHandler(AppDbContext context) : ISalesReportHandler
 
 {
-    public async Task<PagedResponse<List<SaleReport>?>> GetByPeriodAsync(GetSalesReportByDateRequest byDateRequest)
+    public async Task<PagedResponse<List<SaleReport>?>> GetSalesReportByPeriodAsync(GetSalesReportByDateRequest byDateRequest)
     {
         try
         {
@@ -69,7 +69,7 @@ public class SalesReportHandler(AppDbContext context) : ISalesReportHandler
     }
     
     
-    public async Task<PagedResponse<List<SaleReport>?>> GetByWarehouseNameAsync(GetSalesReportByWarehouseRequest request)
+    public async Task<PagedResponse<List<SaleReport>?>> GetSalesReportByWarehouseNameAsync(GetSalesReportByWarehouseRequest request)
     {
         try
         {

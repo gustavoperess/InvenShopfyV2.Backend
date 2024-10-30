@@ -9,7 +9,7 @@ namespace InvenShopfy.API.Handlers.Expenses;
 
 public class ExpenseCategoryHandler (AppDbContext context) : IExpenseCategoryHandler
 {
-    public async Task<Response<ExpenseCategory?>> CreateAsync(CreateExpenseCategoryRequest request)
+    public async Task<Response<ExpenseCategory?>> CreateExpenseCategoryAsync(CreateExpenseCategoryRequest request)
     {
         try
         {
@@ -31,7 +31,7 @@ public class ExpenseCategoryHandler (AppDbContext context) : IExpenseCategoryHan
         }
     }
 
-    public async Task<Response<ExpenseCategory?>> UpdateAsync(UpdateExpenseCategoryRequest request)
+    public async Task<Response<ExpenseCategory?>> UpdateExpenseCategoryAsync(UpdateExpenseCategoryRequest request)
     {
         try
         {
@@ -55,7 +55,7 @@ public class ExpenseCategoryHandler (AppDbContext context) : IExpenseCategoryHan
         }
     }
 
-    public async Task<Response<ExpenseCategory?>> DeleteAsync(DeleteExpenseCategoryRequest request)
+    public async Task<Response<ExpenseCategory?>> DeleteExpenseCategoryAsync(DeleteExpenseCategoryRequest request)
     {
         try
         {
@@ -77,7 +77,7 @@ public class ExpenseCategoryHandler (AppDbContext context) : IExpenseCategoryHan
         }
     }
     
-    public async Task<Response<ExpenseCategory?>> GetByIdAsync(GetExpenseCategoryByIdRequest request)
+    public async Task<Response<ExpenseCategory?>> GetExpenseCategoryByIdAsync(GetExpenseCategoryByIdRequest request)
     {
         try
         {
@@ -96,7 +96,7 @@ public class ExpenseCategoryHandler (AppDbContext context) : IExpenseCategoryHan
             return new Response<ExpenseCategory?>(null, 500, "It was not possible to find this Expense Category");
         }
     }
-    public async Task<PagedResponse<List<ExpenseCategory>?>> GetByPeriodAsync(GetAllExpensesCategoriesRequest request)
+    public async Task<PagedResponse<List<ExpenseCategory>?>> GetExpenseCategoryByPeriodAsync(GetAllExpensesCategoriesRequest request)
     {
         try
         {

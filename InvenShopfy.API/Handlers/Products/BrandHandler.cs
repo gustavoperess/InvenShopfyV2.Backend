@@ -18,7 +18,7 @@ public class BrandHandler : IBrandHandler
         _cloudinaryService = cloudinaryService;
     }
     
-    public async Task<Response<Brand?>> CreateAsync(CreateBrandRequest request)
+    public async Task<Response<Brand?>> CreateProductBrandAsync(CreateBrandRequest request)
     {
         try
         {
@@ -49,7 +49,7 @@ public class BrandHandler : IBrandHandler
         }
     }
 
-    public async Task<Response<Brand?>> UpdateAsync(UpdateBrandRequest request)
+    public async Task<Response<Brand?>> UpdateProductBrandAsync(UpdateBrandRequest request)
     {
         try
         {
@@ -73,7 +73,7 @@ public class BrandHandler : IBrandHandler
         }
     }
 
-    public async Task<Response<Brand?>> DeleteAsync(DeleteBrandRequest request)
+    public async Task<Response<Brand?>> DeleteProductBrandAsync(DeleteBrandRequest request)
     {
         try
         {
@@ -95,7 +95,7 @@ public class BrandHandler : IBrandHandler
         }
     }
     
-    public async Task<Response<Brand?>> GetByIdAsync(GetBrandByIdRequest request)
+    public async Task<Response<Brand?>> GetProductBrandByIdAsync(GetBrandByIdRequest request)
     {
         try
         {
@@ -114,7 +114,7 @@ public class BrandHandler : IBrandHandler
             return new Response<Brand?>(null, 500, "It was not possible to find this Brand");
         }
     }
-    public async Task<PagedResponse<List<Brand>?>> GetByPeriodAsync(GetAllBrandsRequest request)
+    public async Task<PagedResponse<List<Brand>?>> GetProductBrandByPeriodAsync(GetAllBrandsRequest request)
     {
         try
         {

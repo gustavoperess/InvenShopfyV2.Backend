@@ -10,7 +10,7 @@ namespace InvenShopfy.API.Handlers.Products;
 public class UnitHandler(AppDbContext context) : IUnitHandler
 {
     // TESTING THIS HERE
-    public async Task<Response<Unit?>> CreateAsync(CreateUnitRequest request)
+    public async Task<Response<Unit?>> CreateProductUnitAsync(CreateUnitRequest request)
     {   
         try
         {
@@ -32,7 +32,7 @@ public class UnitHandler(AppDbContext context) : IUnitHandler
         }
     }
 
-    public async Task<Response<Unit?>> UpdateAsync(UpdateUnitRequest request)
+    public async Task<Response<Unit?>> UpdateProductUnitAsync(UpdateUnitRequest request)
     {
         try
         {
@@ -56,7 +56,7 @@ public class UnitHandler(AppDbContext context) : IUnitHandler
         }
     }
 
-    public async Task<Response<Unit?>> DeleteAsync(DeleteUnitRequest request)
+    public async Task<Response<Unit?>> DeleteProductUnitAsync(DeleteUnitRequest request)
     {
         try
         {
@@ -78,7 +78,7 @@ public class UnitHandler(AppDbContext context) : IUnitHandler
         }
     }
     
-    public async Task<Response<Unit?>> GetByIdAsync(GetUnitByIdRequest request)
+    public async Task<Response<Unit?>> GetProductUnitByIdAsync(GetUnitByIdRequest request)
     {
         try
         {
@@ -97,7 +97,7 @@ public class UnitHandler(AppDbContext context) : IUnitHandler
             return new Response<Unit?>(null, 500, "It was not possible to find this Unit");
         }
     }
-    public async Task<PagedResponse<List<Unit>?>> GetByPeriodAsync(GetAllUnitRequest request)
+    public async Task<PagedResponse<List<Unit>?>> GetProductUnitByPeriodAsync(GetAllUnitRequest request)
     {
         try
         {

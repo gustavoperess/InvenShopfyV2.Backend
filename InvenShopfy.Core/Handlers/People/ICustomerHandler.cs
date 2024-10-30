@@ -5,9 +5,9 @@ namespace InvenShopfy.Core.Handlers.People;
 
 public interface ICustomerHandler
 {
-    Task<Response<Models.People.Customer?>> CreateAsync(CreateCustomerRequest request);
-    Task<Response<Models.People.Customer?>> UpdateAsync(UpdateCustomerRequest request);
-    Task<Response<Models.People.Customer?>> DeleteAsync(DeleteCustomerRequest request);
-    Task<Response<Models.People.Customer?>> GetByIdAsync(GetCustomerByIdRequest request);
-    Task<PagedResponse<List<Models.People.Customer>?>> GetByPeriodAsync(GetAllCustomersRequest request);
+    Task<Response<Models.People.Customer?>> CreateCustomerAsync(CreateCustomerRequest request);
+    Task<Response<Models.People.Customer?>> UpdateCustomerAsync(UpdateCustomerRequest request);
+    Task<Response<Models.People.Customer?>> DeleteCustomerAsync(DeleteCustomerRequest request);
+    Task<Response<Models.People.Customer?>> GetCustomerByIdAsync(GetCustomerByIdRequest request);
+    Task<PagedResponse<List<Models.People.Customer>?>> GetCustomerByPeriodAsync(GetAllCustomersRequest request);
 }

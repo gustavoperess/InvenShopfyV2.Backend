@@ -10,7 +10,7 @@ namespace InvenShopfy.API.Handlers.People;
 
 public class CustomerHandler (AppDbContext context) : ICustomerHandler
 {
-    public async Task<Response<Customer?>> CreateAsync(CreateCustomerRequest request)
+    public async Task<Response<Customer?>> CreateCustomerAsync(CreateCustomerRequest request)
     {
         try
         {
@@ -45,7 +45,7 @@ public class CustomerHandler (AppDbContext context) : ICustomerHandler
         }
     }
 
-    public async Task<Response<Customer?>> UpdateAsync(UpdateCustomerRequest request)
+    public async Task<Response<Customer?>> UpdateCustomerAsync(UpdateCustomerRequest request)
     {
         try
         {
@@ -81,7 +81,7 @@ public class CustomerHandler (AppDbContext context) : ICustomerHandler
         }
     }
 
-    public async Task<Response<Customer?>> DeleteAsync(DeleteCustomerRequest request)
+    public async Task<Response<Customer?>> DeleteCustomerAsync(DeleteCustomerRequest request)
     {
         try
         {
@@ -103,7 +103,7 @@ public class CustomerHandler (AppDbContext context) : ICustomerHandler
         }
     }
     
-    public async Task<Response<Customer?>> GetByIdAsync(GetCustomerByIdRequest request)
+    public async Task<Response<Customer?>> GetCustomerByIdAsync(GetCustomerByIdRequest request)
     {
         try
         {
@@ -122,7 +122,7 @@ public class CustomerHandler (AppDbContext context) : ICustomerHandler
             return new Response<Customer?>(null, 500, "It was not possible to find this customer");
         }
     }
-    public async Task<PagedResponse<List<Customer>?>> GetByPeriodAsync(GetAllCustomersRequest request)
+    public async Task<PagedResponse<List<Customer>?>> GetCustomerByPeriodAsync(GetAllCustomersRequest request)
     {
         try
         {

@@ -32,7 +32,7 @@ public class GetAllUnitsEndpoint : IEndPoint
             PageSize = pageSize,
         };
 
-        var result = await handler.GetByPeriodAsync(request);
+        var result = await handler.GetProductUnitByPeriodAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

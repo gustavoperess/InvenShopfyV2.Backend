@@ -27,7 +27,7 @@ public class GetSalesBySalesIdEndpoint : IEndPoint
             SaleId = saleId
         };
 
-        var result = await handler.GetSalesBySalesIdAsync(request);
+        var result = await handler.GetSalesBySaleIdAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

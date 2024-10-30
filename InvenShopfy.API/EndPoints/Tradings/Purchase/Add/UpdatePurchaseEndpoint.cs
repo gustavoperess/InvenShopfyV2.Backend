@@ -39,7 +39,7 @@ public class UpdatePurchaseEndpoint : IEndPoint
         }
         request.UserId = user.Identity?.Name ?? string.Empty;
         request.Id = id;
-        var result = await handler.UpdateAsync(request);
+        var result = await handler.UpdatePurchaseAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

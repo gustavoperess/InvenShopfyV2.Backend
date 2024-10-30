@@ -9,7 +9,7 @@ namespace InvenShopfy.API.Handlers.People;
 
 public class SupplierHandler (AppDbContext context) : ISupplierHandler
 {
-      public async Task<Response<Supplier?>> CreateAsync(CreateSupplierRequest request)
+      public async Task<Response<Supplier?>> CreateSupplierAsync(CreateSupplierRequest request)
     {
         try
         {
@@ -38,7 +38,7 @@ public class SupplierHandler (AppDbContext context) : ISupplierHandler
         }
     }
 
-    public async Task<Response<Supplier?>> UpdateAsync(UpdateSupplierRequest request)
+    public async Task<Response<Supplier?>> UpdateSupplierAsync(UpdateSupplierRequest request)
     {
         try
         {
@@ -71,7 +71,7 @@ public class SupplierHandler (AppDbContext context) : ISupplierHandler
         }
     }
 
-    public async Task<Response<Supplier?>> DeleteAsync(DeleteSupplierRequest request)
+    public async Task<Response<Supplier?>> DeleteSupplierAsync(DeleteSupplierRequest request)
     {
         try
         {
@@ -93,7 +93,7 @@ public class SupplierHandler (AppDbContext context) : ISupplierHandler
         }
     }
     
-    public async Task<Response<Supplier?>> GetByIdAsync(GetSupplierByIdRequest request)
+    public async Task<Response<Supplier?>> GetSupplierByIdAsync(GetSupplierByIdRequest request)
     {
         try
         {
@@ -112,7 +112,7 @@ public class SupplierHandler (AppDbContext context) : ISupplierHandler
             return new Response<Supplier?>(null, 500, "It was not possible to find this supplier");
         }
     }
-    public async Task<PagedResponse<List<Supplier>?>> GetByPeriodAsync(GetAllSuppliersRequest request)
+    public async Task<PagedResponse<List<Supplier>?>> GetSupplierByPeriodAsync(GetAllSuppliersRequest request)
     {
         try
         {

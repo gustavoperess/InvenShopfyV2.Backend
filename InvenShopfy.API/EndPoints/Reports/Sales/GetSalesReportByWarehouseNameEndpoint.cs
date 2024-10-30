@@ -30,7 +30,7 @@ public class GetSalesReportByWarehouseNameEndpoint : IEndPoint
   
         };
 
-        var result = await handler.GetByWarehouseNameAsync(request);
+        var result = await handler.GetSalesReportByWarehouseNameAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

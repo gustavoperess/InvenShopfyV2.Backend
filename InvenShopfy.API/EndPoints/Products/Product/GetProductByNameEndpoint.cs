@@ -33,7 +33,7 @@ public class GetProductByNameEndpoint : IEndPoint
             PageSize = pageSize,
         };
 
-        var result = await handler.GetByPartialNameAsync(request);
+        var result = await handler.GetProductByPartialNameAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

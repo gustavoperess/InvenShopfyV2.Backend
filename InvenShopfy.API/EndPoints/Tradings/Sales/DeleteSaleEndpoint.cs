@@ -28,7 +28,7 @@ public class DeleteSaleEndpoint : IEndPoint
             Id = id
         };
 
-        var result = await handler.DeleteAsync(request);
+        var result = await handler.DeleteSaleAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

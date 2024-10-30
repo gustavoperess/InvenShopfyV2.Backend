@@ -5,9 +5,9 @@ namespace InvenShopfy.Core.Handlers.People;
 
 public interface ISupplierHandler
 {
-    Task<Response<Models.People.Supplier?>> CreateAsync(CreateSupplierRequest request);
-    Task<Response<Models.People.Supplier?>> UpdateAsync(UpdateSupplierRequest request);
-    Task<Response<Models.People.Supplier?>> DeleteAsync(DeleteSupplierRequest request);
-    Task<Response<Models.People.Supplier?>> GetByIdAsync(GetSupplierByIdRequest request);
-    Task<PagedResponse<List<Models.People.Supplier>?>> GetByPeriodAsync(GetAllSuppliersRequest request);
+    Task<Response<Models.People.Supplier?>> CreateSupplierAsync(CreateSupplierRequest request);
+    Task<Response<Models.People.Supplier?>> UpdateSupplierAsync(UpdateSupplierRequest request);
+    Task<Response<Models.People.Supplier?>> DeleteSupplierAsync(DeleteSupplierRequest request);
+    Task<Response<Models.People.Supplier?>> GetSupplierByIdAsync(GetSupplierByIdRequest request);
+    Task<PagedResponse<List<Models.People.Supplier>?>> GetSupplierByPeriodAsync(GetAllSuppliersRequest request);
 }

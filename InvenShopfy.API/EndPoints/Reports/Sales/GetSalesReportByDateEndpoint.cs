@@ -38,7 +38,7 @@ public class GetSalesReportByDateEndpoint : IEndPoint
             EndDate = endDate
         };
 
-        var result = await handler.GetByPeriodAsync(request);
+        var result = await handler.GetSalesReportByPeriodAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

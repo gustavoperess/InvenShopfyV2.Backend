@@ -10,7 +10,7 @@ namespace InvenShopfy.API.Handlers.Products;
 public class CategoryHandler(AppDbContext context) : ICategoryHandler
 
 {
-     public async Task<Response<Category?>> CreateAsync(CreateCategoryRequest request)
+     public async Task<Response<Category?>> CreateProductCategoryAsync(CreateCategoryRequest request)
     {   
         try
         {
@@ -49,7 +49,7 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
         }
     }
 
-    public async Task<Response<Category?>> UpdateAsync(UpdateCategoryRequest request)
+    public async Task<Response<Category?>> UpdateProductCategoryAsync(UpdateCategoryRequest request)
     {
         try
         {
@@ -73,7 +73,7 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
         }
     }
 
-    public async Task<Response<Category?>> DeleteAsync(DeleteCategoryRequest request)
+    public async Task<Response<Category?>> DeleteProductCategoryAsync(DeleteCategoryRequest request)
     {
         try
         {
@@ -95,7 +95,7 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
         }
     }
     
-    public async Task<Response<Category?>> GetByIdAsync(GetCategoryByIdRequest request)
+    public async Task<Response<Category?>> GetProductCategoryByIdAsync(GetCategoryByIdRequest request)
     {
         try
         {
@@ -114,7 +114,7 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
             return new Response<Category?>(null, 500, "It was not possible to find this category");
         }
     }
-    public async Task<PagedResponse<List<Category>?>> GetByPeriodAsync(GetAllCategoriesRequest request)
+    public async Task<PagedResponse<List<Category>?>> GetProductCateogyByPeriodAsync(GetAllCategoriesRequest request)
     {
         try
         {

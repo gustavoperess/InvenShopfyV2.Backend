@@ -32,7 +32,7 @@ public class GetAllProductsEndpoint : IEndPoint
           
         };
 
-        var result = await handler.GetByPeriodAsync(request);
+        var result = await handler.GetProductByPeriodAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

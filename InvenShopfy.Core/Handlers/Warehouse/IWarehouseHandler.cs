@@ -5,10 +5,10 @@ namespace InvenShopfy.Core.Handlers.Warehouse;
 
 public interface IWarehouseHandler
 {
-    Task<Response<Models.Warehouse.Warehouse?>> CreateAsync(CreateWarehouseRequest request);
-    Task<Response<Models.Warehouse.Warehouse?>> UpdateAsync(UpdateWarehouseRequest request);
-    Task<Response<Models.Warehouse.Warehouse?>> DeleteAsync(DeleteWarehouseRequest request);
-    Task<Response<Models.Warehouse.Warehouse?>> GetByIdAsync(GetWarehouseByIdRequest request);
+    Task<Response<Models.Warehouse.Warehouse?>> CreateWarehouseAsync(CreateWarehouseRequest request);
+    Task<Response<Models.Warehouse.Warehouse?>> UpdateWarehouseAsync(UpdateWarehouseRequest request);
+    Task<Response<Models.Warehouse.Warehouse?>> DeleteWarehouseAsync(DeleteWarehouseRequest request);
+    Task<Response<Models.Warehouse.Warehouse?>> GetWarehouseByIdAsync(GetWarehouseByIdRequest request);
     Task<Response<int?>> GetWarehouseQuantityAsync(GetWarehouseQuantityRequest request);
-    Task<PagedResponse<List<Models.Warehouse.Warehouse>?>> GetByPeriodAsync(GetAllWarehousesRequest request);
+    Task<PagedResponse<List<Models.Warehouse.Warehouse>?>> GetWarehouseByPeriodAsync(GetAllWarehousesRequest request);
 }

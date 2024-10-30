@@ -6,9 +6,9 @@ namespace InvenShopfy.Core.Handlers.Expenses;
 
 public interface IExpenseCategoryHandler
 {
-    Task<Response<Models.Expenses.ExpenseCategory?>> CreateAsync(CreateExpenseCategoryRequest request);
-    Task<Response<Models.Expenses.ExpenseCategory?>> UpdateAsync(UpdateExpenseCategoryRequest request);
-    Task<Response<Models.Expenses.ExpenseCategory?>> DeleteAsync(DeleteExpenseCategoryRequest request);
-    Task<Response<Models.Expenses.ExpenseCategory?>> GetByIdAsync(GetExpenseCategoryByIdRequest request);
-    Task<PagedResponse<List<Models.Expenses.ExpenseCategory>?>> GetByPeriodAsync(GetAllExpensesCategoriesRequest request);
+    Task<Response<Models.Expenses.ExpenseCategory?>> CreateExpenseCategoryAsync(CreateExpenseCategoryRequest request);
+    Task<Response<Models.Expenses.ExpenseCategory?>> UpdateExpenseCategoryAsync(UpdateExpenseCategoryRequest request);
+    Task<Response<Models.Expenses.ExpenseCategory?>> DeleteExpenseCategoryAsync(DeleteExpenseCategoryRequest request);
+    Task<Response<Models.Expenses.ExpenseCategory?>> GetExpenseCategoryByIdAsync(GetExpenseCategoryByIdRequest request);
+    Task<PagedResponse<List<Models.Expenses.ExpenseCategory>?>> GetExpenseCategoryByPeriodAsync(GetAllExpensesCategoriesRequest request);
 }

@@ -33,7 +33,7 @@ public class GetAllWarehousesEndpoint : IEndPoint
             PageSize = pageSize,
         };
 
-        var result = await handler.GetByPeriodAsync(request);
+        var result = await handler.GetWarehouseByPeriodAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

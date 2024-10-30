@@ -5,6 +5,6 @@ namespace InvenShopfy.Core.Handlers.Reports.Sales;
 
 public interface ISalesReportHandler
 {
-    Task<PagedResponse<List<Models.Reports.SaleReport>?>> GetByPeriodAsync(GetSalesReportByDateRequest request);
-    Task<PagedResponse<List<Models.Reports.SaleReport>?>> GetByWarehouseNameAsync(GetSalesReportByWarehouseRequest request);
+    Task<PagedResponse<List<Models.Reports.SaleReport>?>> GetSalesReportByPeriodAsync(GetSalesReportByDateRequest request);
+    Task<PagedResponse<List<Models.Reports.SaleReport>?>> GetSalesReportByWarehouseNameAsync(GetSalesReportByWarehouseRequest request);
 }

@@ -10,7 +10,7 @@ namespace InvenShopfy.API.Handlers.Expenses;
 
 public class ExpenseHandler (AppDbContext context) : IExpenseHandler
 {
-     public async Task<Response<Expense?>> CreateAsync(CreateExpenseRequest request)
+     public async Task<Response<Expense?>> CreateExpenseAsync(CreateExpenseRequest request)
     {
         try
         {
@@ -39,7 +39,7 @@ public class ExpenseHandler (AppDbContext context) : IExpenseHandler
         }
     }
 
-    public async Task<Response<Expense?>> UpdateAsync(UpdateExpenseRequest request)
+    public async Task<Response<Expense?>> UpdateExpenseAsync(UpdateExpenseRequest request)
     {
         try
         {
@@ -68,7 +68,7 @@ public class ExpenseHandler (AppDbContext context) : IExpenseHandler
         }
     }
 
-    public async Task<Response<Expense?>> DeleteAsync(DeleteExpenseRequest request)
+    public async Task<Response<Expense?>> DeleteExpenseAsync(DeleteExpenseRequest request)
     {
         try
         {
@@ -90,7 +90,7 @@ public class ExpenseHandler (AppDbContext context) : IExpenseHandler
         }
     }
     
-    public async Task<Response<Expense?>> GetByIdAsync(GetExpenseByIdRequest request)
+    public async Task<Response<Expense?>> GetExpenseByIdAsync(GetExpenseByIdRequest request)
     {
         try
         {
@@ -109,7 +109,7 @@ public class ExpenseHandler (AppDbContext context) : IExpenseHandler
             return new Response<Expense?>(null, 500, "It was not possible to find this Expense");
         }
     }
-    public async Task<PagedResponse<List<Expense>?>> GetByPeriodAsync(GetAllExpensesRequest request)
+    public async Task<PagedResponse<List<Expense>?>> GetExpenseByPeriodAsync(GetAllExpensesRequest request)
     {
         try
         {

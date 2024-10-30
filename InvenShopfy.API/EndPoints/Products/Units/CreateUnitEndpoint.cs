@@ -37,7 +37,7 @@ public class CreateUnitEndpoint : IEndPoint
 
         }
         request.UserId = user.Identity?.Name ?? string.Empty;
-        var result = await handler.CreateAsync(request);
+        var result = await handler.CreateProductUnitAsync(request);
         return result.IsSuccess
             ? TypedResults.Created($"/{result.Data?.Id}", result)
             : TypedResults.BadRequest(result);
