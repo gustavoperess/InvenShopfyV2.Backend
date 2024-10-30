@@ -186,7 +186,8 @@ public static class Endpoint
         endpoints.MapGroup("v2/identity")
             .WithTags("Identity")
             .MapEndpoint<LogoutEndpoint>()
-            .MapEndpoint<RegisterEndpoint>()  
+            .MapEndpoint<RegisterEndpoint>()
+            .MapEndpoint<DeleteRoleIdentityEndpoint>()
             .MapEndpoint<GetIdentityRolesEndpoint>()
             .MapEndpoint<CreateRoleIdentityEndpoint>()
             .MapEndpoint<LoginEndpointEndpoint>(); 
