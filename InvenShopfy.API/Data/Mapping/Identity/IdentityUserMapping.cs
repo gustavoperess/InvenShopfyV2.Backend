@@ -22,6 +22,7 @@ public class IdentityUserMapping : IEntityTypeConfiguration<CustomUserRequest>
         builder.Property(u => u.PhoneNumber).HasMaxLength(20);
         builder.Property(u => u.ConcurrencyStamp).IsConcurrencyToken();
         builder.Property(u => u.DateOfJoin);
+        builder.Property(u => u.ProfilePicture).HasMaxLength(70000);
         builder.Property(u => u.Gender).IsRequired().HasMaxLength(10); 
         
         builder.HasMany<IdentityUserClaim<long>>().WithOne().HasForeignKey(uc => uc.UserId).IsRequired();

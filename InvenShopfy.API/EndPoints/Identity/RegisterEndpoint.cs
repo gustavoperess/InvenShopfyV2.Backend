@@ -1,4 +1,5 @@
 using InvenShopfy.API.Common.Api;
+using InvenShopfy.API.Common.CloudinaryServiceNamespace;
 using InvenShopfy.API.Data;
 using InvenShopfy.API.Models;
 using InvenShopfy.Core.Requests.UserManagement.User;
@@ -15,6 +16,7 @@ namespace InvenShopfy.API.EndPoints.Identity
 
         private static async Task<IResult> Handle(
             [FromBody] CreateUserRequest request,
+            CloudinaryService cloudinaryService,
             [FromServices] RoleManager<CustomIdentityRole> roleManager,
             [FromServices] UserManager<CustomUserRequest> userManager)
         {
@@ -31,7 +33,7 @@ namespace InvenShopfy.API.EndPoints.Identity
             {
                 return Results.BadRequest("User already exists with this email or username.");
             }
-
+            
             // Create the user
             var user = new CustomUserRequest
             {
@@ -41,6 +43,20 @@ namespace InvenShopfy.API.EndPoints.Identity
                 PhoneNumber = request.PhoneNumber,
                 SecurityStamp = Guid.NewGuid().ToString(), 
             };
+            
+            if (request.ProfilePicture == null)
+            {
+                user.ProfilePicture =
+                    "https://res.cloudinary.com/dououppib/image/upload/v1709830638/PLANTS/placeholder_ry6d8v.webp";
+            }
+            else
+            {
+               
+                var uploadResult = await cloudinaryService.UploadImageAsync(request.ProfilePicture, "invenShopfy/ProfilePictures");
+                user.ProfilePicture = uploadResult.SecureUrl.ToString(); 
+            
+            }
+            
             if (string.IsNullOrWhiteSpace(request.PasswordHash))
             {
                 return Results.BadRequest("Password is required.");
