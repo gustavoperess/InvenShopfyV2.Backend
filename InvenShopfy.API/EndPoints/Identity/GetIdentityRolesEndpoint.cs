@@ -22,8 +22,6 @@ public class GetIdentityRolesEndpoint : IEndPoint
         {
             role.Id,
             role.Name,
-            role.NormalizedName,
-            role.ConcurrencyStamp,
             role.Description
         });
 
