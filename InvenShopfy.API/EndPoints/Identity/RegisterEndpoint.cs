@@ -29,9 +29,14 @@ namespace InvenShopfy.API.EndPoints.Identity
             var userByEmail = await userManager.FindByEmailAsync(request.Email);
             var userByUsername = await userManager.FindByNameAsync(request.UserName);
 
-            if (userByEmail != null || userByUsername != null)
+            if (userByEmail != null)
             {
-                return Results.BadRequest("User already exists with this email or username.");
+                return Results.BadRequest("Email address already in use, please choose a different one");
+            }
+            
+            if (userByUsername != null)
+            {
+                return Results.BadRequest("Username already in use, please choose a different one");
             }
             
             // Create the user
@@ -41,6 +46,7 @@ namespace InvenShopfy.API.EndPoints.Identity
                 UserName = request.UserName,
                 Email = request.Email,
                 PhoneNumber = request.PhoneNumber,
+                Gender = request.Gender,
                 SecurityStamp = Guid.NewGuid().ToString(), 
             };
             

@@ -12,7 +12,6 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
     
     public async Task<Response<AddPurchase?>> CreatePurchaseAsync(CreatePurchaseRequest request)
     {
-       
         try
         {
             var purchase = new AddPurchase
@@ -30,7 +29,7 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
             var productIds = request.ProductIdPlusQuantity.Keys;
             var availablePurchaseProducts =
                 await context.Products.Where(sp => productIds.Contains(sp.Id)).ToListAsync();
-
+            
             var pruchaseRespose = purchase.AddPurchaseToPurchase(request.ProductIdPlusQuantity, availablePurchaseProducts);
             if (!pruchaseRespose.IsSuccess)
             {
@@ -40,7 +39,7 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
             await context.Purchases.AddAsync(purchase);
             await context.SaveChangesAsync();
             await transaction.CommitAsync();
-            
+
             return new Response<AddPurchase?>(purchase, 201, "Purchase created successfully");
 
         }
@@ -124,6 +123,7 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
     {
         try
         {
+        
             var query = context
                 .Purchases
                 .AsNoTracking()
@@ -132,23 +132,22 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
                 .Where(x => x.UserId == request.UserId)
                 .Select(g => new
                 {
-                  g.Id,  
-                  g.PurchaseDate,  
-                  SupplierName = g.Supplier.Name,  
-                  g.Warehouse.WarehouseName,  
-                  g.PurchaseStatus,  
-                  g.ShippingCost,  
-                  g.TotalAmountBought,  
-                  g.ReferenceNumber,
-                  g.TotalNumberOfProductsBought
-                })
-                .OrderBy(x => x.PurchaseDate);
-
+                    Id = g.Id,
+                    PurchaseDate = g.PurchaseDate,
+                    SupplierName = g.Supplier.Name,  
+                    WarehouseName =g.Warehouse.WarehouseName,  
+                    PurchaseStatus = g.PurchaseStatus,  
+                    ShippingCost = g.ShippingCost,  
+                    TotalAmountBought= g.TotalAmountBought,  
+                    ReferenceNumber = g.ReferenceNumber,
+                    TotalNumberOfProductsBought = g.TotalNumberOfProductsBought
+                }).OrderBy(x => x.PurchaseDate);
+         
             var purchase = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToListAsync();
-
+    
             var result = purchase.Select(p => new PurchaseList
             {
                 Id = p.Id,  

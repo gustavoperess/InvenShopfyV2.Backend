@@ -33,6 +33,7 @@ public class AddPurchase
     
     public Response<AddPurchase?> AddPurchaseToPurchase(Dictionary<long, int> productIdPlusQuantity, List<Product.Product> purchase)
     {
+ 
         int sumOfItems = 0;
         foreach (var item in productIdPlusQuantity)
         {

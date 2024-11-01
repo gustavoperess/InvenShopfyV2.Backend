@@ -108,25 +108,25 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
         }
     }
 
-    public async Task<Response<Sale?>> GetSaleByIdAsync(GetSalesByIdRequest request)
-    {
-        try
-        {
-            var sale = await context.Sales.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
-
-            if (sale is null)
-            {
-                return new Response<Sale?>(null, 404, "sale not found");
-            }
-
-            return new Response<Sale?>(sale, 200, "Sale retrived successfully");
-
-        }
-        catch
-        {
-            return new Response<Sale?>(null, 500, "It was not possible to find this sale");
-        }
-    }
+    // public async Task<Response<Sale?>> GetSaleByIdAsync(GetSalesByIdRequest request)
+    // {
+    //     try
+    //     {
+    //         var sale = await context.Sales.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+    //
+    //         if (sale is null)
+    //         {
+    //             return new Response<Sale?>(null, 404, "sale not found");
+    //         }
+    //
+    //         return new Response<Sale?>(sale, 200, "Sale retrived successfully");
+    //
+    //     }
+    //     catch
+    //     {
+    //         return new Response<Sale?>(null, 500, "It was not possible to find this sale");
+    //     }
+    // }
 
     public async Task<PagedResponse<List<SaleList>?>> GetSaleByPeriodAsync(GetAllSalesRequest request)
     {

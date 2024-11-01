@@ -27,6 +27,7 @@ public class CreateUserRequest
     [Required(ErrorMessage = "Invalid Username")]
     [MaxLength(80,  ErrorMessage= "Max len of 80 characters")]
     public string UserName { get; set; } = string.Empty;
+    public string Gender { get; set; }  = string.Empty;
     
     [Required(ErrorMessage = "Please add a password")]
     [MaxLength(160,  ErrorMessage= "Max len of 160 characters")]

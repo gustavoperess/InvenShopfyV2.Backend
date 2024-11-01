@@ -163,8 +163,8 @@ public static class Endpoint
             .MapEndpoint<GetSalesBySalesIdEndpoint>()
             .MapEndpoint<GetTotalAmountSalesEndpoint>()
             .MapEndpoint<GetSalesByBestSellerEndpoint>()
-            .MapEndpoint<GetMostSouldProductEndpoint>()
-            .MapEndpoint<GetSaleByIdEnpoint>();
+            .MapEndpoint<GetMostSouldProductEndpoint>();
+            // .MapEndpoint<GetSaleByIdEnpoint>();
         
         
         // SalesReport GROUP

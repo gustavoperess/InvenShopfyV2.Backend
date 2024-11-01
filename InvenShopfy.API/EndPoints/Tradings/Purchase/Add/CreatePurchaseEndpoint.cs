@@ -10,7 +10,7 @@ namespace InvenShopfy.API.EndPoints.Tradings.Purchase.Add;
 public class CreatePurchaseEndpoint : IEndPoint
 
 {
-    public static void Map(IEndpointRouteBuilder app) => app.MapPost("/", HandleAsync)
+    public static void Map(IEndpointRouteBuilder app) => app.MapPost("/create-purchase", HandleAsync)
         .WithName("Purchases: Add a purchase")
         .WithSummary("Purchase: Add a purchase")
         .WithDescription("Purchase: Add a purchase")
@@ -28,6 +28,7 @@ public class CreatePurchaseEndpoint : IEndPoint
         
         if (!isValid)
         {
+          
             var errors = validationResults.Select(v => v.ErrorMessage).ToList();
             foreach (var i in errors)
             {
@@ -36,6 +37,7 @@ public class CreatePurchaseEndpoint : IEndPoint
             }
 
         }
+  
         request.UserId = user.Identity?.Name ?? string.Empty;
         var result = await handler.CreatePurchaseAsync(request);
         return result.IsSuccess
