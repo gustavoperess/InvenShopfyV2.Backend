@@ -9,22 +9,22 @@ namespace InvenShopfy.API.EndPoints.Tradings.Purchase.Add;
 public class GetPurchaseByIdEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("/{id}", HandlerAsync)
+        => app.MapGet("/{purchaseId}", HandlerAsync)
             .WithName("Purchases: Get By Id")
             .WithSummary("Get a Purchase")
             .WithDescription("Get a Purchase")
             .WithOrder(4)
-            .Produces<Response<Core.Models.Tradings.Purchase.AddPurchase?>>();
+            .Produces<PagedResponse<Core.Models.Tradings.Purchase.PurchasePerProduct?>>();
 
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,
         IPurchaseHandler handler,
-        long id)
+        long purchaseId)
     {
         var request = new GetPurchaseByIdRequest
         {
             UserId = user.Identity?.Name ?? string.Empty,
-            Id = id
+            PurchaseId = purchaseId
         };
 
         var result = await handler.GetPurchaseByIdAsync(request);

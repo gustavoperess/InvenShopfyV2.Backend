@@ -99,24 +99,70 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
         }
     }
 
-    public async Task<Response<AddPurchase?>> GetPurchaseByIdAsync(GetPurchaseByIdRequest request)
+    public async Task<Response<List<PurchasePerProduct>?>> GetPurchaseByIdAsync(GetPurchaseByIdRequest request)
     {
+
         try
         {
-            var purchase = await context.Purchases.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
-
-            if (purchase is null)
+             var query = context
+            .PurchaseProducts
+            .AsNoTracking()
+            .Include(x => x.AddPurchase)
+            .Include(x => x.Product)
+            .Where(x => x.AddPurchase.UserId == request.UserId && x.AddPurchaseId == request.PurchaseId)
+            .GroupBy(x => new
             {
-                return new Response<AddPurchase?>(null, 404, "purchase not found");
+                x.ProductId, x.Product.Title, x.PurchaseReferenceNumber, x.TotalPricePaidPerProduct,
+                x.TotalQuantityBoughtPerProduct,
+                x.Product.Unit.ShortName, x.AddPurchase.TotalAmountBought, x.Product.Price, x.AddPurchase.ShippingCost,
+                x.AddPurchase.PurchaseNote, x.AddPurchase.Supplier.Name, x.AddPurchase.Supplier.Email
+            }).Select(g => new
+            {
+                Id = g.Key.ProductId,
+                ProductPrice = g.Key.Price,
+                ProductName = g.Key.Title,
+                UnitShortName = g.Key.ShortName,
+                SupplierName = g.Key.Name,
+                SupplierEmail = g.Key.Email,
+                g.Key.PurchaseNote,
+                g.Key.ShippingCost,
+                g.Key.TotalAmountBought,
+                g.Key.TotalPricePaidPerProduct,
+                g.Key.PurchaseReferenceNumber,
+                g.Key.TotalQuantityBoughtPerProduct, 
+
+            });
+
+            var purchase = await query.ToListAsync();
+            var result = purchase.Select(s => new PurchasePerProduct
+            {
+                TotalAmount = s.TotalAmountBought,
+                ProductPrice = s.ProductPrice,
+                ProductId = s.Id,
+                ProductName = s.ProductName,
+                UnitShortName = s.UnitShortName,
+                ReferenceNumber = s.PurchaseReferenceNumber,
+                TotalPricePaidPerProduct = s.TotalPricePaidPerProduct,
+                TotalQuantityBoughtPerProduct = s.TotalQuantityBoughtPerProduct,
+                ShippingCost = s.ShippingCost,
+                PurchaseNote = s.PurchaseNote,
+                SupplierName = s.SupplierName,
+                SupplierEmail = s.SupplierEmail
+                
+                
+            }).ToList();
+            if (result.Count == 0)
+            {
+                return new Response<List<PurchasePerProduct>?>(result, 400, "No item found with this Id");
+              
             }
-
-            return new Response<AddPurchase?>(purchase);
-
+            return new Response<List<PurchasePerProduct>?>(result, 200, "Items retrived Successfully");
         }
-        catch
+        catch 
         {
-            return new Response<AddPurchase?>(null, 500, "It was not possible to find this purchase");
+            return new Response<List<PurchasePerProduct>?>(null, 500, "It was not possible to consult all purchases");
         }
+            
     }
 
     public async Task<PagedResponse<List<PurchaseList>?>> GetPurchaseByPeriodAsync(GetAllPurchasesRequest request)

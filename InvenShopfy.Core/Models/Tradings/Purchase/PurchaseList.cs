@@ -10,6 +10,5 @@ public class PurchaseList
     public decimal ShippingCost { get; set; }
     public decimal TotalAmountBought { get; set; }
     public string ReferenceNumber { get;  set; }  = string.Empty;
-
     public int TotalNumberOfProductsBought { get; set; }
 }
