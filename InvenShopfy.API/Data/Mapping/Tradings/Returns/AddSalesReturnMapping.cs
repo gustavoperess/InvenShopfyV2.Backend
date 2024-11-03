@@ -21,6 +21,10 @@ public class AddSalesReturnMapping : IEntityTypeConfiguration<SaleReturn>
             .HasColumnType("VARCHAR")
             .HasMaxLength(50);
         
+        builder.Property(x => x.TotalAmount)
+            .IsRequired(true)
+            .HasColumnType("NUMERIC(18,2)");
+        
         builder.Property(x => x.ReturnDate)
             .IsRequired(true)
             .HasColumnType("date");

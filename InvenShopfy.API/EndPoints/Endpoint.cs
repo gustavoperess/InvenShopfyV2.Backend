@@ -12,6 +12,7 @@ using InvenShopfy.API.EndPoints.Products.Units;
 using InvenShopfy.API.EndPoints.Reports.Sales;
 using InvenShopfy.API.EndPoints.Tradings.Purchase.Add;
 using InvenShopfy.API.EndPoints.Tradings.Sales;
+using InvenShopfy.API.EndPoints.Tradings.SalesReturn;
 using InvenShopfy.API.EndPoints.Warehouses;
 using InvenShopfy.API.Models;
 
@@ -176,6 +177,16 @@ public static class Endpoint
             .RequireAuthorization()
             .MapEndpoint<GetSalesReportByDateEndpoint>()
             .MapEndpoint<GetSalesReportByWarehouseNameEndpoint>();
+        
+        
+        // SalesReturn GROUP
+        var salesReturnGroup = endpoints.MapGroup("v2")
+            .WithTags("SalesReturn");
+
+        salesReturnGroup.MapGroup("SalesReturn")
+            .WithTags("SalesReturn")
+            .RequireAuthorization()
+            .MapEndpoint<CreateSalesReturnEndpoint>();
 
         
         // Management Group

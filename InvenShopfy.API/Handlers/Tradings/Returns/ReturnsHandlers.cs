@@ -17,10 +17,11 @@ public class ReturnsHandlers(AppDbContext context) : ISalesReturnHandler
             var saleReturn = new SaleReturn
             {
                 UserId = request.UserId,
-                ReturnDate = DateOnly.FromDateTime(DateTime.Now),
+                ReturnDate = request.ReturDate,
                 BillerId = request.BillerId,
                 TotalAmount = request.TotalAmount,
                 CustomerId = request.CustomerId,
+                WarehouseId = request.WarehouseId,
                 RemarkStatus = request.Remark,
                 ReturnNote = request.ReturnNote,
                 ReferenceNumber = request.ReferenceNumber,

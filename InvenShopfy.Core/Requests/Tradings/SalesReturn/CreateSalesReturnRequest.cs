@@ -24,7 +24,7 @@ public class CreateSalesReturnRequest : Request
 
     [Required(ErrorMessage = "Invalid TotalAmount")]
     [Range(0.01, 1000000, ErrorMessage = "Total Amount must be between 0.01 and 1,000,000.")]
-    public decimal TotalAmount { get; private set; } 
+    public decimal TotalAmount { get; set; } 
     
     [Required(ErrorMessage = "Please Select one of the Remarl status")]
     [AllowedValues("Duplicate", "PackageBroken", "DateExpired", "Quality", "NotGood",
