@@ -11,11 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Handlers\Tradings\SalesReturn\" />
-    <Folder Include="Models\Tradings\SalesReturn\" />
     <Folder Include="Requests\Tradings\Purchase\Manage\" />
     <Folder Include="Requests\Tradings\Purchase\Return\" />
-    <Folder Include="Requests\Tradings\SalesReturn\" />
   </ItemGroup>
 
   <ItemGroup>

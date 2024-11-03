@@ -5,22 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a198bd72-77c5-41a2-b2bc-caddea3eb970" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/InvenShopfy.Core/Models/Tradings/Purchase/PurchasePerProduct.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/InvenShopfy.API/Handlers/Tradings/Returns/ReturnsHandlers.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/InvenShopfy.Core/Enum/ERemarkStatus.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/InvenShopfy.Core/Handlers/Tradings/SalesReturn/ISalesReturnHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/InvenShopfy.Core/Requests/Tradings/SalesReturn/CreateSalesReturnRequest.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/InvenShopfy.Core/Requests/Tradings/SalesReturn/GetSalesReturnByNumberRequest.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Endpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Endpoint.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Tradings/Purchase/Add/GetPurchaseByIdEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Tradings/Purchase/Add/GetPurchaseByIdEndpoint.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/EndPoints/Tradings/Sales/GetSaleByIdEnpoint.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Handlers/Tradings/Purchase/PurchaseHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/Handlers/Tradings/Purchase/PurchaseHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.API/Handlers/Tradings/Sales/SaleHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/Handlers/Tradings/Sales/SaleHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/obj/Debug/net8.0/InvenShopfy.API.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Handlers/Tradings/Purchase/IPurchaseHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Handlers/Tradings/Purchase/IPurchaseHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.API/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.API/obj/rider.project.restore.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Handlers/Tradings/Sales/ISalesHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Handlers/Tradings/Sales/ISalesHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Models/Tradings/Purchase/PurchaseList.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Models/Tradings/Purchase/PurchaseList.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Requests/Tradings/Purchase/AddPurchase/GetPurchaseByIdRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Requests/Tradings/Purchase/AddPurchase/GetPurchaseByIdRequest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Requests/Tradings/Sales/GetSalesByIdRequest.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/InvenShopfy.Core.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/InvenShopfy.Core.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/Models/Tradings/Sales/SaleReturn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/Models/Tradings/SalesReturn/SaleReturn.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/obj/Debug/net8.0/InvenShopfy.Core.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvenShopfy.Core/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/InvenShopfy.Core/obj/rider.project.restore.info" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
