@@ -6,6 +6,7 @@ using InvenShopfy.API.Handlers.People;
 using InvenShopfy.API.Handlers.Products;
 using InvenShopfy.API.Handlers.Reports;
 using InvenShopfy.API.Handlers.Tradings.Purchase;
+using InvenShopfy.API.Handlers.Tradings.Returns;
 using InvenShopfy.API.Handlers.Tradings.Sales;
 using InvenShopfy.API.Handlers.Warehouses;
 using InvenShopfy.API.Models;
@@ -17,6 +18,7 @@ using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Handlers.Reports.Sales;
 using InvenShopfy.Core.Handlers.Tradings.Purchase;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
+using InvenShopfy.Core.Handlers.Tradings.SalesReturn;
 using InvenShopfy.Core.Handlers.Warehouse;
 using Microsoft.EntityFrameworkCore;
 
@@ -147,6 +149,7 @@ public static class BuilderExtension
         builder.Services.AddTransient<IWarehouseHandler, WarehouseHandler>();
         builder.Services.AddTransient<IPurchaseHandler, PurchaseHandler>();
         builder.Services.AddTransient<ISalesHandler, SaleHandler>();
+        builder.Services.AddTransient<ISalesReturnHandler, ReturnsHandlers>(); // new
         builder.Services.AddTransient<ISalesReportHandler, SalesReportHandler>();
         builder.Services.AddTransient<CloudinaryService>();
        

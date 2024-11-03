@@ -732,6 +732,51 @@ namespace InvenShopfy.API.Migrations
                     b.ToTable("SaleProduct", (string)null);
                 });
 
+            modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.SalesReturn.SaleReturn", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("BillerId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("CustomerId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("ReferenceNumber")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<DateOnly>("ReturnDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ReturnNote")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(160)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<long>("WarehouseId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BillerId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("SalesReturn", (string)null);
+                });
+
             modelBuilder.Entity("InvenShopfy.Core.Models.UserManagement.Role", b =>
                 {
                     b.Property<long>("Id")
@@ -1118,6 +1163,33 @@ namespace InvenShopfy.API.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("Sale");
+                });
+
+            modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.SalesReturn.SaleReturn", b =>
+                {
+                    b.HasOne("InvenShopfy.Core.Models.People.Biller", "Biller")
+                        .WithMany()
+                        .HasForeignKey("BillerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InvenShopfy.Core.Models.People.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InvenShopfy.Core.Models.Warehouse.Warehouse", "Warehouse")
+                        .WithMany()
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Biller");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Warehouse");
                 });
 
             modelBuilder.Entity("InvenShopfy.Core.Models.UserManagement.User", b =>

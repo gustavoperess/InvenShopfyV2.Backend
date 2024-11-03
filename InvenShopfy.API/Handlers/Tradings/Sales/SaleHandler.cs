@@ -4,7 +4,6 @@ using InvenShopfy.Core.Handlers.Tradings.Sales;
 using InvenShopfy.Core.Models.Tradings.Sales;
 using InvenShopfy.Core.Requests.Tradings.Sales;
 using InvenShopfy.Core.Responses;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 

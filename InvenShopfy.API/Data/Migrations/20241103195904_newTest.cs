@@ -5,7 +5,7 @@
 namespace InvenShopfy.API.Migrations
 {
     /// <inheritdoc />
-    public partial class updatingCodeAmountTree : Migration
+    public partial class newTest : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

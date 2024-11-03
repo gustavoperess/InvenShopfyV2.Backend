@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241026221749_updatingCodeAmountTree")]
-    partial class updatingCodeAmountTree
+    [Migration("20241103195904_newTest")]
+    partial class newTest
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -117,6 +117,10 @@ namespace InvenShopfy.API.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("ProfilePicture")
+                        .HasMaxLength(70000)
+                        .HasColumnType("character varying(70000)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
@@ -320,7 +324,7 @@ namespace InvenShopfy.API.Migrations
                         .HasMaxLength(80)
                         .HasColumnType("VARCHAR");
 
-                    b.Property<long>("RewardPoint")
+                    b.Property<long?>("RewardPoint")
                         .HasMaxLength(30)
                         .HasColumnType("BIGINT");
 
@@ -652,10 +656,6 @@ namespace InvenShopfy.API.Migrations
 
                     b.Property<int>("Discount")
                         .HasColumnType("INT");
-
-                    b.Property<string>("Document")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(120)");
 
                     b.Property<string>("PaymentStatus")
                         .IsRequired()

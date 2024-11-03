@@ -3,7 +3,7 @@ using InvenShopfy.Core.Enum;
 
 namespace InvenShopfy.Core.Requests.Tradings.SalesReturn;
 
-public class CreateSalesReturnRequest
+public class CreateSalesReturnRequest : Request
 {
     
     [Required(ErrorMessage = "Please enter the Date the product was sold")]
@@ -25,7 +25,6 @@ public class CreateSalesReturnRequest
     [Required(ErrorMessage = "Invalid TotalAmount")]
     [Range(0.01, 1000000, ErrorMessage = "Total Amount must be between 0.01 and 1,000,000.")]
     public decimal TotalAmount { get; private set; } 
-    
     
     [Required(ErrorMessage = "Please Select one of the Remarl status")]
     [AllowedValues("Duplicate", "PackageBroken", "DateExpired", "Quality", "NotGood",
