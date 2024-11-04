@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241103200222_newSalesReturnDatabase")]
-    partial class newSalesReturnDatabase
+    [Migration("20241104135339_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -754,12 +754,23 @@ namespace InvenShopfy.API.Migrations
                         .HasMaxLength(80)
                         .HasColumnType("VARCHAR");
 
+                    b.Property<string>("RemarkStatus")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("VARCHAR");
+
                     b.Property<DateOnly>("ReturnDate")
                         .HasColumnType("date");
 
                     b.Property<string>("ReturnNote")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<long>("SaleId")
+                        .HasColumnType("bigint");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("NUMERIC(18,2)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -774,6 +785,8 @@ namespace InvenShopfy.API.Migrations
                     b.HasIndex("BillerId");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("SaleId");
 
                     b.HasIndex("WarehouseId");
 
@@ -1182,6 +1195,12 @@ namespace InvenShopfy.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("InvenShopfy.Core.Models.Tradings.Sales.Sale", "Sale")
+                        .WithMany()
+                        .HasForeignKey("SaleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("InvenShopfy.Core.Models.Warehouse.Warehouse", "Warehouse")
                         .WithMany()
                         .HasForeignKey("WarehouseId")
@@ -1191,6 +1210,8 @@ namespace InvenShopfy.API.Migrations
                     b.Navigation("Biller");
 
                     b.Navigation("Customer");
+
+                    b.Navigation("Sale");
 
                     b.Navigation("Warehouse");
                 });

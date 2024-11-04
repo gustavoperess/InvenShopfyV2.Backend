@@ -11,6 +11,7 @@ public class AddSalesReturnMapping : IEntityTypeConfiguration<SaleReturn>
         builder.ToTable("SalesReturn");
         builder.HasKey(x => x.Id);
         
+        
         builder.Property(x => x.ReferenceNumber)
             .IsRequired(true)
             .HasColumnType("VARCHAR")

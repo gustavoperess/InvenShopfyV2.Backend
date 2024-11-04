@@ -763,6 +763,9 @@ namespace InvenShopfy.API.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<long>("SaleId")
+                        .HasColumnType("bigint");
+
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("NUMERIC(18,2)");
 
@@ -779,6 +782,8 @@ namespace InvenShopfy.API.Migrations
                     b.HasIndex("BillerId");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("SaleId");
 
                     b.HasIndex("WarehouseId");
 
@@ -1187,6 +1192,12 @@ namespace InvenShopfy.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("InvenShopfy.Core.Models.Tradings.Sales.Sale", "Sale")
+                        .WithMany()
+                        .HasForeignKey("SaleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("InvenShopfy.Core.Models.Warehouse.Warehouse", "Warehouse")
                         .WithMany()
                         .HasForeignKey("WarehouseId")
@@ -1196,6 +1207,8 @@ namespace InvenShopfy.API.Migrations
                     b.Navigation("Biller");
 
                     b.Navigation("Customer");
+
+                    b.Navigation("Sale");
 
                     b.Navigation("Warehouse");
                 });
