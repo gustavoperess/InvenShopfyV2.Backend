@@ -78,43 +78,33 @@ public class ReturnsHandlers(AppDbContext context) : ISalesReturnHandler
             return new PagedResponse<List<SalesReturnByReturnNumber>?>(null, 500, "It was not possible to consult all returns");
         }
     }
+
+    public async Task<PagedResponse<List<SaleReturn>?>> GetAllSalesReturnAsync(GetAllSalesReturnsRequest request)
+    {
+        try
+        {
+            var query = context.SaleReturns
+                .AsNoTracking()
+                .Where(x => x.UserId == request.UserId)
+                .OrderBy(x => x.ReturnDate);
+            
+            var salesReturn = await query
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToListAsync();
+            
+            var count = await query.CountAsync();
+            
+            return new PagedResponse<List<SaleReturn>?>(
+                salesReturn,
+                count,
+                request.PageNumber,
+                request.PageSize);
+        }
+        catch 
+        {
+            return new PagedResponse<List<SaleReturn>?>(null, 500, "It was not possible to consult all salesReturns");
+        }
+    }
     
-    // public async Task<Response<List<SalesReturnByName>?>> GetSalesPartialByCustomerNameAsync(GetSalesReturnByCustomerName request)
-    // {
-    //     try
-    //     {
-    //         var returns = await context.SaleReturns
-    //             .AsNoTracking()
-    //             .Include(p => p.Customer)
-    //             .Include(p => p.Biller)
-    //             .Include(p => p.Warehouse)
-    //             .Where(x => EF.Functions.ILike(x.Customer.Name, $"%{request.CustomerName}%") && x.UserId == request.UserId)
-    //             .Select(g => new SalesReturnByName
-    //             {
-    //                 Id = g.Id,
-    //                 TotalAmount = g.TotalAmount,
-    //                 WarehouseName = g.Warehouse.WarehouseName,
-    //                 CustomerName = g.Customer.Name,
-    //                 BillerName= g.Biller.Name,
-    //                 ReturnNote = g.ReturnNote,
-    //                 ReturnDate = g.ReturnDate,
-    //                 ReferenceNumber = g.ReferenceNumber,
-    //                 Remark = g.RemarkStatus
-    //                 
-    //             }).OrderBy(x => x.CustomerName)
-    //             .ToListAsync();
-    //         
-    //         if (returns.Count == 0)
-    //         {
-    //             return new PagedResponse<List<SalesReturnByName>?>(new List<SalesReturnByName>(), 200, "No returns found");
-    //         }
-    //         
-    //         return new PagedResponse<List<SalesReturnByName>?>(returns);
-    //
-    //     }
-    //     catch
-    //     {
-    //         return new PagedResponse<List<SalesReturnByName>?>(null, 500, "It was not possible to consult all returns");
-    //     }
-    // }
 }

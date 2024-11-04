@@ -10,8 +10,8 @@ namespace InvenShopfy.API.EndPoints.Tradings.SalesReturn;
 public class CreateSalesReturnEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app) => app.MapPost("/create-salereturn", HandleAsync)
-        .WithName("Create: a new salereturn")
-        .WithSummary("Create a new salereturn")
+        .WithName("SalesReturn: a new salereturn")
+        .WithSummary("SalesReturn a new salereturn")
         .WithDescription("This endpoint creates a new salereturn")
         .WithOrder(1)
         .Produces<Response<Core.Models.Tradings.SalesReturn.SaleReturn?>>();

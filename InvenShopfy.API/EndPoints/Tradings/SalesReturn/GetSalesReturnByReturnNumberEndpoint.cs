@@ -17,7 +17,7 @@ public class GetSalesReturnByReturnNumberEndpoint : IEndPoint
             .WithName("SalesReturn: Get By returnNumber")
             .WithSummary("Get a SalesReturn by its returnNumber")
             .WithDescription("Get a SalesReturn by its returnNumber")
-            .WithOrder(6)
+            .WithOrder(2)
             .Produces<Response<Core.Models.Tradings.SalesReturn.SalesReturnByReturnNumber?>>();
 
     private static async Task<IResult> HandlerAsync(
