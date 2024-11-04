@@ -1,4 +1,4 @@
-namespace InvenShopfy.Core.Models.Tradings.SalesReturn;
+namespace InvenShopfy.Core.Models.Tradings.Returns.SalesReturn;
 
 public class SalesReturnByReturnNumber
 {

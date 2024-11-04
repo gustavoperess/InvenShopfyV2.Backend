@@ -1,14 +1,11 @@
 using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
-using InvenShopfy.Core;
-using InvenShopfy.Core.Handlers.Product;
-using InvenShopfy.Core.Handlers.Tradings.SalesReturn;
-using InvenShopfy.Core.Requests.Products.Product;
-using InvenShopfy.Core.Requests.Tradings.SalesReturn;
+using InvenShopfy.Core.Handlers.Tradings.Returns.SalesReturn;
+using InvenShopfy.Core.Models.Tradings.Returns.SalesReturn;
+using InvenShopfy.Core.Requests.Tradings.Returns.SalesReturn;
 using InvenShopfy.Core.Responses;
-using Microsoft.AspNetCore.Mvc;
 
-namespace InvenShopfy.API.EndPoints.Tradings.SalesReturn;
+namespace InvenShopfy.API.EndPoints.Tradings.Returns.SalesReturn;
 
 public class GetSalesReturnByReturnNumberEndpoint : IEndPoint
 {
@@ -18,7 +15,7 @@ public class GetSalesReturnByReturnNumberEndpoint : IEndPoint
             .WithSummary("Get a SalesReturn by its returnNumber")
             .WithDescription("Get a SalesReturn by its returnNumber")
             .WithOrder(2)
-            .Produces<Response<Core.Models.Tradings.SalesReturn.SalesReturnByReturnNumber?>>();
+            .Produces<Response<SalesReturnByReturnNumber?>>();
 
     private static async Task<IResult> HandlerAsync(
         string referenceNumber,

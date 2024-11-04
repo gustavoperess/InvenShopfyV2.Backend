@@ -1,8 +1,4 @@
-using System.Text.Json.Serialization;
-using InvenShopfy.Core.Models.People;
-using InvenShopfy.Core.Models.Tradings.Sales;
-
-namespace InvenShopfy.Core.Models.Tradings.SalesReturn;
+namespace InvenShopfy.Core.Models.Tradings.Returns.SalesReturn;
 
 public class SaleReturn
 {

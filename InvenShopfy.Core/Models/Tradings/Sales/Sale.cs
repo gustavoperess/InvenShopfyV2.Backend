@@ -3,7 +3,6 @@ using InvenShopfy.Core.Common.RandomNumber;
 using InvenShopfy.Core.Models.People;
 using InvenShopfy.Core.Responses;
 using System.Runtime.CompilerServices;
-using InvenShopfy.Core.Models.Tradings.SalesReturn;
 
 
 [assembly: InternalsVisibleTo("InvenShopfy.Tests")]

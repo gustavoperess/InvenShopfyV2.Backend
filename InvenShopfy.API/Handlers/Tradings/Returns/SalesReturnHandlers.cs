@@ -1,13 +1,13 @@
 using InvenShopfy.API.Data;
-using InvenShopfy.Core.Handlers.Tradings.SalesReturn;
+using InvenShopfy.Core.Handlers.Tradings.Returns.SalesReturn;
+using InvenShopfy.Core.Models.Tradings.Returns.SalesReturn;
+using InvenShopfy.Core.Requests.Tradings.Returns.SalesReturn;
 using InvenShopfy.Core.Responses;
-using InvenShopfy.Core.Models.Tradings.SalesReturn;
-using InvenShopfy.Core.Requests.Tradings.SalesReturn;
 using Microsoft.EntityFrameworkCore;
 
 namespace InvenShopfy.API.Handlers.Tradings.Returns;
 
-public class ReturnsHandlers(AppDbContext context) : ISalesReturnHandler
+public class SalesReturnHandlers(AppDbContext context) : ISalesReturnHandler
 
 {
     public async Task<Response<SaleReturn?>> CreateSalesReturnAsync(CreateSalesReturnRequest request)
@@ -104,6 +104,28 @@ public class ReturnsHandlers(AppDbContext context) : ISalesReturnHandler
         catch 
         {
             return new PagedResponse<List<SaleReturn>?>(null, 500, "It was not possible to consult all salesReturns");
+        }
+    }
+    
+    public async Task<Response<SaleReturn?>> DeleteSalesReturnAsync(DeleteSalesReturnRequest request)
+    {
+        try
+        {
+            var saleReturn = await context.SaleReturns.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            
+            if (saleReturn is null)
+            {
+                return new Response<SaleReturn?>(null, 404, "SaleReturn not found");
+            }
+
+            context.SaleReturns.Remove(saleReturn);
+            await context.SaveChangesAsync();
+            return new Response<SaleReturn?>(saleReturn, message: "saleReturn removed successfully");
+
+        }
+        catch 
+        {
+            return new Response<SaleReturn?>(null, 500, "It was not possible to delete this saleReturn");
         }
     }
     

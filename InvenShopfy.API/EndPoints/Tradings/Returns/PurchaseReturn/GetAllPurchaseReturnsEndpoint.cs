@@ -1,38 +1,37 @@
-using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core;
-using InvenShopfy.Core.Handlers.Tradings.SalesReturn;
-using InvenShopfy.Core.Requests.Tradings.SalesReturn;
+using InvenShopfy.Core.Handlers.Tradings.Returns.PurchaseReturn;
+using InvenShopfy.Core.Requests.Tradings.Returns.PurchaseReturn;
 using InvenShopfy.Core.Responses;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InvenShopfy.API.EndPoints.Tradings.SalesReturn;
+namespace InvenShopfy.API.EndPoints.Tradings.Returns.PurchaseReturn;
 
-public class GetAllSalesReturnEndoint : IEndPoint
+public class GetAllPurchaseReturnsEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app) => app.MapGet("/", HandleAsync)
-        .WithName("SalesReturn: get all salesReturn")
-        .WithSummary("SalesReturn get all salesReturn")
-        .WithDescription("This endpoint retrive all salesreturn")
+        .WithName("PurchaseReturn: get all PurchaseReturn")
+        .WithSummary("PurchaseReturn get all PurchaseReturn")
+        .WithDescription("This endpoint retrive all PurchaseReturn")
         .WithOrder(3)
-        .Produces<Response<Core.Models.Tradings.SalesReturn.SaleReturn?>>();
+        .Produces<Response<Core.Models.Tradings.Returns.PurchaseReturn.PurchaseReturn?>>();
 
     private static async Task<IResult> HandleAsync(
         ClaimsPrincipal user,
-        ISalesReturnHandler handler,
+        IPurchaseReturnHandler handler,
         [FromQuery]int pageNumber = Configuration.DefaultPageNumber,
         [FromQuery]int pageSize = Configuration.DefaultPageSize)
     {
       
-        var request = new GetAllSalesReturnsRequest
+        var request = new GetAllPurchaseReturnsRequests
         {
             UserId = user.Identity?.Name ?? string.Empty,
             PageNumber = pageNumber,
             PageSize = pageSize,
         };
         
-        var result = await handler.GetAllSalesReturnAsync(request);
+        var result = await handler.GetAllPurchaseReturnAsync(request);
         return result.IsSuccess
             ? TypedResults.Created($"/{result.Data}", result)
             : TypedResults.BadRequest(result);

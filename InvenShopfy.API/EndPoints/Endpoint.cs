@@ -11,8 +11,9 @@ using InvenShopfy.API.EndPoints.Products.Product;
 using InvenShopfy.API.EndPoints.Products.Units;
 using InvenShopfy.API.EndPoints.Reports.Sales;
 using InvenShopfy.API.EndPoints.Tradings.Purchase.Add;
+using InvenShopfy.API.EndPoints.Tradings.Returns.PurchaseReturn;
+using InvenShopfy.API.EndPoints.Tradings.Returns.SalesReturn;
 using InvenShopfy.API.EndPoints.Tradings.Sales;
-using InvenShopfy.API.EndPoints.Tradings.SalesReturn;
 using InvenShopfy.API.EndPoints.Warehouses;
 using InvenShopfy.API.Models;
 
@@ -188,7 +189,21 @@ public static class Endpoint
             .RequireAuthorization()
             .MapEndpoint<CreateSalesReturnEndpoint>()
             .MapEndpoint<GetSalesReturnByReturnNumberEndpoint>()
+            .MapEndpoint<DeleteSalesReturnEndpoint>()
             .MapEndpoint<GetAllSalesReturnEndoint>();
+        
+        
+        // PurchaseReturn GROUP
+        var purchaseReturnGroup = endpoints.MapGroup("v2")
+            .WithTags("PurchasesReturn");
+
+        purchaseReturnGroup.MapGroup("PurchasesReturn")
+            .WithTags("PurchasesReturn")
+            .RequireAuthorization()
+            .MapEndpoint<CreatePurchaseReturnEndpoin>()
+            .MapEndpoint<GetAllPurchaseReturnsEndpoint>()
+            .MapEndpoint<DeletePurchaseReturnEndpoint>()
+            .MapEndpoint<GetPurchaseByReturnNumberEndpoint>();
 
         
         // Management Group

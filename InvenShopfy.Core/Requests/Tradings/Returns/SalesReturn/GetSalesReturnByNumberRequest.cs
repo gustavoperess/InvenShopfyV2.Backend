@@ -1,4 +1,4 @@
-namespace InvenShopfy.Core.Requests.Tradings.SalesReturn;
+namespace InvenShopfy.Core.Requests.Tradings.Returns.SalesReturn;
 
 public class GetSalesReturnByNumberRequest : PagedRequest
 {
