@@ -3,6 +3,7 @@ using InvenShopfy.Core.Common.RandomNumber;
 using InvenShopfy.Core.Models.People;
 using InvenShopfy.Core.Responses;
 using System.Runtime.CompilerServices;
+using InvenShopfy.Core.Models.Tradings.SalesReturn;
 
 
 [assembly: InternalsVisibleTo("InvenShopfy.Tests")]
@@ -30,7 +31,6 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
         public string ReferenceNumber { get; init; } = GenerateRandomNumber.RandomNumberGenerator();
         public int Discount { get; init; }
         public List<SaleProduct> SaleProducts { get; init; } = new List<SaleProduct>();
-        
         public string UserId { get; init; } = string.Empty;
         
         

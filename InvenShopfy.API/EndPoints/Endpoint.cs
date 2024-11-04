@@ -186,7 +186,8 @@ public static class Endpoint
         salesReturnGroup.MapGroup("SalesReturn")
             .WithTags("SalesReturn")
             .RequireAuthorization()
-            .MapEndpoint<CreateSalesReturnEndpoint>();
+            .MapEndpoint<CreateSalesReturnEndpoint>()
+            .MapEndpoint<GetSalesReturnByReturnNumberEndpoint>();
 
         
         // Management Group

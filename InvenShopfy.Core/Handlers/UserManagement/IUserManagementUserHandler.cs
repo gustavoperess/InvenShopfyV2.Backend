@@ -8,7 +8,7 @@ public interface IUserManagementUserHandler
 {
     Task<Response<Models.UserManagement.User?>> CreateAsync(CreateUserRequest request);
     Task<Response<Models.UserManagement.User?>> UpdateAsync(UpdateUserRequest request);
-    Task<Response<Models.UserManagement.User?>> DeleteAsync(DeleteUserRequest request);
-    Task<Response<Models.UserManagement.User?>> GetByIdAsync(GetUserByIdRequest byIdRequest);
+    // Task<Response<Models.UserManagement.User?>> DeleteAsync(DeleteUserRequest request);
+    // Task<Response<Models.UserManagement.User?>> GetByIdAsync(GetUserByIdRequest byIdRequest);
     Task<PagedResponse<List<Models.UserManagement.User>?>> GetByPeriodAsync(GetAllUsersRequest request);
 }

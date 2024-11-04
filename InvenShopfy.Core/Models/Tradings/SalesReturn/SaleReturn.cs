@@ -1,4 +1,6 @@
+using System.Text.Json.Serialization;
 using InvenShopfy.Core.Models.People;
+using InvenShopfy.Core.Models.Tradings.Sales;
 
 namespace InvenShopfy.Core.Models.Tradings.SalesReturn;
 
@@ -6,13 +8,9 @@ public class SaleReturn
 {
     public long Id { get; init; }
     public string ReferenceNumber { get; set; } = null!;
-    
-    public long WarehouseId { get; set; }
-    public Warehouse.Warehouse Warehouse { get; init; } = null!;
-    public long BillerId { get; set; }
-    public Biller Biller { get; init; } = null!;
-    public long CustomerId { get; set; }
-    public Customer Customer { get; init; } = null!;
+    public string BillerName { get; set; } = null!;
+    public string CustomerName { get; set; } = null!;
+    public string WarehouseName { get; set; } = null!;
     public decimal TotalAmount { get; set; } 
     public string ReturnNote { get; set; } = null!;
     public string RemarkStatus { get; set; } = null!;
