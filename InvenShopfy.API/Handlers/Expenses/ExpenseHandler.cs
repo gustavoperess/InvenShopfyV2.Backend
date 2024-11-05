@@ -23,8 +23,9 @@ public class ExpenseHandler (AppDbContext context) : IExpenseHandler
                 WarehouseId = request.WarehouseId,
                 ExpenseCategoryId = request.ExpenseCategoryId,
                 VoucherNumber = request.VoucherNumber,
-                Amount = request.Amount,
-                PurchaseNote = request.PurchaseNote
+                ExpenseCost = request.ExpenseCost,
+                ExpenseNote = request.ExpenseNote,
+                ExpenseDescription = request.ExpenseDescription
                 
             };
             await context.Expenses.AddAsync(expense);
@@ -54,8 +55,9 @@ public class ExpenseHandler (AppDbContext context) : IExpenseHandler
             expense.ExpenseType = request.ExpenseType;
             expense.ExpenseCategoryId = request.ExpenseCategoryId;
             expense.VoucherNumber = request.VoucherNumber;
-            expense.Amount = request.Amount;
-            expense.PurchaseNote = request.PurchaceNote;
+            expense.ExpenseCost = request.ExpenseCost;
+            expense.ExpenseNote = request.ExpenseNote;
+            expense.ExpenseDescription = request.ExpenseDescription;
             
             context.Expenses.Update(expense);
             await context.SaveChangesAsync();

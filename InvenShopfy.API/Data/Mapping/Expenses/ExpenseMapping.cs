@@ -17,19 +17,23 @@ public class ExpenseMapping : IEntityTypeConfiguration<Expense>
             .IsRequired(true)
             .HasColumnType("date");
         
+        builder.Property(x => x.ExpenseDescription)
+            .IsRequired(true)
+            .HasColumnType("VARCHAR(50)");
+        
         builder.Property(x => x.ExpenseType)
             .IsRequired(true)
-            .HasColumnType("VARCHAR(50)"); 
+            .HasColumnType("VARCHAR");
 
         builder.Property(x => x.VoucherNumber)
             .IsRequired(true)
             .HasColumnType("BIGINT");
 
-        builder.Property(x => x.Amount)
+        builder.Property(x => x.ExpenseCost)
             .IsRequired(true)
             .HasColumnType("NUMERIC(18,2)");
         
-        builder.Property(x => x.PurchaseNote)
+        builder.Property(x => x.ExpenseNote)
             .IsRequired(true)
             .HasColumnType("TEXT")
             .HasMaxLength(500);

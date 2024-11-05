@@ -14,7 +14,7 @@ public class ExpenseCategoryHandler (AppDbContext context) : IExpenseCategoryHan
         try
         {
             var existingExpenseCategory = await context.ExpenseCategories.FirstOrDefaultAsync(c =>
-                c.Category == request.Category && c.UserId == request.UserId);
+                c.Category.ToLower() == request.Category.ToLower() && c.UserId == request.UserId);
             if (existingExpenseCategory != null)
             {
                 foreach (var subcat in request.SubCategory)
@@ -26,6 +26,8 @@ public class ExpenseCategoryHandler (AppDbContext context) : IExpenseCategoryHan
                 }
                 context.ExpenseCategories.Update(existingExpenseCategory);
                 await context.SaveChangesAsync();
+                return new Response<ExpenseCategory?>(existingExpenseCategory, 200, "Subcategory appended to existing category");
+
             }
             var expenseCategory = new ExpenseCategory
             {
