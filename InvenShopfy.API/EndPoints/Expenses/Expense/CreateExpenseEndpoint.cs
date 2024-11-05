@@ -9,7 +9,7 @@ namespace InvenShopfy.API.EndPoints.Expenses.Expense;
 
 public class CreateExpenseEndpoint : IEndPoint
 {
-    public static void Map(IEndpointRouteBuilder app) => app.MapPost("/", HandleAsync)
+    public static void Map(IEndpointRouteBuilder app) => app.MapPost("/create-expense", HandleAsync)
         .WithName("Expenses: Create A Expense")
         .WithSummary("Create a new  Expense")
         .WithDescription("Create a new Expense")

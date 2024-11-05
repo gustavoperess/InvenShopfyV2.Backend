@@ -28,6 +28,10 @@ public class ExpenseMapping : IEntityTypeConfiguration<Expense>
         builder.Property(x => x.VoucherNumber)
             .IsRequired(true)
             .HasColumnType("BIGINT");
+        
+        builder.Property(x => x.ShippingCost)
+            .IsRequired(true)
+            .HasColumnType("NUMERIC(18,2)");
 
         builder.Property(x => x.ExpenseCost)
             .IsRequired(true)
