@@ -113,14 +113,29 @@ public class ExpenseHandler (AppDbContext context) : IExpenseHandler
             return new Response<Expense?>(null, 500, "It was not possible to find this Expense");
         }
     }
-    public async Task<PagedResponse<List<Expense>?>> GetExpenseByPeriodAsync(GetAllExpensesRequest request)
+    public async Task<PagedResponse<List<ExpenseDto>?>> GetExpenseByPeriodAsync(GetAllExpensesRequest request)
     {
         try
         {
             var query = context
                 .Expenses
                 .AsNoTracking()
+                .Include(x => x.Warehouse)
+                .Include(x => x.ExpenseCategory)
                 .Where(x => x.UserId == request.UserId)
+                .Select(g => new
+                {
+                    g.Id,
+                    g.ExpenseDescription,
+                    g.Date,
+                    g.Warehouse.WarehouseName,
+                    g.ExpenseType,
+                    ExpenseCategory = g.ExpenseCategory.Category,
+                    g.VoucherNumber,
+                    g.ExpenseCost,
+                    g.ExpenseNote,
+                    g.ShippingCost
+                })
                 .OrderBy(x => x.ExpenseType);
             
             var expense = await query
@@ -130,15 +145,31 @@ public class ExpenseHandler (AppDbContext context) : IExpenseHandler
             
             var count = await query.CountAsync();
             
-            return new PagedResponse<List<Expense>?>(
-                expense,
+            var result = expense.Select(s => new ExpenseDto
+            {
+                Id = s.Id,
+                ExpenseDescription = s.ExpenseDescription,
+                Date = s.Date,
+                WarehouseName =  s.WarehouseName,
+                ExpenseType = s.ExpenseType,
+                ExpenseCategory = s.ExpenseCategory,
+                VoucherNumber = s.VoucherNumber,
+                ExpenseCost = s.ExpenseCost,
+                ExpenseNote = s.ExpenseNote,
+                ShippingCost = s.ShippingCost
+                
+               
+            }).ToList();
+            
+            return new PagedResponse<List<ExpenseDto>?>(
+                result,
                 count,
                 request.PageNumber,
                 request.PageSize);
         }
         catch 
         {
-            return new PagedResponse<List<Expense>?>(null, 500, "It was not possible to consult all Expense");
+            return new PagedResponse<List<ExpenseDto>?>(null, 500, "It was not possible to consult all Expense");
         }
     }
 }

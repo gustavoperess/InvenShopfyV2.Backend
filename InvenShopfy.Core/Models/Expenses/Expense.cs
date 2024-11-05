@@ -7,7 +7,6 @@ namespace InvenShopfy.Core.Models.Expenses;
 public class Expense
 {
     public long Id { get; set; }
-
     public string ExpenseDescription { get; set; } = null!;
     public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);
     public long WarehouseId { get; set; }
@@ -18,5 +17,7 @@ public class Expense
     public long VoucherNumber { get; set; }
     public decimal ExpenseCost { get; set; }
     public string ExpenseNote { get; set; } = String.Empty;
+    
+    public decimal ShippingCost { get; set; } 
     public string UserId { get; set; } = string.Empty;
 }

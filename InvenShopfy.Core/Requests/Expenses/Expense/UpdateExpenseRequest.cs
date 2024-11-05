@@ -31,6 +31,10 @@ public class UpdateExpenseRequest : Request
     [Range(0.01, 1000000, ErrorMessage = "Amount must be between 0.01 and 1,000,000.")]
     public decimal ExpenseCost { get; set; }
     
+    [Required(ErrorMessage = "Please inform the Payment Status")]
+    [Range(0.01, 1000000, ErrorMessage = "Shipping Cost be between 0.01 and 1,000,000.")]
+    public decimal ShippingCost { get; set; } 
+    
     [Required(ErrorMessage = "Please add a short not explaining the expense")]
     [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]
     public string ExpenseNote { get; set; } = String.Empty;
