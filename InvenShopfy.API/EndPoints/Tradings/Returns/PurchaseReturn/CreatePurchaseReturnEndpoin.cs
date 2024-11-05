@@ -9,7 +9,7 @@ namespace InvenShopfy.API.EndPoints.Tradings.Returns.PurchaseReturn;
 
 public class CreatePurchaseReturnEndpoin : IEndPoint
 {
-    public static void Map(IEndpointRouteBuilder app) => app.MapPost("/create-purhasereturn", HandleAsync)
+    public static void Map(IEndpointRouteBuilder app) => app.MapPost("/create-purchasereturn", HandleAsync)
         .WithName("PurchaseReturn: a new purchaseReturn")
         .WithSummary("PurchaseReturn a new purchaseReturn")
         .WithDescription("This endpoint creates a new purchaseReturn")
