@@ -13,22 +13,40 @@ public class ExpenseCategoryHandler (AppDbContext context) : IExpenseCategoryHan
     {
         try
         {
+            var existingExpenseCategory = await context.ExpenseCategories.FirstOrDefaultAsync(c =>
+                c.Category == request.Category && c.UserId == request.UserId);
+            if (existingExpenseCategory != null)
+            {
+                foreach (var subcat in request.SubCategory)
+                {
+                    if (!existingExpenseCategory.SubCategory.Contains(subcat))
+                    {
+                        existingExpenseCategory.SubCategory.Add(subcat);
+                    }
+                }
+                context.ExpenseCategories.Update(existingExpenseCategory);
+                await context.SaveChangesAsync();
+            }
             var expenseCategory = new ExpenseCategory
             {
                 UserId = request.UserId,
-                Category = request.Category,
-                SubCategory = request.SubCategory
+                SubCategory = request.SubCategory,
+                Category = request.Category
             };
             await context.ExpenseCategories.AddAsync(expenseCategory);
             await context.SaveChangesAsync();
 
-            return new Response<ExpenseCategory?>(expenseCategory, 201, "Expense Category created successfully");
-
+            return new Response<ExpenseCategory?>(expenseCategory, 201, "expenseCategory created successfully");
+            
+            
         }
+        
         catch
         {
-            return new Response<ExpenseCategory?>(null, 500, "It was not possible to create a new Expense Category");
+            return new Response<ExpenseCategory?>(null, 500, "It was not possible to create a new expenseCategory");
         }
+        
+        
     }
 
     public async Task<Response<ExpenseCategory?>> UpdateExpenseCategoryAsync(UpdateExpenseCategoryRequest request)

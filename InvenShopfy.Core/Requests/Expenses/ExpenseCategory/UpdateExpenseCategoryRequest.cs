@@ -10,7 +10,7 @@ public class UpdateExpenseCategoryRequest : Request
     [MaxLength(180,  ErrorMessage= "Max len of 180 characters")]
     public string Category { get; set; } = String.Empty;
     
-    [Required(ErrorMessage = "Invalid Subcategory")]
-    [MaxLength(180,  ErrorMessage= "Max len of 180 characters")]
-    public string SubCategory { get; set; } = String.Empty;
+    [Required(ErrorMessage = "Invalid Sub-Category")]
+    [MaxLength(50,  ErrorMessage= "Max len of 50 characters")]
+    public List<string> SubCategory { get; set; } = new List<string>();
 }

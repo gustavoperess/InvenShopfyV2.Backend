@@ -9,7 +9,6 @@ namespace InvenShopfy.API.Handlers.Products;
 
 public class UnitHandler(AppDbContext context) : IUnitHandler
 {
-    // TESTING THIS HERE
     public async Task<Response<Unit?>> CreateProductUnitAsync(CreateUnitRequest request)
     {   
         try
@@ -20,6 +19,16 @@ public class UnitHandler(AppDbContext context) : IUnitHandler
                 Title = request.Title,
                 ShortName = request.ShortName
             };
+
+            var unitName = context.Unit.FirstOrDefault(
+                x => x.Title.ToLower() == request.Title.ToLower() || 
+                     x.ShortName.ToLower() == request.ShortName.ToLower());
+            if (unitName != null)
+            {
+                return new Response<Unit?>(null, 500, "This Unit/short Name already exist");
+            } 
+            
+            
             await context.Unit.AddAsync(unit);
             await context.SaveChangesAsync();
 

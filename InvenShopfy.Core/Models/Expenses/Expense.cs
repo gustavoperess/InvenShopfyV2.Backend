@@ -6,7 +6,6 @@ namespace InvenShopfy.Core.Models.Expenses;
 
 public class Expense
 {
-    
     public long Id { get; set; }
     public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);
     public long WarehouseId { get; set; }
