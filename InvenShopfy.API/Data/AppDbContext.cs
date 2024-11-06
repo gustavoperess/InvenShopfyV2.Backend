@@ -7,6 +7,7 @@ using InvenShopfy.Core.Models.Tradings.Purchase;
 using InvenShopfy.Core.Models.Tradings.Returns.PurchaseReturn;
 using InvenShopfy.Core.Models.Tradings.Returns.SalesReturn;
 using InvenShopfy.Core.Models.Tradings.Sales;
+using InvenShopfy.Core.Models.Transfer;
 using InvenShopfy.Core.Models.Warehouse;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -37,7 +38,8 @@ namespace InvenShopfy.API.Data;
         public DbSet<Warehouse> Warehouses { get; set; } = null!;
         public DbSet<Sale> Sales { get; set; } = null!;
         public DbSet<SaleProduct> SaleProducts { get; set; } = null!;
-
+        
+        public DbSet<Transfer> Transfers { get; set; } = null!;
         public DbSet<PurchaseReturn> PurchaseReturns { get; set; } = null!;
         
         public DbSet<PurchaseProduct> PurchaseProducts { get; set; } = null!;
