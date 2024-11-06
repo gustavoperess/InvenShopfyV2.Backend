@@ -1,4 +1,5 @@
 using InvenShopfy.Core.Models.Tradings.Returns.PurchaseReturn;
+using InvenShopfy.Core.Models.Tradings.Returns.PurchaseReturn.Dto;
 using InvenShopfy.Core.Models.Tradings.Returns.SalesReturn;
 using InvenShopfy.Core.Requests.Tradings.Returns.PurchaseReturn;
 using InvenShopfy.Core.Responses;

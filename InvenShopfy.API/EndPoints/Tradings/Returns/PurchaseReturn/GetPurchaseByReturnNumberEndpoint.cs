@@ -2,6 +2,7 @@ using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.Tradings.Returns.PurchaseReturn;
 using InvenShopfy.Core.Models.Tradings.Returns.PurchaseReturn;
+using InvenShopfy.Core.Models.Tradings.Returns.PurchaseReturn.Dto;
 using InvenShopfy.Core.Requests.Tradings.Returns.PurchaseReturn;
 using InvenShopfy.Core.Responses;
 

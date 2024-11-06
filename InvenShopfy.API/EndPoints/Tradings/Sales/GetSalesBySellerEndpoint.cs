@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
+using InvenShopfy.Core.Models.Tradings.Sales.Dto;
 using InvenShopfy.Core.Requests.Tradings.Sales;
 using InvenShopfy.Core.Responses;
 
@@ -14,7 +15,7 @@ public class GetSalesBySellerEndpoint : IEndPoint
             .WithSummary("Get a sales")
             .WithDescription("Get a sale")
             .WithOrder(7)
-            .Produces<Response<Core.Models.Tradings.Sales.BestSeller?>>();
+            .Produces<Response<BestSeller?>>();
 
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,

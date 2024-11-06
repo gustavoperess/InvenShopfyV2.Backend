@@ -1,6 +1,6 @@
-namespace InvenShopfy.Core.Models.Expenses;
+namespace InvenShopfy.Core.Models.Expenses.Dto;
 
-public class ExpenseDto
+public sealed class ExpenseDto
 {
     public long Id { get; init; }
     public string ExpenseDescription { get; set; } = string.Empty;

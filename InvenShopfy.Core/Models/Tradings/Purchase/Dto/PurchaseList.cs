@@ -1,6 +1,6 @@
-namespace InvenShopfy.Core.Models.Tradings.Purchase;
+namespace InvenShopfy.Core.Models.Tradings.Purchase.Dto;
 
-public class PurchaseList
+public sealed class PurchaseList
 {
     public long Id { get; set; }
     public DateOnly PurchaseDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);

@@ -1,6 +1,6 @@
-namespace InvenShopfy.Core.Models.Tradings.Sales;
+namespace InvenShopfy.Core.Models.Tradings.Sales.Dto;
 
-public class MostSoldProduct
+public sealed class MostSoldProduct
 {
     public long Id { get; set; }
     public string ProductName { get; set; } = string.Empty;

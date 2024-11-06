@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.Tradings.Purchase;
+using InvenShopfy.Core.Models.Tradings.Purchase.Dto;
 using InvenShopfy.Core.Requests.Tradings.Purchase.AddPurchase;
 using InvenShopfy.Core.Responses;
 
@@ -14,7 +15,7 @@ public class GetPurchaseByIdEndpoint : IEndPoint
             .WithSummary("Get a Purchase")
             .WithDescription("Get a Purchase")
             .WithOrder(4)
-            .Produces<PagedResponse<Core.Models.Tradings.Purchase.PurchasePerProduct?>>();
+            .Produces<PagedResponse<PurchasePerProduct?>>();
 
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,

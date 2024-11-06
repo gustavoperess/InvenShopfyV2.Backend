@@ -1,6 +1,6 @@
-namespace InvenShopfy.Core.Models.Tradings.Purchase;
+namespace InvenShopfy.Core.Models.Tradings.Purchase.Dto;
 
-public class PurchasePerProduct
+public sealed class PurchasePerProduct
 {
     public long ProductId { get; set; }
     public decimal ProductPrice { get; set; }

@@ -1,6 +1,7 @@
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Handlers.Tradings.Returns.SalesReturn;
 using InvenShopfy.Core.Models.Tradings.Returns.SalesReturn;
+using InvenShopfy.Core.Models.Tradings.Returns.SalesReturn.Dto;
 using InvenShopfy.Core.Requests.Tradings.Returns.SalesReturn;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;

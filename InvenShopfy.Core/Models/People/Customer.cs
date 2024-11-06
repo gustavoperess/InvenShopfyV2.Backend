@@ -1,4 +1,3 @@
-using InvenShopfy.Core.Enum;
 
 namespace InvenShopfy.Core.Models.People;
 

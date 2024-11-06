@@ -3,6 +3,7 @@ using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Tradings.Purchase;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
+using InvenShopfy.Core.Models.Tradings.Sales.Dto;
 using InvenShopfy.Core.Requests.Tradings.Sales;
 using InvenShopfy.Core.Responses;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,7 @@ public class GetAllSalesEndpoint : IEndPoint
             .WithSummary("Get All sales")
             .WithDescription("Get all sales")
             .WithOrder(5)
-            .Produces<PagedResponse<List<Core.Models.Tradings.Sales.SaleList>?>>();
+            .Produces<PagedResponse<List<SaleList>?>>();
 
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,

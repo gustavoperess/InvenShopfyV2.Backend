@@ -1,4 +1,3 @@
-
 using InvenShopfy.Core.Common.RandomNumber;
 using InvenShopfy.Core.Models.People;
 using InvenShopfy.Core.Responses;
@@ -9,7 +8,7 @@ using System.Runtime.CompilerServices;
 namespace InvenShopfy.Core.Models.Tradings.Sales
 {
  
-    public class Sale
+    public sealed class Sale
     {
         public long Id { get; init; }
         public DateOnly SaleDate { get; init; }  = DateOnly.FromDateTime(DateTime.Now);

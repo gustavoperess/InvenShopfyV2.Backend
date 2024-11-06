@@ -1,6 +1,6 @@
-namespace InvenShopfy.Core.Models.People;
+namespace InvenShopfy.Core.Models.People.Dto;
 
-public class BillerDto
+public sealed class BillerDto
 {
     public long Id { get; init; }
     public string Name { get; set; } = String.Empty;

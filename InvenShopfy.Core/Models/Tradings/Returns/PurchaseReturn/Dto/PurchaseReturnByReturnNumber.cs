@@ -1,6 +1,6 @@
-namespace InvenShopfy.Core.Models.Tradings.Returns.PurchaseReturn;
+namespace InvenShopfy.Core.Models.Tradings.Returns.PurchaseReturn.Dto;
 
-public class PurchaseReturnByReturnNumber
+public sealed class PurchaseReturnByReturnNumber
 {
     public long Id { get; init; }
     public string? ReferenceNumber { get; set; }

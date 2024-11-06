@@ -2,6 +2,7 @@ using InvenShopfy.API.Common.CloudinaryServiceNamespace;
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Models.Product;
+using InvenShopfy.Core.Models.Product.Dto;
 using InvenShopfy.Core.Requests.Products.Product;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
@@ -164,7 +165,7 @@ public class ProductHandler : IProductHandler
             
             var count = await query.CountAsync();
             
-            var result = products.Select(s => new Core.Models.Product.ProductList
+            var result = products.Select(s => new ProductList
             {
                 Id = s.Id,
                 Title = s.Title,

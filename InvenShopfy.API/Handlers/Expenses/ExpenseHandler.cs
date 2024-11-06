@@ -2,6 +2,7 @@ using InvenShopfy.API.Data;
 using InvenShopfy.Core.Enum;
 using InvenShopfy.Core.Handlers.Expenses;
 using InvenShopfy.Core.Models.Expenses;
+using InvenShopfy.Core.Models.Expenses.Dto;
 using InvenShopfy.Core.Requests.Expenses.Expense;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;

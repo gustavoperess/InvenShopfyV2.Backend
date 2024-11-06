@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
+using InvenShopfy.Core.Models.Tradings.Sales.Dto;
 using InvenShopfy.Core.Requests.Tradings.Sales;
 using InvenShopfy.Core.Responses;
 
@@ -14,7 +15,7 @@ public class GetSalesBySalesIdEndpoint : IEndPoint
             .WithSummary("Get the sales by sales Id")
             .WithDescription("Get the sales by sales Id")
             .WithOrder(10)
-            .Produces<Response<Core.Models.Tradings.Sales.SalePerProduct?>>();
+            .Produces<Response<SalePerProduct?>>();
 
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,

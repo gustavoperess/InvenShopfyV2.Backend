@@ -1,8 +1,6 @@
-using InvenShopfy.Core.Models.People;
+namespace InvenShopfy.Core.Models.Tradings.Sales.Dto;
 
-namespace InvenShopfy.Core.Models.Tradings.Sales;
-
-public class BestSeller
+public sealed class BestSeller
 {
     
     public long BillerId { get; set; }

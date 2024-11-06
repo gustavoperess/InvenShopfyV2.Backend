@@ -2,6 +2,7 @@ using InvenShopfy.API.Data;
 using InvenShopfy.Core.Common.Extension;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
 using InvenShopfy.Core.Models.Tradings.Sales;
+using InvenShopfy.Core.Models.Tradings.Sales.Dto;
 using InvenShopfy.Core.Requests.Tradings.Sales;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
@@ -256,7 +257,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                     Id = g.Key.ProductId,
                     ProductCode = g.Key.ProductCode,
                     ProductName = g.Key.Title,
-                    TotalQuantitySoldPerProduct = g.Count(),
+                    TotalQuantitySoldPerProduct = g.Sum(x => x.TotalQuantitySoldPerProduct),
                     
                 }).OrderByDescending(x => x.TotalQuantitySoldPerProduct).Take(5);
 

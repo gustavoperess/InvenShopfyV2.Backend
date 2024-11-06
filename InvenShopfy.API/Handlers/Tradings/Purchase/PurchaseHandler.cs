@@ -1,6 +1,7 @@
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Handlers.Tradings.Purchase;
 using InvenShopfy.Core.Models.Tradings.Purchase;
+using InvenShopfy.Core.Models.Tradings.Purchase.Dto;
 using InvenShopfy.Core.Requests.Tradings.Purchase.AddPurchase;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;

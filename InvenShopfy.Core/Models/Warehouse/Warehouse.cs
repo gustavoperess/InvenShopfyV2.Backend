@@ -12,5 +12,6 @@ public class Warehouse
     public string WarehouseCountry { get; set; } = string.Empty;
     public string WarehouseZipCode { get; set; } = string.Empty;
     public string WarehouseOpeningNotes { get; set; } = string.Empty;
+    public int QuantityOfItems { get; set; }
     public string UserId { get; init; } = string.Empty;
 }

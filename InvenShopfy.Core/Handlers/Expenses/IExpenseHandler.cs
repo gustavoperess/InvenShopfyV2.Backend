@@ -1,3 +1,4 @@
+using InvenShopfy.Core.Models.Expenses.Dto;
 using InvenShopfy.Core.Requests.Expenses.Expense;
 using InvenShopfy.Core.Responses;
 
@@ -9,5 +10,5 @@ public interface IExpenseHandler
     Task<Response<Models.Expenses.Expense?>> UpdateExpenseAsync(UpdateExpenseRequest request);
     Task<Response<Models.Expenses.Expense?>> DeleteExpenseAsync(DeleteExpenseRequest request);
     Task<Response<Models.Expenses.Expense?>> GetExpenseByIdAsync(GetExpenseByIdRequest request);
-    Task<PagedResponse<List<Models.Expenses.ExpenseDto>?>> GetExpenseByPeriodAsync(GetAllExpensesRequest request);
+    Task<PagedResponse<List<ExpenseDto>?>> GetExpenseByPeriodAsync(GetAllExpensesRequest request);
 }

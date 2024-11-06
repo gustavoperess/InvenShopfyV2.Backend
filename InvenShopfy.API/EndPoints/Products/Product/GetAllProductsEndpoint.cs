@@ -2,6 +2,7 @@ using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Product;
+using InvenShopfy.Core.Models.Product.Dto;
 using InvenShopfy.Core.Requests.Products.Product;
 using InvenShopfy.Core.Responses;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +17,7 @@ public class GetAllProductsEndpoint : IEndPoint
             .WithSummary("Get All products")
             .WithDescription("Get all products")
             .WithOrder(5)
-            .Produces<PagedResponse<List<Core.Models.Product.ProductList>?>>();
+            .Produces<PagedResponse<List<ProductList>?>>();
 
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,

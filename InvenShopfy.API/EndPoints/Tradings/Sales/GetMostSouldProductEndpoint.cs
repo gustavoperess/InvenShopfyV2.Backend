@@ -2,6 +2,7 @@ using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
+using InvenShopfy.Core.Models.Tradings.Sales.Dto;
 using InvenShopfy.Core.Requests.Tradings.Sales;
 using InvenShopfy.Core.Responses;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +17,7 @@ public class GetMostSouldProductEndpoint : IEndPoint
             .WithSummary("Get Best Product Seller")
             .WithDescription("Get Best Product Seller")
             .WithOrder(9)
-            .Produces<PagedResponse<List<Core.Models.Tradings.Sales.MostSoldProduct>?>>();
+            .Produces<PagedResponse<List<MostSoldProduct>?>>();
 
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,

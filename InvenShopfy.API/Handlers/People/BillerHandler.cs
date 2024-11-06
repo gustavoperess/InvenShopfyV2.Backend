@@ -1,6 +1,7 @@
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Handlers.People;
 using InvenShopfy.Core.Models.People;
+using InvenShopfy.Core.Models.People.Dto;
 using InvenShopfy.Core.Requests.People.Biller;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;

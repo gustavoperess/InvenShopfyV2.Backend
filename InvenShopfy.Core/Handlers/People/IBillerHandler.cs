@@ -1,3 +1,4 @@
+using InvenShopfy.Core.Models.People.Dto;
 using InvenShopfy.Core.Requests.People.Biller;
 using InvenShopfy.Core.Responses;
 
@@ -9,5 +10,5 @@ public interface IBillerHandler
     Task<Response<Models.People.Biller?>> UpdateBillerAsync(UpdateBillerRequest request);
     Task<Response<Models.People.Biller?>> DeleteBillerAsync(DeleteBillerRequest request);
     Task<Response<Models.People.Biller?>> GetBillerByIdAsync(GetBillerByIdRequest request);
-    Task<PagedResponse<List<Models.People.BillerDto>?>> GetBillerByPeriodAsync(GetAllBillerRequest request);
+    Task<PagedResponse<List<BillerDto>?>> GetBillerByPeriodAsync(GetAllBillerRequest request);
 }

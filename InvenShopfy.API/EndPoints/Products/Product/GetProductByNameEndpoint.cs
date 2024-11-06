@@ -2,6 +2,7 @@ using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Product;
+using InvenShopfy.Core.Models.Product.Dto;
 using InvenShopfy.Core.Requests.Products.Product;
 using InvenShopfy.Core.Responses;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +17,7 @@ public class GetProductByNameEndpoint : IEndPoint
             .WithSummary("Get a product by its name")
             .WithDescription("Get a product by its name")
             .WithOrder(6)
-            .Produces<PagedResponse<Core.Models.Product.ProductByName?>>();
+            .Produces<PagedResponse<ProductByName?>>();
 
     private static async Task<IResult> HandlerAsync(
         string title,

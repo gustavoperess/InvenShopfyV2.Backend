@@ -1,8 +1,6 @@
-using InvenShopfy.Core.Models.People;
+namespace InvenShopfy.Core.Models.Tradings.Sales.Dto;
 
-namespace InvenShopfy.Core.Models.Tradings.Sales;
-
-public class SaleList
+public sealed class SaleList
 {
     public long Id { get; init; }
     public DateOnly SaleDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
