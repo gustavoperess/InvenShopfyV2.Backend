@@ -9,20 +9,14 @@ namespace InvenShopfy.Core.Requests.Transfers
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         [DataType(DataType.Date)]
         public DateOnly TransferDate { get; set; }
-
-        [Required(ErrorMessage = "Invalid Product Name")]
-        [MaxLength(80, ErrorMessage = "Max len of 80 characters")]
-        public string ProductName { get; set; } = null!;
+        
 
         [Required(ErrorMessage = "Invalid Warehouse Name")]
         public long FromWarehouseId { get; set; } 
 
         [Required(ErrorMessage = "Invalid Warehouse Name")]
         public long ToWarehouseId{ get; set; } 
-
-        [Required(ErrorMessage = "Invalid Requester Id")]
-        [MaxLength(160, ErrorMessage = "Max len of 160 characters")]
-        public string RequestedBy { get; set; } = null!;
+        
 
         [Required(ErrorMessage = "Invalid TotalAmount")]
         [Range(1, (double)decimal.MaxValue, ErrorMessage = "Total Amount must be between {1} and {2}")]
@@ -31,10 +25,10 @@ namespace InvenShopfy.Core.Requests.Transfers
         [Required(ErrorMessage = "Invalid Reason")]
         [MaxLength(180, ErrorMessage = "Max len of 180 characters")]
         public string Reason { get; set; } = null!;
-
-        [Required(ErrorMessage = "Invalid Reference Number")]
-        [MaxLength(80, ErrorMessage = "Max len of 80 characters")]
-        public string ReferenceNumber { get; set; } = null!;
+        
+        
+        [Required(ErrorMessage = "Invalid Product Id")]
+        public long ProductId { get; set; }
 
         [Required(ErrorMessage = "Please select one of the Remark statuses")]
         [AllowedValues("Completed", "Pending", "InTransit",

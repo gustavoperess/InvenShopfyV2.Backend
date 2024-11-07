@@ -1,6 +1,7 @@
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Handlers.Transfer;
 using InvenShopfy.Core.Models.Transfer;
+using InvenShopfy.Core.Models.Warehouse;
 using InvenShopfy.Core.Requests.Transfers;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +17,6 @@ public class TransferHandler(AppDbContext context) : ITransferHandler
             var transfer = new Transfer
             {
                 UserId = request.UserId,
-                ProductName = request.ProductName,
                 Quantity = request.Quantity,
                 AuthorizedBy = request.AuthorizedBy,
                 Reason = request.Reason,
@@ -24,21 +24,36 @@ public class TransferHandler(AppDbContext context) : ITransferHandler
                 FromWarehouseId = request.FromWarehouseId,
                 ToWarehouseId = request.ToWarehouseId,
                 TransferStatus = request.TransferStatus,
-                TransferNote = request.TransferNote
+                TransferNote = request.TransferNote,
+                ProductId = request.ProductId
             };
             await using var transaction = await context.Database.BeginTransactionAsync();
 
-            var fromWarehouse = await context.Warehouses.FirstOrDefaultAsync(x => x.Id == request.FromWarehouseId);
-            var toWarehouse = await context.Warehouses.FirstOrDefaultAsync(x => x.Id == request.ToWarehouseId);
+            var fromWarehouse = await context.WarehousesProducts.
+                FirstOrDefaultAsync(x => x.WarehouseId == request.FromWarehouseId && x.ProductId == request.ProductId);
+            
+            
+            var toWarehouse = await context.WarehousesProducts
+                .FirstOrDefaultAsync(x => x.WarehouseId == request.ToWarehouseId && x.ProductId == request.ProductId);
 
-            if (fromWarehouse == null || toWarehouse == null)
+            if (fromWarehouse == null)
             {
                 return new Response<Transfer?>(null, 400, "One or both of the specified warehouses were not found.");
             }
 
-
-            fromWarehouse.QuantityOfItems -= request.Quantity;
-            toWarehouse.QuantityOfItems += request.Quantity;
+            if (toWarehouse == null)
+            {
+                var newWarehouseProduct = new WarehouseProduct
+                {
+                    WarehouseId = request.FromWarehouseId,
+                    ProductId = request.ProductId,
+                    Quantity = request.Quantity
+                };
+                await context.WarehousesProducts.AddAsync(newWarehouseProduct);
+            }
+            
+            fromWarehouse.Quantity -= request.Quantity;
+            toWarehouse.Quantity += request.Quantity;
             
             await context.Transfers.AddAsync(transfer);
             await context.SaveChangesAsync();

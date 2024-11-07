@@ -116,7 +116,6 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
 
                 if (updatedWarehouseProduct != null)
                 {
-                    Console.WriteLine(updatedWarehouseProduct);
                     context.WarehousesProducts.Add(updatedWarehouseProduct);
                 }
             }

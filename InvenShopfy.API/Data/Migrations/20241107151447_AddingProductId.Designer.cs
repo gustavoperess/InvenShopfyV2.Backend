@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using InvenShopfy.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241107151447_AddingProductId")]
+    partial class AddingProductId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -854,7 +857,12 @@ namespace InvenShopfy.API.Migrations
                     b.Property<long>("FromWarehouseId")
                         .HasColumnType("BIGINT");
 
-                    b.Property<long>("ProductId")
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<long>("ProdudtId")
                         .HasColumnType("bigint");
 
                     b.Property<int>("Quantity")
@@ -890,8 +898,6 @@ namespace InvenShopfy.API.Migrations
                         .HasColumnType("VARCHAR");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("Transfer", (string)null);
                 });
@@ -1046,10 +1052,6 @@ namespace InvenShopfy.API.Migrations
 
                     b.Property<int>("Quantity")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.HasKey("ProductId", "WarehouseId");
 
@@ -1307,17 +1309,6 @@ namespace InvenShopfy.API.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("Sale");
-                });
-
-            modelBuilder.Entity("InvenShopfy.Core.Models.Transfer.Transfer", b =>
-                {
-                    b.HasOne("InvenShopfy.Core.Models.Product.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("InvenShopfy.Core.Models.UserManagement.User", b =>

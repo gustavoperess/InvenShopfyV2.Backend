@@ -1,6 +1,7 @@
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Handlers.Warehouse;
 using InvenShopfy.Core.Models.Warehouse;
+using InvenShopfy.Core.Models.Warehouse.Dto;
 using InvenShopfy.Core.Requests.Warehouse;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
@@ -105,6 +106,37 @@ public class WarehouseHandler(AppDbContext context) : IWarehouseHandler
         catch
         {
             return new Response<Warehouse?>(null, 500, "It was not possible to find this warehouse");
+        }
+    }
+    
+    
+    public async Task<Response<WarehouseProductDto?>> GetTotalQuantityByWarehouseAndProductIdAsync(GetTotalQuantityByWarehouseAndProductIdRequest request)
+    {
+        try
+        {
+            var response = await context.WarehousesProducts
+                .AsNoTracking()
+                .Where(x =>
+                    x.WarehouseId == request.WarehouseId &&
+                    x.ProductId == request.ProductId)
+                .Select(x => new WarehouseProductDto
+                {
+                    ProductId = x.ProductId,
+                    WarehouseId = x.WarehouseId,
+                    Quantity = x.Quantity
+                })
+                .FirstOrDefaultAsync();
+
+            if (response is null)
+            {
+                return new Response<WarehouseProductDto?>(null, 404, "Product or Warehouse Id does not exist");
+            }
+
+            return new Response<WarehouseProductDto?>(response);
+        }
+        catch
+        {
+            return new Response<WarehouseProductDto?>(null, 500, "It was not possible to find the total quantity");
         }
     }
     

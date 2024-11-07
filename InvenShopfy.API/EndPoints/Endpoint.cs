@@ -137,6 +137,7 @@ public static class Endpoint
             .MapEndpoint<GetAllWarehousesEndpoint>()
             .MapEndpoint<DeleteWarehouseEndpoint>()
             .MapEndpoint<GetWarehouseQuantityEndpoint>()
+            .MapEndpoint<GetTotalQuantityByWarehouseAndProductIdEndpoint>()
             .MapEndpoint<GetWarehouseByIdEndpoint>();
         
         // Purchase GROUP
@@ -226,6 +227,7 @@ public static class Endpoint
             .WithTags("Identity")
             .MapEndpoint<LogoutEndpoint>()
             .MapEndpoint<RegisterEndpoint>()
+            .MapEndpoint<GetManagerOrAdminEndpoint>()
             .MapEndpoint<GetIdentityUsersEndpoint>()
             .MapEndpoint<DeleteRoleIdentityEndpoint>()
             .MapEndpoint<GetIdentityRolesEndpoint>()

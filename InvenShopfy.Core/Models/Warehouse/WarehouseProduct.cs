@@ -8,6 +8,8 @@ public class WarehouseProduct
     public Warehouse Warehouse { get; set; } = null!;
     public int Quantity { get; set; }
     
+    public string UserId { get; init; } = string.Empty;
+    
     public WarehouseProduct? AddProductIdAndAmountToWarehouse(
         Dictionary<long, int> productIdPlusQuantity, List<WarehouseProduct> warehouseProducts, long warehouseId)
     {
