@@ -107,7 +107,7 @@ public class WarehouseHandler(AppDbContext context) : IWarehouseHandler
             return new Response<Warehouse?>(null, 500, "It was not possible to find this warehouse");
         }
     }
-
+    
     public async Task<PagedResponse<List<Warehouse>?>> GetWarehouseByPeriodAsync(GetAllWarehousesRequest request)
     {
         try
@@ -115,11 +115,11 @@ public class WarehouseHandler(AppDbContext context) : IWarehouseHandler
             var query = context
                 .Warehouses
                 .AsNoTracking()
-                .GroupJoin(context.Purchases,
+                .GroupJoin(context.WarehousesProducts,
                     warehouse => warehouse.Id,
-                    purchase => purchase.WarehouseId,
-                    (warehouse, purchases) => new { warehouse, purchases })
-                .Where(x => x.warehouse.UserId == request.UserId || x.purchases.Any(p => p.UserId == request.UserId))
+                    warehouseProduct => warehouseProduct.WarehouseId,
+                    (warehouse, warehouseProduct) => new { warehouse, warehouseProduct })
+                .Where(x => x.warehouse.UserId == request.UserId)
                 .Select(g => new
                 {
                     g.warehouse.Id,
@@ -130,7 +130,7 @@ public class WarehouseHandler(AppDbContext context) : IWarehouseHandler
                     g.warehouse.WarehouseCountry,
                     g.warehouse.WarehouseOpeningNotes,
                     g.warehouse.WarehouseZipCode,
-                    TotalQuantityItems = g.purchases.Sum(p => p.TotalNumberOfProductsBought)
+                    TotalQuantityItems = g.warehouseProduct.Sum(p => p.Quantity)
                 })
                 .OrderBy(x => x.WarehouseCity);
 

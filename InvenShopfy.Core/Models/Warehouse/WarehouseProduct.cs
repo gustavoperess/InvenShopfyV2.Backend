@@ -2,7 +2,6 @@ namespace InvenShopfy.Core.Models.Warehouse;
 
 public class WarehouseProduct
 {
-    public long Id { get; set; }
     public long ProductId { get; set; }
     public Product.Product Product { get; set; } = null!;
     public long WarehouseId { get; set; }
