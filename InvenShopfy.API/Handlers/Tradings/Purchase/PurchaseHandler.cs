@@ -2,6 +2,7 @@ using InvenShopfy.API.Data;
 using InvenShopfy.Core.Handlers.Tradings.Purchase;
 using InvenShopfy.Core.Models.Tradings.Purchase;
 using InvenShopfy.Core.Models.Tradings.Purchase.Dto;
+using InvenShopfy.Core.Models.Warehouse;
 using InvenShopfy.Core.Requests.Tradings.Purchase.AddPurchase;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,68 @@ namespace InvenShopfy.API.Handlers.Tradings.Purchase;
 
 public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
 {
+    // public async Task<Response<AddPurchase?>> CreatePurchaseAsync(CreatePurchaseRequest request)
+    // {
+    //     try
+    //     {
+    //         var purchase = new AddPurchase
+    //         {
+    //             UserId = request.UserId,
+    //             WarehouseId = request.WarehouseId,
+    //             SupplierId = request.SupplierId,
+    //             PurchaseStatus = request.PurchaseStatus,
+    //             ShippingCost = request.ShippingCost,
+    //             PurchaseNote = request.PurchaseNote,
+    //             PurchaseDate = request.PurchaseDate,
+    //             TotalAmountBought = request.TotalAmountBought,
+    //         };
+    //         // Validate and add products to purchase
+    //         var productIds = request.ProductIdPlusQuantity.Keys;
+    //         var availablePurchaseProducts =
+    //             await context.Products.Where(sp => productIds.Contains(sp.Id)).ToListAsync();
+    //
+    //         //  Adds to the purchase product class. adding the quantityBought and total price paid per product
+    //         var purchaseRespose =
+    //             purchase.AddToPurchaseProduct(request.ProductIdPlusQuantity, availablePurchaseProducts);
+    //         if (!purchaseRespose.IsSuccess)
+    //         {
+    //             return purchaseRespose;
+    //         }
+    //
+    //         
+    //
+    //         //  Adds to the warehouse adding each productId and quantity to the warehouseClass
+    //        
+    //         var warehouseProducts = await context.WarehousesProducts.
+    //             Where(x => x.WarehouseId == request.WarehouseId).ToListAsync();
+    //         
+    //         
+    //         
+    //         
+    //         var warehouseProduct = new WarehouseProduct();
+    //         var warehouseResponse = warehouseProduct.AddProductIdAndAmountToWarehouse(request.ProductIdPlusQuantity, warehouseProducts, request.WarehouseId);
+    //         await using var transaction = await context.Database.BeginTransactionAsync();
+    //         await context.Purchases.AddAsync(purchase);
+    //         await context.SaveChangesAsync();
+    //
+    //         foreach (var updatedWarehouseProduct in warehouseProducts)
+    //         {
+    //             context.WarehousesProducts.Update(updatedWarehouseProduct);
+    //         }
+    //     
+    //         await context.SaveChangesAsync();
+    //      
+    //         // await context.WarehousesProducts.AddAsync(warehouseResponse);
+    //     
+    //         await transaction.CommitAsync();
+    //
+    //         return new Response<AddPurchase?>(purchase, 201, "Purchase created successfully");
+    //     }
+    //     catch
+    //     {
+    //         return new Response<AddPurchase?>(null, 500, "It was not possible to create a new purchase");
+    //     }
+    // }
     public async Task<Response<AddPurchase?>> CreatePurchaseAsync(CreatePurchaseRequest request)
     {
         try
@@ -26,21 +89,36 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
                 TotalAmountBought = request.TotalAmountBought,
             };
 
-            var addItemsToWarehouse = await context.Warehouses.FirstOrDefaultAsync(x => x.Id == request.WarehouseId);
-            
+            // Validate and add products to purchase
             var productIds = request.ProductIdPlusQuantity.Keys;
-            var availablePurchaseProducts = 
-                await context.Products.Where(sp => productIds.Contains(sp.Id)).ToListAsync();
+            var availablePurchaseProducts = await context.Products
+                .Where(sp => productIds.Contains(sp.Id)).ToListAsync();
 
-            var purchaseRespose =
-                purchase.AddPurchaseToPurchase(request.ProductIdPlusQuantity, availablePurchaseProducts);
-            if (!purchaseRespose.IsSuccess)
+            var purchaseResponse =
+                purchase.AddToPurchaseProduct(request.ProductIdPlusQuantity, availablePurchaseProducts);
+            if (!purchaseResponse.IsSuccess)
             {
-                return purchaseRespose;
+                return purchaseResponse;
             }
-            if (addItemsToWarehouse != null && purchaseRespose.Data?.TotalNumberOfProductsBought != null)
+
+            // Retrieve warehouse products for this warehouse
+            var warehouseProducts = await context.WarehousesProducts
+                .Where(x => x.WarehouseId == request.WarehouseId).ToListAsync();
+
+            // Update warehouse inventory
+            foreach (var (productId, quantity) in request.ProductIdPlusQuantity)
             {
-                addItemsToWarehouse.QuantityOfItems +=  purchaseRespose.Data.TotalNumberOfProductsBought;
+                var updatedWarehouseProduct = new WarehouseProduct();
+                updatedWarehouseProduct = updatedWarehouseProduct.AddProductIdAndAmountToWarehouse(
+                    new Dictionary<long, int> { { productId, quantity } },
+                    warehouseProducts,
+                    request.WarehouseId);
+
+                if (updatedWarehouseProduct != null)
+                {
+                    Console.WriteLine(updatedWarehouseProduct);
+                    context.WarehousesProducts.Add(updatedWarehouseProduct);
+                }
             }
             
             await using var transaction = await context.Database.BeginTransactionAsync();
@@ -55,6 +133,7 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
             return new Response<AddPurchase?>(null, 500, "It was not possible to create a new purchase");
         }
     }
+
 
     public async Task<Response<AddPurchase?>> UpdatePurchaseAsync(UpdatePurchaseRequest request)
     {
@@ -179,15 +258,15 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
                 .Where(x => x.UserId == request.UserId)
                 .Select(g => new
                 {
-                    Id = g.Id,
-                    PurchaseDate = g.PurchaseDate,
+                    g.Id,
+                    g.PurchaseDate,
                     SupplierName = g.Supplier.Name,
-                    WarehouseName = g.Warehouse.WarehouseName,
-                    PurchaseStatus = g.PurchaseStatus,
-                    ShippingCost = g.ShippingCost,
-                    TotalAmountBought = g.TotalAmountBought,
-                    ReferenceNumber = g.ReferenceNumber,
-                    TotalNumberOfProductsBought = g.TotalNumberOfProductsBought
+                    g.Warehouse.WarehouseName,
+                    g.PurchaseStatus,
+                    g.ShippingCost,
+                    g.TotalAmountBought,
+                    g.ReferenceNumber,
+                    g.TotalNumberOfProductsBought
                 }).OrderBy(x => x.PurchaseDate);
 
             var purchase = await query

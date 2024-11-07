@@ -19,7 +19,7 @@ namespace invenShopfy.Tests.Core.Models.Purchase
         {
        
             var addPurchase = new AddPurchase();
-            var response = addPurchase.AddPurchaseToPurchase(_productIdPlusQuantity, _products);
+            var response = addPurchase.AddToPurchaseProduct(_productIdPlusQuantity, _products);
 
          
             Assert.True(response.IsSuccess);
@@ -36,7 +36,7 @@ namespace invenShopfy.Tests.Core.Models.Purchase
       
             var addPurchase = new AddPurchase();
             var invalidProductIdPlusQuantity = new Dictionary<long, int> { { 4, 2 } }; // Product with ID 4 does not exist
-            var response = addPurchase.AddPurchaseToPurchase(invalidProductIdPlusQuantity, _products);
+            var response = addPurchase.AddToPurchaseProduct(invalidProductIdPlusQuantity, _products);
 
      
             Assert.False(response.IsSuccess);
@@ -47,7 +47,7 @@ namespace invenShopfy.Tests.Core.Models.Purchase
         public void AddPurchaseToPurchase_ShouldUpdateTotalAmountBought()
         {
             var addPurchase = new AddPurchase();
-            var response = addPurchase.AddPurchaseToPurchase(_productIdPlusQuantity, _products);
+            var response = addPurchase.AddToPurchaseProduct(_productIdPlusQuantity, _products);
             decimal expectedTotalAmount = (5 * 100) + (3 * 200) + (2 * 300);
             addPurchase.TotalAmountBought = expectedTotalAmount;
             Assert.Equal(expectedTotalAmount, addPurchase.TotalAmountBought);
@@ -58,7 +58,7 @@ namespace invenShopfy.Tests.Core.Models.Purchase
         {
             var addPurchase = new AddPurchase();
             var productIdPlusQuantityZero = new Dictionary<long, int> { { 1, 0 } }; // Attempt to add 0 quantity of product
-            var response = addPurchase.AddPurchaseToPurchase(productIdPlusQuantityZero, _products);
+            var response = addPurchase.AddToPurchaseProduct(productIdPlusQuantityZero, _products);
 
         
             Assert.True(response.IsSuccess); // Should still succeed

@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241104182053_removingLinksToTheReturns")]
-    partial class removingLinksToTheReturns
+    [Migration("20241107110308_addingNewWarehouseProduct")]
+    partial class addingNewWarehouseProduct
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -151,23 +151,30 @@ namespace InvenShopfy.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("NUMERIC(18,2)");
-
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
 
                     b.Property<long>("ExpenseCategoryId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("ExpenseType")
+                    b.Property<decimal>("ExpenseCost")
+                        .HasColumnType("NUMERIC(18,2)");
+
+                    b.Property<string>("ExpenseDescription")
                         .IsRequired()
                         .HasColumnType("VARCHAR(50)");
 
-                    b.Property<string>("PurchaseNote")
+                    b.Property<string>("ExpenseNote")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("ExpenseType")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<decimal>("ShippingCost")
+                        .HasColumnType("NUMERIC(18,2)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -202,10 +209,9 @@ namespace InvenShopfy.API.Migrations
                         .HasMaxLength(180)
                         .HasColumnType("VARCHAR");
 
-                    b.Property<string>("SubCategory")
+                    b.Property<List<string>>("SubCategory")
                         .IsRequired()
-                        .HasMaxLength(180)
-                        .HasColumnType("VARCHAR");
+                        .HasColumnType("text[]");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -640,6 +646,107 @@ namespace InvenShopfy.API.Migrations
                     b.ToTable("PurchaseProduct", (string)null);
                 });
 
+            modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Returns.PurchaseReturn.PurchaseReturn", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("ReferenceNumber")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<string>("RemarkStatus")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<DateOnly>("ReturnDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ReturnNote")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SupplierName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("NUMERIC(18,2)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(160)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<string>("WarehouseName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("VARCHAR");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PurchaseReturn", (string)null);
+                });
+
+            modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Returns.SalesReturn.SaleReturn", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("BillerName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<string>("ReferenceNumber")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<string>("RemarkStatus")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<DateOnly>("ReturnDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ReturnNote")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("NUMERIC(18,2)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(160)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<string>("WarehouseName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("VARCHAR");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SalesReturn", (string)null);
+                });
+
             modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Sales.Sale", b =>
                 {
                     b.Property<long>("Id")
@@ -735,7 +842,7 @@ namespace InvenShopfy.API.Migrations
                     b.ToTable("SaleProduct", (string)null);
                 });
 
-            modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.SalesReturn.SaleReturn", b =>
+            modelBuilder.Entity("InvenShopfy.Core.Models.Transfer.Transfer", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -743,49 +850,53 @@ namespace InvenShopfy.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("BillerName")
+                    b.Property<string>("AuthorizedBy")
                         .IsRequired()
-                        .HasMaxLength(50)
                         .HasColumnType("VARCHAR");
 
-                    b.Property<string>("CustomerName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("VARCHAR");
+                    b.Property<long>("FromWarehouseId")
+                        .HasColumnType("BIGINT");
 
-                    b.Property<string>("ReferenceNumber")
+                    b.Property<string>("ProductName")
                         .IsRequired()
                         .HasMaxLength(80)
                         .HasColumnType("VARCHAR");
 
-                    b.Property<string>("RemarkStatus")
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INT");
+
+                    b.Property<string>("Reason")
                         .IsRequired()
-                        .HasMaxLength(50)
+                        .HasMaxLength(180)
                         .HasColumnType("VARCHAR");
 
-                    b.Property<DateOnly>("ReturnDate")
+                    b.Property<string>("ReferenceNumber")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<long>("ToWarehouseId")
+                        .HasColumnType("BIGINT");
+
+                    b.Property<DateOnly>("TransferDate")
                         .HasColumnType("date");
 
-                    b.Property<string>("ReturnNote")
+                    b.Property<string>("TransferNote")
                         .IsRequired()
+                        .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("TotalAmount")
-                        .HasColumnType("NUMERIC(18,2)");
+                    b.Property<string>("TransferStatus")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR");
 
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasMaxLength(160)
                         .HasColumnType("VARCHAR");
 
-                    b.Property<string>("WarehouseName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("VARCHAR");
-
                     b.HasKey("Id");
 
-                    b.ToTable("SalesReturn", (string)null);
+                    b.ToTable("Transfer", (string)null);
                 });
 
             modelBuilder.Entity("InvenShopfy.Core.Models.UserManagement.Role", b =>
@@ -882,6 +993,9 @@ namespace InvenShopfy.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
+                    b.Property<int>("QuantityOfItems")
+                        .HasColumnType("integer");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasMaxLength(160)
@@ -923,6 +1037,22 @@ namespace InvenShopfy.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Warehouse", (string)null);
+                });
+
+            modelBuilder.Entity("InvenShopfy.Core.Models.Warehouse.WarehouseProduct", b =>
+                {
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ProductId");
+
+                    b.ToTable("WarehouseProduct", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
@@ -1185,6 +1315,17 @@ namespace InvenShopfy.API.Migrations
                         .IsRequired();
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("InvenShopfy.Core.Models.Warehouse.WarehouseProduct", b =>
+                {
+                    b.HasOne("InvenShopfy.Core.Models.Product.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<long>", b =>

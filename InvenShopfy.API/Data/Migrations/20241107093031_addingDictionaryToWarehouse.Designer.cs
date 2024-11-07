@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241106155341_addingTransferMapping")]
-    partial class addingTransferMapping
+    [Migration("20241107093031_addingDictionaryToWarehouse")]
+    partial class addingDictionaryToWarehouse
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -854,21 +854,16 @@ namespace InvenShopfy.API.Migrations
                         .IsRequired()
                         .HasColumnType("VARCHAR");
 
-                    b.Property<string>("FromWarehouse")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("VARCHAR");
+                    b.Property<long>("FromWarehouseId")
+                        .HasColumnType("BIGINT");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasMaxLength(80)
                         .HasColumnType("VARCHAR");
 
-                    b.Property<long>("PurchaseId")
-                        .HasColumnType("bigint");
-
-                    b.Property<decimal>("Quantity")
-                        .HasColumnType("DECIMAL");
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INT");
 
                     b.Property<string>("Reason")
                         .IsRequired()
@@ -879,10 +874,8 @@ namespace InvenShopfy.API.Migrations
                         .IsRequired()
                         .HasColumnType("VARCHAR");
 
-                    b.Property<string>("ToWarehouse")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("VARCHAR");
+                    b.Property<long>("ToWarehouseId")
+                        .HasColumnType("BIGINT");
 
                     b.Property<DateOnly>("TransferDate")
                         .HasColumnType("date");
@@ -902,8 +895,6 @@ namespace InvenShopfy.API.Migrations
                         .HasColumnType("VARCHAR");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PurchaseId");
 
                     b.ToTable("Transfer", (string)null);
                 });
@@ -1001,6 +992,9 @@ namespace InvenShopfy.API.Migrations
                         .HasColumnType("bigint");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("ProducsCount")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("QuantityOfItems")
                         .HasColumnType("integer");
@@ -1297,17 +1291,6 @@ namespace InvenShopfy.API.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("Sale");
-                });
-
-            modelBuilder.Entity("InvenShopfy.Core.Models.Transfer.Transfer", b =>
-                {
-                    b.HasOne("InvenShopfy.Core.Models.Tradings.Purchase.AddPurchase", "Purchase")
-                        .WithMany()
-                        .HasForeignKey("PurchaseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Purchase");
                 });
 
             modelBuilder.Entity("InvenShopfy.Core.Models.UserManagement.User", b =>

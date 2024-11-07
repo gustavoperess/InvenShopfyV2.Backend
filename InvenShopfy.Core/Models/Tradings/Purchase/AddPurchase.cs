@@ -1,5 +1,6 @@
 using InvenShopfy.Core.Common.RandomNumber;
 using InvenShopfy.Core.Models.People;
+using InvenShopfy.Core.Models.Warehouse;
 using InvenShopfy.Core.Responses;
 
 
@@ -31,7 +32,7 @@ public class AddPurchase
     public int TotalNumberOfProductsBought { get; set; }
     public List<PurchaseProduct> PurchaseProducts { get; init; } = new List<PurchaseProduct>();
     
-    public Response<AddPurchase?> AddPurchaseToPurchase(Dictionary<long, int> productIdPlusQuantity, List<Product.Product> purchase)
+    public Response<AddPurchase?> AddToPurchaseProduct(Dictionary<long, int> productIdPlusQuantity, List<Product.Product> purchase)
     {
  
         int sumOfItems = 0;
@@ -46,18 +47,18 @@ public class AddPurchase
             {
                 continue; 
             }
-          
             var pricePerProduct = product.Price * item.Value;
             var purchaseProduct = CreatePurchaseProduct(product.Id, pricePerProduct, item.Value);
             product.StockQuantity += item.Value;
             sumOfItems += item.Value;
             PurchaseProducts.Add(purchaseProduct);
-     
         }
 
         TotalNumberOfProductsBought = sumOfItems;
         return new Response<AddPurchase?>(this, 200, "Products added to sale successfully");
     }
+    
+
     
     private PurchaseProduct CreatePurchaseProduct(long productId, decimal totalPricePerProduct, int totalQuantitySoldPerProduct)
     {

@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241105144110_changingExpenseCategoryToList")]
-    partial class changingExpenseCategoryToList
+    [Migration("20241107110932_addingNewWarehouseProductTwo")]
+    partial class addingNewWarehouseProductTwo
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -151,23 +151,30 @@ namespace InvenShopfy.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("NUMERIC(18,2)");
-
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
 
                     b.Property<long>("ExpenseCategoryId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("ExpenseType")
+                    b.Property<decimal>("ExpenseCost")
+                        .HasColumnType("NUMERIC(18,2)");
+
+                    b.Property<string>("ExpenseDescription")
                         .IsRequired()
                         .HasColumnType("VARCHAR(50)");
 
-                    b.Property<string>("PurchaseNote")
+                    b.Property<string>("ExpenseNote")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("ExpenseType")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<decimal>("ShippingCost")
+                        .HasColumnType("NUMERIC(18,2)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -835,6 +842,63 @@ namespace InvenShopfy.API.Migrations
                     b.ToTable("SaleProduct", (string)null);
                 });
 
+            modelBuilder.Entity("InvenShopfy.Core.Models.Transfer.Transfer", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("AuthorizedBy")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<long>("FromWarehouseId")
+                        .HasColumnType("BIGINT");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INT");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasMaxLength(180)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<string>("ReferenceNumber")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<long>("ToWarehouseId")
+                        .HasColumnType("BIGINT");
+
+                    b.Property<DateOnly>("TransferDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("TransferNote")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TransferStatus")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(160)
+                        .HasColumnType("VARCHAR");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Transfer", (string)null);
+                });
+
             modelBuilder.Entity("InvenShopfy.Core.Models.UserManagement.Role", b =>
                 {
                     b.Property<long>("Id")
@@ -929,6 +993,9 @@ namespace InvenShopfy.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
+                    b.Property<int>("QuantityOfItems")
+                        .HasColumnType("integer");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasMaxLength(160)
@@ -970,6 +1037,27 @@ namespace InvenShopfy.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Warehouse", (string)null);
+                });
+
+            modelBuilder.Entity("InvenShopfy.Core.Models.Warehouse.WarehouseProduct", b =>
+                {
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("WarehouseId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ProductId", "WarehouseId");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("WarehouseProduct", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
@@ -1232,6 +1320,25 @@ namespace InvenShopfy.API.Migrations
                         .IsRequired();
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("InvenShopfy.Core.Models.Warehouse.WarehouseProduct", b =>
+                {
+                    b.HasOne("InvenShopfy.Core.Models.Product.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InvenShopfy.Core.Models.Warehouse.Warehouse", "Warehouse")
+                        .WithMany()
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Warehouse");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<long>", b =>

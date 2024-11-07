@@ -1,5 +1,3 @@
-using InvenShopfy.Core.Standards;
-
 namespace InvenShopfy.Core.Models.Warehouse;
 
 public class Warehouse

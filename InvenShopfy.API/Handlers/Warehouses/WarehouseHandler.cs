@@ -24,6 +24,7 @@ public class WarehouseHandler(AppDbContext context) : IWarehouseHandler
                 WarehouseZipCode = request.WarehouseZipCode,
                 WarehouseOpeningNotes = request.WarehouseOpeningNotes
             };
+            
             await context.Warehouses.AddAsync(warehouse);
             await context.SaveChangesAsync();
 
