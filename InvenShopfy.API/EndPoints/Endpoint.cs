@@ -159,7 +159,7 @@ public static class Endpoint
         // Sales GROUP
         var salesGroup = endpoints.MapGroup("v2")
             .WithTags("Sale");
-
+        
         salesGroup.MapGroup("Sale")
             .WithTags("Sale")
             .RequireAuthorization()
@@ -167,6 +167,7 @@ public static class Endpoint
             .MapEndpoint<UpdateSalesEndpoint>()
             .MapEndpoint<GetAllSalesEndpoint>()
             .MapEndpoint<DeleteSaleEndpoint>()
+            .MapEndpoint<GetSalesDashboardEndpoint>()
             .MapEndpoint<GetSalesBySalesIdEndpoint>()
             .MapEndpoint<GetTotalAmountSalesEndpoint>()
             .MapEndpoint<GetSalesByBestSellerEndpoint>()

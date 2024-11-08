@@ -372,6 +372,37 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
     }
     
     
+     public async  Task<Response<List<SallerDashboard>?>> GetSaleStatusDashboardAsync(GetAllSalesRequest request)
+    {
+        try
+        {
+            var query = context
+                .Sales
+                .AsNoTracking()
+                .Where(x => x.UserId == request.UserId)
+                .Select(x => new SallerDashboard
+                { 
+                    Id = x.Id,
+                    SaleDate = x.SaleDate,
+                    ReferenceNumber = x.ReferenceNumber,
+                    Customer = x.Customer.Name,
+                    PaymentStatus = x.PaymentStatus,
+                    TotalAmount = x.TotalAmount,
+                    TotalQuantitySold = x.TotalQuantitySold
+                })
+                .OrderByDescending(x => x.SaleDate).Take(10);
+            
+            var sale = await query.ToListAsync(); 
+            return new Response<List<SallerDashboard>?>(sale, 201, "Sales returned successfully");
+        }
+        catch 
+        {
+            return new Response<List<SallerDashboard>?>(null, 500, "It was not possible to consult all brands");
+        }
+        
+    }
+    
+    
     public async Task<Response<Sale?>> GetSalesBySellerAsync(GetSalesBySeller request)
     {
         try

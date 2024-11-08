@@ -20,9 +20,9 @@ public class UpdateSalesRequest : Request
     public long ProductId { get; set; }
     
     [Required(ErrorMessage = "Please Select one of the Payment status")]
-    [AllowedValues("Complete", "Incomplete", "Drafts",
-        ErrorMessage = "Please select one of the allowed values Complete, Incomplete, Drafts")]
-    public string PaymentStatus { get; set; } = EPaymentStatus.Complete.ToString(); 
+    [AllowedValues("Completed", "Incompleted", "Drafts",
+        ErrorMessage = "Please select one of the allowed values Completed, Incompleted, Drafts")]
+    public string PaymentStatus { get; set; } = EPaymentStatus.Completed.ToString(); 
     
     [Required(ErrorMessage = "Please inform the Payment Status")]
     [Range(0.01, 1000000, ErrorMessage = "Shipping Cost be between 0.01 and 1,000,000.")]
@@ -30,9 +30,9 @@ public class UpdateSalesRequest : Request
     
     
     [Required(ErrorMessage = "Please Select one of the Sale status")]
-    [AllowedValues("Complete", "Incomplete", "Drafts",
-        ErrorMessage = "Please select one of the allowed values Complete, Incomplete, Drafts")]
-    public string SaleStatus { get; set; } = ESaleStatus.Complete.ToString();
+    [AllowedValues("Completed", "Incompleted", "Drafts",
+        ErrorMessage = "Please select one of the allowed values Completed, Incompleted, Drafts")]
+    public string SaleStatus { get; set; } = ESaleStatus.Completed.ToString();
 
     [Required(ErrorMessage = "Invalid Document")]
     [MaxLength(120, ErrorMessage = "Max len of 120 characters")]
