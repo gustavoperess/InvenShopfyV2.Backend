@@ -397,7 +397,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
         }
         catch 
         {
-            return new Response<List<SallerDashboard>?>(null, 500, "It was not possible to consult all brands");
+            return new Response<List<SallerDashboard>?>(null, 500, "It was not possible to consult all Sales");
         }
         
     }

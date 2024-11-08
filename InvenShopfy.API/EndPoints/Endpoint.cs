@@ -154,6 +154,7 @@ public static class Endpoint
             .MapEndpoint<UpdatePurchaseEndpoint>()
             .MapEndpoint<GetAllPurchasesEndpoint>()
             .MapEndpoint<DeletePurchaseEndpoint>()
+            .MapEndpoint<GetPurchaseDashboardEndpoint>()
             .MapEndpoint<GetPurchaseByIdEndpoint>();
         
         // Sales GROUP

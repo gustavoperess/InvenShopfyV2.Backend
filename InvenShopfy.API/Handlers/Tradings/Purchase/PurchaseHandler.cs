@@ -237,4 +237,34 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
             return new PagedResponse<List<PurchaseList>?>(null, 500, "It was not possible to consult all purchases");
         }
     }
+    
+    public async  Task<Response<List<PurchaseDashboard>?>> GetPurchaseStatusDashboardAsync(GetAllPurchasesRequest request)
+    {
+        try
+        {
+            var query = context
+                .Purchases
+                .AsNoTracking()
+                .Where(x => x.UserId == request.UserId)
+                .Select(x => new PurchaseDashboard
+                { 
+                    Id = x.Id,
+                    PurchaseDate = x.PurchaseDate,
+                    ReferenceNumber = x.ReferenceNumber,
+                    Supplier = x.Supplier.Name,
+                    PurchaseStatus = x.PurchaseStatus,
+                    TotalAmountBought = x.TotalAmountBought,
+                    TotalNumberOfProductsBought = x.TotalNumberOfProductsBought
+                })
+                .OrderByDescending(x => x.PurchaseDate).Take(10);
+            
+            var sale = await query.ToListAsync(); 
+            return new Response<List<PurchaseDashboard>?>(sale, 201, "Purchases returned successfully");
+        }
+        catch 
+        {
+            return new Response<List<PurchaseDashboard>?>(null, 500, "It was not possible to consult all Purchases");
+        }
+        
+    }
 }
