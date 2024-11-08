@@ -31,14 +31,6 @@ namespace InvenShopfy.API.Data.Mapping.Transfer
                 .HasColumnType("VARCHAR")
                 .HasMaxLength(180);
 
-            builder.Property(x => x.FromWarehouseId)
-                .IsRequired(true)
-                .HasColumnType("BIGINT");
-            
-            builder.Property(x => x.ToWarehouseId)
-                .IsRequired(true)
-                .HasColumnType("BIGINT");
-
             builder.Property(x => x.TransferStatus)
                 .IsRequired(true)
                 .HasColumnType("VARCHAR");

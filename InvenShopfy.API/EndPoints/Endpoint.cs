@@ -214,9 +214,8 @@ public static class Endpoint
         transferGroup.MapGroup("Transfer")
             .WithTags("Transfer")
             .RequireAuthorization()
+            .MapEndpoint<GetAllTransfersEndpoint>()
             .MapEndpoint<CreateTransferEndpoint>();
-     
-
         
         // Management Group
         endpoints.MapGroup("v2/identity")
