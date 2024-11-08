@@ -126,12 +126,23 @@ public class WarehouseHandler(AppDbContext context) : IWarehouseHandler
                     Quantity = x.Quantity
                 })
                 .FirstOrDefaultAsync();
-
-            if (response is null)
+            
+            if (response?.Quantity <= 0 || response?.Quantity == null)
             {
-                return new Response<WarehouseProductDto?>(null, 404, "Product or Warehouse Id does not exist");
+                return new Response<WarehouseProductDto?>(new WarehouseProductDto
+                {
+                    ProductId = request.ProductId,
+                    WarehouseId = request.WarehouseId,
+                    Quantity = 0 
+                }, 200, "Warehouse does not contain this item");
             }
-
+            
+            if (response?.WarehouseId is null)
+            {
+                return new Response<WarehouseProductDto?>(null, 404, "Warehouse Id does not exist");
+            }
+           
+          
             return new Response<WarehouseProductDto?>(response);
         }
         catch

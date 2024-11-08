@@ -27,11 +27,12 @@ public class TransferHandler(AppDbContext context) : ITransferHandler
                 TransferNote = request.TransferNote,
                 ProductId = request.ProductId
             };
+            
+            
             await using var transaction = await context.Database.BeginTransactionAsync();
 
             var fromWarehouse = await context.WarehousesProducts.
                 FirstOrDefaultAsync(x => x.WarehouseId == request.FromWarehouseId && x.ProductId == request.ProductId);
-            
             
             var toWarehouse = await context.WarehousesProducts
                 .FirstOrDefaultAsync(x => x.WarehouseId == request.ToWarehouseId && x.ProductId == request.ProductId);
@@ -40,21 +41,26 @@ public class TransferHandler(AppDbContext context) : ITransferHandler
             {
                 return new Response<Transfer?>(null, 400, "One or both of the specified warehouses were not found.");
             }
+       
 
             if (toWarehouse == null)
             {
                 var newWarehouseProduct = new WarehouseProduct
                 {
-                    WarehouseId = request.FromWarehouseId,
+                    WarehouseId = request.ToWarehouseId,
                     ProductId = request.ProductId,
                     Quantity = request.Quantity
                 };
-                await context.WarehousesProducts.AddAsync(newWarehouseProduct);
+                 context.WarehousesProducts.Add(newWarehouseProduct);
+                 fromWarehouse.Quantity -= request.Quantity;
             }
-            
-            fromWarehouse.Quantity -= request.Quantity;
-            toWarehouse.Quantity += request.Quantity;
-            
+            else
+            {
+                fromWarehouse.Quantity -= request.Quantity;
+                toWarehouse.Quantity += request.Quantity;
+            }
+         
+    
             await context.Transfers.AddAsync(transfer);
             await context.SaveChangesAsync();
 
@@ -63,7 +69,7 @@ public class TransferHandler(AppDbContext context) : ITransferHandler
         }
         catch
         {
-            return new Response<Transfer?>(null, 500, "It was not possible to create a new Brand");
+            return new Response<Transfer?>(null, 500, "It was not possible to create a new Transfer");
         }
     }
 }

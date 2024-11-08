@@ -11,68 +11,6 @@ namespace InvenShopfy.API.Handlers.Tradings.Purchase;
 
 public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
 {
-    // public async Task<Response<AddPurchase?>> CreatePurchaseAsync(CreatePurchaseRequest request)
-    // {
-    //     try
-    //     {
-    //         var purchase = new AddPurchase
-    //         {
-    //             UserId = request.UserId,
-    //             WarehouseId = request.WarehouseId,
-    //             SupplierId = request.SupplierId,
-    //             PurchaseStatus = request.PurchaseStatus,
-    //             ShippingCost = request.ShippingCost,
-    //             PurchaseNote = request.PurchaseNote,
-    //             PurchaseDate = request.PurchaseDate,
-    //             TotalAmountBought = request.TotalAmountBought,
-    //         };
-    //         // Validate and add products to purchase
-    //         var productIds = request.ProductIdPlusQuantity.Keys;
-    //         var availablePurchaseProducts =
-    //             await context.Products.Where(sp => productIds.Contains(sp.Id)).ToListAsync();
-    //
-    //         //  Adds to the purchase product class. adding the quantityBought and total price paid per product
-    //         var purchaseRespose =
-    //             purchase.AddToPurchaseProduct(request.ProductIdPlusQuantity, availablePurchaseProducts);
-    //         if (!purchaseRespose.IsSuccess)
-    //         {
-    //             return purchaseRespose;
-    //         }
-    //
-    //         
-    //
-    //         //  Adds to the warehouse adding each productId and quantity to the warehouseClass
-    //        
-    //         var warehouseProducts = await context.WarehousesProducts.
-    //             Where(x => x.WarehouseId == request.WarehouseId).ToListAsync();
-    //         
-    //         
-    //         
-    //         
-    //         var warehouseProduct = new WarehouseProduct();
-    //         var warehouseResponse = warehouseProduct.AddProductIdAndAmountToWarehouse(request.ProductIdPlusQuantity, warehouseProducts, request.WarehouseId);
-    //         await using var transaction = await context.Database.BeginTransactionAsync();
-    //         await context.Purchases.AddAsync(purchase);
-    //         await context.SaveChangesAsync();
-    //
-    //         foreach (var updatedWarehouseProduct in warehouseProducts)
-    //         {
-    //             context.WarehousesProducts.Update(updatedWarehouseProduct);
-    //         }
-    //     
-    //         await context.SaveChangesAsync();
-    //      
-    //         // await context.WarehousesProducts.AddAsync(warehouseResponse);
-    //     
-    //         await transaction.CommitAsync();
-    //
-    //         return new Response<AddPurchase?>(purchase, 201, "Purchase created successfully");
-    //     }
-    //     catch
-    //     {
-    //         return new Response<AddPurchase?>(null, 500, "It was not possible to create a new purchase");
-    //     }
-    // }
     public async Task<Response<AddPurchase?>> CreatePurchaseAsync(CreatePurchaseRequest request)
     {
         try
