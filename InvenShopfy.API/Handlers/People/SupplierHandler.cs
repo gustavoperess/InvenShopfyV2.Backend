@@ -1,6 +1,7 @@
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Handlers.People;
 using InvenShopfy.Core.Models.People;
+using InvenShopfy.Core.Models.People.Dto;
 using InvenShopfy.Core.Requests.People.Supplier;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
@@ -138,6 +139,41 @@ public class SupplierHandler (AppDbContext context) : ISupplierHandler
         catch 
         {
             return new PagedResponse<List<Supplier>?>(null, 500, "It was not possible to consult all suppliers");
+        }
+    }
+    
+    public async Task<PagedResponse<List<SupplierName>?>> GetSupplierNameAsync(GetAllSuppliersRequest request)
+    {
+        try
+        {
+            var query = context
+                .Suppliers
+                .AsNoTracking()
+                .Where(x => x.UserId == request.UserId)
+                .Select(x => new SupplierName
+                { 
+                    Id = x.Id,
+                    Name = x.Name
+                    
+                })
+                .OrderBy(x => x.Name);
+            
+            var supplier = await query
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToListAsync();
+            
+            var count = await query.CountAsync();
+            
+            return new PagedResponse<List<SupplierName>?>(
+                supplier,
+                count,
+                request.PageNumber,
+                request.PageSize);
+        }
+        catch 
+        {
+            return new PagedResponse<List<SupplierName>?>(null, 500, "It was not possible to consult all supplier names");
         }
     }
 }

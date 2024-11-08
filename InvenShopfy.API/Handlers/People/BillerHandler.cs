@@ -177,4 +177,39 @@ public class BillerHandler (AppDbContext context) : IBillerHandler
             return new PagedResponse<List<BillerDto>?>(null, 500, "It was not possible to consult all Billers");
         }
     }
+    
+    public async Task<PagedResponse<List<BillerName>?>> GetBillerNameAsync(GetAllBillerRequest request)
+    {
+        try
+        {
+            var query = context
+                .Billers
+                .AsNoTracking()
+                .Where(x => x.UserId == request.UserId)
+                .Select(x => new BillerName
+                { 
+                    Id = x.Id,
+                    Name = x.Name
+                    
+                })
+                .OrderBy(x => x.Name);
+            
+            var biller = await query
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToListAsync();
+            
+            var count = await query.CountAsync();
+            
+            return new PagedResponse<List<BillerName>?>(
+                biller,
+                count,
+                request.PageNumber,
+                request.PageSize);
+        }
+        catch 
+        {
+            return new PagedResponse<List<BillerName>?>(null, 500, "It was not possible to consult all biller names");
+        }
+    }
 }

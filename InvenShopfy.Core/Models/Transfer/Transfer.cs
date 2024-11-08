@@ -14,7 +14,9 @@ public class Transfer
     public long ProductId { get; set; }
     public Product.Product Product { get; set; } = null!;
     public long FromWarehouseId { get; set; }
+    public Warehouse.Warehouse FromWarehouse { get; set; } = null!;
     public long ToWarehouseId { get; set; } 
+    public Warehouse.Warehouse ToWarehouse { get; set; } = null!;
     public string TransferStatus { get; set; } = ETransferStatus.Pending.ToString();
     public string TransferNote { get; set; }  = null!;
     public string UserId { get; init; } = string.Empty;

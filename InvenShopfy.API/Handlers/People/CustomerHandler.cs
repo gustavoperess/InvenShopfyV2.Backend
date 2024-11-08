@@ -2,6 +2,7 @@ using InvenShopfy.API.Data;
 using InvenShopfy.Core.Enum;
 using InvenShopfy.Core.Handlers.People;
 using InvenShopfy.Core.Models.People;
+using InvenShopfy.Core.Models.People.Dto;
 using InvenShopfy.Core.Requests.People.Customer;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
@@ -148,6 +149,41 @@ public class CustomerHandler (AppDbContext context) : ICustomerHandler
         catch 
         {
             return new PagedResponse<List<Customer>?>(null, 500, "It was not possible to consult all customer");
+        }
+    }
+    
+    public async Task<PagedResponse<List<CustomerName>?>> GetCustomerNameAsync(GetAllCustomersRequest request)
+    {
+        try
+        {
+            var query = context
+                .Customers
+                .AsNoTracking()
+                .Where(x => x.UserId == request.UserId)
+                .Select(x => new CustomerName
+                { 
+                    Id = x.Id,
+                    Name = x.Name
+                    
+                })
+                .OrderBy(x => x.Name);
+            
+            var customer = await query
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToListAsync();
+            
+            var count = await query.CountAsync();
+            
+            return new PagedResponse<List<CustomerName>?>(
+                customer,
+                count,
+                request.PageNumber,
+                request.PageSize);
+        }
+        catch 
+        {
+            return new PagedResponse<List<CustomerName>?>(null, 500, "It was not possible to consult all customer names");
         }
     }
 }

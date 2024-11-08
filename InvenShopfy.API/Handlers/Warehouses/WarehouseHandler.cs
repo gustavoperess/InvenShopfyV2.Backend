@@ -224,4 +224,39 @@ public class WarehouseHandler(AppDbContext context) : IWarehouseHandler
             return new Response<int?>(null, 500, "It was not possible to consult the total number of warehouses");
         }
     }
+    
+    public async Task<PagedResponse<List<WarehouseName>?>> GetWarehouseNameAsync(GetAllWarehousesRequest request)
+    {
+        try
+        {
+            var query = context
+                .Warehouses
+                .AsNoTracking()
+                .Where(x => x.UserId == request.UserId)
+                .Select(x => new WarehouseName
+                { 
+                    Id = x.Id,
+                    WarehouseTitle = x.WarehouseName
+                    
+                })
+                .OrderBy(x => x.WarehouseTitle);
+            
+            var warehouse = await query
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToListAsync();
+            
+            var count = await query.CountAsync();
+            
+            return new PagedResponse<List<WarehouseName>?>(
+                warehouse,
+                count,
+                request.PageNumber,
+                request.PageSize);
+        }
+        catch 
+        {
+            return new PagedResponse<List<WarehouseName>?>(null, 500, "It was not possible to consult all brands");
+        }
+    }
 }

@@ -1,3 +1,4 @@
+using InvenShopfy.Core.Models.People.Dto;
 using InvenShopfy.Core.Requests.People.Supplier;
 using InvenShopfy.Core.Responses;
 
@@ -10,4 +11,5 @@ public interface ISupplierHandler
     Task<Response<Models.People.Supplier?>> DeleteSupplierAsync(DeleteSupplierRequest request);
     Task<Response<Models.People.Supplier?>> GetSupplierByIdAsync(GetSupplierByIdRequest request);
     Task<PagedResponse<List<Models.People.Supplier>?>> GetSupplierByPeriodAsync(GetAllSuppliersRequest request);
+    Task<PagedResponse<List<SupplierName>?>> GetSupplierNameAsync(GetAllSuppliersRequest request);
 }

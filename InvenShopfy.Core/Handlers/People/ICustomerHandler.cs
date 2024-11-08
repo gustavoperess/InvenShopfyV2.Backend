@@ -1,3 +1,4 @@
+using InvenShopfy.Core.Models.People.Dto;
 using InvenShopfy.Core.Requests.People.Customer;
 using InvenShopfy.Core.Responses;
 
@@ -10,4 +11,5 @@ public interface ICustomerHandler
     Task<Response<Models.People.Customer?>> DeleteCustomerAsync(DeleteCustomerRequest request);
     Task<Response<Models.People.Customer?>> GetCustomerByIdAsync(GetCustomerByIdRequest request);
     Task<PagedResponse<List<Models.People.Customer>?>> GetCustomerByPeriodAsync(GetAllCustomersRequest request);
+    Task<PagedResponse<List<CustomerName>?>> GetCustomerNameAsync(GetAllCustomersRequest request);
 }

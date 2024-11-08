@@ -105,6 +105,7 @@ public static class Endpoint
             .MapEndpoint<UpdateBillerEndpoint>()
             .MapEndpoint<GetAllBillersEndpoint>()
             .MapEndpoint<DeleteBillerEndpoint>()
+            .MapEndpoint<GetBillerNameEndpoint>()
             .MapEndpoint<GetBillerByIdEndpoint>();
         
         peopleGroup.MapGroup("Customer")
@@ -113,14 +114,15 @@ public static class Endpoint
             .MapEndpoint<CreateCustomerEndpoint>()
             .MapEndpoint<UpdateCustomerEndpoint>()
             .MapEndpoint<GetAllCustomersEndpoint>()
+            .MapEndpoint<GetCustomerNameEndpoint>()
             .MapEndpoint<DeleteCustomerEndpoint>()
             .MapEndpoint<GetCustomerByIdEndpoint>();
-        
+
         peopleGroup.MapGroup("Supplier")
             .WithTags("People - supplier")
             .RequireAuthorization()
             .MapEndpoint<CreateSupplierEndpoint>()
-            .MapEndpoint<UpdateSupplierEndpoint>()
+            .MapEndpoint<GetSupplierNameEndpoint>()
             .MapEndpoint<GetAllSuppliersEndpoint>()
             .MapEndpoint<DeleteSupplierEndpoint>()
             .MapEndpoint<GetSupplierByIdEndpoint>();
@@ -137,6 +139,7 @@ public static class Endpoint
             .MapEndpoint<GetAllWarehousesEndpoint>()
             .MapEndpoint<DeleteWarehouseEndpoint>()
             .MapEndpoint<GetWarehouseQuantityEndpoint>()
+            .MapEndpoint<GetWarehouseNameEndpoint>()
             .MapEndpoint<GetTotalQuantityByWarehouseAndProductIdEndpoint>()
             .MapEndpoint<GetWarehouseByIdEndpoint>();
         

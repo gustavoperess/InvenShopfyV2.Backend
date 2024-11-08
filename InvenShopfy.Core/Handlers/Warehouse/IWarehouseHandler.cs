@@ -12,4 +12,7 @@ public interface IWarehouseHandler
     Task<Response<Models.Warehouse.Dto.WarehouseProductDto?>> GetTotalQuantityByWarehouseAndProductIdAsync(GetTotalQuantityByWarehouseAndProductIdRequest request);
     Task<Response<int?>> GetWarehouseQuantityAsync(GetWarehouseQuantityRequest request);
     Task<PagedResponse<List<Models.Warehouse.Warehouse>?>> GetWarehouseByPeriodAsync(GetAllWarehousesRequest request);
+    
+    Task<PagedResponse<List<Models.Warehouse.Dto.WarehouseName>?>> GetWarehouseNameAsync(GetAllWarehousesRequest request);
+
 }
