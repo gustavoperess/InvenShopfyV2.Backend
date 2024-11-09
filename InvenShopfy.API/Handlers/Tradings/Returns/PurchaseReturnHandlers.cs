@@ -126,4 +126,18 @@ public class PurchaseReturnHandlers(AppDbContext context) : IPurchaseReturnHandl
             return new Response<PurchaseReturn?>(null, 500, "It was not possible to delete this purchaseReturn");
         }
     }
+    
+    public async Task<Response<decimal?>> GetTotalPurchaseReturnAsync(GetAllPurchaseReturnsRequests request)
+    {
+        try
+        {
+            var saleReturn = await context.PurchaseReturns.SumAsync(x => x.TotalAmount);
+            
+            return new Response<decimal?>(saleReturn, message: "Total purchase returned successfully");
+        }
+        catch
+        {
+            return new Response<decimal?>(0, 500, "It was not possible to returned total amount for purchase returns");
+        }
+    }
 }

@@ -212,6 +212,7 @@ public static class Endpoint
             .RequireAuthorization()
             .MapEndpoint<CreatePurchaseReturnEndpoin>()
             .MapEndpoint<GetAllPurchaseReturnsEndpoint>()
+            .MapEndpoint<GetPurchaseReturnTotalAmountEndpoint>()
             .MapEndpoint<DeletePurchaseReturnEndpoint>()
             .MapEndpoint<GetPurchaseByReturnNumberEndpoint>();
         

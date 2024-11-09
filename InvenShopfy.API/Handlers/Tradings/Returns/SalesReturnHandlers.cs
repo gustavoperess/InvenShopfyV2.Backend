@@ -134,7 +134,7 @@ public class SalesReturnHandlers(AppDbContext context) : ISalesReturnHandler
     }
     
 
-    public async Task<Response<decimal?>> GetTotalSalesReturnTotalAsync(GetAllSalesReturnsRequest request)
+    public async Task<Response<decimal?>> GetTotalSalesReturnAsync(GetAllSalesReturnsRequest request)
     {
         try
         {

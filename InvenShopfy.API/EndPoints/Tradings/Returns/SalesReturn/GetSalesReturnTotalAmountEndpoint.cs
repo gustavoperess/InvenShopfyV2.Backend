@@ -25,7 +25,7 @@ public class GetSalesReturnTotalAmountEndpoint : IEndPoint
             UserId = user.Identity?.Name ?? string.Empty,
         };
         
-        var result = await handler.GetTotalSalesReturnTotalAsync(request);
+        var result = await handler.GetTotalSalesReturnAsync(request);
         return result.IsSuccess
             ? TypedResults.Created($"/{result.Data}", result)
             : TypedResults.BadRequest(result);

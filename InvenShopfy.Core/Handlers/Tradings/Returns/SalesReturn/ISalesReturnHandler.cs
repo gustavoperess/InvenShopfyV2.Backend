@@ -16,6 +16,6 @@ public interface ISalesReturnHandler
     Task<Response<List<SalesReturnByReturnNumber>?>> GetSalesPartialByReferenceNumberAsync(GetSalesReturnByNumberRequest request);
     Task<Response<List<SalesReturnDashboard>?>> GetSaleReturnDashboardAsync(GetAllSalesReturnsRequest request);
     
-    Task <Response<decimal?>> GetTotalSalesReturnTotalAsync(GetAllSalesReturnsRequest request);
+    Task <Response<decimal?>> GetTotalSalesReturnAsync(GetAllSalesReturnsRequest request);
 
 }

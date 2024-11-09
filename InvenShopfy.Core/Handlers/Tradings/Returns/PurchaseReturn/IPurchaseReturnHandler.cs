@@ -10,8 +10,8 @@ public interface IPurchaseReturnHandler
 {
     Task<Response<Models.Tradings.Returns.PurchaseReturn.PurchaseReturn?>> CreatePurchaseReturnAsync(CreatePurchaseReturnRequest request);
     Task<PagedResponse<List<Models.Tradings.Returns.PurchaseReturn.PurchaseReturn>?>> GetAllPurchaseReturnAsync(GetAllPurchaseReturnsRequests request);
-    
     Task<Response<Models.Tradings.Returns.PurchaseReturn.PurchaseReturn?>> DeletePurchaseReturnAsync(DeletePurchaseReturnRequest request);
-    
     Task<Response<List<PurchaseReturnByReturnNumber>?>> GetPurchasePartialByReferenceNumberAsync(GetPurchaseReturnByNumberRequest request);
+    Task <Response<decimal?>> GetTotalPurchaseReturnAsync(GetAllPurchaseReturnsRequests request);
+
 }
