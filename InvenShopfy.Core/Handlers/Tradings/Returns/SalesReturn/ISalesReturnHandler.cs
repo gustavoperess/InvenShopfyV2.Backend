@@ -13,5 +13,6 @@ public interface ISalesReturnHandler
     Task<Response<SaleReturn?>> DeleteSalesReturnAsync(DeleteSalesReturnRequest request);
     
     Task<Response<List<SalesReturnByReturnNumber>?>> GetSalesPartialByReferenceNumberAsync(GetSalesReturnByNumberRequest request);
-    
+    Task<Response<List<SalesReturnDashboard>?>> GetSaleReturnDashboardAsync(GetAllSalesReturnsRequest request);
+
 }

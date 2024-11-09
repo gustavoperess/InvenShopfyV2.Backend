@@ -190,11 +190,12 @@ public static class Endpoint
         // SalesReturn GROUP
         var salesReturnGroup = endpoints.MapGroup("v2")
             .WithTags("SalesReturn");
-
+        
         salesReturnGroup.MapGroup("SalesReturn")
             .WithTags("SalesReturn")
             .RequireAuthorization()
             .MapEndpoint<CreateSalesReturnEndpoint>()
+            .MapEndpoint<GetSalesReturnDashboard>()
             .MapEndpoint<GetSalesReturnByReturnNumberEndpoint>()
             .MapEndpoint<DeleteSalesReturnEndpoint>()
             .MapEndpoint<GetAllSalesReturnEndoint>();
