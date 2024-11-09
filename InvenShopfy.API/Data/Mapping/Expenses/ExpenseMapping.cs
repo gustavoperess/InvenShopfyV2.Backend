@@ -42,6 +42,10 @@ public class ExpenseMapping : IEntityTypeConfiguration<Expense>
             .HasColumnType("TEXT")
             .HasMaxLength(500);
         
+        builder.Property(x => x.ExpenseStatus)
+            .IsRequired(true)
+            .HasColumnType("VARCHAR(50)"); 
+        
         builder.Property(x => x.UserId)
             .IsRequired(true)
             .HasColumnType("VARCHAR")

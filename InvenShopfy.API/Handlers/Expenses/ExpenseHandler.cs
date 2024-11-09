@@ -173,4 +173,35 @@ public class ExpenseHandler (AppDbContext context) : IExpenseHandler
             return new PagedResponse<List<ExpenseDto>?>(null, 500, "It was not possible to consult all Expense");
         }
     }
+    
+    public async Task<Response<List<ExpenseDashboard>?>> GetExpenseStatusDashboardAsync(
+        GetAllExpensesRequest request)
+    {
+        try
+        {
+            var query = context
+                .Expenses
+                .AsNoTracking()
+                .Where(x => x.UserId == request.UserId)
+                .Select(x => new ExpenseDashboard
+                {
+                    Id = x.Id,
+                    Date = x.Date,
+                    VoucherNumber = x.VoucherNumber,
+                    ExpenseStatus = x.ExpenseStatus,
+                    ExpenseDescription = x.ExpenseDescription,
+                    ExpenseCategory = x.ExpenseCategory.Category,
+                    ExpenseType = x.ExpenseType,
+                    ExpenseCost = x.ExpenseCost,
+                })
+                .OrderByDescending(x => x.Date).Take(10);
+
+            var sale = await query.ToListAsync();
+            return new Response<List<ExpenseDashboard>?>(sale, 201, "Expenses returned successfully");
+        }
+        catch
+        {
+            return new Response<List<ExpenseDashboard>?>(null, 500, "It was not possible to consult all Expenses");
+        }
+    }
 }

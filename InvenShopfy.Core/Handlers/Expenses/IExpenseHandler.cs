@@ -11,4 +11,6 @@ public interface IExpenseHandler
     Task<Response<Models.Expenses.Expense?>> DeleteExpenseAsync(DeleteExpenseRequest request);
     Task<Response<Models.Expenses.Expense?>> GetExpenseByIdAsync(GetExpenseByIdRequest request);
     Task<PagedResponse<List<ExpenseDto>?>> GetExpenseByPeriodAsync(GetAllExpensesRequest request);
+    Task<Response<List<ExpenseDashboard>?>> GetExpenseStatusDashboardAsync(GetAllExpensesRequest request);
+
 }

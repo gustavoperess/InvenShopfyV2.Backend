@@ -33,9 +33,15 @@ public class CreateExpenseRequest : Request
     [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]
     public string ExpenseNote { get; set; } = null!;
     
-    [Required(ErrorMessage = "Please inform the Payment Status")]
+    [Required(ErrorMessage = "Please inform shippping cost")]
     [Range(0.01, 1000000, ErrorMessage = "Shipping Cost be between 0.01 and 1,000,000.")]
     public decimal ShippingCost { get; set; } 
+    
+    
+    [Required(ErrorMessage = "Please Select one of the Payment status")]
+    [AllowedValues("Completed", "Incompleted", "Drafts",
+        ErrorMessage = "Please select one of the allowed values Completed, Incompleted, Drafts")]
+    public string ExpenseStatus { get; set; } = EPaymentStatus.Completed.ToString(); 
     
     [Required(ErrorMessage = "Please add a short not explaining the description")]
     [MaxLength(80,  ErrorMessage= "Max len of 80 characters")]

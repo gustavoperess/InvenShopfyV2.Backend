@@ -82,6 +82,7 @@ public static class Endpoint
             .MapEndpoint<CreateExpenseEndpoint>()
             .MapEndpoint<UpdateExpenseEndpoint>()
             .MapEndpoint<GetAllExpensesEndpoint>()
+            .MapEndpoint<GetExpenseDashboardEndpoint>()
             .MapEndpoint<DeleteExpenseEndpoint>()
             .MapEndpoint<GetExpenseByIdEndpoint>();
 

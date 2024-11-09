@@ -5,25 +5,25 @@
 namespace InvenShopfy.API.Migrations
 {
     /// <inheritdoc />
-    public partial class AddingProductId : Migration
+    public partial class extendingExpenseStatus : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<long>(
-                name: "ProdudtId",
-                table: "Transfer",
-                type: "bigint",
+            migrationBuilder.AddColumn<string>(
+                name: "ExpenseStatus",
+                table: "Expense",
+                type: "VARCHAR(50)",
                 nullable: false,
-                defaultValue: 0L);
+                defaultValue: "");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "ProdudtId",
-                table: "Transfer");
+                name: "ExpenseStatus",
+                table: "Expense");
         }
     }
 }

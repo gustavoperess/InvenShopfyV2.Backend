@@ -166,6 +166,10 @@ namespace InvenShopfy.API.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ExpenseStatus")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)");
+
                     b.Property<string>("ExpenseType")
                         .IsRequired()
                         .HasColumnType("VARCHAR");

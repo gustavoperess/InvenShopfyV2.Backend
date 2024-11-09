@@ -18,6 +18,7 @@ public class Expense
     public decimal ExpenseCost { get; set; }
     public string ExpenseNote { get; set; } = String.Empty;
     
+    public string ExpenseStatus { get; set; } = EPaymentStatus.Completed.ToString();
     public decimal ShippingCost { get; set; } 
     public string UserId { get; set; } = string.Empty;
 }
