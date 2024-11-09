@@ -1,18 +1,16 @@
 using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.API.Data;
-using InvenShopfy.API.Models;
-using InvenShopfy.Core.Models.UserManagement;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace InvenShopfy.API.EndPoints.Identity;
 
-public class GetIdentityUsersEndpoint : IEndPoint
+public class GetUserDashboardEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("/get-user-custom", Handle).RequireAuthorization();
+        => app.MapGet("dashboard/get-user-dashboard", Handle).RequireAuthorization();
     
     private static async Task<IResult> Handle(
         ClaimsPrincipal user,
@@ -31,13 +29,11 @@ public class GetIdentityUsersEndpoint : IEndPoint
                     (ur, role) => new
                     {
                         UserId = ur.User.Id,
-                        DateOfJoin = ur.User.DateOfJoin,
-                        PhoneNumber = ur.User.PhoneNumber,
-                        Email = ur.User.Email,
                         UserName = ur.User.Name,
+                        ur.User.ProfilePicture,
                         RoleName = role.Name,
                         LastLogin = ur.User.LastLoginTime
-                    })
+                    }).Take(5)
                 .ToListAsync();
             
             return Results.Ok(userRoles);
