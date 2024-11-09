@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Compile Remove="Models\People.cs" />
+    <Compile Remove="Models\Tradings\Sales\Dto\SaleReturnTotalAmount.cs" />
   </ItemGroup>
 
   <ItemGroup>

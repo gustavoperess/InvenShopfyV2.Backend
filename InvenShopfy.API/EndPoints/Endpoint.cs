@@ -197,6 +197,7 @@ public static class Endpoint
             .RequireAuthorization()
             .MapEndpoint<CreateSalesReturnEndpoint>()
             .MapEndpoint<GetSalesReturnDashboard>()
+            .MapEndpoint<GetSalesReturnTotalAmountEndpoint>()
             .MapEndpoint<GetSalesReturnByReturnNumberEndpoint>()
             .MapEndpoint<DeleteSalesReturnEndpoint>()
             .MapEndpoint<GetAllSalesReturnEndoint>();

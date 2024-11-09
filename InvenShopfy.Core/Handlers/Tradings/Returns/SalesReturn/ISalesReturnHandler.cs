@@ -1,5 +1,6 @@
 using InvenShopfy.Core.Models.Tradings.Returns.SalesReturn;
 using InvenShopfy.Core.Models.Tradings.Returns.SalesReturn.Dto;
+using InvenShopfy.Core.Models.Tradings.Sales.Dto;
 using InvenShopfy.Core.Requests.Tradings.Returns.SalesReturn;
 using InvenShopfy.Core.Responses;
 
@@ -14,5 +15,7 @@ public interface ISalesReturnHandler
     
     Task<Response<List<SalesReturnByReturnNumber>?>> GetSalesPartialByReferenceNumberAsync(GetSalesReturnByNumberRequest request);
     Task<Response<List<SalesReturnDashboard>?>> GetSaleReturnDashboardAsync(GetAllSalesReturnsRequest request);
+    
+    Task <Response<decimal?>> GetTotalSalesReturnTotalAsync(GetAllSalesReturnsRequest request);
 
 }

@@ -132,6 +132,21 @@ public class SalesReturnHandlers(AppDbContext context) : ISalesReturnHandler
             return new Response<SaleReturn?>(null, 500, "It was not possible to delete this saleReturn");
         }
     }
+    
+
+    public async Task<Response<decimal?>> GetTotalSalesReturnTotalAsync(GetAllSalesReturnsRequest request)
+    {
+        try
+        {
+            var saleReturn = await context.SaleReturns.SumAsync(x => x.TotalAmount);
+            
+            return new Response<decimal?>(saleReturn, message: "saleReturn returned successfully");
+        }
+        catch
+        {
+            return new Response<decimal?>(0, 500, "It was not possible to returned this saleReturn");
+        }
+    }
 
     public async Task<Response<List<SalesReturnDashboard>?>> GetSaleReturnDashboardAsync(
         GetAllSalesReturnsRequest request)
