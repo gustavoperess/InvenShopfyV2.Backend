@@ -9,7 +9,7 @@ namespace InvenShopfy.API.EndPoints.Expenses.Expense;
 
 public class GetExpenseDashboardEndpoint : IEndPoint
 {
-    public static void Map(IEndpointRouteBuilder app) => app.MapGet("expenses/dashboard", HandleAsync)
+    public static void Map(IEndpointRouteBuilder app) => app.MapGet("dashboard/top-expenses", HandleAsync)
         .WithName("Expenses: Get 10 Expenses for the dashboard")
         .WithSummary("Get Get 10 Expenses for the dashboard")
         .WithDescription("Get Get 10 Expenses for the dashboard")

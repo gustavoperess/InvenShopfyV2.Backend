@@ -8,7 +8,7 @@ namespace InvenShopfy.API.EndPoints.Tradings.Returns.PurchaseReturn;
 
 public class GetPurchaseReturnTotalAmountEndpoint : IEndPoint
 {
-    public static void Map(IEndpointRouteBuilder app) => app.MapGet("purchaseReturn/total-amount", HandleAsync)
+    public static void Map(IEndpointRouteBuilder app) => app.MapGet("dashboard/total-purchases-returned", HandleAsync)
         .WithName("PurchaseReturn: sales return total amount")
         .WithSummary("PurchaseReturn get sales return total amount")
         .WithDescription("This endpoint retrive sales return total amount")

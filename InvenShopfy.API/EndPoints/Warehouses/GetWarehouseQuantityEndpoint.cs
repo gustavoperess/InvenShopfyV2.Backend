@@ -11,7 +11,7 @@ namespace InvenShopfy.API.EndPoints.Warehouses;
 public class GetWarehouseQuantityEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("/warehouses-quantity", HandlerAsync)
+        => app.MapGet("dashboard/warehouses-quantity", HandlerAsync)
             .WithName("Warehouse: Get the total amount for all warehouses")
             .WithSummary("Get total amount for  warehouses")
             .WithDescription("Get total amount for  warehouses")

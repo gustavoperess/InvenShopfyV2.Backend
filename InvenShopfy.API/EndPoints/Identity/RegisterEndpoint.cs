@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.API.Common.CloudinaryServiceNamespace;
 using InvenShopfy.API.Data;
@@ -17,6 +18,7 @@ namespace InvenShopfy.API.EndPoints.Identity
         private static async Task<IResult> Handle(
             [FromBody] CreateUserRequest request,
             CloudinaryService cloudinaryService,
+            ClaimsPrincipal principal,
             [FromServices] RoleManager<CustomIdentityRole> roleManager,
             [FromServices] UserManager<CustomUserRequest> userManager)
         {
@@ -48,6 +50,7 @@ namespace InvenShopfy.API.EndPoints.Identity
                 PhoneNumber = request.PhoneNumber,
                 Gender = request.Gender,
                 SecurityStamp = Guid.NewGuid().ToString(), 
+                LastLoginTime = DateTime.UtcNow
             };
             
             if (request.ProfilePicture == null)
@@ -75,13 +78,25 @@ namespace InvenShopfy.API.EndPoints.Identity
                 var createErrors = string.Join(", ", resultCreate.Errors.Select(e => e.Description));
                 return Results.BadRequest($"Create Errors: {createErrors}");
             }
-            
+            // var identity = (ClaimsIdentity)principal.Identity;
+            // var roles =
+            //     identity.FindAll(identity.RoleClaimType).Select(c => new
+            //     {
+            //         Issuer = c.Issuer,
+            //         OriginalIssuer = c.OriginalIssuer,
+            //         Type = c.Type,
+            //         Value = c.Value,
+            //         ValueType = c.ValueType
+            //     });
+
             // Find the staff role by name
             var normalizedRoleName = roleManager.NormalizeKey(request.RoleName);
             var role = await roleManager.FindByNameAsync(normalizedRoleName);
             if (role != null)
             {
                 // Assign the role to the user
+              
+                
                 var resultAssignRole = await userManager.AddToRoleAsync(user, normalizedRoleName);
                 if (!resultAssignRole.Succeeded)
                 {

@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -24,9 +25,9 @@ public class LoginEndpointEndpoint : IEndPoint
         {
             return Results.NotFound("Invalid Username or Email");
         }
-
         var result = await signInManager.PasswordSignInAsync(user, request.Password, isPersistent: false, lockoutOnFailure: false);
-
+        
+        
         if (result.Succeeded)
         {
             user.LastLoginTime = DateTime.UtcNow;

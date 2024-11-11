@@ -9,10 +9,10 @@ namespace InvenShopfy.API.EndPoints.Tradings.Returns.SalesReturn;
 
 public class GetSalesReturnDashboard : IEndPoint
 {
-    public static void Map(IEndpointRouteBuilder app) => app.MapGet("/dashboard", HandleAsync)
-        .WithName("SalesReturn: get all salesReturnDashboard")
-        .WithSummary("SalesReturn get all salesReturnDashboard")
-        .WithDescription("This endpoint retrive all salesReturnDashboard")
+    public static void Map(IEndpointRouteBuilder app) => app.MapGet("/dashboard/top-returns", HandleAsync)
+        .WithName("SalesReturn: get the top 10 sales returns")
+        .WithSummary("SalesReturn et the top 10 sales returns")
+        .WithDescription("This endpoint retrive top 10 sales returns")
         .WithOrder(5)
         .Produces<Response<SalesReturnDashboard?>>();
 

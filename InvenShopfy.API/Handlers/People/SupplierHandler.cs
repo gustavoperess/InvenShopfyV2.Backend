@@ -176,4 +176,39 @@ public class SupplierHandler (AppDbContext context) : ISupplierHandler
             return new PagedResponse<List<SupplierName>?>(null, 500, "It was not possible to consult all supplier names");
         }
     }
+    public async Task<Response<List<TopSupplier>?>> GetTopSuppliersAsync(GetAllSuppliersRequest request)
+    {
+        try
+        {
+            var query = context
+                .Purchases
+                .AsNoTracking()
+                .Include(x => x.Supplier)
+                .Where(x => x.UserId == request.UserId)
+                .GroupBy(y => new
+                {
+                    y.Supplier.Name,
+                    y.SupplierId,
+                    y.Supplier.SupplierCode,
+                    y.Supplier.Company,
+                })
+                .Select(x => new TopSupplier
+                { 
+                    Id = x.Key.SupplierId,
+                    Name = x.Key.Name,
+                    SupplierCode = x.Key.SupplierCode,
+                    Company = x.Key.Company,
+                    TotalPurchase =  x.Sum(s => s.TotalAmountBought),
+                    
+                }).OrderByDescending(x => x.TotalPurchase).Take(5);
+            
+            var topSuppliers = await query.ToListAsync(); 
+            
+            return new Response<List<TopSupplier>?>(topSuppliers, 201, "top 05 suppliers returned successfully");
+        }
+        catch 
+        {
+            return new PagedResponse<List<TopSupplier>?>(null, 500, "It was not possible to return the top 05 suppliers");
+        }
+    }
 }

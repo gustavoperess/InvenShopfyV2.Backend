@@ -10,7 +10,7 @@ namespace InvenShopfy.API.EndPoints.Tradings.Purchase.Add;
 public class GetPurchaseDashboardEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("purchase/dashboard", HandlerAsync)
+        => app.MapGet("dashboard/top-purchases", HandlerAsync)
             .WithName("Purchases: Get 10 purchases for the dashboard")
             .WithSummary("Get 10 purchases for the dashboard")
             .WithDescription("Get 10 purchases for the dashboard")

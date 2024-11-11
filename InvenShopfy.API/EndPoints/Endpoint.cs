@@ -124,6 +124,7 @@ public static class Endpoint
             .RequireAuthorization()
             .MapEndpoint<CreateSupplierEndpoint>()
             .MapEndpoint<GetSupplierNameEndpoint>()
+            .MapEndpoint<GetTopSuppliersDashboardEndpoint>()
             .MapEndpoint<GetAllSuppliersEndpoint>()
             .MapEndpoint<DeleteSupplierEndpoint>()
             .MapEndpoint<GetSupplierByIdEndpoint>();
