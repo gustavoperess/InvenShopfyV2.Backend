@@ -12,6 +12,6 @@ public interface IExpenseHandler
     Task<Response<Models.Expenses.Expense?>> GetExpenseByIdAsync(GetExpenseByIdRequest request);
     Task<PagedResponse<List<ExpenseDto>?>> GetExpenseByPeriodAsync(GetAllExpensesRequest request);
     Task<Response<List<ExpenseDashboard>?>> GetExpenseStatusDashboardAsync(GetAllExpensesRequest request);
-    Task<Response<decimal>> GetExpenseTotalAmount(GetAllExpensesRequest request);
+    Task<Response<decimal?>> GetExpenseTotalAmountAsync(GetAllExpensesRequest request);
 
 }

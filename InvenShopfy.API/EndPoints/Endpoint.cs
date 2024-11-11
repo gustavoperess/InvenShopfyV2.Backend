@@ -141,6 +141,7 @@ public static class Endpoint
             .MapEndpoint<UpdateWarehouseEndpoint>()
             .MapEndpoint<GetAllWarehousesEndpoint>()
             .MapEndpoint<DeleteWarehouseEndpoint>()
+            .MapEndpoint<GetTotalStockQuantityEndpoint>()
             .MapEndpoint<GetWarehouseQuantityEndpoint>()
             .MapEndpoint<GetWarehouseNameEndpoint>()
             .MapEndpoint<GetTotalQuantityByWarehouseAndProductIdEndpoint>()

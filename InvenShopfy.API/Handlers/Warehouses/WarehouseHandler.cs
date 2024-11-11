@@ -224,6 +224,19 @@ public class WarehouseHandler(AppDbContext context) : IWarehouseHandler
             return new Response<int?>(null, 500, "It was not possible to consult the total number of warehouses");
         }
     }
+
+    public async Task<Response<int?>> GetTotalInStockAsync(GetAllWarehousesRequest request)
+    {
+        try
+        {
+            var stockQuantity = await context.Warehouses.SumAsync(x => x.QuantityOfItems);
+            return new Response<int?>(stockQuantity, 200, "Total stock quantity retrieved successfully"); 
+        }
+        catch
+        {
+            return new Response<int?>(0, 400, "It was not possible to retrive the total stock quantity"); 
+        }
+    }
     
     public async Task<PagedResponse<List<WarehouseName>?>> GetWarehouseNameAsync(GetAllWarehousesRequest request)
     {

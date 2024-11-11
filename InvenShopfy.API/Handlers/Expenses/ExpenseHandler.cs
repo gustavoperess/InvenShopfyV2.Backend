@@ -205,7 +205,7 @@ public class ExpenseHandler (AppDbContext context) : IExpenseHandler
         }
     }
     
-    public async Task<Response<decimal>> GetExpenseTotalAmount(GetAllExpensesRequest request)
+    public async Task<Response<decimal?>> GetExpenseTotalAmountAsync(GetAllExpensesRequest request)
     {
         try
         {
@@ -214,11 +214,11 @@ public class ExpenseHandler (AppDbContext context) : IExpenseHandler
                 .AsNoTracking()
                 .SumAsync(x => x.ExpenseCost);
             
-            return new Response<decimal>(totalExpense, 201, "Expenses returned successfully");
+            return new Response<decimal?>(totalExpense, 201, "Expenses returned successfully");
         }
         catch
         {
-            return new Response<decimal>(0, 500, "It was not possible to consult all Expenses");
+            return new Response<decimal?>(0, 400, "It was not possible to consult all Expenses");
         }
     }
     

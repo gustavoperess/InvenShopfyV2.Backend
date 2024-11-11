@@ -1,3 +1,4 @@
+using InvenShopfy.Core.Requests.Expenses.Expense;
 using InvenShopfy.Core.Requests.Warehouse;
 using InvenShopfy.Core.Responses;
 
@@ -12,6 +13,8 @@ public interface IWarehouseHandler
     Task<Response<Models.Warehouse.Dto.WarehouseProductDto?>> GetTotalQuantityByWarehouseAndProductIdAsync(GetTotalQuantityByWarehouseAndProductIdRequest request);
     Task<Response<int?>> GetWarehouseQuantityAsync(GetWarehouseQuantityRequest request);
     Task<PagedResponse<List<Models.Warehouse.Warehouse>?>> GetWarehouseByPeriodAsync(GetAllWarehousesRequest request);
+
+    Task<Response<int?>> GetTotalInStockAsync(GetAllWarehousesRequest request);
     
     Task<PagedResponse<List<Models.Warehouse.Dto.WarehouseName>?>> GetWarehouseNameAsync(GetAllWarehousesRequest request);
 

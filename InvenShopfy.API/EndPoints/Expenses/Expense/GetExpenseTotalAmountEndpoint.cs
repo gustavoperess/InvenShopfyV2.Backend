@@ -25,7 +25,7 @@ public class GetExpenseTotalAmountEndpoint : IEndPoint
             UserId = user.Identity?.Name ?? string.Empty,
         };
 
-        var result = await handler.GetExpenseTotalAmount(request);
+        var result = await handler.GetExpenseTotalAmountAsync(request);
         return result.IsSuccess
             ? TypedResults.Created($"/{result.Data}", result)
             : TypedResults.BadRequest(result);
