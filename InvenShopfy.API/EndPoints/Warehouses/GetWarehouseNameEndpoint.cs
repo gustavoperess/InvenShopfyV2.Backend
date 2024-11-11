@@ -12,9 +12,9 @@ public class GetWarehouseNameEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapGet("/warehouses/name", HandlerAsync)
-            .WithName("Warehouses: Get warehousename")
-            .WithSummary("Get All warehousename")
-            .WithDescription("Get all warehousename")
+            .WithName("Warehouses: Get warehouse name and Id")
+            .WithSummary("Get all warehouse name and Id")
+            .WithDescription("Get all warehouse name and Id")
             .WithOrder(9)
             .Produces<PagedResponse<List<Core.Models.Warehouse.Dto.WarehouseName>?>>();
 
