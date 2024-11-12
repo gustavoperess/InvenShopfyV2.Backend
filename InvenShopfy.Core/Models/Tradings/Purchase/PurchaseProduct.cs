@@ -11,7 +11,7 @@ public class PurchaseProduct
     
     public long ProductId { get; init; }
     public Product.Product Product { get; init; } = null!;
-    
+    public decimal TotalInTaxPaidPerProduct { get; init; }
     public int TotalQuantityBoughtPerProduct { get; init; }
     public decimal TotalPricePaidPerProduct { get; init; }
     public string PurchaseReferenceNumber { get; init; } = string.Empty;

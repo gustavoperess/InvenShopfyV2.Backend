@@ -11,6 +11,8 @@ public sealed class PurchasePerProduct
     public string ReferenceNumber { get; set; } = null!;
     public decimal ShippingCost { get; set; }
     public decimal TotalAmount { get; set; }
+    public decimal TotalTax { get; set; }
+    public decimal TotalInTaxPaidPerProduct { get; set; }
     public string? PurchaseNote { get; set; }
     public string SupplierName { get; set; } = null!;
     public string SupplierEmail { get; set; } = null!;

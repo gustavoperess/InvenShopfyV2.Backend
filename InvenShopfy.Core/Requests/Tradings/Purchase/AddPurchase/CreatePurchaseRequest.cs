@@ -17,6 +17,9 @@ public class CreatePurchaseRequest : Request
     [Required(ErrorMessage = "Invalid SupplierId Id")]
     public long SupplierId { get; set; } // who I bought it from 
     
+    [Required(ErrorMessage = "Please inform total amount paid in taxes")]
+    [Range(0.01, 1000000, ErrorMessage = "Amount must be between 0.01 and 1,000,000.")]
+    public decimal TotalTax { get; set; }
     public Dictionary<long, int> ProductIdPlusQuantity { get; set; } = new Dictionary<long, int>();
     
     [Required(ErrorMessage = "Please inform the Purchase Status")]

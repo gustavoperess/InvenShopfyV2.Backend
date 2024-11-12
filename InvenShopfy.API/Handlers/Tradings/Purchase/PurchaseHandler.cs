@@ -24,7 +24,9 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
                 ShippingCost = request.ShippingCost,
                 PurchaseNote = request.PurchaseNote,
                 PurchaseDate = request.PurchaseDate,
+                TotalTax = request.TotalTax,
                 TotalAmountBought = request.TotalAmountBought,
+                
             };
 
             // Validate and add products to purchase
@@ -135,6 +137,8 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
                 {
                     x.ProductId, x.Product.Title, x.PurchaseReferenceNumber, x.TotalPricePaidPerProduct,
                     x.TotalQuantityBoughtPerProduct,
+                    x.AddPurchase.TotalTax,
+                    x.TotalInTaxPaidPerProduct,
                     x.Product.Unit.ShortName, x.AddPurchase.TotalAmountBought, x.Product.Price,
                     x.AddPurchase.ShippingCost,
                     x.AddPurchase.PurchaseNote, x.AddPurchase.Supplier.Name, x.AddPurchase.Supplier.Email
@@ -146,6 +150,8 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
                     UnitShortName = g.Key.ShortName,
                     SupplierName = g.Key.Name,
                     SupplierEmail = g.Key.Email,
+                    g.Key.TotalInTaxPaidPerProduct,
+                    g.Key.TotalTax,
                     g.Key.PurchaseNote,
                     g.Key.ShippingCost,
                     g.Key.TotalAmountBought,
@@ -165,6 +171,8 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
                 ReferenceNumber = s.PurchaseReferenceNumber,
                 TotalPricePaidPerProduct = s.TotalPricePaidPerProduct,
                 TotalQuantityBoughtPerProduct = s.TotalQuantityBoughtPerProduct,
+                TotalTax = s.TotalTax,
+                TotalInTaxPaidPerProduct = s.TotalInTaxPaidPerProduct,
                 ShippingCost = s.ShippingCost,
                 PurchaseNote = s.PurchaseNote,
                 SupplierName = s.SupplierName,
@@ -203,6 +211,7 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
                     g.ShippingCost,
                     g.TotalAmountBought,
                     g.ReferenceNumber,
+                    g.TotalTax,
                     g.TotalNumberOfProductsBought
                 }).OrderBy(x => x.PurchaseDate);
 
@@ -220,6 +229,7 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
                 PurchaseStatus = p.PurchaseStatus,
                 ShippingCost = p.ShippingCost,
                 TotalAmountBought = p.TotalAmountBought,
+                TotalPaidInTaxes = p.TotalTax,
                 ReferenceNumber = p.ReferenceNumber,
                 TotalNumberOfProductsBought = p.TotalNumberOfProductsBought
             }).ToList();

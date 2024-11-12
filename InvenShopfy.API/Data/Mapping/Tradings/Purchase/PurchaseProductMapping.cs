@@ -14,6 +14,10 @@ public class PurchaseProductMapping : IEntityTypeConfiguration<PurchaseProduct>
         builder.Property(bp => bp.TotalQuantityBoughtPerProduct)
             .IsRequired(true)
             .HasColumnType("INTEGER");
+        
+        builder.Property(bp => bp.TotalInTaxPaidPerProduct)
+            .IsRequired(true)
+            .HasColumnType("NUMERIC(18,2)");
 
         builder.Property(bp => bp.TotalPricePaidPerProduct)
             .IsRequired(true)

@@ -30,6 +30,9 @@ public class AddPurchaseMapping : IEntityTypeConfiguration<AddPurchase>
             .HasColumnType("TEXT")
             .HasMaxLength(500);
         
+        builder.Property(bp => bp.TotalTax)
+            .HasColumnType("NUMERIC(18,2)");
+        
         builder.Property(x => x.UserId)
             .HasColumnType("VARCHAR")
             .HasMaxLength(160);

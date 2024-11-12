@@ -7,6 +7,8 @@ public sealed class PurchaseList
     public string SupplierName { get; set; }  = string.Empty;
     public string WarehouseName { get; set; }  = string.Empty;
     public string PurchaseStatus { get; set; } = string.Empty;
+    
+    public decimal TotalPaidInTaxes { get; set; }
     public decimal ShippingCost { get; set; }
     public decimal TotalAmountBought { get; set; }
     public string ReferenceNumber { get;  set; }  = string.Empty;

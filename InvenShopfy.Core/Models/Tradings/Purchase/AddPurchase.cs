@@ -21,9 +21,9 @@ public class AddPurchase
     public string PurchaseStatus { get; set; } = string.Empty;
     
     public decimal ShippingCost { get; set; }
-    
     public string PurchaseNote { get; set; } = string.Empty;
     
+    public decimal TotalTax { get; set; }
     public string ReferenceNumber { get; private set; } = GenerateRandomNumber.RandomNumberGenerator();
     public string UserId { get; init; } = string.Empty;
     
@@ -47,8 +47,10 @@ public class AddPurchase
             {
                 continue; 
             }
+
+            var totalInTaxPaidPerProduct = ((product.Price * item.Value) * product.TaxPercentage) / 100;
             var pricePerProduct = product.Price * item.Value;
-            var purchaseProduct = CreatePurchaseProduct(product.Id, pricePerProduct, item.Value);
+            var purchaseProduct = CreatePurchaseProduct(product.Id, pricePerProduct, item.Value, totalInTaxPaidPerProduct);
             product.StockQuantity += item.Value;
             sumOfItems += item.Value;
             PurchaseProducts.Add(purchaseProduct);
@@ -58,12 +60,11 @@ public class AddPurchase
         return new Response<AddPurchase?>(this, 200, "Products added to sale successfully");
     }
     
-
-    
-    private PurchaseProduct CreatePurchaseProduct(long productId, decimal totalPricePerProduct, int totalQuantitySoldPerProduct)
+    private PurchaseProduct CreatePurchaseProduct(long productId, decimal totalPricePerProduct, int totalQuantitySoldPerProduct, decimal totalInTaxPaidPerProduct)
     {
         var purchaseProduct = new PurchaseProduct
         {
+            TotalInTaxPaidPerProduct = totalInTaxPaidPerProduct,
             ProductId = productId,
             AddPurchase = this,
             TotalPricePaidPerProduct = totalPricePerProduct,
