@@ -26,8 +26,8 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
         public decimal TotalAmount { get; init; } 
         public string ReferenceNumber { get; init; } = GenerateRandomNumber.RandomNumberGenerator();
         public int Discount { get; init; }
-        public int? ProfitLine { get; set; } = 0;
-        public int? TaxAmount { get; set; } = 3;
+        public decimal ProfitAmount { get; set; }
+        public decimal TaxAmount { get; set; } 
         public List<SaleProduct> SaleProducts { get; init; } = new List<SaleProduct>();
         public string UserId { get; init; } = string.Empty;
         

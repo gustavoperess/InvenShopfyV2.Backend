@@ -782,8 +782,8 @@ namespace InvenShopfy.API.Migrations
                     b.Property<int>("Discount")
                         .HasColumnType("INT");
 
-                    b.Property<int>("ProfitLine")
-                        .HasColumnType("INT");
+                    b.Property<decimal>("ProfitAmount")
+                        .HasColumnType("NUMERIC(18,2)");
 
                     b.Property<string>("ReferenceNumber")
                         .IsRequired()
@@ -809,8 +809,8 @@ namespace InvenShopfy.API.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("TaxAmount")
-                        .HasColumnType("INT");
+                    b.Property<decimal>("TaxAmount")
+                        .HasColumnType("NUMERIC(18,2)");
 
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("NUMERIC(18,2)");

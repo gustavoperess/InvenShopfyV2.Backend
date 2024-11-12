@@ -29,11 +29,11 @@ public class AddSalesMapping : IEntityTypeConfiguration<Sale>
         
         builder.Property(x => x.TaxAmount)
             .IsRequired(true)
-            .HasColumnType("INT");
+            .HasColumnType("NUMERIC(18,2)");
 
-        builder.Property(x => x.ProfitLine)
+        builder.Property(x => x.ProfitAmount)
             .IsRequired(true)
-            .HasColumnType("INT");
+            .HasColumnType("NUMERIC(18,2)");
         
         builder.Property(x => x.SaleStatus)
             .IsRequired(true)

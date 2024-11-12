@@ -19,10 +19,8 @@ public class CreateSalesRequest : Request
     [Required(ErrorMessage = "Please inform the Payment Status")]
     [Range(0.01, 1000000, ErrorMessage = "Shipping Cost be between 0.01 and 1,000,000.")]
     public decimal ShippingCost { get; set; }
-
-    public int? ProfitLine { get; set; } = 0;
-
-    public int? TaxAmount { get; set; }
+    public decimal ProfitAmount { get; set; } 
+    public decimal TaxAmount { get; set; }
     
     [Required(ErrorMessage = "Please Select one of the Sale status")]
     [AllowedValues("Completed", "Incompleted",

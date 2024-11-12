@@ -214,6 +214,7 @@ public class ProductHandler : IProductHandler
                     StockQuantity = g.StockQuantity,
                     ProductImage = g.ProductImage,
                     ProductCode = g.ProductCode,
+                    MarginRange = g.MarginRange,
                     TaxPercentage = g.TaxPercentage,
                     Category = g.Category.MainCategory,
                     Subcategory = g.Subcategory,

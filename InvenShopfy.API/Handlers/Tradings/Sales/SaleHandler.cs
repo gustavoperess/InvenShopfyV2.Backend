@@ -29,6 +29,8 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 SaleStatus = request.SaleStatus,
                 UserId = request.UserId,
                 TotalAmount = request.TotalAmount,
+                TaxAmount = request.TaxAmount,
+                ProfitAmount = request.ProfitAmount,
                 Discount = request.Discount
             };
             
