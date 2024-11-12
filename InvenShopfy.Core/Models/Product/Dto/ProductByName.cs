@@ -8,6 +8,8 @@ public sealed class ProductByName
     public int ProductCode { get; set; }
     public string ProductImage { get; set; } = null!;
     public int StockQuantity { get; init; }
+
+    public int TaxPercentage { get; set; }
     public string Category { get; set; } = null!;
     public string Subcategory { get; set; } = string.Empty;
     public bool Expired { get; set; }

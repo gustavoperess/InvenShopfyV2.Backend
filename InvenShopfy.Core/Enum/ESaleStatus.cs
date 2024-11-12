@@ -4,5 +4,4 @@ public enum ESaleStatus
 {
     Completed = 1,
     Incompleted = 2,
-    Drafts = 3
 }

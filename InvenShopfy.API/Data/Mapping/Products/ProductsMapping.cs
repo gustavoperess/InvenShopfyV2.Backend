@@ -42,8 +42,18 @@ public class ProductsMapping : IEntityTypeConfiguration<Product>
             .IsRequired(true)
             .HasColumnType("BIGINT");
         
+        
+        builder.Property(x => x.TaxPercentage)
+            .IsRequired(true)
+            .HasColumnType("INT");
+        
         builder.Property(x => x.Featured)
             .HasColumnType("BOOLEAN");
+        
+        builder.Property(x => x.MarginRange)
+            .IsRequired(true)
+            .HasColumnType("VARCHAR")
+            .HasMaxLength(20);
         
         builder.Property(x => x.DifferPriceWarehouse)
             .HasColumnType("BOOLEAN");

@@ -24,8 +24,8 @@ public class CreateBillerRequest : Request
     
     
     [Required(ErrorMessage = "Mobile number is required")]
-    [RegularExpression(@"^\+?[1-9]\d{0,2}\s?\(?\d{1,4}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$", ErrorMessage = "Please enter a valid phone number.")]
-    [MaxLength(80, ErrorMessage = "Max length of 80 characters")]
+    [RegularExpression(@"^\(\d{3}\)\s\d{3}-\d{4}$", ErrorMessage = "Please enter a valid phone number in the format (123) 456-7890.")]
+    [MaxLength(16, ErrorMessage = "Max length of 16 characters")]
     public string PhoneNumber { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Invalid Identification")]

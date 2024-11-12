@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using InvenShopfy.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241112155005_addingProfitLine")]
+    partial class addingProfitLine
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -496,11 +499,6 @@ namespace InvenShopfy.API.Migrations
                     b.Property<bool>("Featured")
                         .HasColumnType("BOOLEAN");
 
-                    b.Property<string>("MarginRange")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("VARCHAR");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("MONEY");
 
@@ -522,9 +520,6 @@ namespace InvenShopfy.API.Migrations
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("VARCHAR");
-
-                    b.Property<int>("TaxPercentage")
-                        .HasColumnType("INT");
 
                     b.Property<string>("Title")
                         .IsRequired()

@@ -22,6 +22,13 @@ public class CreateProductRequest : Request
     [Required(ErrorMessage = "Invalid Brand Id")]
     public long BrandId { get; set; }
     
+    [Required(ErrorMessage = "Invalid tax amount")]
+    [Range(1, 14, ErrorMessage = "Product code for {0} must be between {1} and {2}.")]
+    public int TaxPercentage { get; set; }
+    
+    [Required(ErrorMessage = "Please enter margin range")]
+    public string MarginRange { get; set; } = null!;
+    
     [Base64String]
     public string? ProductImage { get; set; } 
     

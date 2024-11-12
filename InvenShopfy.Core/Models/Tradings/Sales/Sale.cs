@@ -19,18 +19,17 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
         public long BillerId { get; set; }
         public Biller Biller { get; init; } = null!;
         public decimal ShippingCost { get; set; } 
-        public string PaymentStatus { get; init; } = string.Empty;
         public string SaleStatus { get; init; } = string.Empty; 
         public string SaleNote { get; set; } = string.Empty;
         public string StaffNote { get; set; } = string.Empty;
         public int TotalQuantitySold { get; set; }
-
         public decimal TotalAmount { get; init; } 
         public string ReferenceNumber { get; init; } = GenerateRandomNumber.RandomNumberGenerator();
         public int Discount { get; init; }
+        public int? ProfitLine { get; set; } = 0;
+        public int? TaxAmount { get; set; } = 3;
         public List<SaleProduct> SaleProducts { get; init; } = new List<SaleProduct>();
         public string UserId { get; init; } = string.Empty;
-        
         
         // Handle Sale logic 
         public Response<Sale?> AddProductsToSale(Dictionary<long, int> productIdPlusQuantity, List<Product.Product> availableProducts)

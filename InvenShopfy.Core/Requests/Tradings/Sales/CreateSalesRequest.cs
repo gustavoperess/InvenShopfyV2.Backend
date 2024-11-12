@@ -16,25 +16,22 @@ public class CreateSalesRequest : Request
     [Required(ErrorMessage = "Invalid Biller Id")]
     public long BillerId { get; set; }
     
-    [Required(ErrorMessage = "Please Select one of the Payment status")]
-    [AllowedValues("Completed", "Incompleted", "Drafts",
-        ErrorMessage = "Please select one of the allowed values Completed, Incompleted, Drafts")]
-    public string PaymentStatus { get; set; } = EPaymentStatus.Completed.ToString(); 
-    
     [Required(ErrorMessage = "Please inform the Payment Status")]
     [Range(0.01, 1000000, ErrorMessage = "Shipping Cost be between 0.01 and 1,000,000.")]
-    public decimal ShippingCost { get; set; } 
+    public decimal ShippingCost { get; set; }
+
+    public int? ProfitLine { get; set; } = 0;
+
+    public int? TaxAmount { get; set; }
     
     [Required(ErrorMessage = "Please Select one of the Sale status")]
-    [AllowedValues("Completed", "Incompleted", "Drafts",
+    [AllowedValues("Completed", "Incompleted",
         ErrorMessage = "Please select one of the allowed values Completed, Incompleted, Drafts")]
     public string SaleStatus { get; set; } = ESaleStatus.Completed.ToString();
-    
 
     [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]
     public string SaleNote { get; set; } = null!;
     
-
     [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]
     public string StaffNote { get; set; } = null!;
     

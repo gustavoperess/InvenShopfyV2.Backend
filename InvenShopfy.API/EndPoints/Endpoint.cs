@@ -243,6 +243,7 @@ public static class Endpoint
             .MapEndpoint<DeleteRoleIdentityEndpoint>()
             .MapEndpoint<GetIdentityRolesEndpoint>()
             .MapEndpoint<GetUserDashboardEndpoint>()
+            .MapEndpoint<GetCurrentUserIdentityEndpoint>()
             .MapEndpoint<CreateRoleIdentityEndpoint>()
             .MapEndpoint<LoginEndpointEndpoint>(); 
     }

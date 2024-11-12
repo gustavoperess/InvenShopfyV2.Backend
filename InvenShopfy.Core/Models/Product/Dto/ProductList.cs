@@ -7,6 +7,8 @@ public sealed class ProductList
     public decimal Price { get; set; }
     public int ProductCode { get; set; }
     public string ProductImage { get; set; } = string.Empty;
+    public string MarginRange { get; set; } = string.Empty;
+    public int TaxPercentage { get; set; }
     public int StockQuantity { get; set; }
     public string UnitName { get; set; } = string.Empty;
     public string BrandName { get; set; } = string.Empty;

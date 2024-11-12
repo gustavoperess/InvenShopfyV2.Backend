@@ -25,6 +25,9 @@ public class Product
     
     public string UserId { get; init; } = string.Empty;
 
+    public int TaxPercentage { get; set; }
+    
+    public string MarginRange { get; set; } = null!;
     public string Subcategory { get; init; } = string.Empty;
     public bool Featured { get; init; }
     public bool DifferPriceWarehouse { get; init; }

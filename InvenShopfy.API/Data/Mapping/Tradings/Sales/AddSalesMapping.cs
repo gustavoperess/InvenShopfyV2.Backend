@@ -27,9 +27,13 @@ public class AddSalesMapping : IEntityTypeConfiguration<Sale>
             .IsRequired(true)
             .HasColumnType("INT");
         
-        builder.Property(x => x.PaymentStatus)
+        builder.Property(x => x.TaxAmount)
             .IsRequired(true)
-            .HasColumnType("VARCHAR(50)"); 
+            .HasColumnType("INT");
+
+        builder.Property(x => x.ProfitLine)
+            .IsRequired(true)
+            .HasColumnType("INT");
         
         builder.Property(x => x.SaleStatus)
             .IsRequired(true)

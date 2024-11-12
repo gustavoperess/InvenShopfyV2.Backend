@@ -7,7 +7,6 @@ public sealed class SaleList
     public string CustomerName { get; set; }  = string.Empty;
     public string WarehouseName { get; set; }  = string.Empty;
     public string BillerName { get; set; }  = string.Empty;
-    public string PaymentStatus { get; set; } = string.Empty;
     public string SaleStatus { get; set; } = string.Empty;
     public int TotalQuantitySold { get; set; }
     public decimal TotalAmount { get; set; }

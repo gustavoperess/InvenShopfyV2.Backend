@@ -17,9 +17,9 @@ public class CreateCustomerRequest : Request
     [MaxLength(160, ErrorMessage = "Max length of 160 characters")]
     public string Email { get; set; } = String.Empty;
     
-    [Required(ErrorMessage = "Mobile no. is required")]
-    [RegularExpression("^(?:\\+1)?\\s?\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}$", ErrorMessage = "Please enter valid phone no.")]
-    [MaxLength(80, ErrorMessage = "Max length of 80 characters")]
+    [Required(ErrorMessage = "Mobile number is required")]
+    [RegularExpression(@"^\(\d{3}\)\s\d{3}-\d{4}$", ErrorMessage = "Please enter a valid phone number in the format (123) 456-7890.")]
+    [MaxLength(16, ErrorMessage = "Max length of 16 characters")]
     public string PhoneNumber { get; set; } = string.Empty;
     
     [Required(ErrorMessage = "Invalid City")]

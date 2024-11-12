@@ -26,7 +26,6 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 ShippingCost = request.ShippingCost,
                 StaffNote = request.StaffNote,
                 SaleNote = request.SaleNote,
-                PaymentStatus = request.PaymentStatus,
                 SaleStatus = request.SaleStatus,
                 UserId = request.UserId,
                 TotalAmount = request.TotalAmount,
@@ -122,17 +121,16 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 .Where(x => x.UserId == request.UserId)
                 .Select(g => new
                 {
-                    Id = g.Id,
-                    SaleDate = g.SaleDate,
-                    ReferenceNumber = g.ReferenceNumber,
+                    g.Id,
+                    g.SaleDate,
+                    g.ReferenceNumber,
                     CustomerName = g.Customer.Name,
-                    WarehouseName = g.Warehouse.WarehouseName,
-                    PaymentStatus = g.PaymentStatus,
-                    SaleStatus = g.SaleStatus,
+                    g.Warehouse.WarehouseName,
+                    g.SaleStatus,
                     BillerName = g.Biller.Name,
-                    TotalQuantitySold = g.TotalQuantitySold,
-                    Discount = g.Discount,
-                    TotalAmount = g.TotalAmount
+                    g.TotalQuantitySold,
+                    g.Discount,
+                    g.TotalAmount
                     
                 })
                 .OrderBy(x => x.SaleDate);
@@ -151,7 +149,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 ReferenceNumber = s.ReferenceNumber,
                 CustomerName = s.CustomerName,
                 WarehouseName = s.WarehouseName,
-                PaymentStatus = s.PaymentStatus,
+                // PaymentStatus = s.PaymentStatus,
                 SaleStatus = s.SaleStatus,
                 BillerName = s.BillerName,
                 TotalQuantitySold = s.TotalQuantitySold,
@@ -196,7 +194,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 .GroupBy(x => new { x.BillerId, x.Biller.Name })
                 .Select(g => new
                 {
-                    BillerId = g.Key.BillerId,
+                    g.Key.BillerId,
                     BillerName = g.Key.Name,
                     TotalQuantitySold = g.Count(),
                     TotalAmount = g.Sum(x => x.TotalAmount),
@@ -255,7 +253,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 .Select(g => new
                 {
                     Id = g.Key.ProductId,
-                    ProductCode = g.Key.ProductCode,
+                    g.Key.ProductCode,
                     ProductName = g.Key.Title,
                     TotalQuantitySoldPerProduct = g.Sum(x => x.TotalQuantitySoldPerProduct),
                     
@@ -320,16 +318,16 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 {
                     Id = g.Key.ProductId,
                     ProductPrice = g.Key.Price,
-                    TotalAmount = g.Key.TotalAmount,
-                    ReferenceNumber = g.Key.ReferenceNumber,
+                    g.Key.TotalAmount,
+                    g.Key.ReferenceNumber,
                     ProductName = g.Key.Title,
-                    Discount = g.Key.Discount,
-                    TotalPricePerProduct = g.Key.TotalPricePerProduct,
-                    TotalQuantitySoldPerProduct = g.Key.TotalQuantitySoldPerProduct,
+                    g.Key.Discount,
+                    g.Key.TotalPricePerProduct,
+                    g.Key.TotalQuantitySoldPerProduct,
                     UnitShortName = g.Key.ShortName,
-                    ShippingCost = g.Key.ShippingCost,
-                    SaleNote = g.Key.SaleNote,
-                    StaffNote = g.Key.StaffNote,
+                    g.Key.ShippingCost,
+                    g.Key.SaleNote,
+                    g.Key.StaffNote,
                     BillerName = g.Key.Name,
                     BillerEmail = g.Key.Email
                     
@@ -386,7 +384,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                     SaleDate = x.SaleDate,
                     ReferenceNumber = x.ReferenceNumber,
                     Customer = x.Customer.Name,
-                    PaymentStatus = x.PaymentStatus,
+                    // PaymentStatus = x.PaymentStatus,
                     TotalAmount = x.TotalAmount,
                     TotalQuantitySold = x.TotalQuantitySold
                 })
