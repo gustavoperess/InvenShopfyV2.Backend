@@ -174,6 +174,7 @@ public static class Endpoint
             .MapEndpoint<DeleteSaleEndpoint>()
             .MapEndpoint<GetSalesDashboardEndpoint>()
             .MapEndpoint<GetSalesBySalesIdEndpoint>()
+            .MapEndpoint<GetTotalProfitDashboardEndpoint>()
             .MapEndpoint<GetTotalAmountSalesEndpoint>()
             .MapEndpoint<GetSalesByBestSellerEndpoint>()
             .MapEndpoint<GetMostSouldProductEndpoint>();

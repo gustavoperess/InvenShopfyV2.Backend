@@ -16,5 +16,8 @@ public interface ISalesHandler
     Task<Response<List<SallerDashboard>?>> GetSaleStatusDashboardAsync(GetAllSalesRequest request);
     Task<Response<Models.Tradings.Sales.Sale?>> GetSalesBySellerAsync(GetSalesBySeller request);
     Task<Response<decimal?>> GetTotalAmountSalesRequestAsync(GetTotalSalesAmountRequest request);
+    Task<Response<decimal>> GetTotalProfitDashboardAsync();
+    
+    
 
 }

@@ -401,7 +401,21 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
         }
         
     }
-    
+
+    public async Task<Response<decimal>> GetTotalProfitDashboardAsync()
+    {
+        try
+        {
+            var query = await context.Sales.SumAsync(x => x.ProfitAmount);
+            return new Response<decimal>(query, 200, "Total Gross profit returned succesfully");
+        }
+        catch 
+        {
+            return new Response<decimal>(0, 500, "It was not possible to get the total profit amount");
+        }
+
+
+    }
     
     public async Task<Response<Sale?>> GetSalesBySellerAsync(GetSalesBySeller request)
     {
