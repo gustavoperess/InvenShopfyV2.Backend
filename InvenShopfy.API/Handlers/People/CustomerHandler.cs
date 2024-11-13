@@ -15,12 +15,6 @@ public class CustomerHandler (AppDbContext context) : ICustomerHandler
     {
         try
         {
-            // if (!Enum.IsDefined(typeof(ECustomerGroup), request.CustomerGroup))
-            // {
-            //     return new Response<Customer?>(null, 400, "Invalid Customer Group");
-            // }
-            
-            
             var customer = new Customer
             {
                 UserId = request.UserId,
@@ -108,7 +102,7 @@ public class CustomerHandler (AppDbContext context) : ICustomerHandler
     {
         try
         {
-            var customer = await context.Customers.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var customer = await context.Customers.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
             
             if (customer is null)
             {

@@ -98,7 +98,7 @@ public class SupplierHandler (AppDbContext context) : ISupplierHandler
     {
         try
         {
-            var supplier = await context.Suppliers.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var supplier = await context.Suppliers.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
             
             if (supplier is null)
             {

@@ -11,8 +11,6 @@ public interface ISupplierHandler
     Task<Response<Models.People.Supplier?>> DeleteSupplierAsync(DeleteSupplierRequest request);
     Task<Response<Models.People.Supplier?>> GetSupplierByIdAsync(GetSupplierByIdRequest request);
     Task<PagedResponse<List<Models.People.Supplier>?>> GetSupplierByPeriodAsync(GetAllSuppliersRequest request);
-    
     Task<Response<List<TopSupplier>?>> GetTopSuppliersAsync(GetAllSuppliersRequest request);
-
     Task<PagedResponse<List<SupplierName>?>> GetSupplierNameAsync(GetAllSuppliersRequest request);
 }

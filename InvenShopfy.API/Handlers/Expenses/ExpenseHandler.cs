@@ -99,7 +99,7 @@ public class ExpenseHandler (AppDbContext context) : IExpenseHandler
     {
         try
         {
-            var expense = await context.Expenses.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var expense = await context.Expenses.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
             
             if (expense is null)
             {
@@ -205,7 +205,7 @@ public class ExpenseHandler (AppDbContext context) : IExpenseHandler
         }
     }
     
-    public async Task<Response<decimal?>> GetExpenseTotalAmountAsync(GetAllExpensesRequest request)
+    public async Task<Response<decimal?>> GetExpenseTotalAmountAsync()
     {
         try
         {

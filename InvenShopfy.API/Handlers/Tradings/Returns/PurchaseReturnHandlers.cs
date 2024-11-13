@@ -131,7 +131,7 @@ public class PurchaseReturnHandlers(AppDbContext context) : IPurchaseReturnHandl
     {
         try
         {
-            var saleReturn = await context.PurchaseReturns.SumAsync(x => x.TotalAmount);
+            var saleReturn = await context.PurchaseReturns.AsNoTracking().SumAsync(x => x.TotalAmount);
             
             return new Response<decimal?>(saleReturn, message: "Total purchase returned successfully");
         }

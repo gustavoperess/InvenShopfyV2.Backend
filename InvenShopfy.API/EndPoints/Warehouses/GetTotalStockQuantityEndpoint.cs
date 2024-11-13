@@ -21,13 +21,8 @@ public class GetTotalStockQuantityEndpoint : IEndPoint
         ClaimsPrincipal user,
         IWarehouseHandler handler)
     {
-
-        var request = new GetAllWarehousesRequest
-        {
-            UserId = user.Identity?.Name ?? string.Empty,
-        };
-
-        var result = await handler.GetTotalInStockAsync(request);
+        
+        var result = await handler.GetTotalInStockAsync();
         return result.IsSuccess
             ? TypedResults.Created($"/{result.Data}", result)
             : TypedResults.BadRequest(result);

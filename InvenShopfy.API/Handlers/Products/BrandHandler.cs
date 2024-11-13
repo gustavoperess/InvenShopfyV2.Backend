@@ -99,7 +99,7 @@ public class BrandHandler : IBrandHandler
     {
         try
         {
-            var brand = await _context.Brands.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var brand = await _context.Brands.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
             
             if (brand is null)
             {

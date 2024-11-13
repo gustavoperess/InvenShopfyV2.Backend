@@ -119,7 +119,7 @@ public class ProductHandler : IProductHandler
     {
         try
         {
-            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var product = await _context.Products.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
             
             if (product is null)
             {

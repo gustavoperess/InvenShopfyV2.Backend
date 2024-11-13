@@ -53,7 +53,8 @@ public class SalesReturnHandlers(AppDbContext context) : ISalesReturnHandler
     {
         try
         {
-            var returns = await context.Sales
+            var returns = await context
+                .Sales
                 .AsNoTracking()
                 .Where(x => EF.Functions.ILike(x.ReferenceNumber, $"%{request.ReferenceNumber}%") &&
                             x.UserId == request.UserId)

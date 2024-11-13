@@ -99,7 +99,7 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
     {
         try
         {
-            var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var category = await context.Categories.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
             
             if (category is null)
             {

@@ -284,11 +284,11 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
         }
     }
 
-    public async Task<Response<decimal?>> GetTotalAmountSalesRequestAsync(GetTotalSalesAmountRequest request)
+    public async Task<Response<decimal?>> GetTotalAmountSalesRequestAsync()
     {
         try
         {
-            var totalSalesAmount = await context.Sales.SumAsync(x => x.TotalAmount);
+            var totalSalesAmount = await context.Sales.AsNoTracking().SumAsync(x => x.TotalAmount);
             return new Response<decimal?>(totalSalesAmount, 200, "Total sales amount retrieved successfully");
         }
         catch 
@@ -386,7 +386,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                     SaleDate = x.SaleDate,
                     ReferenceNumber = x.ReferenceNumber,
                     Customer = x.Customer.Name,
-                    // PaymentStatus = x.PaymentStatus,
+                    SaleStatus = x.SaleStatus,
                     TotalAmount = x.TotalAmount,
                     TotalQuantitySold = x.TotalQuantitySold
                 })
@@ -406,7 +406,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
     {
         try
         {
-            var query = await context.Sales.SumAsync(x => x.ProfitAmount);
+            var query = await context.Sales.AsNoTracking().SumAsync(x => x.ProfitAmount);
             return new Response<decimal>(query, 200, "Total Gross profit returned succesfully");
         }
         catch 
@@ -421,7 +421,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
     {
         try
         {
-            var sale = await context.Sales.FirstOrDefaultAsync(x => x.BillerId == request.BillerId && x.UserId == request.UserId);
+            var sale = await context.Sales.AsNoTracking().FirstOrDefaultAsync(x => x.BillerId == request.BillerId && x.UserId == request.UserId);
 
             if (sale is null)
             {

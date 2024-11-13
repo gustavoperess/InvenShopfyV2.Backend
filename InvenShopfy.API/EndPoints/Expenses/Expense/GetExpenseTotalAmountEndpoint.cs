@@ -19,13 +19,8 @@ public class GetExpenseTotalAmountEndpoint : IEndPoint
         ClaimsPrincipal user,
         IExpenseHandler handler)
     {
-
-        var request = new GetAllExpensesRequest()
-        {
-            UserId = user.Identity?.Name ?? string.Empty,
-        };
-
-        var result = await handler.GetExpenseTotalAmountAsync(request);
+        
+        var result = await handler.GetExpenseTotalAmountAsync();
         return result.IsSuccess
             ? TypedResults.Created($"/{result.Data}", result)
             : TypedResults.BadRequest(result);

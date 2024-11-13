@@ -91,7 +91,7 @@ public class UnitHandler(AppDbContext context) : IUnitHandler
     {
         try
         {
-            var unit = await context.Unit.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var unit = await context.Unit.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
             
             if (unit is null)
             {

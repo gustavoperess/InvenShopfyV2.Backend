@@ -100,7 +100,7 @@ public class BillerHandler (AppDbContext context) : IBillerHandler
     {
         try
         {
-            var biller = await context.Billers.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var biller = await context.Billers.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
             
             if (biller is null)
             {
@@ -131,17 +131,17 @@ public class BillerHandler (AppDbContext context) : IBillerHandler
                 })
                 .Select(g => new
                 {
-                    Id = g.Key.Id,
-                    PhoneNumber = g.Key.PhoneNumber,
-                    Address = g.Key.Address,
-                    Country = g.Key.Country,
-                    Email = g.Key.Email,
-                    Identification = g.Key.Identification,
-                    Name = g.Key.Name,
-                    WarehouseName = g.Key.WarehouseName,
-                    ZipCode = g.Key.ZipCode,
-                    DateOfJoin = g.Key.DateOfJoin,
-                    BillerCode = g.Key.BillerCode
+                    g.Key.Id,
+                    g.Key.PhoneNumber,
+                    g.Key.Address,
+                    g.Key.Country,
+                    g.Key.Email,
+                    g.Key.Identification,
+                    g.Key.Name,
+                    g.Key.WarehouseName,
+                    g.Key.ZipCode,
+                    g.Key.DateOfJoin,
+                    g.Key.BillerCode
                 });
             
             var biller = await query
@@ -163,8 +163,6 @@ public class BillerHandler (AppDbContext context) : IBillerHandler
                 DateOfJoin = s.DateOfJoin,
                 BillerCode = s.BillerCode
             }).ToList();
-            
-         
             
             var count = await query.CountAsync();
             

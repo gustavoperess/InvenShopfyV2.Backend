@@ -93,7 +93,7 @@ public class WarehouseHandler(AppDbContext context) : IWarehouseHandler
         try
         {
             var warehouse =
-                await context.Warehouses.FirstOrDefaultAsync(x =>
+                await context.Warehouses.AsNoTracking().FirstOrDefaultAsync(x =>
                     x.Id == byIdRequest.Id && x.UserId == byIdRequest.UserId);
 
             if (warehouse is null)
@@ -212,11 +212,11 @@ public class WarehouseHandler(AppDbContext context) : IWarehouseHandler
         }
     }
 
-    public async Task<Response<int?>> GetWarehouseQuantityAsync(GetWarehouseQuantityRequest request)
+    public async Task<Response<int?>> GetWarehouseQuantityAsync()
     {
         try
         {
-            var totalSalesAmount = await context.Warehouses.CountAsync();
+            var totalSalesAmount = await context.Warehouses.AsNoTracking().CountAsync();
             return new Response<int?>(totalSalesAmount, 200, "Total number of warehouses retrieved successfully");
         }
         catch
@@ -225,11 +225,11 @@ public class WarehouseHandler(AppDbContext context) : IWarehouseHandler
         }
     }
 
-    public async Task<Response<int?>> GetTotalInStockAsync(GetAllWarehousesRequest request)
+    public async Task<Response<int?>> GetTotalInStockAsync()
     {
         try
         {
-            var stockQuantity = await context.Warehouses.SumAsync(x => x.QuantityOfItems);
+            var stockQuantity = await context.Warehouses.AsNoTracking().SumAsync(x => x.QuantityOfItems);
             return new Response<int?>(stockQuantity, 200, "Total stock quantity retrieved successfully"); 
         }
         catch
