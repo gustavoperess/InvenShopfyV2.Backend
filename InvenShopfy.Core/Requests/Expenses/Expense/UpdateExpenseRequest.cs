@@ -37,10 +37,10 @@ public class UpdateExpenseRequest : Request
     
     [Required(ErrorMessage = "Please add a short not explaining the expense")]
     [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]
-    public string ExpenseNote { get; set; } = String.Empty;
+    public string ExpenseNote { get; set; } = string.Empty;
     
     [Required(ErrorMessage = "Please add a short not explaining the description")]
     [MaxLength(80,  ErrorMessage= "Max len of 80 characters")]
-    public string ExpenseDescription { get; set; } = String.Empty;
+    public string ExpenseDescription { get; set; } = string.Empty;
     
 }

@@ -6,9 +6,9 @@ namespace InvenShopfy.Core.Models.UserManagement;
 public class User
 {
     public long Id { get; init; }
-    public string Name { get; init; } = String.Empty;
+    public string Name { get; init; } = string.Empty;
     public DateOnly DateOfJoin { get; init; } = DateOnly.FromDateTime(DateTime.Now);
-    public string Email { get; init; } = String.Empty;
+    public string Email { get; init; } = string.Empty;
     public string PhoneNumber { get; init; } = string.Empty;
     public string Gender { get; init; } = string.Empty;
     public string Username { get; init; } = string.Empty;

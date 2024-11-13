@@ -78,17 +78,7 @@ namespace InvenShopfy.API.EndPoints.Identity
                 var createErrors = string.Join(", ", resultCreate.Errors.Select(e => e.Description));
                 return Results.BadRequest($"Create Errors: {createErrors}");
             }
-            // var identity = (ClaimsIdentity)principal.Identity;
-            // var roles =
-            //     identity.FindAll(identity.RoleClaimType).Select(c => new
-            //     {
-            //         Issuer = c.Issuer,
-            //         OriginalIssuer = c.OriginalIssuer,
-            //         Type = c.Type,
-            //         Value = c.Value,
-            //         ValueType = c.ValueType
-            //     });
-
+ 
             // Find the staff role by name
             var normalizedRoleName = roleManager.NormalizeKey(request.RoleName);
             var role = await roleManager.FindByNameAsync(normalizedRoleName);
