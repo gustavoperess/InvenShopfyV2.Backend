@@ -11,5 +11,6 @@ public interface IPurchaseHandler
     Task<Response<Models.Tradings.Purchase.AddPurchase?>> DeletePurchaseAsync(DeletePurchaseRequest request);
     Task<Response<List<PurchasePerProduct>?>> GetPurchaseByIdAsync(GetPurchaseByIdRequest request);
     Task<PagedResponse<List<PurchaseList>?>> GetPurchaseByPeriodAsync(GetAllPurchasesRequest request);
+    Task<Response<decimal>> GetTotalPurchasedAmountAsync();
     Task<Response<List<PurchaseDashboard>?>> GetPurchaseStatusDashboardAsync(GetAllPurchasesRequest request);
 }

@@ -9,7 +9,6 @@ public class ExpenseDashboard
     public string ExpenseType { get; set; } = null!;
     public string ExpenseStatus { get; set; } = null!;
     public string ExpenseDescription { get; set; } = null!;
-    
     public string ExpenseCategory { get; set; } = null!;
 
 }

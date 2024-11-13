@@ -1,5 +1,4 @@
 using InvenShopfy.API.Data;
-using InvenShopfy.Core.Enum;
 using InvenShopfy.Core.Handlers.Expenses;
 using InvenShopfy.Core.Models.Expenses;
 using InvenShopfy.Core.Models.Expenses.Dto;
@@ -131,7 +130,7 @@ public class ExpenseHandler (AppDbContext context) : IExpenseHandler
                     g.Date,
                     g.Warehouse.WarehouseName,
                     g.ExpenseType,
-                    ExpenseCategory = g.ExpenseCategory.Category,
+                    ExpenseCategory = g.ExpenseCategory.MainCategory,
                     g.VoucherNumber,
                     g.ExpenseCost,
                     g.ExpenseNote,
@@ -190,7 +189,7 @@ public class ExpenseHandler (AppDbContext context) : IExpenseHandler
                     VoucherNumber = x.VoucherNumber,
                     ExpenseStatus = x.ExpenseStatus,
                     ExpenseDescription = x.ExpenseDescription,
-                    ExpenseCategory = x.ExpenseCategory.Category,
+                    ExpenseCategory = x.ExpenseCategory.MainCategory,
                     ExpenseType = x.ExpenseType,
                     ExpenseCost = x.ExpenseCost,
                 })

@@ -275,6 +275,20 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
         {
             return new Response<List<PurchaseDashboard>?>(null, 500, "It was not possible to consult all Purchases");
         }
-        
+    }
+
+
+
+    public async Task<Response<decimal>> GetTotalPurchasedAmountAsync()
+    {
+        try
+        {
+            var query = await context.Purchases.SumAsync(x => x.TotalAmountBought);
+            return new Response<decimal>(query, 200, "TotalAmount purchased returned successfully");
+        }
+        catch
+        {
+            return new Response<decimal>(0, 500, "It was not possible return the total amount purchased");
+        }
     }
 }

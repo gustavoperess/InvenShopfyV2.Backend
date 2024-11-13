@@ -14,7 +14,7 @@ public class ExpenseCategoryHandler(AppDbContext context) : IExpenseCategoryHand
         try
         {
             var existingExpenseCategory = await context.ExpenseCategories.FirstOrDefaultAsync(c =>
-                c.Category.ToLower() == request.Category.ToLower() && c.UserId == request.UserId);
+                c.MainCategory.ToLower() == request.Category.ToLower() && c.UserId == request.UserId);
             if (existingExpenseCategory != null)
             {
                 foreach (var subcat in request.SubCategory)
@@ -35,7 +35,7 @@ public class ExpenseCategoryHandler(AppDbContext context) : IExpenseCategoryHand
             {
                 UserId = request.UserId,
                 SubCategory = request.SubCategory,
-                Category = request.Category
+                MainCategory = request.Category
             };
             await context.ExpenseCategories.AddAsync(expenseCategory);
             await context.SaveChangesAsync();
@@ -62,7 +62,7 @@ public class ExpenseCategoryHandler(AppDbContext context) : IExpenseCategoryHand
                 return new Response<ExpenseCategory?>(null, 404, "Expense Category not found");
             }
 
-            expenseCategory.Category = request.Category;
+            expenseCategory.MainCategory = request.Category;
             expenseCategory.SubCategory = request.SubCategory;
             context.ExpenseCategories.Update(expenseCategory);
             await context.SaveChangesAsync();
@@ -126,7 +126,7 @@ public class ExpenseCategoryHandler(AppDbContext context) : IExpenseCategoryHand
                 .ExpenseCategories
                 .AsNoTracking()
                 .Where(x => x.UserId == request.UserId)
-                .OrderBy(x => x.Category);
+                .OrderBy(x => x.MainCategory);
 
             var expenseCategory = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)

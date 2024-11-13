@@ -11,7 +11,7 @@ public class ExpenseCategoryMapping : IEntityTypeConfiguration<ExpenseCategory>
         builder.ToTable("ExpenseCategory");
         builder.HasKey(x => x.Id);
         
-        builder.Property(x => x.Category)
+        builder.Property(x => x.MainCategory)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
             .HasMaxLength(180);

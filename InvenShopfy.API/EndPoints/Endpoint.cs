@@ -155,6 +155,7 @@ public static class Endpoint
             .WithTags("Purchase")
             .RequireAuthorization()
             .MapEndpoint<CreatePurchaseEndpoint>()
+            .MapEndpoint<GetTotalAmountPurchasedEndpoint>()
             .MapEndpoint<UpdatePurchaseEndpoint>()
             .MapEndpoint<GetAllPurchasesEndpoint>()
             .MapEndpoint<DeletePurchaseEndpoint>()
