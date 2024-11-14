@@ -10,19 +10,21 @@ namespace InvenShopfy.API.EndPoints.Identity;
 public class EditUserInformationEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapPut("/edit-user", Handle);
+        => app.MapPut("/edit-user/{userId}", Handle);
 
     private static async Task<IResult> Handle(
         [FromBody] UpdateUserRequest request,
         CloudinaryService cloudinaryService,
-        [FromServices] UserManager<CustomUserRequest> userManager)
+        [FromServices] UserManager<CustomUserRequest> userManager,
+        string userId)
     {
-        var user = await userManager.FindByIdAsync(request.UserId);
+        request.UserId = userId; 
+        var user = await userManager.FindByIdAsync(userId);
         if (user == null)
         {
             return Results.BadRequest("It was not possible to find this user.");
         }
-
+    
         if (user.UserName != request.UserName && request.UserName != null)
         {
             var findByUserName = await userManager.FindByNameAsync(request.UserName);
@@ -31,7 +33,7 @@ public class EditUserInformationEndpoint : IEndPoint
                 return Results.BadRequest("Username is already in use");
             }
         }
-
+        
         if (user.Email != request.Email && request.Email != null)
         {
             var findByEmail = await userManager.FindByEmailAsync(request.Email);
@@ -40,7 +42,7 @@ public class EditUserInformationEndpoint : IEndPoint
                 return Results.BadRequest("Email is already in use");
             }
         }
-
+        
         // Use UserManager to check current password
         if (!string.IsNullOrEmpty(request.PasswordHash))
         {
@@ -49,7 +51,7 @@ public class EditUserInformationEndpoint : IEndPoint
             {
                 return Results.BadRequest("Current password is incorrect");
             }
-
+        
             if (!string.IsNullOrEmpty(request.NewPassword))
             {
                 var changePasswordResult =
@@ -74,7 +76,7 @@ public class EditUserInformationEndpoint : IEndPoint
                 await cloudinaryService.UploadImageAsync(request.ProfilePicture, "invenShopfy/ProfilePictures");
             user.ProfilePicture = uploadResult.SecureUrl.ToString();
         }
-
+        
         var updateUser = await userManager.UpdateAsync(user);
         if (!updateUser.Succeeded)
         {
