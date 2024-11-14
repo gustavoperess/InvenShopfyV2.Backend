@@ -9,7 +9,7 @@ namespace InvenShopfy.API.EndPoints.Tradings.Sales;
 public class GetTotalAmountSalesEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("/totalamount", HandlerAsync)
+        => app.MapGet("/dashboard/totalamount", HandlerAsync)
             .WithName("TotalAmount: Get the total amount for all sales")
             .WithSummary("Get total amount for all sales")
             .WithDescription("Get total amount for all sales")

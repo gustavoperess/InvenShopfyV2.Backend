@@ -13,10 +13,10 @@ public class GetSalesByBestSellerEndpoint : IEndPoint
 {
 
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("/bestseller", HandlerAsync)
-            .WithName("Sales: Get the seller that sold the most in the last month")
-            .WithSummary("Get Best Seller")
-            .WithDescription("Get Best Seller")
+        => app.MapGet("/sales-report", HandlerAsync)
+            .WithName("Sales: get sales report")
+            .WithSummary("Get get the most important information sales information")
+            .WithDescription("Get get the most important information sales information")
             .WithOrder(8)
             .Produces<PagedResponse<List<Core.Models.Tradings.Sales.Sale>?>>();
 

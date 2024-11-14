@@ -12,7 +12,7 @@ namespace InvenShopfy.API.EndPoints.Tradings.Sales;
 public class GetMostSouldProductEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("/productmostsold", HandlerAsync)
+        => app.MapGet("/dashboard/productmostsold", HandlerAsync)
             .WithName("Sales: Get the product that sold the most in the last month")
             .WithSummary("Get Best Product Seller")
             .WithDescription("Get Best Product Seller")
