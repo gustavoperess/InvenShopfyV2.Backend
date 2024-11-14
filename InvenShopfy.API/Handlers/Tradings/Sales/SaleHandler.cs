@@ -1,22 +1,35 @@
 using InvenShopfy.API.Data;
+using InvenShopfy.API.Models;
 using InvenShopfy.Core.Common.Extension;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
 using InvenShopfy.Core.Models.Tradings.Sales;
 using InvenShopfy.Core.Models.Tradings.Sales.Dto;
 using InvenShopfy.Core.Requests.Tradings.Sales;
 using InvenShopfy.Core.Responses;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 
 namespace InvenShopfy.API.Handlers.Tradings.Sales;
-public class SaleHandler(AppDbContext context) : ISalesHandler 
+
+public class SaleHandler : ISalesHandler
 {
+    private readonly AppDbContext _context;
+    private readonly UserManager<CustomUserRequest> _user;
+
+    public SaleHandler(AppDbContext context, [FromServices] UserManager<CustomUserRequest> user)
+    {
+        _context = context;
+        _user = user;
+    }
+
     public async Task<Response<Sale?>> CreateSaleAsync(CreateSalesRequest request)
     {
         try
         {
             var productIds = request.ProductIdPlusQuantity.Keys;
-            var availableSaleProducts = await context.Products.Where(sp => productIds.Contains(sp.Id)).ToListAsync();
+            var availableSaleProducts = await _context.Products.Where(sp => productIds.Contains(sp.Id)).ToListAsync();
             var sale = new Sale
             {
                 CustomerId = request.CustomerId,
@@ -33,15 +46,16 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 ProfitAmount = request.ProfitAmount,
                 Discount = request.Discount
             };
-            
+
             var productResponse = sale.AddProductsToSale(request.ProductIdPlusQuantity, availableSaleProducts);
             if (!productResponse.IsSuccess)
             {
                 return productResponse;
             }
-            await using var transaction = await context.Database.BeginTransactionAsync();
-            await context.Sales.AddAsync(sale);
-            await context.SaveChangesAsync();
+
+            await using var transaction = await _context.Database.BeginTransactionAsync();
+            await _context.Sales.AddAsync(sale);
+            await _context.SaveChangesAsync();
             await transaction.CommitAsync();
 
             return new Response<Sale?>(sale, 201, "Sale created successfully");
@@ -55,32 +69,27 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
     }
 
 
-
     public async Task<Response<Sale?>> UpdateSaleAsync(UpdateSalesRequest request)
     {
         try
         {
-       
-
-            var sale = await context.Sales.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var sale = await _context.Sales.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
 
             if (sale is null)
             {
                 return new Response<Sale?>(null, 404, "sale not found");
             }
-            
+
             sale.CustomerId = request.CustomerId;
             sale.WarehouseId = request.WarehouseId;
             sale.BillerId = request.BillerId;
             sale.ShippingCost = request.ShippingCost;
             sale.StaffNote = request.StafNote;
             sale.SaleNote = request.SaleNote;
-    
-            context.Sales.Update(sale);
-            await context.SaveChangesAsync();
-            return new Response<Sale?>(sale, message: "sale updated successfully");
-            
 
+            _context.Sales.Update(sale);
+            await _context.SaveChangesAsync();
+            return new Response<Sale?>(sale, message: "sale updated successfully");
         }
         catch
         {
@@ -92,48 +101,50 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
     {
         try
         {
-            var sale = await context.Sales.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var sale = await _context.Sales.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
 
             if (sale is null)
             {
                 return new Response<Sale?>(null, 404, "sale not found");
             }
 
-            context.Sales.Remove(sale);
-            await context.SaveChangesAsync();
+            _context.Sales.Remove(sale);
+            await _context.SaveChangesAsync();
             return new Response<Sale?>(sale, message: "sale removed successfully");
-
         }
         catch
         {
             return new Response<Sale?>(null, 500, "It was not possible to delete this sale");
         }
     }
-    
+
     public async Task<PagedResponse<List<SaleList>?>> GetSaleByPeriodAsync(GetAllSalesRequest request)
     {
         try
         {
-            var query = context
+            var query = _context
                 .Sales
                 .AsNoTracking()
                 .Include(s => s.Customer)
                 .Include(s => s.Warehouse)
-                .Include(s => s.Biller)
-                .Where(x => x.UserId == request.UserId)
+                .Join(_context.Users,
+                    ul => ul.BillerId,
+                    userinfo => userinfo.Id,
+                    (sale, userinfo) => new { sale, userinfo })
+                .Where(x => x.sale.UserId == request.UserId)
                 .Select(g => new
                 {
-                    g.Id,
-                    g.SaleDate,
-                    g.ReferenceNumber,
-                    CustomerName = g.Customer.Name,
-                    g.Warehouse.WarehouseName,
-                    g.SaleStatus,
-                    BillerName = g.Biller.Name,
-                    g.TotalQuantitySold,
-                    g.Discount,
-                    g.TotalAmount
-                    
+                    g.sale.Id,
+                    g.sale.SaleDate,
+                    g.sale.ReferenceNumber,
+                    g.sale.SaleStatus,
+                    g.sale.TotalAmount,
+                    g.sale.Warehouse.WarehouseName,
+                    CustomerName = g.sale.Customer.Name,
+                    g.sale.TotalQuantitySold,
+                    g.sale.Discount,
+                    g.sale.TaxAmount,
+                    BillerName = g.userinfo.Name,
                 })
                 .OrderBy(x => x.SaleDate);
 
@@ -143,7 +154,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 .ToListAsync();
 
             var count = await query.CountAsync();
-            
+
             var result = sale.Select(s => new SaleList
             {
                 Id = s.Id,
@@ -151,13 +162,11 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 ReferenceNumber = s.ReferenceNumber,
                 CustomerName = s.CustomerName,
                 WarehouseName = s.WarehouseName,
-                // PaymentStatus = s.PaymentStatus,
                 SaleStatus = s.SaleStatus,
                 BillerName = s.BillerName,
                 TotalQuantitySold = s.TotalQuantitySold,
                 Discount = s.Discount,
                 TotalAmount = s.TotalAmount
-                
             }).ToList();
 
             return new PagedResponse<List<SaleList>?>(result, count, request.PageNumber, request.PageSize);
@@ -167,7 +176,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
             return new PagedResponse<List<SaleList>?>(null, 500, "It was not possible to consult all sale");
         }
     }
-    
+
     public async Task<PagedResponse<List<BestSeller>?>> GetByBestSellerAsync(GetSalesByBestSeller request)
     {
         try
@@ -180,27 +189,30 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
             return new PagedResponse<List<BestSeller>?>(null, 500,
                 "Not possible to determine the start or end date");
         }
-        
-        
+
+        var user = await _user.FindByIdAsync(request.UserId);
+        if (user == null)
+        {
+            return new PagedResponse<List<BestSeller>?>(null, 500,
+                "Not possible to determine the start or end date");
+        }
+
         try
         {
-           
-            var query = context
+            var query = _context
                 .Sales
                 .AsNoTracking()
-                .Include(x => x.Biller)
-                .Where(x => 
-                    x.SaleDate >= request.StartDate && 
+                .Where(x =>
+                    x.SaleDate >= request.StartDate &&
                     x.SaleDate <= request.EndDate &&
                     x.UserId == request.UserId)
-                .GroupBy(x => new { x.BillerId, x.Biller.Name })
+                .GroupBy(x => new { x.BillerId })
                 .Select(g => new
                 {
                     g.Key.BillerId,
-                    BillerName = g.Key.Name,
+                    // BillerName = g.Key.Name,
                     TotalQuantitySold = g.Count(),
                     TotalAmount = g.Sum(x => x.TotalAmount),
-                    
                 }).OrderByDescending(x => x.TotalAmount);
             var count = await query.CountAsync();
 
@@ -212,7 +224,7 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
             var result = sale.Select(s => new BestSeller
             {
                 BillerId = s.BillerId,
-                Name = s.BillerName,
+                // Name = s.BillerName,
                 TotalQuantitySold = s.TotalQuantitySold,
                 TotalAmount = s.TotalAmount,
             }).ToList();
@@ -224,10 +236,9 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
             return new PagedResponse<List<BestSeller>?>(null, 500, "It was not possible to consult all sale");
         }
     }
-    
+
     public async Task<PagedResponse<List<MostSoldProduct>?>> GetMostSoldProductAsync(GetMostSoldProduct request)
     {
-        
         try
         {
             request.StartDate ??= DateOnly.FromDateTime(DateTime.Now).GetFirstDay();
@@ -238,27 +249,25 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
             return new PagedResponse<List<MostSoldProduct>?>(null, 500,
                 "Not possible to determine the start or end date");
         }
-        
+
         try
         {
-
-            var query = context
+            var query = _context
                 .SaleProducts
                 .AsNoTracking()
                 .Include(x => x.Sale)
                 .Include(x => x.Product)
-                .Where(x => 
-                    x.Sale.SaleDate >= request.StartDate && 
+                .Where(x =>
+                    x.Sale.SaleDate >= request.StartDate &&
                     x.Sale.SaleDate <= request.EndDate &&
                     x.Sale.UserId == request.UserId)
-                .GroupBy(x => new { x.ProductId, x.Product.Title, x.Product.ProductCode  })
+                .GroupBy(x => new { x.ProductId, x.Product.Title, x.Product.ProductCode })
                 .Select(g => new
                 {
                     Id = g.Key.ProductId,
                     g.Key.ProductCode,
                     ProductName = g.Key.Title,
                     TotalQuantitySoldPerProduct = g.Sum(x => x.TotalQuantitySoldPerProduct),
-                    
                 }).OrderByDescending(x => x.TotalQuantitySoldPerProduct).Take(5);
 
             var sale = await query.ToListAsync();
@@ -269,7 +278,6 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 ProductCode = s.ProductCode,
                 ProductName = s.ProductName,
                 TotalQuantitySoldPerProduct = s.TotalQuantitySoldPerProduct,
-                
             }).ToList();
 
             return new PagedResponse<List<MostSoldProduct>?>(
@@ -288,33 +296,37 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
     {
         try
         {
-            var totalSalesAmount = await context.Sales.AsNoTracking().SumAsync(x => x.TotalAmount);
+            var totalSalesAmount = await _context.Sales.AsNoTracking().SumAsync(x => x.TotalAmount);
             return new Response<decimal?>(totalSalesAmount, 200, "Total sales amount retrieved successfully");
         }
-        catch 
+        catch
         {
             return new Response<decimal?>(null, 500, "It was not possible to consult the total sale");
         }
-        
     }
-    
-    
-    public async  Task<Response<List<SalePerProduct>?>> GetSalesBySaleIdAsync(GetSalesBySaleIdRequest request)
+
+
+    public async Task<Response<List<SalePerProduct>?>> GetSalesBySaleIdAsync(GetSalesBySaleIdRequest request)
     {
         try
         {
-            var query = context
+            var query = _context
                 .SaleProducts
                 .AsNoTracking()
                 .Include(x => x.Sale)
                 .Include(x => x.Product)
-                .Where(x => x.Sale.UserId == request.UserId && x.SaleId == request.SaleId)
+                .Join(_context.Users,
+                    ul => ul.Sale.BillerId,
+                    userInfo => userInfo.Id,
+                    (sale, userInfo) => new { sale, userInfo })
+                .Where(x => x.sale.Sale.UserId == request.UserId && x.sale.SaleId == request.SaleId)
                 .GroupBy(x => new
                 {
-                    x.ProductId, x.Product.Title, x.ReferenceNumber, x.TotalPricePerProduct, x.Sale.Discount, 
-                    x.TotalQuantitySoldPerProduct, x.Product.Unit.ShortName, x.Sale.TotalAmount, x.Product.Price, x.Sale.ShippingCost,
-                    x.Sale.SaleNote, x.Sale.StaffNote, x.Sale.Biller.Name, x.Sale.Biller.Email
-                    
+                    x.sale.ProductId, x.sale.Product.Title, x.sale.ReferenceNumber, x.sale.TotalPricePerProduct,
+                    x.sale.Sale.Discount,
+                    x.sale.TotalQuantitySoldPerProduct, x.sale.Product.Unit.ShortName, x.sale.Sale.TotalAmount,
+                    x.sale.Product.Price, x.sale.Sale.ShippingCost,
+                    x.sale.Sale.SaleNote, x.sale.Sale.StaffNote, x.userInfo.Name, x.userInfo.Email
                 })
                 .Select(g => new
                 {
@@ -332,7 +344,6 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                     g.Key.StaffNote,
                     BillerName = g.Key.Name,
                     BillerEmail = g.Key.Email
-                    
                 });
 
             var sale = await query.ToListAsync();
@@ -353,35 +364,32 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                 StaffNote = s.StaffNote,
                 BillerName = s.BillerName,
                 BillerEmail = s.BillerEmail
-                
-                
             }).ToList();
 
             if (result.Count == 0)
             {
                 return new Response<List<SalePerProduct>?>(result, 400, "No item found with this Id");
-              
             }
+
             return new Response<List<SalePerProduct>?>(result, 200, "Items retrived Successfully");
         }
         catch
         {
             return new Response<List<SalePerProduct>?>(null, 500, "It was not possible to consult all sale");
         }
-        
     }
-    
-    
-     public async  Task<Response<List<SallerDashboard>?>> GetSaleStatusDashboardAsync(GetAllSalesRequest request)
+
+
+    public async Task<Response<List<SallerDashboard>?>> GetSaleStatusDashboardAsync(GetAllSalesRequest request)
     {
         try
         {
-            var query = context
+            var query = _context
                 .Sales
                 .AsNoTracking()
                 .Where(x => x.UserId == request.UserId)
                 .Select(x => new SallerDashboard
-                { 
+                {
                     Id = x.Id,
                     SaleDate = x.SaleDate,
                     ReferenceNumber = x.ReferenceNumber,
@@ -391,37 +399,35 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
                     TotalQuantitySold = x.TotalQuantitySold
                 })
                 .OrderByDescending(x => x.SaleDate).Take(10);
-            
-            var sale = await query.ToListAsync(); 
+
+            var sale = await query.ToListAsync();
             return new Response<List<SallerDashboard>?>(sale, 201, "Sales returned successfully");
         }
-        catch 
+        catch
         {
             return new Response<List<SallerDashboard>?>(null, 500, "It was not possible to consult all Sales");
         }
-        
     }
 
     public async Task<Response<decimal>> GetTotalProfitDashboardAsync()
     {
         try
         {
-            var query = await context.Sales.AsNoTracking().SumAsync(x => x.ProfitAmount);
+            var query = await _context.Sales.AsNoTracking().SumAsync(x => x.ProfitAmount);
             return new Response<decimal>(query, 200, "Total Gross profit returned succesfully");
         }
-        catch 
+        catch
         {
             return new Response<decimal>(0, 500, "It was not possible to get the total profit amount");
         }
-
-
     }
-    
+
     public async Task<Response<Sale?>> GetSalesBySellerAsync(GetSalesBySeller request)
     {
         try
         {
-            var sale = await context.Sales.AsNoTracking().FirstOrDefaultAsync(x => x.BillerId == request.BillerId && x.UserId == request.UserId);
+            var sale = await _context.Sales.AsNoTracking()
+                .FirstOrDefaultAsync(x => x.BillerId == request.BillerId && x.UserId == request.UserId);
 
             if (sale is null)
             {
@@ -429,7 +435,6 @@ public class SaleHandler(AppDbContext context) : ISalesHandler
             }
 
             return new Response<Sale?>(sale);
-
         }
         catch
         {

@@ -17,7 +17,6 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
         public long WarehouseId { get; set; }
         public Warehouse.Warehouse Warehouse { get; init; } = null!;
         public long BillerId { get; set; }
-        public Biller Biller { get; init; } = null!;
         public decimal ShippingCost { get; set; } 
         public string SaleStatus { get; init; } = string.Empty; 
         public string SaleNote { get; set; } = string.Empty;

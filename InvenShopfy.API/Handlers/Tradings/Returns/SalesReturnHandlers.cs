@@ -64,7 +64,7 @@ public class SalesReturnHandlers(AppDbContext context) : ISalesReturnHandler
                     TotalAmount = g.TotalAmount,
                     WarehouseName = g.Warehouse.WarehouseName,
                     CustomerName = g.Customer.Name,
-                    BillerName = g.Biller.Name,
+                    // BillerName = g.Biller.Name,
                     ReferenceNumber = g.ReferenceNumber,
                 }).OrderBy(x => x.CustomerName)
                 .ToListAsync();

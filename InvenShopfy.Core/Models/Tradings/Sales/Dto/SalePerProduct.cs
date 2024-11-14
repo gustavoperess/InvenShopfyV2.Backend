@@ -14,7 +14,7 @@ public sealed class SalePerProduct
     public decimal Discount { get; set; }
     public string? StaffNote { get; set; }
     public string? SaleNote { get; set; }
-    public string BillerName { get; set; } = null!;
-    public string BillerEmail { get; set; } = null!;
-    
+    public string? BillerName { get; set; }
+    public string? BillerEmail { get; set; }
+
 }
