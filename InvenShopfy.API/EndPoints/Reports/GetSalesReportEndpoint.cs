@@ -22,6 +22,7 @@ public class GetSalesReportEndpoint : IEndPoint
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,
         IReportHandler handler,
+        [FromQuery]string? reportShortCut,
         [FromQuery]DateOnly? startDate=null,
         [FromQuery]DateOnly? endDate=null,
         [FromQuery]int pageNumber = Configuration.DefaultPageNumber,
@@ -30,6 +31,7 @@ public class GetSalesReportEndpoint : IEndPoint
         var request = new GetSalesReportRequest
         {
             UserId = user.Identity?.Name ?? string.Empty,
+            ReportShortCut = reportShortCut, 
             PageNumber = pageNumber,
             PageSize = pageSize,
             StartDate = startDate,

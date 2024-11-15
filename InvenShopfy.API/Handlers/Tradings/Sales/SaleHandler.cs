@@ -183,8 +183,8 @@ public class SaleHandler : ISalesHandler
     {
         try
         {
-            request.StartDate ??= DateOnly.FromDateTime(DateTime.Now).GetFirstDay();
-            request.EndDate ??= DateOnly.FromDateTime(DateTime.Now).GetLastDay();
+            request.StartDate ??= DateOnly.FromDateTime(DateTime.Now).GetFirstDayOfMonth();
+            request.EndDate ??= DateOnly.FromDateTime(DateTime.Now).GetLastDayOfMonth();
         }
         catch
         {

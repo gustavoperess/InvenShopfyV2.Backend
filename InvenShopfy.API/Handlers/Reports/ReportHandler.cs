@@ -15,18 +15,43 @@ public class ReportHandler(AppDbContext context) : IReportHandler
     {
         try
         {
-            request.StartDate ??= DateOnly.FromDateTime(DateTime.Now).GetFirstDay();
-            request.EndDate ??= DateOnly.FromDateTime(DateTime.Now).GetLastDay();
+            if (request.ReportShortCut != null && request.StartDate == null && request.EndDate == null)
+            {
+                if (request.ReportShortCut == "monthly")
+                {
+                    request.StartDate = DateOnly.FromDateTime(DateTime.Now).GetFirstDayOfMonth();
+                    request.EndDate = DateOnly.FromDateTime(DateTime.Now).GetLastDayOfMonth();
+                } 
+                else if (request.ReportShortCut == "weekly")
+                {
+                    request.StartDate = DateOnly.FromDateTime(DateTime.Now).GetFirstDayOfWeek();
+                    request.EndDate = DateOnly.FromDateTime(DateTime.Now);
+                }
+                else if (request.ReportShortCut == "daily")
+                {
+                    request.StartDate = DateOnly.FromDateTime(DateTime.Now);
+                    request.EndDate = DateOnly.FromDateTime(DateTime.Now);
+                }
+                else if (request.ReportShortCut == "yearly")
+                {
+                    request.StartDate = DateOnly.FromDateTime(DateTime.Now).GetFirstDayOfYear();
+                    request.EndDate = DateOnly.FromDateTime(DateTime.Now).GetLastDayOfMonth();
+                }
+            }
+            else
+            {
+                request.StartDate ??= DateOnly.FromDateTime(DateTime.Now).GetFirstDayOfYear();
+                request.EndDate ??= DateOnly.FromDateTime(DateTime.Now).GetLastDayOfMonth();
+            }
+            
         }
         catch
         {
             return new PagedResponse<List<SaleReport>?>(null, 500, "Not possible to determine the start or end date");
         }
-        Console.WriteLine("THIS FUNCTION WAS CALLED");
-        Console.WriteLine(request.StartDate);
-        Console.WriteLine(request.EndDate);
         try
         {
+            
             var query = context
                 .Sales
                 .AsNoTracking()
@@ -49,7 +74,6 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                     TotalAmount = g.Sum(x => x.sale.TotalAmount),
                 }).OrderByDescending(x => x.TotalAmount);
             var count = await query.CountAsync();
-
             var sale = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
