@@ -32,7 +32,7 @@ public class GetMostSouldProductEndpoint : IEndPoint
             StartDate = startDate,
             EndDate = endDate
         };
-
+        
         var result = await handler.GetMostSoldProductAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)

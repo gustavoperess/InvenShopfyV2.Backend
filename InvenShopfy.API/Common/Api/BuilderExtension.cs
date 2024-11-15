@@ -16,7 +16,7 @@ using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Expenses;
 using InvenShopfy.Core.Handlers.People;
 using InvenShopfy.Core.Handlers.Product;
-using InvenShopfy.Core.Handlers.Reports.Sales;
+using InvenShopfy.Core.Handlers.Reports;
 using InvenShopfy.Core.Handlers.Tradings.Purchase;
 using InvenShopfy.Core.Handlers.Tradings.Returns.PurchaseReturn;
 using InvenShopfy.Core.Handlers.Tradings.Returns.SalesReturn;
@@ -156,7 +156,7 @@ public static class BuilderExtension
         builder.Services.AddTransient<ISalesReturnHandler, SalesReturnHandlers>(); 
         builder.Services.AddTransient<IPurchaseReturnHandler, PurchaseReturnHandlers>(); 
         builder.Services.AddTransient<ITransferHandler, TransferHandler>(); // new
-        builder.Services.AddTransient<ISalesReportHandler, SalesReportHandler>();
+        builder.Services.AddTransient<IReportHandler, ReportHandler>();
         builder.Services.AddTransient<CloudinaryService>();
        
       

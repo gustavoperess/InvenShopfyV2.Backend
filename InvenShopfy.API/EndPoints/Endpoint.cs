@@ -9,7 +9,7 @@ using InvenShopfy.API.EndPoints.Products.Brands;
 using InvenShopfy.API.EndPoints.Products.Categories;
 using InvenShopfy.API.EndPoints.Products.Product;
 using InvenShopfy.API.EndPoints.Products.Units;
-using InvenShopfy.API.EndPoints.Reports.Sales;
+using InvenShopfy.API.EndPoints.Reports;
 using InvenShopfy.API.EndPoints.Tradings.Purchase.Add;
 using InvenShopfy.API.EndPoints.Tradings.Returns.PurchaseReturn;
 using InvenShopfy.API.EndPoints.Tradings.Returns.SalesReturn;
@@ -177,20 +177,18 @@ public static class Endpoint
             .MapEndpoint<GetSalesBySalesIdEndpoint>()
             .MapEndpoint<GetTotalProfitDashboardEndpoint>()
             .MapEndpoint<GetTotalAmountSalesEndpoint>()
-            .MapEndpoint<GetSalesByBestSellerEndpoint>()
             .MapEndpoint<GetMostSouldProductEndpoint>();
     
         
         
-        // SalesReport GROUP
+        // Reports GROUP
         var salesReportGroup = endpoints.MapGroup("v2")
-            .WithTags("SaleReport");
+            .WithTags("Report");
 
-        salesReportGroup.MapGroup("SalesReport")
-            .WithTags("SalesReport")
+        salesReportGroup.MapGroup("Report")
+            .WithTags("Report")
             .RequireAuthorization()
-            .MapEndpoint<GetSalesReportByDateEndpoint>()
-            .MapEndpoint<GetSalesReportByWarehouseNameEndpoint>();
+            .MapEndpoint<GetSalesReportEndpoint>();
         
         
         // SalesReturn GROUP

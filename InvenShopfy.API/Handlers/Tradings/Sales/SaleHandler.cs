@@ -177,65 +177,7 @@ public class SaleHandler : ISalesHandler
         }
     }
 
-    public async Task<PagedResponse<List<BestSeller>?>> GetByBestSellerAsync(GetSalesByBestSeller request)
-    {
-        try
-        {
-            request.StartDate ??= DateOnly.FromDateTime(DateTime.Now).GetFirstDay();
-            request.EndDate ??= DateOnly.FromDateTime(DateTime.Now).GetLastDay();
-        }
-        catch
-        {
-            return new PagedResponse<List<BestSeller>?>(null, 500, "Not possible to determine the start or end date");
-        }
-        
-        try
-        {
-            var query = _context
-                .Sales
-                .AsNoTracking()
-                .Where(x =>
-                    x.SaleDate >= request.StartDate &&
-                    x.SaleDate <= request.EndDate &&
-                    x.UserId == request.UserId)
-                .Join(_context.Users,
-                    ul => ul.BillerId,
-                    ur => ur.Id,
-                    (sale, user) => new {user, sale})
-                .GroupBy(x => new { x.sale.BillerId, x.user.Name })
-                .Select(g => new
-                {
-                    g.Key.BillerId,
-                    BillerName = g.Key.Name,
-                    TotalQuantitySold = g.Count(),
-                    TotalProfit = g.Sum(x => x.sale.ProfitAmount),
-                    TotalTaxPaid = g.Sum(x => x.sale.TaxAmount),
-                    TotalAmount = g.Sum(x => x.sale.TotalAmount),
-                }).OrderByDescending(x => x.TotalAmount);
-            var count = await query.CountAsync();
-
-            var sale = await query
-                .Skip((request.PageNumber - 1) * request.PageSize)
-                .Take(request.PageSize)
-                .ToListAsync();
-
-            var result = sale.Select(s => new BestSeller
-            {
-                BillerId = s.BillerId,
-                Name = s.BillerName,
-                TotalProfit = s.TotalProfit,
-                TotalTaxPaid = s.TotalTaxPaid,
-                TotalQuantitySold = s.TotalQuantitySold,
-                TotalAmount = s.TotalAmount,
-            }).ToList();
-
-            return new PagedResponse<List<BestSeller>?>(result, count, request.PageNumber, request.PageSize);
-        }
-        catch
-        {
-            return new PagedResponse<List<BestSeller>?>(null, 500, "It was not possible to consult all sale");
-        }
-    }
+    
 
     public async Task<PagedResponse<List<MostSoldProduct>?>> GetMostSoldProductAsync(GetMostSoldProduct request)
     {
@@ -249,7 +191,7 @@ public class SaleHandler : ISalesHandler
             return new PagedResponse<List<MostSoldProduct>?>(null, 500,
                 "Not possible to determine the start or end date");
         }
-
+        
         try
         {
             var query = _context
@@ -421,24 +363,5 @@ public class SaleHandler : ISalesHandler
             return new Response<decimal>(0, 500, "It was not possible to get the total profit amount");
         }
     }
-
-    public async Task<Response<Sale?>> GetSalesBySellerAsync(GetSalesBySeller request)
-    {
-        try
-        {
-            var sale = await _context.Sales.AsNoTracking()
-                .FirstOrDefaultAsync(x => x.BillerId == request.BillerId && x.UserId == request.UserId);
-
-            if (sale is null)
-            {
-                return new Response<Sale?>(null, 404, "sale not found");
-            }
-
-            return new Response<Sale?>(sale);
-        }
-        catch
-        {
-            return new Response<Sale?>(null, 500, "It was not possible to find this sale");
-        }
-    }
+    
 }
