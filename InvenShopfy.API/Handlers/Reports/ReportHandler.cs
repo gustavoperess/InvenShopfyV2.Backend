@@ -15,24 +15,24 @@ public class ReportHandler(AppDbContext context) : IReportHandler
     {
         try
         {
-            if (request.ReportShortCut != null && request.StartDate == null && request.EndDate == null)
+            if (request.DateRange != null && request.StartDate == null && request.EndDate == null)
             {
-                if (request.ReportShortCut == "monthly")
+                if (request.DateRange == "Monthly")
                 {
                     request.StartDate = DateOnly.FromDateTime(DateTime.Now).GetFirstDayOfMonth();
                     request.EndDate = DateOnly.FromDateTime(DateTime.Now).GetLastDayOfMonth();
                 } 
-                else if (request.ReportShortCut == "weekly")
+                else if (request.DateRange == "Weekly")
                 {
                     request.StartDate = DateOnly.FromDateTime(DateTime.Now).GetFirstDayOfWeek();
                     request.EndDate = DateOnly.FromDateTime(DateTime.Now);
                 }
-                else if (request.ReportShortCut == "daily")
+                else if (request.DateRange == "Daily")
                 {
                     request.StartDate = DateOnly.FromDateTime(DateTime.Now);
                     request.EndDate = DateOnly.FromDateTime(DateTime.Now);
                 }
-                else if (request.ReportShortCut == "yearly")
+                else if (request.DateRange == "Yearly")
                 {
                     request.StartDate = DateOnly.FromDateTime(DateTime.Now).GetFirstDayOfYear();
                     request.EndDate = DateOnly.FromDateTime(DateTime.Now).GetLastDayOfMonth();
