@@ -1,10 +1,13 @@
+using InvenShopfy.API.Common;
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Common.Extension;
 using InvenShopfy.Core.Handlers.Reports;
 using InvenShopfy.Core.Models.Reports;
 using InvenShopfy.Core.Requests.Reports;
 using InvenShopfy.Core.Responses;
+
 using Microsoft.EntityFrameworkCore;
+
 
 namespace InvenShopfy.API.Handlers.Reports;
 
@@ -15,35 +18,18 @@ public class ReportHandler(AppDbContext context) : IReportHandler
     {
         try
         {
+            var datetimeHandler = new DateTimeHandler();
             if (request.DateRange != null && request.StartDate == null && request.EndDate == null)
             {
-                if (request.DateRange == "Monthly")
-                {
-                    request.StartDate = DateOnly.FromDateTime(DateTime.Now).GetFirstDayOfMonth();
-                    request.EndDate = DateOnly.FromDateTime(DateTime.Now).GetLastDayOfMonth();
-                } 
-                else if (request.DateRange == "Weekly")
-                {
-                    request.StartDate = DateOnly.FromDateTime(DateTime.Now).GetFirstDayOfWeek();
-                    request.EndDate = DateOnly.FromDateTime(DateTime.Now);
-                }
-                else if (request.DateRange == "Daily")
-                {
-                    request.StartDate = DateOnly.FromDateTime(DateTime.Now);
-                    request.EndDate = DateOnly.FromDateTime(DateTime.Now);
-                }
-                else if (request.DateRange == "Yearly")
-                {
-                    request.StartDate = DateOnly.FromDateTime(DateTime.Now).GetFirstDayOfYear();
-                    request.EndDate = DateOnly.FromDateTime(DateTime.Now).GetLastDayOfMonth();
-                }
-            }
+                (request.StartDate, request.EndDate) = datetimeHandler.GetDateRange(request.DateRange);
+                
+            }  
             else
             {
                 request.StartDate ??= DateOnly.FromDateTime(DateTime.Now).GetFirstDayOfYear();
                 request.EndDate ??= DateOnly.FromDateTime(DateTime.Now).GetLastDayOfMonth();
             }
-            
+
         }
         catch
         {
@@ -84,6 +70,8 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                 BillerId = s.BillerId,
                 Name = s.BillerName,
                 TotalProfit = s.TotalProfit,
+                StartDate = request.StartDate,
+                EndDate = request.EndDate,
                 TotalTaxPaid = s.TotalTaxPaid,
                 TotalQuantitySold = s.TotalQuantitySold,
                 TotalAmount = s.TotalAmount,
