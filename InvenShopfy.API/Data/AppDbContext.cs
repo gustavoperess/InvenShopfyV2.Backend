@@ -36,15 +36,13 @@ namespace InvenShopfy.API.Data;
         public DbSet<Supplier> Suppliers { get; set; } = null!;
         public DbSet<AddPurchase> Purchases { get; set; } = null!;
         public DbSet<Warehouse> Warehouses { get; set; } = null!;
-        
         public DbSet<WarehouseProduct> WarehousesProducts { get; set; } = null!;
         public DbSet<Sale> Sales { get; set; } = null!;
         public DbSet<SaleProduct> SaleProducts { get; set; } = null!;
         public DbSet<Transfer> Transfers { get; set; } = null!;
         public DbSet<PurchaseReturn> PurchaseReturns { get; set; } = null!;
-        
         public DbSet<PurchaseProduct> PurchaseProducts { get; set; } = null!;
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

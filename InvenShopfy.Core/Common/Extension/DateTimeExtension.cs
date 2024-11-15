@@ -16,4 +16,5 @@ public static class DateTimeExtension
     // Get year report
     public static DateOnly GetFirstDayOfYear(this DateOnly date, int? year = null, int? month = null, int? day = null)
         => new DateOnly(year ?? date.Year, month ?? date.Month, day ?? date.Day).AddYears(-1);
+    
 }

@@ -8,15 +8,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace InvenShopfy.API.EndPoints.Reports;
 
-public class GetSalesReportEndpoint : IEndPoint
+public class GetPurchaseReportEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("/sales-report", HandlerAsync)
-            .WithName("Reports: Get Sales report")
-            .WithSummary("Get returns the sale report with the most import information")
-            .WithDescription("Get returns the sale report with the most import information")
-            .WithOrder(1)
-            .Produces<PagedResponse<List<Core.Models.Reports.SaleReport>?>>();
+        => app.MapGet("/purchase-report", HandlerAsync)
+            .WithName("Reports: Get Purchase report")
+            .WithSummary("Get returns the Purchase report with the most import information")
+            .WithDescription("Get returns the Purchase report with the most import information")
+            .WithOrder(2)
+            .Produces<PagedResponse<List<Core.Models.Reports.PurchaseReport>?>>();
 
 
     private static async Task<IResult> HandlerAsync(
@@ -38,7 +38,7 @@ public class GetSalesReportEndpoint : IEndPoint
             EndDate = endDate
         };
 
-        var result = await handler.GetSalesReportAsync(request);
+        var result = await handler.GetPurchaseReportAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

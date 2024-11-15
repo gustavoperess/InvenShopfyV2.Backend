@@ -1,6 +1,6 @@
 namespace InvenShopfy.Core.Requests.Reports;
 
-public class GetSalesReportRequest : PagedRequest
+public class GetReportRequest : PagedRequest
 {
     public string? DateRange { get; set; }
     public DateOnly? StartDate { get; set; }

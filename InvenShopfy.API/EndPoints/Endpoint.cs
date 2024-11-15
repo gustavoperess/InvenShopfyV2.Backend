@@ -19,7 +19,6 @@ using InvenShopfy.API.EndPoints.Warehouses;
 using InvenShopfy.API.Models;
 
 
-
 namespace InvenShopfy.API.EndPoints;
 
 public static class Endpoint
@@ -71,11 +70,11 @@ public static class Endpoint
             .MapEndpoint<GetAllCategoriesEndpoint>()
             .MapEndpoint<DeleteCategoryEndpoint>()
             .MapEndpoint<GetCategoryByIdEndpoint>();
-        
+
         // Expense Group
         var expenseGroup = endpoints.MapGroup("v2")
             .WithTags("Expenses");
-        
+
         expenseGroup.MapGroup("Expenses")
             .WithTags("Expenses - expenses")
             .RequireAuthorization()
@@ -95,11 +94,11 @@ public static class Endpoint
             .MapEndpoint<GetAllExpenseCategoriesEndpoint>()
             .MapEndpoint<DeleteExpenseCategoryEndpoint>()
             .MapEndpoint<GetExpenseCategoryByIdEndpoint>();
-        
+
         // People Group
         var peopleGroup = endpoints.MapGroup("v2/people")
             .WithTags("People");
-        
+
         peopleGroup.MapGroup("Biller")
             .WithTags("People - biller")
             .RequireAuthorization()
@@ -109,7 +108,7 @@ public static class Endpoint
             .MapEndpoint<DeleteBillerEndpoint>()
             .MapEndpoint<GetBillerNameEndpoint>()
             .MapEndpoint<GetBillerByIdEndpoint>();
-        
+
         peopleGroup.MapGroup("Customer")
             .WithTags("People - customer")
             .RequireAuthorization()
@@ -129,11 +128,11 @@ public static class Endpoint
             .MapEndpoint<GetAllSuppliersEndpoint>()
             .MapEndpoint<DeleteSupplierEndpoint>()
             .MapEndpoint<GetSupplierByIdEndpoint>();
-        
+
         // WAREHOUSE GROUP
         var warehouseGroup = endpoints.MapGroup("v2")
             .WithTags("Warehouse");
-        
+
         warehouseGroup.MapGroup("Warehouse")
             .WithTags("Warehouse")
             .RequireAuthorization()
@@ -146,11 +145,11 @@ public static class Endpoint
             .MapEndpoint<GetWarehouseNameEndpoint>()
             .MapEndpoint<GetTotalQuantityByWarehouseAndProductIdEndpoint>()
             .MapEndpoint<GetWarehouseByIdEndpoint>();
-        
+
         // Purchase GROUP
         var purchaseGroup = endpoints.MapGroup("v2")
             .WithTags("Purchase");
-        
+
         purchaseGroup.MapGroup("Purchase")
             .WithTags("Purchase")
             .RequireAuthorization()
@@ -161,11 +160,11 @@ public static class Endpoint
             .MapEndpoint<DeletePurchaseEndpoint>()
             .MapEndpoint<GetPurchaseDashboardEndpoint>()
             .MapEndpoint<GetPurchaseByIdEndpoint>();
-        
+
         // Sales GROUP
         var salesGroup = endpoints.MapGroup("v2")
             .WithTags("Sale");
-        
+
         salesGroup.MapGroup("Sale")
             .WithTags("Sale")
             .RequireAuthorization()
@@ -178,23 +177,24 @@ public static class Endpoint
             .MapEndpoint<GetTotalProfitDashboardEndpoint>()
             .MapEndpoint<GetTotalAmountSalesEndpoint>()
             .MapEndpoint<GetMostSouldProductEndpoint>();
-    
-        
-        
+
+
         // Reports GROUP
-        var salesReportGroup = endpoints.MapGroup("v2")
+        var reportGroup = endpoints.MapGroup("v2")
             .WithTags("Report");
 
-        salesReportGroup.MapGroup("Report")
+        reportGroup.MapGroup("Report")
             .WithTags("Report")
             .RequireAuthorization()
-            .MapEndpoint<GetSalesReportEndpoint>();
-        
-        
+            .MapEndpoint<GetSalesReportEndpoint>()
+            .MapEndpoint<GetProductReportEndpoint>()
+            .MapEndpoint<GetPurchaseReportEndpoint>();
+
+
         // SalesReturn GROUP
         var salesReturnGroup = endpoints.MapGroup("v2")
             .WithTags("SalesReturn");
-        
+
         salesReturnGroup.MapGroup("SalesReturn")
             .WithTags("SalesReturn")
             .RequireAuthorization()
@@ -204,8 +204,8 @@ public static class Endpoint
             .MapEndpoint<GetSalesReturnByReturnNumberEndpoint>()
             .MapEndpoint<DeleteSalesReturnEndpoint>()
             .MapEndpoint<GetAllSalesReturnEndoint>();
-        
-        
+
+
         // PurchaseReturn GROUP
         var purchaseReturnGroup = endpoints.MapGroup("v2")
             .WithTags("PurchasesReturn");
@@ -218,7 +218,7 @@ public static class Endpoint
             .MapEndpoint<GetPurchaseReturnTotalAmountEndpoint>()
             .MapEndpoint<DeletePurchaseReturnEndpoint>()
             .MapEndpoint<GetPurchaseByReturnNumberEndpoint>();
-        
+
         // PurchaseReturn GROUP
         var transferGroup = endpoints.MapGroup("v2")
             .WithTags("Transfer");
@@ -228,7 +228,7 @@ public static class Endpoint
             .RequireAuthorization()
             .MapEndpoint<GetAllTransfersEndpoint>()
             .MapEndpoint<CreateTransferEndpoint>();
-        
+
         // Management Group
         endpoints.MapGroup("v2/identity")
             .WithTags("Identity")
@@ -247,7 +247,7 @@ public static class Endpoint
             .MapEndpoint<GetUserDashboardEndpoint>()
             .MapEndpoint<GetCurrentUserIdentityEndpoint>()
             .MapEndpoint<CreateRoleIdentityEndpoint>()
-            .MapEndpoint<LoginEndpointEndpoint>(); 
+            .MapEndpoint<LoginEndpointEndpoint>();
     }
 
     private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app)
