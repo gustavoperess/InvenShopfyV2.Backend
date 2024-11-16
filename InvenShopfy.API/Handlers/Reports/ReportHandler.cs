@@ -170,7 +170,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                     {
                         ProductId = product.Id,
                         ProductName = product.Title,
-                        ProductCode = product.ProductCode,
+                        product.ProductCode,
                         product.StockQuantity,
                         PurchaseCount = purchaseProducts.Sum(po => (int?)po.TotalQuantityBoughtPerProduct) ?? 0,
                         TaxQuantity = purchaseProducts.Sum(po => (decimal?)po.TotalInTaxPaidPerProduct) ?? 0,
@@ -180,7 +180,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                 .SelectMany(
                     joined => context.SaleProducts
                         .Where(sp => sp.ProductId == joined.ProductId)
-                        .DefaultIfEmpty(), 
+                        .DefaultIfEmpty(),
                     (joined, saleProduct) => new
                     {
                         joined.ProductId,
@@ -195,7 +195,10 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                     }
                 )
                 .GroupBy(
-                    g => new { g.ProductId, g.StockQuantity, g.TaxQuantity, g.PurchaseCount, g.TotalAmountPaid, g.ProductCode }
+                    g => new
+                    {
+                        g.ProductId, g.StockQuantity, g.TaxQuantity, g.PurchaseCount, g.TotalAmountPaid, g.ProductCode
+                    }
                 )
                 .Select(group => new
                 {
@@ -237,8 +240,8 @@ public class ReportHandler(AppDbContext context) : IReportHandler
             return new PagedResponse<List<ProductReport>?>(null, 500, "It was not possible to consult product report");
         }
     }
-    
-     public async Task<PagedResponse<List<CustomerReport>?>> GetCustomerReportAsync(GetReportRequest request)
+
+    public async Task<PagedResponse<List<CustomerReport>?>> GetCustomerReportAsync(GetReportRequest request)
     {
         try
         {
@@ -269,7 +272,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                     x.SaleDate <= request.EndDate &&
                     x.UserId == request.UserId)
                 .Include(x => x.Customer)
-                .GroupBy(x => new { x.Customer.Name , x.CustomerId, x.Customer.RewardPoint})
+                .GroupBy(x => new { x.Customer.Name, x.CustomerId, x.Customer.RewardPoint })
                 .Select(g => new
                 {
                     g.Key.Name,
@@ -282,7 +285,6 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                     TotalProfit = g.Sum(x => x.ProfitAmount),
                     TotalPaidInTaxes = g.Sum(x => x.TaxAmount),
                     LastPurchase = g.Max(x => x.SaleDate)
-                    
                 }).OrderByDescending(x => x.NumberOfPurchases);
             var count = await query.CountAsync();
             var sale = await query
@@ -311,8 +313,8 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                 "It was not possible to consult purchase report");
         }
     }
-     
-     public async Task<PagedResponse<List<ExpenseReport>?>> GetExpenseReportAsync(GetReportRequest request)
+
+    public async Task<PagedResponse<List<ExpenseReport>?>> GetExpenseReportAsync(GetReportRequest request)
     {
         try
         {
@@ -343,7 +345,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                     x.Date <= request.EndDate &&
                     x.UserId == request.UserId)
                 .Include(x => x.ExpenseCategory)
-                .GroupBy(x => new { x.ExpenseCategoryId, x.ExpenseCategory.MainCategory})
+                .GroupBy(x => new { x.ExpenseCategoryId, x.ExpenseCategory.MainCategory })
                 .Select(g => new
                 {
                     Name = g.Key.MainCategory,
@@ -351,7 +353,6 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                     NumberOfTimesUsed = g.Count(),
                     TotalCost = g.Sum(x => x.ExpenseCost),
                     ShippingCost = g.Sum(x => x.ShippingCost),
-                    
                 }).OrderByDescending(x => x.TotalCost);
             var count = await query.CountAsync();
             var sale = await query
@@ -375,5 +376,93 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                 "It was not possible to consult purchase report");
         }
     }
-}
 
+
+    public async Task<PagedResponse<List<WarehouseReport>?>> GetWarehouseReportAsync(GetReportRequest request)
+    {
+        try
+        {
+            var query = context.Warehouses
+                .AsNoTracking()
+                .GroupJoin(
+                    context.Purchases,
+                    p => p.Id,
+                    pp => pp.WarehouseId,
+                    (warehouse, purchases) => new
+                    {
+                        warehouse.Id,
+                        warehouse.WarehouseName,
+                        StockQuantity = warehouse.QuantityOfItems,
+                        TotalAmountBought = purchases.Sum(po => (decimal?)po.TotalAmountBought) ?? 0,
+                        TotalQtyOfProductsBought = purchases.Sum(po => (decimal?)po.TotalNumberOfProductsBought) ?? 0
+                    }
+                )
+                .SelectMany(
+                    joined => context.Sales
+                        .Where(sp => sp.WarehouseId == joined.Id)
+                        .DefaultIfEmpty(),
+                    (joined, sale) => new
+                    {
+                        joined.Id,
+                        joined.WarehouseName,
+                        joined.StockQuantity,
+                        joined.TotalAmountBought,
+                        joined.TotalQtyOfProductsBought,
+                        TotalPaidInShipping = sale != null ? sale.ShippingCost : 0,
+                        TotalAmountSold = sale != null ? sale.TotalAmount: 0,
+                        TotalProfit = sale != null ? sale.ProfitAmount: 0,
+                        TotalNumberOfSales = sale != null ? sale.TotalQuantitySold: 0,
+                    
+                    }
+                )
+                .GroupBy(
+                    g => new
+                    {
+                        g.Id, g.TotalAmountBought,g.TotalQtyOfProductsBought, g.WarehouseName, g.StockQuantity,
+                    }
+                )
+                .Select(group => new
+                {
+                    group.Key.Id,
+                    group.Key.TotalAmountBought,
+                    group.Key.WarehouseName,
+                    group.Key.TotalQtyOfProductsBought,
+                    group.Key.StockQuantity,
+                    TotalPaidInShipping = group.Sum(x => x.TotalPaidInShipping),
+                    TotalAmountSold = group.Sum(x => x.TotalAmountSold),
+                    TotalProfit = group.Sum(x => x.TotalProfit),
+                    TotalQtyOfProductsSold = group.Sum(x => x.TotalNumberOfSales),
+                    TotalNumberOfSales = group.Select(x => x.TotalNumberOfSales).Count(),
+                    
+                })
+                .OrderByDescending(x => x.TotalAmountBought);
+
+            var count = await query.CountAsync();
+            var sale = await query
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToListAsync();
+
+            var result = sale.Select(s => new WarehouseReport
+            {
+               Id = s.Id,
+               TotalAmountBought = s.TotalAmountBought,
+               WarehouseName = s.WarehouseName,
+               TotalNumbersOfProductsBought = s.TotalQtyOfProductsBought,
+               StockQuantity = s.StockQuantity,
+               TotalPaidInShipping = s.TotalPaidInShipping,
+               TotalAmountSold = s.TotalAmountSold,
+               TotalProfit = s.TotalProfit,
+               TotalNumberOfSales = s.TotalNumberOfSales,
+               TotalQtyOfProductsSold = s.TotalQtyOfProductsSold
+            }).ToList();
+
+            return new PagedResponse<List<WarehouseReport>?>(result, count, request.PageNumber, request.PageSize);
+        }
+        catch
+        {
+            return new PagedResponse<List<WarehouseReport>?>(null, 500,
+                "It was not possible to consult purchase report");
+        }
+    }
+}
