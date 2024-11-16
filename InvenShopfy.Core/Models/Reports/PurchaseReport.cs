@@ -2,6 +2,7 @@ namespace InvenShopfy.Core.Models.Reports;
 
 public class PurchaseReport
 {
+    public long SupplierId { get; set; }
     public string SupplierName { get; set; } = string.Empty;
     public int NumberOfPurchases { get; set; }
     public int NumberOfProductsBought { get; set; }

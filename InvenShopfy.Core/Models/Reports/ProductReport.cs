@@ -4,6 +4,7 @@ public class ProductReport
 {
     public long ProductId { get; set; }
     public string? ProductName { get; set; }
+    public int ProductCode { get; set; }
     public int TotalQuantityBought { get; set; }
     public decimal TotalAmountPaid { get; set; }
     public decimal TotalPaidInTaxes { get; set; }

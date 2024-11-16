@@ -116,10 +116,11 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                     x.PurchaseDate <= request.EndDate &&
                     x.UserId == request.UserId)
                 .Include(x => x.Supplier)
-                .GroupBy(x => new { x.Supplier.Name })
+                .GroupBy(x => new { x.Supplier.Name, x.Supplier.Id })
                 .Select(g => new
                 {
                     g.Key.Name,
+                    g.Key.Id,
                     NumberOfPurchases = g.Count(),
                     TotalAmount = g.Sum(x => x.TotalAmountBought),
                     NumberOfProductsBought = g.Sum(x => x.TotalNumberOfProductsBought),
@@ -134,6 +135,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
 
             var result = sale.Select(s => new PurchaseReport
             {
+                SupplierId = s.Id,
                 SupplierName = s.Name,
                 NumberOfPurchases = s.NumberOfPurchases,
                 TotalAmount = s.TotalAmount,
@@ -168,6 +170,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                     {
                         ProductId = product.Id,
                         ProductName = product.Title,
+                        ProductCode = product.ProductCode,
                         product.StockQuantity,
                         PurchaseCount = purchaseProducts.Sum(po => (int?)po.TotalQuantityBoughtPerProduct) ?? 0,
                         TaxQuantity = purchaseProducts.Sum(po => (decimal?)po.TotalInTaxPaidPerProduct) ?? 0,
@@ -186,12 +189,13 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                         joined.PurchaseCount,
                         joined.TaxQuantity,
                         joined.TotalAmountPaid,
+                        joined.ProductCode,
                         SaleQuantity = saleProduct != null ? saleProduct.TotalQuantitySoldPerProduct : 0,
                         SaleRevenue = saleProduct != null ? saleProduct.TotalPricePerProduct : 0
                     }
                 )
                 .GroupBy(
-                    g => new { g.ProductId, g.StockQuantity, g.TaxQuantity, g.PurchaseCount, g.TotalAmountPaid }
+                    g => new { g.ProductId, g.StockQuantity, g.TaxQuantity, g.PurchaseCount, g.TotalAmountPaid, g.ProductCode }
                 )
                 .Select(group => new
                 {
@@ -200,6 +204,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                     group.Key.TaxQuantity,
                     group.Key.PurchaseCount,
                     group.Key.TotalAmountPaid,
+                    group.Key.ProductCode,
                     ProductName = group.Select(g => g.ProductName).FirstOrDefault(),
                     TotalSaleQuantity = group.Sum(x => x.SaleQuantity),
                     TotalRevenue = group.Sum(x => x.SaleRevenue)
@@ -215,6 +220,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
             var result = sale.Select(s => new ProductReport
             {
                 StockQuantity = s.StockQuantity,
+                ProductCode = s.ProductCode,
                 ProductName = s.ProductName,
                 ProductId = s.ProductId,
                 TotalRevenue = s.TotalRevenue,
@@ -233,32 +239,3 @@ public class ReportHandler(AppDbContext context) : IReportHandler
     }
 }
 
-
-// var query = context
-//     .Products
-//     .AsNoTracking()
-//     .GroupJoin(
-//         context.SaleProducts, 
-//         p => p.Id,           
-//         sp => sp.ProductId,  
-//         (product, saleProducts) => new { product, saleProducts }
-//     )
-//     .GroupJoin(
-//         context.PurchaseProducts, 
-//         ps => ps.product.Id,     
-//         pp => pp.ProductId,    
-//         (ps, purchaseProducts) => new { ps.product, ps.saleProducts, purchaseProducts }
-//     )
-//     .Select(g => new
-//     {
-//         // ProductName = g.product.Title,
-//         ProductId = g.product.Id,
-//         // TotalQuantityBought = g.purchaseProducts.Sum(po => (int?)po.TotalQuantityBoughtPerProduct) ?? 0,
-//         // TotalAmountPaid = g.purchaseProducts.Sum(po => (decimal?)po.TotalPricePaidPerProduct) ?? 0,
-//         // TotalPaidInTaxes = g.purchaseProducts.Sum(po => (decimal?)po.TotalInTaxPaidPerProduct) ?? 0,
-//         // TotalQuantitySold = g.saleProducts.Sum(sp => (int?)sp.TotalQuantitySoldPerProduct) ?? 0,
-//         // TotalRevenue = g.saleProducts.Sum(sp => (decimal?)sp.TotalPricePerProduct) ?? 0,
-//         // g.product.TaxPercentage,
-//         // g.product.StockQuantity,
-//         
-//     }).OrderByDescending(x => x.ProductId);
