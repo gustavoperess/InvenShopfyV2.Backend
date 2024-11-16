@@ -190,6 +190,7 @@ public static class Endpoint
             .MapEndpoint<GetProductReportEndpoint>()
             .MapEndpoint<GetExpenseReportEndpoint>()
             .MapEndpoint<GetWarehouseReportEndpoint>()
+            .MapEndpoint<GetSupplierReportEndpoint>()
             .MapEndpoint<GetCustomerReportEndpoint>()
             .MapEndpoint<GetPurchaseReportEndpoint>();
 

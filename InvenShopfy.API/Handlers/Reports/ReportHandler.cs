@@ -465,4 +465,78 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                 "It was not possible to consult purchase report");
         }
     }
+    
+    
+    public async Task<PagedResponse<List<SupplierReport>?>> GetSupplierReportAsync(GetReportRequest request)
+    {
+        try
+        {
+            var datetimeHandler = new DateTimeHandler();
+            if (request.DateRange != null && request.StartDate == null && request.EndDate == null)
+            {
+                (request.StartDate, request.EndDate) = datetimeHandler.GetDateRange(request.DateRange);
+            }
+            else
+            {
+                request.StartDate ??= DateOnly.FromDateTime(DateTime.Now).GetFirstDayOfYear();
+                request.EndDate ??= DateOnly.FromDateTime(DateTime.Now).GetLastDayOfMonth();
+            }
+        }
+        catch
+        {
+            return new PagedResponse<List<SupplierReport>?>(null, 500,
+                "Not possible to determine the start or end date");
+        }
+
+        try
+        {
+            var query = context
+                .Purchases
+                .AsNoTracking()
+                .Where(x =>
+                    x.PurchaseDate >= request.StartDate &&
+                    x.PurchaseDate <= request.EndDate &&
+                    x.UserId == request.UserId)
+                .Join(context.PurchaseProducts,
+                    ul => ul.Id,
+                    ur=> ur.AddPurchaseId,
+                    (puchase, purchaseproduct) => new {puchase, purchaseproduct})
+                .Select(g => new
+                {
+                    g.puchase.Id,
+                    g.puchase.PurchaseDate,
+                    g.puchase.Warehouse.WarehouseName,
+                    ProductName = g.purchaseproduct.Product.Title,
+                    g.purchaseproduct.TotalQuantityBoughtPerProduct,
+                    g.purchaseproduct.TotalPricePaidPerProduct,
+                    g.purchaseproduct.TotalInTaxPaidPerProduct,
+                    g.purchaseproduct.PurchaseReferenceNumber,
+                    SupplierName = g.puchase.Supplier.Name
+                }).OrderByDescending(x => x.PurchaseReferenceNumber);
+            var count = await query.CountAsync();
+            var sale = await query
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToListAsync();
+
+            var result = sale.Select(s => new SupplierReport
+            {
+                Id = s.Id,
+                SupplierName = s.SupplierName,
+                ProductName = s.ProductName,
+                PurchaseDate =s.PurchaseDate,
+                TotalQuantityBoughtPerProduct = s.TotalQuantityBoughtPerProduct,
+                TotalPricePaidPerProduct = s.TotalPricePaidPerProduct,
+                TotalInTaxPaidPerProduct = s.TotalInTaxPaidPerProduct,
+                PurchaseReferenceNumber = s.PurchaseReferenceNumber,
+                WarehouseName = s.WarehouseName
+            }).ToList();
+            return new PagedResponse<List<SupplierReport>?>(result, count, request.PageNumber, request.PageSize);
+        }
+        catch
+        {
+            return new PagedResponse<List<SupplierReport>?>(null, 500,
+                "It was not possible to consult purchase report");
+        }
+    }
 }
