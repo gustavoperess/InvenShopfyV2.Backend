@@ -22,6 +22,7 @@ public class GetProductReportEndpoint : IEndPoint
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,
         IReportHandler handler,
+      
         [FromQuery]int pageNumber = Configuration.DefaultPageNumber,
         [FromQuery]int pageSize = Configuration.DefaultPageSize)
     {

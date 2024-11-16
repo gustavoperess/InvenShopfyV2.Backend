@@ -15,7 +15,7 @@ public class GetWarehouseReportEndpoint : IEndPoint
             .WithName("Reports: Get warehouse report")
             .WithSummary("Get returns the warehouse report with the most import information")
             .WithDescription("Get returns the warehouse report with the most import information")
-            .WithOrder(3)
+            .WithOrder(7)
             .Produces<PagedResponse<List<Core.Models.Reports.WarehouseReport>?>>();
 
 

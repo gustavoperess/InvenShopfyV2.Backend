@@ -15,7 +15,7 @@ public class GetSupplierReportEndpoint : IEndPoint
             .WithName("Reports: Get supplier report")
             .WithSummary("Get returns the sale supplier with the most import information")
             .WithDescription("Get returns the supplier report with the most import information")
-            .WithOrder(1)
+            .WithOrder(6)
             .Produces<PagedResponse<List<Core.Models.Reports.SupplierReport>?>>();
 
 

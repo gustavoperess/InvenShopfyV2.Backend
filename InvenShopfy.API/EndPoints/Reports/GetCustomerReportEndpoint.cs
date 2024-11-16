@@ -15,7 +15,7 @@ public class GetCustomerReportEndpoint : IEndPoint
             .WithName("Reports: Get customer report")
             .WithSummary("Get returns the customer report with the most import information")
             .WithDescription("Get returns the customer report with the most import information")
-            .WithOrder(3)
+            .WithOrder(1)
             .Produces<PagedResponse<List<Core.Models.Reports.CustomerReport>?>>();
 
 

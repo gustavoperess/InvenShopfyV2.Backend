@@ -15,7 +15,7 @@ public class GetSalesReportEndpoint : IEndPoint
             .WithName("Reports: Get Sales report")
             .WithSummary("Get returns the sale report with the most import information")
             .WithDescription("Get returns the sale report with the most import information")
-            .WithOrder(1)
+            .WithOrder(5)
             .Produces<PagedResponse<List<Core.Models.Reports.SaleReport>?>>();
 
 

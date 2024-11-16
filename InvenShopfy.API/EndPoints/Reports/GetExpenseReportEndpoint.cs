@@ -15,7 +15,7 @@ public class GetExpenseReportEndpoint : IEndPoint
             .WithName("Reports: Get expense report")
             .WithSummary("Get returns the expense report with the most import information")
             .WithDescription("Get returns the expense report with the most import information")
-            .WithOrder(3)
+            .WithOrder(2)
             .Produces<PagedResponse<List<Core.Models.Reports.ExpenseReport>?>>();
 
 

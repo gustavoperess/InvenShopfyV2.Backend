@@ -3,6 +3,7 @@ using InvenShopfy.API.Data;
 using InvenShopfy.Core.Common.Extension;
 using InvenShopfy.Core.Handlers.Reports;
 using InvenShopfy.Core.Models.Reports;
+using InvenShopfy.Core.Models.Tradings.Purchase;
 using InvenShopfy.Core.Requests.Reports;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
@@ -85,7 +86,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
     }
 
 
-    public async Task<PagedResponse<List<PurchaseReport>?>> GetPurchaseReportAsync(GetReportRequest request)
+    public async Task<PagedResponse<List<SupplierReport>?>> GetSupplierReportAsync(GetReportRequest request)
     {
         try
         {
@@ -102,7 +103,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
         }
         catch
         {
-            return new PagedResponse<List<PurchaseReport>?>(null, 500,
+            return new PagedResponse<List<SupplierReport>?>(null, 500,
                 "Not possible to determine the start or end date");
         }
 
@@ -133,7 +134,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                 .Take(request.PageSize)
                 .ToListAsync();
 
-            var result = sale.Select(s => new PurchaseReport
+            var result = sale.Select(s => new SupplierReport
             {
                 SupplierId = s.Id,
                 SupplierName = s.Name,
@@ -146,11 +147,11 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                 EndDate = request.EndDate
             }).ToList();
 
-            return new PagedResponse<List<PurchaseReport>?>(result, count, request.PageNumber, request.PageSize);
+            return new PagedResponse<List<SupplierReport>?>(result, count, request.PageNumber, request.PageSize);
         }
         catch
         {
-            return new PagedResponse<List<PurchaseReport>?>(null, 500,
+            return new PagedResponse<List<SupplierReport>?>(null, 500,
                 "It was not possible to consult purchase report");
         }
     }
@@ -467,7 +468,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
     }
     
     
-    public async Task<PagedResponse<List<SupplierReport>?>> GetSupplierReportAsync(GetReportRequest request)
+    public async Task<PagedResponse<List<PurchaseReport>?>> GetPurchaseReportAsync(GetReportRequest request)
     {
         try
         {
@@ -484,10 +485,10 @@ public class ReportHandler(AppDbContext context) : IReportHandler
         }
         catch
         {
-            return new PagedResponse<List<SupplierReport>?>(null, 500,
+            return new PagedResponse<List<PurchaseReport>?>(null, 500,
                 "Not possible to determine the start or end date");
         }
-
+    
         try
         {
             var query = context
@@ -501,10 +502,12 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                     ul => ul.Id,
                     ur=> ur.AddPurchaseId,
                     (puchase, purchaseproduct) => new {puchase, purchaseproduct})
+                // .GroupBy(x => new { x.puchase.Id })
                 .Select(g => new
                 {
-                    g.puchase.Id,
-                    g.puchase.PurchaseDate,
+                    g.Key.Id,
+        
+                    g.Key.puchase.PurchaseDate,
                     g.puchase.Warehouse.WarehouseName,
                     ProductName = g.purchaseproduct.Product.Title,
                     g.purchaseproduct.TotalQuantityBoughtPerProduct,
@@ -512,14 +515,14 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                     g.purchaseproduct.TotalInTaxPaidPerProduct,
                     g.purchaseproduct.PurchaseReferenceNumber,
                     SupplierName = g.puchase.Supplier.Name
-                }).OrderByDescending(x => x.PurchaseReferenceNumber);
+                }).OrderBy(x => x.Id);
             var count = await query.CountAsync();
             var sale = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToListAsync();
-
-            var result = sale.Select(s => new SupplierReport
+    
+            var result = sale.Select(s => new PurchaseReport
             {
                 Id = s.Id,
                 SupplierName = s.SupplierName,
@@ -531,11 +534,11 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                 PurchaseReferenceNumber = s.PurchaseReferenceNumber,
                 WarehouseName = s.WarehouseName
             }).ToList();
-            return new PagedResponse<List<SupplierReport>?>(result, count, request.PageNumber, request.PageSize);
+            return new PagedResponse<List<PurchaseReport>?>(result, count, request.PageNumber, request.PageSize);
         }
         catch
         {
-            return new PagedResponse<List<SupplierReport>?>(null, 500,
+            return new PagedResponse<List<PurchaseReport>?>(null, 500,
                 "It was not possible to consult purchase report");
         }
     }
