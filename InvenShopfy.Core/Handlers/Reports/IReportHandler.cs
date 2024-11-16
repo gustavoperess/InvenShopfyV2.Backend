@@ -12,6 +12,8 @@ public interface IReportHandler
     Task<PagedResponse<List<Models.Reports.ProductReport>?>> GetProductReportAsync(GetReportRequest request);
     
     Task<PagedResponse<List<Models.Reports.CustomerReport>?>> GetCustomerReportAsync(GetReportRequest request);
+    
+    Task<PagedResponse<List<Models.Reports.ExpenseReport>?>> GetExpenseReportAsync(GetReportRequest request);
 
 
 }

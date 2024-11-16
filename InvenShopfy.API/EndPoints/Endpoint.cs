@@ -188,6 +188,7 @@ public static class Endpoint
             .RequireAuthorization()
             .MapEndpoint<GetSalesReportEndpoint>()
             .MapEndpoint<GetProductReportEndpoint>()
+            .MapEndpoint<GetExpenseReportEndpoint>()
             .MapEndpoint<GetCustomerReportEndpoint>()
             .MapEndpoint<GetPurchaseReportEndpoint>();
 

@@ -311,5 +311,69 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                 "It was not possible to consult purchase report");
         }
     }
+     
+     public async Task<PagedResponse<List<ExpenseReport>?>> GetExpenseReportAsync(GetReportRequest request)
+    {
+        try
+        {
+            var datetimeHandler = new DateTimeHandler();
+            if (request.DateRange != null && request.StartDate == null && request.EndDate == null)
+            {
+                (request.StartDate, request.EndDate) = datetimeHandler.GetDateRange(request.DateRange);
+            }
+            else
+            {
+                request.StartDate ??= DateOnly.FromDateTime(DateTime.Now).GetFirstDayOfYear();
+                request.EndDate ??= DateOnly.FromDateTime(DateTime.Now).GetLastDayOfMonth();
+            }
+        }
+        catch
+        {
+            return new PagedResponse<List<ExpenseReport>?>(null, 500,
+                "Not possible to determine the start or end date");
+        }
+
+        try
+        {
+            var query = context
+                .Expenses
+                .AsNoTracking()
+                .Where(x =>
+                    x.Date >= request.StartDate &&
+                    x.Date <= request.EndDate &&
+                    x.UserId == request.UserId)
+                .Include(x => x.ExpenseCategory)
+                .GroupBy(x => new { x.ExpenseCategoryId, x.ExpenseCategory.MainCategory})
+                .Select(g => new
+                {
+                    Name = g.Key.MainCategory,
+                    Id = g.Key.ExpenseCategoryId,
+                    NumberOfTimesUsed = g.Count(),
+                    TotalCost = g.Sum(x => x.ExpenseCost),
+                    ShippingCost = g.Sum(x => x.ShippingCost),
+                    
+                }).OrderByDescending(x => x.TotalCost);
+            var count = await query.CountAsync();
+            var sale = await query
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToListAsync();
+            var result = sale.Select(s => new ExpenseReport
+            {
+                Id = s.Id,
+                Name = s.Name,
+                NumberOfTimesUsed = s.NumberOfTimesUsed,
+                TotalCost = s.TotalCost,
+                ShippingCost = s.ShippingCost
+            }).ToList();
+
+            return new PagedResponse<List<ExpenseReport>?>(result, count, request.PageNumber, request.PageSize);
+        }
+        catch
+        {
+            return new PagedResponse<List<ExpenseReport>?>(null, 500,
+                "It was not possible to consult purchase report");
+        }
+    }
 }
 
