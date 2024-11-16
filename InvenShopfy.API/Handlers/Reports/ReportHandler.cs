@@ -237,5 +237,79 @@ public class ReportHandler(AppDbContext context) : IReportHandler
             return new PagedResponse<List<ProductReport>?>(null, 500, "It was not possible to consult product report");
         }
     }
+    
+     public async Task<PagedResponse<List<CustomerReport>?>> GetCustomerReportAsync(GetReportRequest request)
+    {
+        try
+        {
+            var datetimeHandler = new DateTimeHandler();
+            if (request.DateRange != null && request.StartDate == null && request.EndDate == null)
+            {
+                (request.StartDate, request.EndDate) = datetimeHandler.GetDateRange(request.DateRange);
+            }
+            else
+            {
+                request.StartDate ??= DateOnly.FromDateTime(DateTime.Now).GetFirstDayOfYear();
+                request.EndDate ??= DateOnly.FromDateTime(DateTime.Now).GetLastDayOfMonth();
+            }
+        }
+        catch
+        {
+            return new PagedResponse<List<CustomerReport>?>(null, 500,
+                "Not possible to determine the start or end date");
+        }
+
+        try
+        {
+            var query = context
+                .Sales
+                .AsNoTracking()
+                .Where(x =>
+                    x.SaleDate >= request.StartDate &&
+                    x.SaleDate <= request.EndDate &&
+                    x.UserId == request.UserId)
+                .Include(x => x.Customer)
+                .GroupBy(x => new { x.Customer.Name , x.CustomerId, x.Customer.RewardPoint})
+                .Select(g => new
+                {
+                    g.Key.Name,
+                    g.Key.CustomerId,
+                    g.Key.RewardPoint,
+                    NumberOfPurchases = g.Count(),
+                    TotalPaidInShipping = g.Sum(x => x.ShippingCost),
+                    NumberOfProductsBought = g.Sum(x => x.TotalQuantitySold),
+                    TotalAmount = g.Sum(x => x.TotalAmount),
+                    TotalProfit = g.Sum(x => x.ProfitAmount),
+                    TotalPaidInTaxes = g.Sum(x => x.TaxAmount),
+                    LastPurchase = g.Max(x => x.SaleDate)
+                    
+                }).OrderByDescending(x => x.NumberOfPurchases);
+            var count = await query.CountAsync();
+            var sale = await query
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToListAsync();
+            var result = sale.Select(s => new CustomerReport
+            {
+                Id = s.CustomerId,
+                RewardPoints = s.RewardPoint,
+                CustomerName = s.Name,
+                NumberOfPurchases = s.NumberOfPurchases,
+                TotalAmount = s.TotalAmount,
+                NumberOfProductsBought = s.NumberOfProductsBought,
+                TotalPaidInTaxes = s.TotalPaidInTaxes,
+                TotalProfit = s.TotalProfit,
+                TotalPaidInShipping = s.TotalPaidInShipping,
+                LastPurchase = s.LastPurchase,
+            }).ToList();
+
+            return new PagedResponse<List<CustomerReport>?>(result, count, request.PageNumber, request.PageSize);
+        }
+        catch
+        {
+            return new PagedResponse<List<CustomerReport>?>(null, 500,
+                "It was not possible to consult purchase report");
+        }
+    }
 }
 
