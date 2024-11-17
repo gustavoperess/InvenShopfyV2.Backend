@@ -502,12 +502,10 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                     ul => ul.Id,
                     ur=> ur.AddPurchaseId,
                     (puchase, purchaseproduct) => new {puchase, purchaseproduct})
-                // .GroupBy(x => new { x.puchase.Id })
                 .Select(g => new
                 {
-                    g.Key.Id,
-        
-                    g.Key.puchase.PurchaseDate,
+                    g.puchase.Id,
+                    g.puchase.PurchaseDate,
                     g.puchase.Warehouse.WarehouseName,
                     ProductName = g.purchaseproduct.Product.Title,
                     g.purchaseproduct.TotalQuantityBoughtPerProduct,
@@ -515,7 +513,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                     g.purchaseproduct.TotalInTaxPaidPerProduct,
                     g.purchaseproduct.PurchaseReferenceNumber,
                     SupplierName = g.puchase.Supplier.Name
-                }).OrderBy(x => x.Id);
+                }).OrderBy(x => x.PurchaseReferenceNumber);
             var count = await query.CountAsync();
             var sale = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)
