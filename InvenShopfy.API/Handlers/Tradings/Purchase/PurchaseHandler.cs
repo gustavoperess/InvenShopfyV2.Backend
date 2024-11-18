@@ -1,9 +1,11 @@
+using System.Globalization;
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Handlers.Notifications;
 using InvenShopfy.Core.Handlers.Tradings.Purchase;
 using InvenShopfy.Core.Models.Tradings.Purchase;
 using InvenShopfy.Core.Models.Tradings.Purchase.Dto;
 using InvenShopfy.Core.Models.Warehouse;
+using InvenShopfy.Core.Requests;
 using InvenShopfy.Core.Requests.Notifications;
 using InvenShopfy.Core.Requests.Tradings.Purchase.AddPurchase;
 using InvenShopfy.Core.Responses;
@@ -69,13 +71,18 @@ public class PurchaseHandler : IPurchaseHandler
                     _context.WarehousesProducts.Add(updatedWarehouseProduct);
                 }
             }
+
+           
             var notificationRequest = new CreateNotificationsRequest
             {
-                Title =  $"New Purchase Of {request.TotalAmountBought} created",
+                // request.To.ToString("C3", CultureInfo.CurrentCulture)
+                
+                Title =  $"New Purchase Of {request.TotalAmountBought.ToString("C", CultureInfo.CurrentCulture)} created",
                 Urgency = false,
                 From = "System-Purchases", 
                 Image = null, 
                 UserId = request.UserId,
+                Href = "/trading/purchase/managepurchase",
             };
             await _notificationHandler.CreateNotificationAsync(notificationRequest);
             

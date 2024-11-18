@@ -1,3 +1,4 @@
+using System.Globalization;
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Handlers.Notifications;
 using InvenShopfy.Core.Handlers.Tradings.Returns.PurchaseReturn;
@@ -48,11 +49,12 @@ public class PurchaseReturnHandlers : IPurchaseReturnHandler
             
             var notificationRequest = new CreateNotificationsRequest
             {
-                Title =  $"Purchase {request.ReferenceNumber} Of {request.TotalAmount} was returned",
+                Title =  $"Purchase {request.ReferenceNumber} Of {request.TotalAmount.ToString("C", CultureInfo.CurrentCulture)} was returned",
                 Urgency = true,
                 From = "System-Purchases-Return", 
                 Image = null, 
                 UserId = request.UserId,
+                Href = "/trading/purchase/purchasereturns",
             };
             await _notificationHandler.CreateNotificationAsync(notificationRequest);
             return new Response<PurchaseReturn?>(purchasereturn, 201, "PurchaseReturn created successfully");

@@ -46,6 +46,7 @@ public class WarehouseHandler : IWarehouseHandler
                 From = "System-Warehouse", 
                 Image = null, 
                 UserId = request.UserId,
+                Href = "/warehouse/warehouselist",
             };
             await _notificationHandler.CreateNotificationAsync(notificationRequest);
 

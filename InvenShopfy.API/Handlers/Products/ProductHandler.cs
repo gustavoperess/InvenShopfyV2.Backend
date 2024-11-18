@@ -67,6 +67,7 @@ public class ProductHandler : IProductHandler
                 From = "System-Products", 
                 Image = product.ProductImage,
                 UserId = request.UserId,
+                Href = "/product/productlist",
             };
              await _notificationHandler.CreateNotificationAsync(notificationRequest);
             

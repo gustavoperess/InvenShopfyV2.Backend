@@ -28,6 +28,11 @@ public class NotificationMapping : IEntityTypeConfiguration<Notification>
             .HasColumnType("VARCHAR")
             .HasMaxLength(150);
         
+        builder.Property(x => x.Href)
+            .IsRequired(true)
+            .HasColumnType("VARCHAR")
+            .HasMaxLength(150);
+        
         builder.Property(x => x.CreateAt)
             .IsRequired(true)
             .HasColumnType("VARCHAR")

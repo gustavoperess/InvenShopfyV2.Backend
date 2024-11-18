@@ -1,3 +1,4 @@
+using System.Globalization;
 using InvenShopfy.API.Data;
 using InvenShopfy.API.Models;
 using InvenShopfy.Core.Common.Extension;
@@ -62,11 +63,12 @@ public class SaleHandler : ISalesHandler
             
             var notificationRequest = new CreateNotificationsRequest
             {
-                Title =  $"New Sale Of {request.TotalAmount} created",
+                Title =  $"New Sale Of {request.TotalAmount.ToString("C", CultureInfo.CurrentCulture)} created",
                 Urgency = false,
                 From = "System-Sales", 
                 Image = null, 
                 UserId = request.UserId,
+                Href = "/sales/salelist",
             };
             await _notificationHandler.CreateNotificationAsync(notificationRequest);
 

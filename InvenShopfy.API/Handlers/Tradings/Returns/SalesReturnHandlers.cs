@@ -1,3 +1,4 @@
+using System.Globalization;
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Handlers.Notifications;
 using InvenShopfy.Core.Handlers.Tradings.Returns.SalesReturn;
@@ -53,11 +54,12 @@ public class SalesReturnHandlers : ISalesReturnHandler
             
             var notificationRequest = new CreateNotificationsRequest
             {
-                Title =  $"Sale {request.ReferenceNumber} Of {request.TotalAmount} was returned",
+                Title =  $"Sale {request.ReferenceNumber} Of {request.TotalAmount.ToString("C", CultureInfo.CurrentCulture)} was returned",
                 Urgency = true,
                 From = "System-Sales-Return", 
                 Image = null, 
                 UserId = request.UserId,
+                Href = "/trading/sales/salereturns",
             };
             await _notificationHandler.CreateNotificationAsync(notificationRequest);
             return new Response<SaleReturn?>(saleReturn, 201, "saleReturn created successfully");
