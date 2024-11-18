@@ -42,7 +42,6 @@ public class ProductsMapping : IEntityTypeConfiguration<Product>
             .IsRequired(true)
             .HasColumnType("BIGINT");
         
-        
         builder.Property(x => x.TaxPercentage)
             .IsRequired(true)
             .HasColumnType("INT");

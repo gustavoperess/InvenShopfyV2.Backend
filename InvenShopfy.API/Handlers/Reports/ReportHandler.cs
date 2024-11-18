@@ -3,7 +3,6 @@ using InvenShopfy.API.Data;
 using InvenShopfy.Core.Common.Extension;
 using InvenShopfy.Core.Handlers.Reports;
 using InvenShopfy.Core.Models.Reports;
-using InvenShopfy.Core.Models.Tradings.Purchase;
 using InvenShopfy.Core.Requests.Reports;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;

@@ -1,8 +1,10 @@
 using InvenShopfy.API.Common.CloudinaryServiceNamespace;
 using InvenShopfy.API.Data;
+using InvenShopfy.Core.Handlers.Notifications;
 using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Models.Product;
 using InvenShopfy.Core.Models.Product.Dto;
+using InvenShopfy.Core.Requests.Notifications;
 using InvenShopfy.Core.Requests.Products.Product;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +16,12 @@ public class ProductHandler : IProductHandler
     
     private readonly AppDbContext _context;
     private readonly CloudinaryService _cloudinaryService;
-    public ProductHandler(AppDbContext context, CloudinaryService cloudinaryService) 
+    private readonly INotificationHandler _notificationHandler; 
+    public ProductHandler(AppDbContext context, CloudinaryService cloudinaryService, INotificationHandler notificationHandler) 
     {
         _context = context;
         _cloudinaryService = cloudinaryService;
+        _notificationHandler = notificationHandler;
     }
   
     public async Task<Response<Product?>> CreateProductAsync(CreateProductRequest request)
@@ -55,6 +59,16 @@ public class ProductHandler : IProductHandler
             
             await _context.Products.AddAsync(product);
             await _context.SaveChangesAsync();
+
+            var notificationRequest = new CreateNotificationsRequest
+            {
+                Title =  $"New product created: {product.Title}",
+                Urgency = false,
+                From = "System-Products", 
+                Image = product.ProductImage 
+            };
+            var notificationResponse = await _notificationHandler.CreateNotificationRequest(notificationRequest);
+            
             return new Response<Product?>(product, 201, "Product created successfully");
         }
         catch

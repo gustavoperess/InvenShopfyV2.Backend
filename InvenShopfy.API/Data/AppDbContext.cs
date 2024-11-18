@@ -1,6 +1,7 @@
 using System.Reflection;
 using InvenShopfy.API.Models;
 using InvenShopfy.Core.Models.Expenses;
+using InvenShopfy.Core.Models.Notifications;
 using InvenShopfy.Core.Models.People;
 using InvenShopfy.Core.Models.Product;
 using InvenShopfy.Core.Models.Tradings.Purchase;
@@ -36,6 +37,8 @@ namespace InvenShopfy.API.Data;
         public DbSet<Supplier> Suppliers { get; set; } = null!;
         public DbSet<AddPurchase> Purchases { get; set; } = null!;
         public DbSet<Warehouse> Warehouses { get; set; } = null!;
+        
+        public DbSet<Notification> Notifications { get; set; } = null!;
         public DbSet<WarehouseProduct> WarehousesProducts { get; set; } = null!;
         public DbSet<Sale> Sales { get; set; } = null!;
         public DbSet<SaleProduct> SaleProducts { get; set; } = null!;
