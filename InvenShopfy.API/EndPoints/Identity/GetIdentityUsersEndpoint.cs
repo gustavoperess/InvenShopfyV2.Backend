@@ -31,9 +31,10 @@ public class GetIdentityUsersEndpoint : IEndPoint
                     (ur, role) => new
                     {
                         UserId = ur.User.Id,
-                        DateOfJoin = ur.User.DateOfJoin,
-                        PhoneNumber = ur.User.PhoneNumber,
-                        Email = ur.User.Email,
+                        ur.User.DateOfJoin,
+                        ur.User.PhoneNumber,
+                        ur.User.Email,
+                        ur.User.ProfilePicture,
                         UserName = ur.User.Name,
                         RoleName = role.Name,
                         LastLogin = ur.User.LastLoginTime

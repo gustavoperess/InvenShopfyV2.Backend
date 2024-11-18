@@ -1,3 +1,4 @@
+using System.Globalization;
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Models.Product;
@@ -13,21 +14,20 @@ public class UnitHandler(AppDbContext context) : IUnitHandler
     {   
         try
         {
+            var unitName = context.Unit.FirstOrDefault(x => x.Title.ToLower() == request.Title.ToLower() || 
+                                                            x.ShortName.ToLower() == request.ShortName.ToLower());
+            TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+            if (unitName != null)
+            {
+                return new Response<Unit?>(null, 409, $"This Unit/short '{request.Title}' Name already exist");
+            } 
+
             var unit = new Unit
             {
                 UserId = request.UserId,
-                Title = request.Title,
-                ShortName = request.ShortName
+                Title = textInfo.ToTitleCase(request.Title),
+                ShortName = textInfo.ToTitleCase(request.ShortName)
             };
-
-            var unitName = context.Unit.FirstOrDefault(
-                x => x.Title.ToLower() == request.Title.ToLower() || 
-                     x.ShortName.ToLower() == request.ShortName.ToLower());
-            if (unitName != null)
-            {
-                return new Response<Unit?>(null, 500, "This Unit/short Name already exist");
-            } 
-            
             
             await context.Unit.AddAsync(unit);
             await context.SaveChangesAsync();

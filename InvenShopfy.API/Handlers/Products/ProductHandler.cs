@@ -1,3 +1,4 @@
+using System.Globalization;
 using InvenShopfy.API.Common.CloudinaryServiceNamespace;
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Handlers.Notifications;
@@ -28,10 +29,17 @@ public class ProductHandler : IProductHandler
     {
         try
         {
+            var findByName = await _context.Products.FirstOrDefaultAsync(x => x.Title.ToLower() == request.Title.ToLower());
+            TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+            if (findByName != null)
+            {
+                return new Response<Product?>(null, 409, $"A product with the name '{request.Title}' already exists.");
+            }
+            
             var product = new Product
             {
                 UserId = request.UserId,
-                Title = request.Title,
+                Title = textInfo.ToTitleCase(request.Title),
                 Price = request.Price,
                 ProductCode = request.ProductCode,
                 CreateAt = DateOnly.FromDateTime(DateTime.Now),
@@ -47,6 +55,7 @@ public class ProductHandler : IProductHandler
                 Sale = request.Sale
         
             };
+            
             if (request.ProductImage == null)
             {
                 product.ProductImage = "https://res.cloudinary.com/dououppib/image/upload/v1729977408/InvenShopfy/Products/mfbbhovoccem7sxsberb.png";

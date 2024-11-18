@@ -43,7 +43,7 @@ public class ExpenseHandler : IExpenseHandler
             
             var notificationRequest = new CreateNotificationsRequest
             {
-                Title =  $"New Expense created: {expense.ExpenseDescription}",
+                Title =  $"New Expense created: {expense.ExpenseType}",
                 Urgency = false,
                 From = "System-Expenses", 
                 Image = null, 

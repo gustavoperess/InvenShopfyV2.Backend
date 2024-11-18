@@ -1,3 +1,4 @@
+using System.Globalization;
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Models.Product;
@@ -14,6 +15,7 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
     {   
         try
         {
+            TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             var existingCategory = await context.Categories.FirstOrDefaultAsync(c =>
                 c.MainCategory == request.MainCategory && c.UserId == request.UserId);
             if (existingCategory != null)
@@ -35,7 +37,7 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
             {
                 UserId = request.UserId,
                 SubCategory = request.SubCategory,
-                MainCategory = request.MainCategory
+                MainCategory = textInfo.ToTitleCase(request.MainCategory)
             };
             await context.Categories.AddAsync(category);
             await context.SaveChangesAsync();

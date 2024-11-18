@@ -1,3 +1,4 @@
+using System.Globalization;
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Handlers.People;
 using InvenShopfy.Core.Models.People;
@@ -14,16 +15,33 @@ public class SupplierHandler (AppDbContext context) : ISupplierHandler
     {
         try
         {
+            TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+            var existingSupplier = await context.Suppliers
+                .FirstOrDefaultAsync(x => x.Name.ToLower() == request.Name.ToLower() || 
+                                          x.Email.ToLower() == request.Email.ToLower());
+           
+            if (existingSupplier != null)
+            {
+                if (existingSupplier.Name.ToLower() == request.Name.ToLower())
+                {
+                    return new Response<Supplier?>(null, 409, $"The supplier name '{request.Name}' already exists.");
+                }
+                if (existingSupplier.Email.ToLower() == request.Email.ToLower())
+                {
+                    return new Response<Supplier?>(null, 409, $"The supplier email '{request.Email}' already exists.");
+                }
+            }
+            
             var supplier = new Supplier
             {
                 UserId = request.UserId,
-                Name = request.Name,
+                Name = textInfo.ToTitleCase(request.Name),
                 PhoneNumber = request.PhoneNumber,
                 Email = request.Email,
                 SupplierCode = request.SupplierCode,
-                Country = request.Country,
+                Country = textInfo.ToTitleCase(request.Country),
                 City = request.City,
-                Address = request.Address,
+                Address = textInfo.ToTitleCase(request.Address),
                 ZipCode = request.ZipCode,
                 Company = request.Company,
             };

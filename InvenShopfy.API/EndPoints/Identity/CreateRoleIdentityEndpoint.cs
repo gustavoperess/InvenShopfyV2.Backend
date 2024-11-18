@@ -37,6 +37,6 @@ public class CreateRoleIdentityEndpoint : IEndPoint
             return Results.Ok(new { Message = "Role created successfully." });
         }
 
-        return Results.BadRequest(new { Errors = result.Errors });
+        return Results.BadRequest(new {  result.Errors });
     }
 }

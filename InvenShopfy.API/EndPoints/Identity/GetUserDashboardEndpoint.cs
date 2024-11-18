@@ -4,6 +4,7 @@ using InvenShopfy.API.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace InvenShopfy.API.EndPoints.Identity;
 
@@ -33,7 +34,7 @@ public class GetUserDashboardEndpoint : IEndPoint
                         ur.User.ProfilePicture,
                         RoleName = role.Name,
                         LastLogin = ur.User.LastLoginTime
-                    }).Take(5)
+                    }).OrderByDescending(x => x.LastLogin).Take(5)
                 .ToListAsync();
             
             return Results.Ok(userRoles);

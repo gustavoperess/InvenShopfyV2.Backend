@@ -1,3 +1,4 @@
+using System.Globalization;
 using InvenShopfy.API.Common.CloudinaryServiceNamespace;
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Handlers.Product;
@@ -22,10 +23,17 @@ public class BrandHandler : IBrandHandler
     {
         try
         {
-            var brand = new Brand
+            var unit = await _context.Unit.FirstOrDefaultAsync(x => x.Title.ToLower() == request.Title.ToLower());
+            TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+            if (unit != null)
             {
+                return new Response<Brand?>(null, 409, $"A Brand with the name '{request.Title}' already exists.");
+            }
+            
+            var brand = new Brand
+            { 
                 UserId = request.UserId,
-                Title = request.Title,
+                Title = textInfo.ToTitleCase(request.Title),
             };
             if (request.BrandImage == null)
             {

@@ -1,3 +1,4 @@
+using System.Globalization;
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Enum;
 using InvenShopfy.Core.Handlers.People;
@@ -9,21 +10,39 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InvenShopfy.API.Handlers.People;
 
-public class CustomerHandler (AppDbContext context) : ICustomerHandler
+public class CustomerHandler(AppDbContext context) : ICustomerHandler
 {
     public async Task<Response<Customer?>> CreateCustomerAsync(CreateCustomerRequest request)
     {
         try
         {
+            TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+            var existingCustomer = await context.Customers
+                .FirstOrDefaultAsync(
+                    x => x.Name.ToLower() == request.Name.ToLower() || x.Email.ToLower() == request.Email.ToLower());
+
+            if (existingCustomer != null)
+            {
+                if (existingCustomer.Name.ToLower() == request.Name.ToLower())
+                {
+                    return new Response<Customer?>(null, 409, $"The customer name '{request.Name}' already exists.");
+                }
+
+                if (existingCustomer.Email.ToLower() == request.Email.ToLower())
+                {
+                    return new Response<Customer?>(null, 409, $"The customer email '{request.Email}' already exists.");
+                }
+            }
+
             var customer = new Customer
             {
                 UserId = request.UserId,
-                Name = request.Name,
+                Name = textInfo.ToTitleCase(request.Name),
                 Email = request.Email,
                 PhoneNumber = request.PhoneNumber,
-                City = request.City,
-                Country = request.Country,
-                Address = request.Address,
+                City = textInfo.ToTitleCase(request.City),
+                Country = textInfo.ToTitleCase(request.Country),
+                Address = textInfo.ToTitleCase(request.Address),
                 ZipCode = request.ZipCode,
                 RewardPoint = request.RewardPoint,
                 CustomerGroup = request.CustomerGroup,
@@ -32,7 +51,6 @@ public class CustomerHandler (AppDbContext context) : ICustomerHandler
             await context.SaveChangesAsync();
 
             return new Response<Customer?>(customer, 201, "Customer created successfully");
-
         }
         catch
         {
@@ -44,12 +62,14 @@ public class CustomerHandler (AppDbContext context) : ICustomerHandler
     {
         try
         {
-            var customer = await context.Customers.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var customer =
+                await context.Customers.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
 
             if (customer is null)
             {
                 return new Response<Customer?>(null, 404, "Customer not found");
             }
+
             if (!Enum.IsDefined(typeof(ECustomerGroup), request.CustomerGroup))
             {
                 return new Response<Customer?>(null, 400, "Invalid Customer Group");
@@ -64,13 +84,12 @@ public class CustomerHandler (AppDbContext context) : ICustomerHandler
             customer.ZipCode = request.ZipCode;
             customer.RewardPoint = request.RewardPoint;
             customer.CustomerGroup = request.CustomerGroup;
-            
+
             context.Customers.Update(customer);
             await context.SaveChangesAsync();
             return new Response<Customer?>(customer, message: "Customer updated successfully");
-
         }
-        catch 
+        catch
         {
             return new Response<Customer?>(null, 500, "It was not possible to update this Customer");
         }
@@ -80,8 +99,9 @@ public class CustomerHandler (AppDbContext context) : ICustomerHandler
     {
         try
         {
-            var customer = await context.Customers.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
-            
+            var customer =
+                await context.Customers.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+
             if (customer is null)
             {
                 return new Response<Customer?>(null, 404, "Customer not found");
@@ -90,33 +110,33 @@ public class CustomerHandler (AppDbContext context) : ICustomerHandler
             context.Customers.Remove(customer);
             await context.SaveChangesAsync();
             return new Response<Customer?>(customer, message: "Customer removed successfully");
-
         }
-        catch 
+        catch
         {
             return new Response<Customer?>(null, 500, "It was not possible to delete this customer");
         }
     }
-    
+
     public async Task<Response<Customer?>> GetCustomerByIdAsync(GetCustomerByIdRequest request)
     {
         try
         {
-            var customer = await context.Customers.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
-            
+            var customer = await context.Customers.AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+
             if (customer is null)
             {
                 return new Response<Customer?>(null, 404, "Customer not found");
             }
 
             return new Response<Customer?>(customer);
-
         }
-        catch 
+        catch
         {
             return new Response<Customer?>(null, 500, "It was not possible to find this customer");
         }
     }
+
     public async Task<PagedResponse<List<Customer>?>> GetCustomerByPeriodAsync(GetAllCustomersRequest request)
     {
         try
@@ -126,26 +146,26 @@ public class CustomerHandler (AppDbContext context) : ICustomerHandler
                 .AsNoTracking()
                 .Where(x => x.UserId == request.UserId)
                 .OrderBy(x => x.Name);
-            
+
             var customer = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToListAsync();
-            
+
             var count = await query.CountAsync();
-            
+
             return new PagedResponse<List<Customer>?>(
                 customer,
                 count,
                 request.PageNumber,
                 request.PageSize);
         }
-        catch 
+        catch
         {
             return new PagedResponse<List<Customer>?>(null, 500, "It was not possible to consult all customer");
         }
     }
-    
+
     public async Task<PagedResponse<List<CustomerName>?>> GetCustomerNameAsync(GetAllCustomersRequest request)
     {
         try
@@ -155,29 +175,29 @@ public class CustomerHandler (AppDbContext context) : ICustomerHandler
                 .AsNoTracking()
                 .Where(x => x.UserId == request.UserId)
                 .Select(x => new CustomerName
-                { 
+                {
                     Id = x.Id,
                     Name = x.Name
-                    
                 })
                 .OrderBy(x => x.Name);
-            
+
             var customer = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToListAsync();
-            
+
             var count = await query.CountAsync();
-            
+
             return new PagedResponse<List<CustomerName>?>(
                 customer,
                 count,
                 request.PageNumber,
                 request.PageSize);
         }
-        catch 
+        catch
         {
-            return new PagedResponse<List<CustomerName>?>(null, 500, "It was not possible to consult all customer names");
+            return new PagedResponse<List<CustomerName>?>(null, 500,
+                "It was not possible to consult all customer names");
         }
     }
 }

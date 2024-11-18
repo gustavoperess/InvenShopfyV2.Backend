@@ -1,7 +1,7 @@
+using System.Globalization;
 using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.API.Common.CloudinaryServiceNamespace;
-using InvenShopfy.API.Data;
 using InvenShopfy.API.Models;
 using InvenShopfy.Core.Requests.UserManagement.User;
 using Microsoft.AspNetCore.Identity;
@@ -22,7 +22,7 @@ namespace InvenShopfy.API.EndPoints.Identity
             [FromServices] RoleManager<CustomIdentityRole> roleManager,
             [FromServices] UserManager<CustomUserRequest> userManager)
         {
-
+            TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             if (string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.UserName))
             {
                 return Results.BadRequest("Email and Username are required.");
@@ -40,12 +40,12 @@ namespace InvenShopfy.API.EndPoints.Identity
             {
                 return Results.BadRequest("Username already in use, please choose a different one");
             }
-            
+         
             // Create the user
             var user = new CustomUserRequest
             {
-                Name = request.Name,
-                UserName = request.UserName,
+                Name = textInfo.ToTitleCase(request.Name),
+                UserName = textInfo.ToTitleCase(request.UserName),
                 Email = request.Email,
                 PhoneNumber = request.PhoneNumber,
                 Gender = request.Gender,
