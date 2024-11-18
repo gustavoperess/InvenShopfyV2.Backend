@@ -52,6 +52,7 @@ public class PurchaseReturnHandlers : IPurchaseReturnHandler
                 Urgency = true,
                 From = "System-Purchases-Return", 
                 Image = null, 
+                UserId = request.UserId,
             };
             await _notificationHandler.CreateNotificationAsync(notificationRequest);
             return new Response<PurchaseReturn?>(purchasereturn, 201, "PurchaseReturn created successfully");

@@ -65,7 +65,8 @@ public class ProductHandler : IProductHandler
                 Title =  $"New product created: {product.Title}",
                 Urgency = false,
                 From = "System-Products", 
-                Image = product.ProductImage 
+                Image = product.ProductImage,
+                UserId = request.UserId,
             };
              await _notificationHandler.CreateNotificationAsync(notificationRequest);
             

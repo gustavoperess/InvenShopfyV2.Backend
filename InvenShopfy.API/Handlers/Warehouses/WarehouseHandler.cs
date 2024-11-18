@@ -45,6 +45,7 @@ public class WarehouseHandler : IWarehouseHandler
                 Urgency = true,
                 From = "System-Warehouse", 
                 Image = null, 
+                UserId = request.UserId,
             };
             await _notificationHandler.CreateNotificationAsync(notificationRequest);
 

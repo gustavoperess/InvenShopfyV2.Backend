@@ -81,6 +81,7 @@ using InvenShopfy.Core.Handlers.Transfer;
                   Urgency = true,
                   From = "System-Transfer", 
                   Image = null, 
+                  UserId = request.UserId,
               };
               await _notificationHandler.CreateNotificationAsync(notificationRequest);
   

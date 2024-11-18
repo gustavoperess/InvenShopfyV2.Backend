@@ -57,6 +57,7 @@ public class SalesReturnHandlers : ISalesReturnHandler
                 Urgency = true,
                 From = "System-Sales-Return", 
                 Image = null, 
+                UserId = request.UserId,
             };
             await _notificationHandler.CreateNotificationAsync(notificationRequest);
             return new Response<SaleReturn?>(saleReturn, 201, "saleReturn created successfully");

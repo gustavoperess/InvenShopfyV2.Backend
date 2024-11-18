@@ -75,6 +75,7 @@ public class PurchaseHandler : IPurchaseHandler
                 Urgency = false,
                 From = "System-Purchases", 
                 Image = null, 
+                UserId = request.UserId,
             };
             await _notificationHandler.CreateNotificationAsync(notificationRequest);
             

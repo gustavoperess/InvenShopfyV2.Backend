@@ -6,5 +6,7 @@ namespace InvenShopfy.Core.Handlers.Notifications;
 
 public interface INotificationHandler 
 {
-    Task<Response<Notification?>> CreateNotificationRequest(CreateNotificationsRequest request);
+    Task<Response<Notification?>> CreateNotificationAsync(CreateNotificationsRequest request);
+    
+    Task<Response<List<Notification>?>> GetNotificationAsync(GetNotificationRequest request);
 }

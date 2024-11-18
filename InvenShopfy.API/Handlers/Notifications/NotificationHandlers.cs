@@ -29,6 +29,7 @@ public class NotificationHandlers(AppDbContext context) : INotificationHandler
                 Urgency = request.Urgency,
                 From = request.From,
                 Image = request.Image,
+                UserId = request.UserId,
                 CreateAt = DateOnly.FromDateTime(DateTime.Now)
         
             };
@@ -49,7 +50,7 @@ public class NotificationHandlers(AppDbContext context) : INotificationHandler
     }
     
     
-    public async Task<Response<List<Notification>?>> GetNotificationAsync(CreateNotificationsRequest request)
+    public async Task<Response<List<Notification>?>> GetNotificationAsync(GetNotificationRequest request)
     {
         try
         {

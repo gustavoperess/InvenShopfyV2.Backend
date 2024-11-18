@@ -47,6 +47,7 @@ public class ExpenseHandler : IExpenseHandler
                 Urgency = false,
                 From = "System-Expenses", 
                 Image = null, 
+                UserId = request.UserId
             };
             await _notificationHandler.CreateNotificationAsync(notificationRequest);
 

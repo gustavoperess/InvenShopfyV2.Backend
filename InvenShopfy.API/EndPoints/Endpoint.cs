@@ -2,6 +2,7 @@ using InvenShopfy.API.Common.Api;
 using InvenShopfy.API.EndPoints.Expenses.Category;
 using InvenShopfy.API.EndPoints.Expenses.Expense;
 using InvenShopfy.API.EndPoints.Identity;
+using InvenShopfy.API.EndPoints.Notifications;
 using InvenShopfy.API.EndPoints.People.Biller;
 using InvenShopfy.API.EndPoints.People.Customer;
 using InvenShopfy.API.EndPoints.People.Supplier;
@@ -252,6 +253,16 @@ public static class Endpoint
             .MapEndpoint<GetCurrentUserIdentityEndpoint>()
             .MapEndpoint<CreateRoleIdentityEndpoint>()
             .MapEndpoint<LoginEndpointEndpoint>();
+        
+        
+        // Notification GROUP
+        var notificationGroup = endpoints.MapGroup("v2")
+            .WithTags("Notification");
+
+        notificationGroup.MapGroup("Notification")
+            .WithTags("Notification")
+            .RequireAuthorization()
+            .MapEndpoint<GetAllNotificationsEndpoint>();
     }
 
     private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app)
