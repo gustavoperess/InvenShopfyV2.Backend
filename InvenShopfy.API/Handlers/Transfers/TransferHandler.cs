@@ -1,16 +1,27 @@
 using InvenShopfy.API.Data;
-  using InvenShopfy.Core.Handlers.Transfer;
+using InvenShopfy.Core.Handlers.Notifications;
+using InvenShopfy.Core.Handlers.Transfer;
   using InvenShopfy.Core.Models.Transfer;
   using InvenShopfy.Core.Models.Transfer.Dto;
   using InvenShopfy.Core.Models.Warehouse;
+  using InvenShopfy.Core.Requests.Notifications;
   using InvenShopfy.Core.Requests.Transfers;
   using InvenShopfy.Core.Responses;
   using Microsoft.EntityFrameworkCore;
   
   namespace InvenShopfy.API.Handlers.Transfers;
   
-  public class TransferHandler(AppDbContext context) : ITransferHandler
+  public class TransferHandler : ITransferHandler
   {
+      private readonly AppDbContext _context;
+      private readonly INotificationHandler _notificationHandler; 
+
+      public TransferHandler(AppDbContext context,INotificationHandler notificationHandler)
+      {
+          _context = context;
+          _notificationHandler = notificationHandler;
+      }
+
       public async Task<Response<Transfer?>> CreateTransferAsyncAsync(CreateTransferRequest request)
       {
           try
@@ -30,12 +41,12 @@ using InvenShopfy.API.Data;
               };
               
               
-              await using var transaction = await context.Database.BeginTransactionAsync();
+              await using var transaction = await _context.Database.BeginTransactionAsync();
   
-              var fromWarehouse = await context.WarehousesProducts.
+              var fromWarehouse = await _context.WarehousesProducts.
                   FirstOrDefaultAsync(x => x.WarehouseId == request.FromWarehouseId && x.ProductId == request.ProductId);
               
-              var toWarehouse = await context.WarehousesProducts
+              var toWarehouse = await _context.WarehousesProducts
                   .FirstOrDefaultAsync(x => x.WarehouseId == request.ToWarehouseId && x.ProductId == request.ProductId);
   
               if (fromWarehouse == null)
@@ -51,7 +62,7 @@ using InvenShopfy.API.Data;
                       ProductId = request.ProductId,
                       Quantity = request.Quantity
                   };
-                   context.WarehousesProducts.Add(newWarehouseProduct);
+                   _context.WarehousesProducts.Add(newWarehouseProduct);
                    fromWarehouse.Quantity -= request.Quantity;
               }
               else
@@ -61,8 +72,17 @@ using InvenShopfy.API.Data;
               }
            
       
-              await context.Transfers.AddAsync(transfer);
-              await context.SaveChangesAsync();
+              await _context.Transfers.AddAsync(transfer);
+              await _context.SaveChangesAsync();
+              
+              var notificationRequest = new CreateNotificationsRequest
+              {
+                  Title =  $"New Product Transfer : {request.Quantity} created",
+                  Urgency = true,
+                  From = "System-Transfer", 
+                  Image = null, 
+              };
+              await _notificationHandler.CreateNotificationAsync(notificationRequest);
   
               await transaction.CommitAsync();
               return new Response<Transfer?>(transfer, 201, "Transfer created successfully");
@@ -77,7 +97,7 @@ using InvenShopfy.API.Data;
     {
         try
         {
-            var query = context
+            var query = _context
                 .Transfers
                 .AsNoTracking()
                 .Include(x => x.FromWarehouse)

@@ -9,7 +9,7 @@ namespace InvenShopfy.API.Handlers.Notifications;
 
 public class NotificationHandlers(AppDbContext context) : INotificationHandler
 {
-    public async Task<Response<Notification?>> CreateNotificationRequest(CreateNotificationsRequest request)
+    public async Task<Response<Notification?>> CreateNotificationAsync(CreateNotificationsRequest request)
     {
         try
         {
@@ -39,12 +39,32 @@ public class NotificationHandlers(AppDbContext context) : INotificationHandler
             
             await context.Notifications.AddAsync(notification);
             await context.SaveChangesAsync();
-            return new Response<Notification?>(notification, 201, "Product created successfully");
+            return new Response<Notification?>(notification, 201, "Notification created successfully");
         }
         catch
         {
             
-            return new Response<Notification?>(null, 500, "It was not possible to create a new Product");
+            return new Response<Notification?>(null, 500, "It was not possible to create a new Notification");
         }
     }
+    
+    
+    public async Task<Response<List<Notification>?>> GetNotificationAsync(CreateNotificationsRequest request)
+    {
+        try
+        {
+            var query = await context.Notifications
+                .AsNoTracking().Where(x => x.UserId == request.UserId)
+                .OrderBy(x => x.Title).ToListAsync();
+            
+            return new Response<List<Notification>?>(query, 201, "Notification retrived successfully");
+        }
+        catch
+        {
+            
+            return new Response<List<Notification>?>(null, 500, "It was not possible to retrived notifications");
+        }
+    }
+    
+    
 }

@@ -1,15 +1,26 @@
 using InvenShopfy.API.Data;
+using InvenShopfy.Core.Handlers.Notifications;
 using InvenShopfy.Core.Handlers.Tradings.Returns.PurchaseReturn;
 using InvenShopfy.Core.Models.Tradings.Returns.PurchaseReturn;
 using InvenShopfy.Core.Models.Tradings.Returns.PurchaseReturn.Dto;
+using InvenShopfy.Core.Requests.Notifications;
 using InvenShopfy.Core.Requests.Tradings.Returns.PurchaseReturn;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
 
 namespace InvenShopfy.API.Handlers.Tradings.Returns;
 
-public class PurchaseReturnHandlers(AppDbContext context) : IPurchaseReturnHandler
+public class PurchaseReturnHandlers : IPurchaseReturnHandler
 {
+    
+    private readonly AppDbContext _context;
+    private readonly INotificationHandler _notificationHandler; 
+    
+    public PurchaseReturnHandlers(AppDbContext context, INotificationHandler notificationHandler) 
+    {
+        _context = context;
+        _notificationHandler = notificationHandler;
+    }
     public async Task<Response<PurchaseReturn?>> CreatePurchaseReturnAsync(CreatePurchaseReturnRequest request)
     {
         try
@@ -25,17 +36,24 @@ public class PurchaseReturnHandlers(AppDbContext context) : IPurchaseReturnHandl
                 ReturnNote = request.ReturnNote,
                 ReferenceNumber = request.ReferenceNumber,
             };
-            
             // remove item from purchaseReturn.
-            var findPurchaseByReferenceNumber = await context.Purchases.FirstOrDefaultAsync(x => x.ReferenceNumber == request.ReferenceNumber);
+            var findPurchaseByReferenceNumber = await _context.Purchases.FirstOrDefaultAsync(x => x.ReferenceNumber == request.ReferenceNumber);
             if (findPurchaseByReferenceNumber != null)
             {
-                context.Purchases.Remove(findPurchaseByReferenceNumber);
+                _context.Purchases.Remove(findPurchaseByReferenceNumber);
             }
-     
             
-            await context.PurchaseReturns.AddAsync(purchasereturn);
-            await context.SaveChangesAsync();
+            await _context.PurchaseReturns.AddAsync(purchasereturn);
+            await _context.SaveChangesAsync();
+            
+            var notificationRequest = new CreateNotificationsRequest
+            {
+                Title =  $"Purchase {request.ReferenceNumber} Of {request.TotalAmount} was returned",
+                Urgency = true,
+                From = "System-Purchases-Return", 
+                Image = null, 
+            };
+            await _notificationHandler.CreateNotificationAsync(notificationRequest);
             return new Response<PurchaseReturn?>(purchasereturn, 201, "PurchaseReturn created successfully");
         }
         catch
@@ -50,7 +68,7 @@ public class PurchaseReturnHandlers(AppDbContext context) : IPurchaseReturnHandl
     {
         try
         {
-            var returns = await context.Purchases
+            var returns = await _context.Purchases
                 .AsNoTracking()
                 .Where(x => EF.Functions.ILike(x.ReferenceNumber, $"%{request.ReferenceNumber}%") && x.UserId == request.UserId)
                 .Select(g => new PurchaseReturnByReturnNumber
@@ -81,7 +99,7 @@ public class PurchaseReturnHandlers(AppDbContext context) : IPurchaseReturnHandl
     {
         try
         {
-            var query = context.PurchaseReturns
+            var query = _context.PurchaseReturns
                 .AsNoTracking()
                 .Where(x => x.UserId == request.UserId)
                 .OrderBy(x => x.ReturnDate);
@@ -109,15 +127,15 @@ public class PurchaseReturnHandlers(AppDbContext context) : IPurchaseReturnHandl
     {
         try
         {
-            var purchaseReturn = await context.PurchaseReturns.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var purchaseReturn = await _context.PurchaseReturns.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
             
             if (purchaseReturn is null)
             {
                 return new Response<PurchaseReturn?>(null, 404, "purchaseReturn not found");
             }
 
-            context.PurchaseReturns.Remove(purchaseReturn);
-            await context.SaveChangesAsync();
+            _context.PurchaseReturns.Remove(purchaseReturn);
+            await _context.SaveChangesAsync();
             return new Response<PurchaseReturn?>(purchaseReturn, message: "purchaseReturn removed successfully");
 
         }
@@ -131,7 +149,7 @@ public class PurchaseReturnHandlers(AppDbContext context) : IPurchaseReturnHandl
     {
         try
         {
-            var saleReturn = await context.PurchaseReturns.AsNoTracking().SumAsync(x => x.TotalAmount);
+            var saleReturn = await _context.PurchaseReturns.AsNoTracking().SumAsync(x => x.TotalAmount);
             
             return new Response<decimal?>(saleReturn, message: "Total purchase returned successfully");
         }

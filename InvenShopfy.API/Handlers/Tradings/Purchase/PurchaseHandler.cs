@@ -1,16 +1,26 @@
 using InvenShopfy.API.Data;
+using InvenShopfy.Core.Handlers.Notifications;
 using InvenShopfy.Core.Handlers.Tradings.Purchase;
 using InvenShopfy.Core.Models.Tradings.Purchase;
 using InvenShopfy.Core.Models.Tradings.Purchase.Dto;
 using InvenShopfy.Core.Models.Warehouse;
+using InvenShopfy.Core.Requests.Notifications;
 using InvenShopfy.Core.Requests.Tradings.Purchase.AddPurchase;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
 
 namespace InvenShopfy.API.Handlers.Tradings.Purchase;
 
-public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
+public class PurchaseHandler : IPurchaseHandler
 {
+    private readonly AppDbContext _context;
+    private readonly INotificationHandler _notificationHandler; 
+    
+    public PurchaseHandler(AppDbContext context, INotificationHandler notificationHandler) 
+    {
+        _context = context;
+        _notificationHandler = notificationHandler;
+    }
     public async Task<Response<AddPurchase?>> CreatePurchaseAsync(CreatePurchaseRequest request)
     {
         try
@@ -31,7 +41,7 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
 
             // Validate and add products to purchase
             var productIds = request.ProductIdPlusQuantity.Keys;
-            var availablePurchaseProducts = await context.Products
+            var availablePurchaseProducts = await _context.Products
                 .Where(sp => productIds.Contains(sp.Id)).ToListAsync();
 
             var purchaseResponse =
@@ -42,7 +52,7 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
             }
 
             // Retrieve warehouse products for this warehouse
-            var warehouseProducts = await context.WarehousesProducts
+            var warehouseProducts = await _context.WarehousesProducts
                 .Where(x => x.WarehouseId == request.WarehouseId).ToListAsync();
 
             // Update warehouse inventory
@@ -56,13 +66,21 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
 
                 if (updatedWarehouseProduct != null)
                 {
-                    context.WarehousesProducts.Add(updatedWarehouseProduct);
+                    _context.WarehousesProducts.Add(updatedWarehouseProduct);
                 }
             }
+            var notificationRequest = new CreateNotificationsRequest
+            {
+                Title =  $"New Purchase Of {request.TotalAmountBought} created",
+                Urgency = false,
+                From = "System-Purchases", 
+                Image = null, 
+            };
+            await _notificationHandler.CreateNotificationAsync(notificationRequest);
             
-            await using var transaction = await context.Database.BeginTransactionAsync();
-            await context.Purchases.AddAsync(purchase);
-            await context.SaveChangesAsync();
+            await using var transaction = await _context.Database.BeginTransactionAsync();
+            await _context.Purchases.AddAsync(purchase);
+            await _context.SaveChangesAsync();
             await transaction.CommitAsync();
 
             return new Response<AddPurchase?>(purchase, 201, "Purchase created successfully");
@@ -79,7 +97,7 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
         try
         {
             var purchase =
-                await context.Purchases.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+                await _context.Purchases.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
 
             if (purchase is null)
             {
@@ -91,8 +109,8 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
             purchase.PurchaseStatus = request.PurchaseStatus;
             purchase.ShippingCost = request.ShippingCost;
             purchase.PurchaseNote = request.PurchaseNote;
-            context.Purchases.Update(purchase);
-            await context.SaveChangesAsync();
+            _context.Purchases.Update(purchase);
+            await _context.SaveChangesAsync();
             return new Response<AddPurchase?>(purchase, message: "Purchase updated successfully");
         }
         catch
@@ -106,15 +124,15 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
         try
         {
             var purchase =
-                await context.Purchases.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+                await _context.Purchases.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
 
             if (purchase is null)
             {
                 return new Response<AddPurchase?>(null, 404, "purchase not found");
             }
 
-            context.Purchases.Remove(purchase);
-            await context.SaveChangesAsync();
+            _context.Purchases.Remove(purchase);
+            await _context.SaveChangesAsync();
             return new Response<AddPurchase?>(purchase, message: "purchase removed successfully");
         }
         catch
@@ -127,7 +145,7 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
     {
         try
         {
-            var query = context
+            var query = _context
                 .PurchaseProducts
                 .AsNoTracking()
                 .Include(x => x.AddPurchase)
@@ -195,7 +213,7 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
     {
         try
         {
-            var query = context
+            var query = _context
                 .Purchases
                 .AsNoTracking()
                 .Include(x => x.Warehouse)
@@ -252,7 +270,7 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
     {
         try
         {
-            var query = context
+            var query = _context
                 .Purchases
                 .AsNoTracking()
                 .Where(x => x.UserId == request.UserId)
@@ -283,7 +301,7 @@ public class PurchaseHandler(AppDbContext context) : IPurchaseHandler
     {
         try
         {
-            var query = await context.Purchases.SumAsync(x => x.TotalAmountBought);
+            var query = await _context.Purchases.SumAsync(x => x.TotalAmountBought);
             return new Response<decimal>(query, 200, "TotalAmount purchased returned successfully");
         }
         catch

@@ -1,16 +1,27 @@
 using InvenShopfy.API.Data;
+using InvenShopfy.Core.Handlers.Notifications;
 using InvenShopfy.Core.Handlers.Tradings.Returns.SalesReturn;
 using InvenShopfy.Core.Models.Tradings.Returns.SalesReturn;
 using InvenShopfy.Core.Models.Tradings.Returns.SalesReturn.Dto;
+using InvenShopfy.Core.Requests.Notifications;
 using InvenShopfy.Core.Requests.Tradings.Returns.SalesReturn;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
 
 namespace InvenShopfy.API.Handlers.Tradings.Returns;
 
-public class SalesReturnHandlers(AppDbContext context) : ISalesReturnHandler
+public class SalesReturnHandlers : ISalesReturnHandler
 
 {
+    private readonly AppDbContext _context;
+    private readonly INotificationHandler _notificationHandler; 
+    
+    public SalesReturnHandlers(AppDbContext context, INotificationHandler notificationHandler) 
+    {
+        _context = context;
+        _notificationHandler = notificationHandler;
+        
+    }
     public async Task<Response<SaleReturn?>> CreateSalesReturnAsync(CreateSalesReturnRequest request)
     {
         try
@@ -30,15 +41,24 @@ public class SalesReturnHandlers(AppDbContext context) : ISalesReturnHandler
 
             // remove item from sales.
             var findSalesByReferenceNumber =
-                await context.Sales.FirstOrDefaultAsync(x => x.ReferenceNumber == request.ReferenceNumber);
+                await _context.Sales.FirstOrDefaultAsync(x => x.ReferenceNumber == request.ReferenceNumber);
             if (findSalesByReferenceNumber != null)
             {
-                context.Sales.Remove(findSalesByReferenceNumber);
+                _context.Sales.Remove(findSalesByReferenceNumber);
             }
 
 
-            await context.SaleReturns.AddAsync(saleReturn);
-            await context.SaveChangesAsync();
+            await _context.SaleReturns.AddAsync(saleReturn);
+            await _context.SaveChangesAsync();
+            
+            var notificationRequest = new CreateNotificationsRequest
+            {
+                Title =  $"Sale {request.ReferenceNumber} Of {request.TotalAmount} was returned",
+                Urgency = true,
+                From = "System-Sales-Return", 
+                Image = null, 
+            };
+            await _notificationHandler.CreateNotificationAsync(notificationRequest);
             return new Response<SaleReturn?>(saleReturn, 201, "saleReturn created successfully");
         }
         catch
@@ -53,7 +73,7 @@ public class SalesReturnHandlers(AppDbContext context) : ISalesReturnHandler
     {
         try
         {
-            var returns = await context
+            var returns = await _context
                 .Sales
                 .AsNoTracking()
                 .Where(x => EF.Functions.ILike(x.ReferenceNumber, $"%{request.ReferenceNumber}%") &&
@@ -88,7 +108,7 @@ public class SalesReturnHandlers(AppDbContext context) : ISalesReturnHandler
     {
         try
         {
-            var query = context.SaleReturns
+            var query = _context.SaleReturns
                 .AsNoTracking()
                 .Where(x => x.UserId == request.UserId)
                 .OrderBy(x => x.ReturnDate);
@@ -117,15 +137,15 @@ public class SalesReturnHandlers(AppDbContext context) : ISalesReturnHandler
         try
         {
             var saleReturn =
-                await context.SaleReturns.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+                await _context.SaleReturns.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
 
             if (saleReturn is null)
             {
                 return new Response<SaleReturn?>(null, 404, "SaleReturn not found");
             }
 
-            context.SaleReturns.Remove(saleReturn);
-            await context.SaveChangesAsync();
+            _context.SaleReturns.Remove(saleReturn);
+            await _context.SaveChangesAsync();
             return new Response<SaleReturn?>(saleReturn, message: "saleReturn removed successfully");
         }
         catch
@@ -139,7 +159,7 @@ public class SalesReturnHandlers(AppDbContext context) : ISalesReturnHandler
     {
         try
         {
-            var saleReturn = await context.SaleReturns.AsNoTracking().SumAsync(x => x.TotalAmount);
+            var saleReturn = await _context.SaleReturns.AsNoTracking().SumAsync(x => x.TotalAmount);
             
             return new Response<decimal?>(saleReturn, message: "saleReturn returned successfully");
         }
@@ -154,7 +174,7 @@ public class SalesReturnHandlers(AppDbContext context) : ISalesReturnHandler
     {
         try
         {
-            var query = context
+            var query = _context
                 .SaleReturns
                 .AsNoTracking()
                 .Where(x => x.UserId == request.UserId)

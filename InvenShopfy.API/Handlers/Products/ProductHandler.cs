@@ -67,7 +67,7 @@ public class ProductHandler : IProductHandler
                 From = "System-Products", 
                 Image = product.ProductImage 
             };
-            var notificationResponse = await _notificationHandler.CreateNotificationRequest(notificationRequest);
+             await _notificationHandler.CreateNotificationAsync(notificationRequest);
             
             return new Response<Product?>(product, 201, "Product created successfully");
         }

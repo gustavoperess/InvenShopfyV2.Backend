@@ -1,15 +1,25 @@
 using InvenShopfy.API.Data;
+using InvenShopfy.Core.Handlers.Notifications;
 using InvenShopfy.Core.Handlers.Warehouse;
 using InvenShopfy.Core.Models.Warehouse;
 using InvenShopfy.Core.Models.Warehouse.Dto;
+using InvenShopfy.Core.Requests.Notifications;
 using InvenShopfy.Core.Requests.Warehouse;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
 
 namespace InvenShopfy.API.Handlers.Warehouses;
 
-public class WarehouseHandler(AppDbContext context) : IWarehouseHandler
+public class WarehouseHandler : IWarehouseHandler
 {
+    private readonly AppDbContext _context;
+    private readonly INotificationHandler _notificationHandler; 
+
+    public WarehouseHandler(AppDbContext context,INotificationHandler notificationHandler)
+    {
+        _context = context;
+        _notificationHandler = notificationHandler;
+    }
     public async Task<Response<Warehouse?>> CreateWarehouseAsync(CreateWarehouseRequest request)
     {
         try
@@ -26,8 +36,17 @@ public class WarehouseHandler(AppDbContext context) : IWarehouseHandler
                 WarehouseOpeningNotes = request.WarehouseOpeningNotes
             };
             
-            await context.Warehouses.AddAsync(warehouse);
-            await context.SaveChangesAsync();
+            await _context.Warehouses.AddAsync(warehouse);
+            await _context.SaveChangesAsync();
+            
+            var notificationRequest = new CreateNotificationsRequest
+            {
+                Title =  $"New Warehouse : {request.WarehouseName} created",
+                Urgency = true,
+                From = "System-Warehouse", 
+                Image = null, 
+            };
+            await _notificationHandler.CreateNotificationAsync(notificationRequest);
 
             return new Response<Warehouse?>(warehouse, 201, "warehouse created successfully");
         }
@@ -42,7 +61,7 @@ public class WarehouseHandler(AppDbContext context) : IWarehouseHandler
         try
         {
             var warehouse =
-                await context.Warehouses.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+                await _context.Warehouses.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
 
             if (warehouse is null)
             {
@@ -56,8 +75,8 @@ public class WarehouseHandler(AppDbContext context) : IWarehouseHandler
             warehouse.WarehouseZipCode = request.WarehouseZipCode;
             warehouse.WarehouseCountry = request.WarehouseCountry;
             warehouse.WarehouseOpeningNotes = request.WarehouseOpeningNotes;
-            context.Warehouses.Update(warehouse);
-            await context.SaveChangesAsync();
+            _context.Warehouses.Update(warehouse);
+            await _context.SaveChangesAsync();
             return new Response<Warehouse?>(warehouse, message: "Warehouse updated successfully");
         }
         catch
@@ -71,15 +90,15 @@ public class WarehouseHandler(AppDbContext context) : IWarehouseHandler
         try
         {
             var warehouse =
-                await context.Warehouses.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+                await _context.Warehouses.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
 
             if (warehouse is null)
             {
                 return new Response<Warehouse?>(null, 404, "Warehouse not found");
             }
 
-            context.Warehouses.Remove(warehouse);
-            await context.SaveChangesAsync();
+            _context.Warehouses.Remove(warehouse);
+            await _context.SaveChangesAsync();
             return new Response<Warehouse?>(warehouse, message: "warehouse removed successfully");
         }
         catch
@@ -93,7 +112,7 @@ public class WarehouseHandler(AppDbContext context) : IWarehouseHandler
         try
         {
             var warehouse =
-                await context.Warehouses.AsNoTracking().FirstOrDefaultAsync(x =>
+                await _context.Warehouses.AsNoTracking().FirstOrDefaultAsync(x =>
                     x.Id == byIdRequest.Id && x.UserId == byIdRequest.UserId);
 
             if (warehouse is null)
@@ -114,7 +133,7 @@ public class WarehouseHandler(AppDbContext context) : IWarehouseHandler
     {
         try
         {
-            var response = await context.WarehousesProducts
+            var response = await _context.WarehousesProducts
                 .AsNoTracking()
                 .Where(x =>
                     x.WarehouseId == request.WarehouseId &&
@@ -155,10 +174,10 @@ public class WarehouseHandler(AppDbContext context) : IWarehouseHandler
     {
         try
         {
-            var query = context
+            var query = _context
                 .Warehouses
                 .AsNoTracking()
-                .GroupJoin(context.WarehousesProducts,
+                .GroupJoin(_context.WarehousesProducts,
                     warehouse => warehouse.Id,
                     warehouseProduct => warehouseProduct.WarehouseId,
                     (warehouse, warehouseProduct) => new { warehouse, warehouseProduct })
@@ -214,7 +233,7 @@ public class WarehouseHandler(AppDbContext context) : IWarehouseHandler
     {
         try
         {
-            var totalSalesAmount = await context.Warehouses.AsNoTracking().CountAsync();
+            var totalSalesAmount = await _context.Warehouses.AsNoTracking().CountAsync();
             return new Response<int?>(totalSalesAmount, 200, "Total number of warehouses retrieved successfully");
         }
         catch
@@ -227,7 +246,7 @@ public class WarehouseHandler(AppDbContext context) : IWarehouseHandler
     {
         try
         {
-            var stockQuantity = await context.Warehouses.AsNoTracking().SumAsync(x => x.QuantityOfItems);
+            var stockQuantity = await _context.Warehouses.AsNoTracking().SumAsync(x => x.QuantityOfItems);
             return new Response<int?>(stockQuantity, 200, "Total stock quantity retrieved successfully"); 
         }
         catch
@@ -240,7 +259,7 @@ public class WarehouseHandler(AppDbContext context) : IWarehouseHandler
     {
         try
         {
-            var query = context
+            var query = _context
                 .Warehouses
                 .AsNoTracking()
                 .Where(x => x.UserId == request.UserId)

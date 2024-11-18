@@ -1,9 +1,11 @@
 using InvenShopfy.API.Data;
 using InvenShopfy.API.Models;
 using InvenShopfy.Core.Common.Extension;
+using InvenShopfy.Core.Handlers.Notifications;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
 using InvenShopfy.Core.Models.Tradings.Sales;
 using InvenShopfy.Core.Models.Tradings.Sales.Dto;
+using InvenShopfy.Core.Requests.Notifications;
 using InvenShopfy.Core.Requests.Tradings.Sales;
 using InvenShopfy.Core.Responses;
 using Microsoft.AspNetCore.Identity;
@@ -16,12 +18,12 @@ namespace InvenShopfy.API.Handlers.Tradings.Sales;
 public class SaleHandler : ISalesHandler
 {
     private readonly AppDbContext _context;
-    private readonly UserManager<CustomUserRequest> _user;
+    private readonly INotificationHandler _notificationHandler; 
 
-    public SaleHandler(AppDbContext context, [FromServices] UserManager<CustomUserRequest> user)
+    public SaleHandler(AppDbContext context,INotificationHandler notificationHandler)
     {
         _context = context;
-        _user = user;
+        _notificationHandler = notificationHandler;
     }
 
     public async Task<Response<Sale?>> CreateSaleAsync(CreateSalesRequest request)
@@ -57,6 +59,15 @@ public class SaleHandler : ISalesHandler
             await _context.Sales.AddAsync(sale);
             await _context.SaveChangesAsync();
             await transaction.CommitAsync();
+            
+            var notificationRequest = new CreateNotificationsRequest
+            {
+                Title =  $"New Sale Of {request.TotalAmount} created",
+                Urgency = false,
+                From = "System-Sales", 
+                Image = null, 
+            };
+            await _notificationHandler.CreateNotificationAsync(notificationRequest);
 
             return new Response<Sale?>(sale, 201, "Sale created successfully");
         }

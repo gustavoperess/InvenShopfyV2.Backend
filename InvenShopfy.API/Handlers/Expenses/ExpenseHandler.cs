@@ -1,15 +1,24 @@
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Handlers.Expenses;
+using InvenShopfy.Core.Handlers.Notifications;
 using InvenShopfy.Core.Models.Expenses;
 using InvenShopfy.Core.Models.Expenses.Dto;
 using InvenShopfy.Core.Requests.Expenses.Expense;
+using InvenShopfy.Core.Requests.Notifications;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
 
 namespace InvenShopfy.API.Handlers.Expenses;
 
-public class ExpenseHandler (AppDbContext context) : IExpenseHandler
+public class ExpenseHandler : IExpenseHandler
 {
+    private readonly AppDbContext _context;
+    private readonly INotificationHandler _notificationHandler; 
+    public ExpenseHandler(AppDbContext context, INotificationHandler notificationHandler) 
+    {
+        _context = context;
+        _notificationHandler = notificationHandler;
+    }
      public async Task<Response<Expense?>> CreateExpenseAsync(CreateExpenseRequest request)
     {
         try
@@ -29,8 +38,17 @@ public class ExpenseHandler (AppDbContext context) : IExpenseHandler
                 ShippingCost = request.ShippingCost
                 
             };
-            await context.Expenses.AddAsync(expense);
-            await context.SaveChangesAsync();
+            await _context.Expenses.AddAsync(expense);
+            await _context.SaveChangesAsync();
+            
+            var notificationRequest = new CreateNotificationsRequest
+            {
+                Title =  $"New Expense created: {expense.ExpenseDescription}",
+                Urgency = false,
+                From = "System-Expenses", 
+                Image = null, 
+            };
+            await _notificationHandler.CreateNotificationAsync(notificationRequest);
 
             return new Response<Expense?>(expense, 201, "Expense  created successfully");
 
@@ -45,7 +63,7 @@ public class ExpenseHandler (AppDbContext context) : IExpenseHandler
     {
         try
         {
-            var expense = await context.Expenses.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var expense = await _context.Expenses.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
 
             if (expense is null)
             {
@@ -61,8 +79,8 @@ public class ExpenseHandler (AppDbContext context) : IExpenseHandler
             expense.ExpenseDescription = request.ExpenseDescription;
             expense.ShippingCost = request.ShippingCost;
             
-            context.Expenses.Update(expense);
-            await context.SaveChangesAsync();
+            _context.Expenses.Update(expense);
+            await _context.SaveChangesAsync();
             return new Response<Expense?>(expense, message: "Expense updated successfully");
 
         }
@@ -76,15 +94,15 @@ public class ExpenseHandler (AppDbContext context) : IExpenseHandler
     {
         try
         {
-            var expense = await context.Expenses.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var expense = await _context.Expenses.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
             
             if (expense is null)
             {
                 return new Response<Expense?>(null, 404, "Expense  not found");
             }
 
-            context.Expenses.Remove(expense);
-            await context.SaveChangesAsync();
+            _context.Expenses.Remove(expense);
+            await _context.SaveChangesAsync();
             return new Response<Expense?>(expense, message: "Expense  removed successfully");
 
         }
@@ -98,7 +116,7 @@ public class ExpenseHandler (AppDbContext context) : IExpenseHandler
     {
         try
         {
-            var expense = await context.Expenses.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var expense = await _context.Expenses.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
             
             if (expense is null)
             {
@@ -117,7 +135,7 @@ public class ExpenseHandler (AppDbContext context) : IExpenseHandler
     {
         try
         {
-            var query = context
+            var query = _context
                 .Expenses
                 .AsNoTracking()
                 .Include(x => x.Warehouse)
@@ -178,7 +196,7 @@ public class ExpenseHandler (AppDbContext context) : IExpenseHandler
     {
         try
         {
-            var query = context
+            var query = _context
                 .Expenses
                 .AsNoTracking()
                 .Where(x => x.UserId == request.UserId)
@@ -208,7 +226,7 @@ public class ExpenseHandler (AppDbContext context) : IExpenseHandler
     {
         try
         {
-            var totalExpense = await context
+            var totalExpense = await _context
                 .Expenses
                 .AsNoTracking()
                 .SumAsync(x => x.ExpenseCost);
