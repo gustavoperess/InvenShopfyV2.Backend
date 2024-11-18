@@ -175,12 +175,10 @@ public class WarehouseHandler(AppDbContext context) : IWarehouseHandler
                     g.warehouse.WarehouseZipCode,
                     TotalQuantityItems = g.warehouseProduct.Sum(p => p.Quantity)
                 })
-                .OrderBy(x => x.WarehouseCity);
+                .OrderBy(x => x.Id);
 
          
             var totalCount = await query.CountAsync();
-
-        
             var warehouses = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)

@@ -2,6 +2,7 @@ namespace InvenShopfy.Core.Models.Reports;
 
 public class PurchaseReport
 {
+    public string? TempKey { get; set; } 
     public long Id { get; set; }
     public string? ProductName { get; set; }
     public string? SupplierName { get; set; }
