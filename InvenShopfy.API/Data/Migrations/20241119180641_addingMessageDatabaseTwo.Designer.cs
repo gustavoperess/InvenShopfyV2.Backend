@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241112203740_addingTaxForProductsTree")]
-    partial class addingTaxForProductsTree
+    [Migration("20241119180641_addingMessageDatabaseTwo")]
+    partial class addingMessageDatabaseTwo
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -211,7 +211,7 @@ namespace InvenShopfy.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("Category")
+                    b.Property<string>("MainCategory")
                         .IsRequired()
                         .HasMaxLength(180)
                         .HasColumnType("VARCHAR");
@@ -228,6 +228,100 @@ namespace InvenShopfy.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ExpenseCategory", (string)null);
+                });
+
+            modelBuilder.Entity("InvenShopfy.Core.Models.Messages.Message", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("BOOLEAN");
+
+                    b.Property<bool>("IsImportant")
+                        .HasColumnType("BOOLEAN");
+
+                    b.Property<bool>("IsReceived")
+                        .HasColumnType("BOOLEAN");
+
+                    b.Property<bool>("IsSent")
+                        .HasColumnType("BOOLEAN");
+
+                    b.Property<string>("MessageBody")
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Subject")
+                        .HasMaxLength(150)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<DateOnly>("Time")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Title")
+                        .HasMaxLength(150)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<string>("ToUserId")
+                        .IsRequired()
+                        .HasMaxLength(160)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(160)
+                        .HasColumnType("VARCHAR");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Message", (string)null);
+                });
+
+            modelBuilder.Entity("InvenShopfy.Core.Models.Notifications.Notification", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("CreateAt")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<string>("From")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<string>("Href")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<bool>("Urgency")
+                        .HasColumnType("BOOLEAN");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(160)
+                        .HasColumnType("VARCHAR");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Notification", (string)null);
                 });
 
             modelBuilder.Entity("InvenShopfy.Core.Models.People.Biller", b =>
@@ -776,8 +870,8 @@ namespace InvenShopfy.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("BillerId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("BillerId")
+                        .HasColumnType("INT");
 
                     b.Property<long>("CustomerId")
                         .HasColumnType("bigint");
@@ -830,8 +924,6 @@ namespace InvenShopfy.API.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BillerId");
 
                     b.HasIndex("CustomerId");
 
@@ -1291,12 +1383,6 @@ namespace InvenShopfy.API.Migrations
 
             modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Sales.Sale", b =>
                 {
-                    b.HasOne("InvenShopfy.Core.Models.People.Biller", "Biller")
-                        .WithMany()
-                        .HasForeignKey("BillerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("InvenShopfy.Core.Models.People.Customer", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId")
@@ -1308,8 +1394,6 @@ namespace InvenShopfy.API.Migrations
                         .HasForeignKey("WarehouseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Biller");
 
                     b.Navigation("Customer");
 

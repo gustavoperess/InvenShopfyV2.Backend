@@ -17,11 +17,13 @@ public class MessageHandler(AppDbContext context) : IMessageHandler
             {
                 UserId = request.UserId,
                 Title = request.Title,
-                Subtitle = request.Subtitle,
+                Subject = request.Subject,
                 ToUserId = request.ToUserId,
-                Description = request.Description,
-                IsImportant = request.IsImportant,
+                MessageBody = request.MessageBody,
                 IsSent = true,
+                IsImportant = false,
+                IsDeleted = false,
+                IsReceived = false
         
             };
             

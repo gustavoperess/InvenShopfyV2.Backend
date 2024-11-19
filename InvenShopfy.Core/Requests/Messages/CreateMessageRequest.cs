@@ -8,14 +8,12 @@ public class CreateMessageRequest : Request
     public string Title { get; set; } = string.Empty;
 
     [MaxLength(80, ErrorMessage = "Max len of 80 characters")]
-    public string Subtitle { get; set; } = string.Empty;
+    public string Subject { get; set; } = string.Empty;
     
     [Required(ErrorMessage = "To user id is required")]
-    public string ToUserId { get; set; } = null!;
+    public long ToUserId { get; set; }
 
     [MaxLength(500, ErrorMessage = "Max len of 80 characters")]
-    public string Description { get; set; } = null!;
-
-    public bool IsImportant { get; set; } = false;
-    public bool IsDeleted { get; set; } = false;
+    public string? MessageBody { get; set; }
+    
 }

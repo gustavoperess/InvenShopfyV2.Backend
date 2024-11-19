@@ -15,16 +15,15 @@ public class MessageMapping : IEntityTypeConfiguration<Message>
             .HasColumnType("VARCHAR")
             .HasMaxLength(150);
         
-        builder.Property(x => x.Subtitle)
+        builder.Property(x => x.Subject)
             .HasColumnType("VARCHAR")
             .HasMaxLength(150);
         
         builder.Property(x => x.ToUserId)
             .IsRequired(true)
-            .HasColumnType("VARCHAR")
-            .HasMaxLength(160);
+            .HasColumnType("BIGINT");
         
-        builder.Property(x => x.Description)
+        builder.Property(x => x.MessageBody)
             .HasColumnType("TEXT")
             .HasMaxLength(500);
         

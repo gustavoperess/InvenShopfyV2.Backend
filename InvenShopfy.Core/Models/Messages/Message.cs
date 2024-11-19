@@ -4,14 +4,13 @@ public class Message
 {
     public long Id { get; set; }
     public string? Title { get; set; }
-    public string? Subtitle { get; set; }
-    public string ToUserId { get; set; } = null!;
-    public string? Description { get; set; }
+    public string? Subject { get; set; }
+    public long ToUserId { get; set; }
+    public string? MessageBody { get; set; }
     public DateOnly Time { get; init; }  = DateOnly.FromDateTime(DateTime.Now);
-    public bool IsImportant { get; set; } = false;
+    public bool IsImportant { get; set; }
     public bool IsDeleted { get; set; }
-    
-    public bool IsSent { get; set; } = false;
-    public bool IsReceived { get; set; } = false;
+    public bool IsSent { get; set; }
+    public bool IsReceived { get; set; }
     public string UserId { get; set; } = string.Empty;
 }

@@ -10,8 +10,8 @@ namespace InvenShopfy.API.EndPoints.Messages;
 
 public class CreateMessageEndpoint : IEndPoint
 {
-    public static void Map(IEndpointRouteBuilder app) => app.MapPost("/", HandleAsync)
-        .WithName("Messages: Create message")
+    public static void Map(IEndpointRouteBuilder app) => app.MapPost("/new-message", HandleAsync)
+        .WithName("Message: Create message")
         .WithSummary("Create a new message")
         .WithDescription("Create a new message")
         .WithOrder(1)

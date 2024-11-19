@@ -235,10 +235,6 @@ namespace InvenShopfy.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("TEXT");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("BOOLEAN");
 
@@ -251,7 +247,11 @@ namespace InvenShopfy.API.Migrations
                     b.Property<bool>("IsSent")
                         .HasColumnType("BOOLEAN");
 
-                    b.Property<string>("Subtitle")
+                    b.Property<string>("MessageBody")
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Subject")
                         .HasMaxLength(150)
                         .HasColumnType("VARCHAR");
 
@@ -262,10 +262,8 @@ namespace InvenShopfy.API.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("VARCHAR");
 
-                    b.Property<string>("ToUserId")
-                        .IsRequired()
-                        .HasMaxLength(160)
-                        .HasColumnType("VARCHAR");
+                    b.Property<long>("ToUserId")
+                        .HasColumnType("BIGINT");
 
                     b.Property<string>("UserId")
                         .IsRequired()
