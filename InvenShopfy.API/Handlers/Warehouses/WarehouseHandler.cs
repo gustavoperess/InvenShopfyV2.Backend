@@ -1,3 +1,4 @@
+using System.Globalization;
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Handlers.Notifications;
 using InvenShopfy.Core.Handlers.Warehouse;
@@ -15,7 +16,7 @@ public class WarehouseHandler : IWarehouseHandler
     private readonly AppDbContext _context;
     private readonly INotificationHandler _notificationHandler; 
 
-    public WarehouseHandler(AppDbContext context,INotificationHandler notificationHandler)
+    public WarehouseHandler(AppDbContext context, INotificationHandler notificationHandler)
     {
         _context = context;
         _notificationHandler = notificationHandler;
@@ -24,16 +25,35 @@ public class WarehouseHandler : IWarehouseHandler
     {
         try
         {
+            TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+            var existingWarehouse = await _context.Warehouses
+                .FirstOrDefaultAsync(
+                    x => x.WarehouseName.ToLower() == request.WarehouseName.ToLower() || x.WarehouseEmail.ToLower() == request.WarehouseEmail.ToLower());
+            
+            if (existingWarehouse != null)
+            {
+                Console.WriteLine("THIS HAPPENED");
+                if (existingWarehouse.WarehouseName.ToLower() == request.WarehouseName.ToLower())
+                {
+                    return new Response<Warehouse?>(null, 409, $"A Warehouse with the name'{request.WarehouseName}' already exists.");
+                }
+            
+                if (existingWarehouse.WarehouseEmail.ToLower() == request.WarehouseEmail.ToLower())
+                {
+                    return new Response<Warehouse?>(null, 409, $"A Warehouse with email '{request.WarehouseEmail}' already exists.");
+                }
+            }
             var warehouse = new Warehouse
             {
                 UserId = request.UserId,
-                WarehouseName = request.WarehouseName,
+                WarehouseName = textInfo.ToTitleCase(request.WarehouseName),
                 WarehousePhoneNumber = request.WarehousePhoneNumber,
                 WarehouseEmail = request.WarehouseEmail,
-                WarehouseCity = request.WarehouseCity,
-                WarehouseCountry = request.WarehouseCountry,
+                WarehouseCity = textInfo.ToTitleCase(request.WarehouseCity),
+                WarehouseCountry = textInfo.ToTitleCase(request.WarehouseCountry),
                 WarehouseZipCode = request.WarehouseZipCode,
                 WarehouseOpeningNotes = request.WarehouseOpeningNotes
+              
             };
             
             await _context.Warehouses.AddAsync(warehouse);
@@ -49,8 +69,7 @@ public class WarehouseHandler : IWarehouseHandler
                 Href = "/warehouse/warehouselist",
             };
             await _notificationHandler.CreateNotificationAsync(notificationRequest);
-
-            return new Response<Warehouse?>(warehouse, 201, "warehouse created successfully");
+            return new Response<Warehouse?>(null, 201, "warehouse created successfully");
         }
         catch
         {

@@ -75,8 +75,6 @@ public class PurchaseHandler : IPurchaseHandler
            
             var notificationRequest = new CreateNotificationsRequest
             {
-                // request.To.ToString("C3", CultureInfo.CurrentCulture)
-                
                 Title =  $"New Purchase Of {request.TotalAmountBought.ToString("C", CultureInfo.CurrentCulture)} created",
                 Urgency = false,
                 From = "System-Purchases", 

@@ -1,3 +1,4 @@
+using System.Globalization;
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Handlers.Expenses;
 using InvenShopfy.Core.Models.Expenses;
@@ -15,13 +16,15 @@ public class ExpenseCategoryHandler(AppDbContext context) : IExpenseCategoryHand
         {
             var existingExpenseCategory = await context.ExpenseCategories.FirstOrDefaultAsync(c =>
                 c.MainCategory.ToLower() == request.Category.ToLower() && c.UserId == request.UserId);
+            TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             if (existingExpenseCategory != null)
             {
                 foreach (var subcat in request.SubCategory)
                 {
                     if (!existingExpenseCategory.SubCategory.Contains(subcat))
                     {
-                        existingExpenseCategory.SubCategory.Add(subcat);
+                        var item= textInfo.ToTitleCase(subcat);
+                        existingExpenseCategory.SubCategory.Add(item);
                     }
                 }
 
@@ -35,7 +38,7 @@ public class ExpenseCategoryHandler(AppDbContext context) : IExpenseCategoryHand
             {
                 UserId = request.UserId,
                 SubCategory = request.SubCategory,
-                MainCategory = request.Category
+                MainCategory = textInfo.ToTitleCase(request.Category)
             };
             await context.ExpenseCategories.AddAsync(expenseCategory);
             await context.SaveChangesAsync();
