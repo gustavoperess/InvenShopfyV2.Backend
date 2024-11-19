@@ -12,6 +12,6 @@ public interface IMessageHandler
     //
     // Task<PagedResponse<List<Message>?>> GetImportantMessageAsync(GetAllMessagesRequest request);
     //
-    // Task<PagedResponse<List<Message>?>> GetInboxMessageAsync(GetAllMessagesRequest request);
+    Task<PagedResponse<List<MessageDto>?>> GetInboxMessageAsync(GetAllMessagesRequest request);
 
 }

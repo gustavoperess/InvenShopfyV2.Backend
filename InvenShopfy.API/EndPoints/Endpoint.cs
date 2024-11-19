@@ -188,6 +188,7 @@ public static class Endpoint
             .WithTags("Message")
             .RequireAuthorization()
             .MapEndpoint<GetMessagesSentEndpoint>()
+            .MapEndpoint<GetMessagesInboxEndpoint>()
             .MapEndpoint<CreateMessageEndpoint>();
         
 

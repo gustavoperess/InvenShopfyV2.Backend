@@ -4,6 +4,8 @@ public class MessageDto
 {
     public long Id { get; set; }
     public string? Title { get; set; }
+    
+    public string? ProfilePicture { get; set; }
     public string? Subject { get; set; }
     public string? ToUser { get; set; }
     public string? MessageBody { get; set; }
