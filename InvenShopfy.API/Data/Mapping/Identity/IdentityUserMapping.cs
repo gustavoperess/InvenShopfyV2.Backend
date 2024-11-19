@@ -13,7 +13,6 @@ public class IdentityUserMapping : IEntityTypeConfiguration<CustomUserRequest>
         builder.HasKey(u => u.Id);
         builder.HasIndex(u => u.NormalizedUserName).IsUnique();
         builder.HasIndex(u => u.NormalizedEmail).IsUnique();
-        
         builder.Property(u => u.Email).HasMaxLength(180);
         builder.Property(u => u.Name).IsRequired().HasMaxLength(100);
         builder.Property(u => u.NormalizedEmail).HasMaxLength(180);

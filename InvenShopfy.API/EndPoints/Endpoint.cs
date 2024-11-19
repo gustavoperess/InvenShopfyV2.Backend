@@ -2,6 +2,7 @@ using InvenShopfy.API.Common.Api;
 using InvenShopfy.API.EndPoints.Expenses.Category;
 using InvenShopfy.API.EndPoints.Expenses.Expense;
 using InvenShopfy.API.EndPoints.Identity;
+using InvenShopfy.API.EndPoints.Messages;
 using InvenShopfy.API.EndPoints.Notifications;
 using InvenShopfy.API.EndPoints.People.Biller;
 using InvenShopfy.API.EndPoints.People.Customer;
@@ -178,7 +179,16 @@ public static class Endpoint
             .MapEndpoint<GetTotalProfitDashboardEndpoint>()
             .MapEndpoint<GetTotalAmountSalesEndpoint>()
             .MapEndpoint<GetMostSouldProductEndpoint>();
+        
+        
+        var messageGroup = endpoints.MapGroup("v2")
+            .WithTags("Message");
 
+        messageGroup.MapGroup("Message")
+            .WithTags("Message")
+            .RequireAuthorization()
+            .MapEndpoint<CreateMessageEndpoint>();
+        
 
         // Reports GROUP
         var reportGroup = endpoints.MapGroup("v2")

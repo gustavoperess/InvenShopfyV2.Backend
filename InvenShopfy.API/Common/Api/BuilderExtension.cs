@@ -2,6 +2,7 @@ using InvenShopfy.API.Common.CloudinaryServiceNamespace;
 using InvenShopfy.API.Data;
 using Serilog;
 using InvenShopfy.API.Handlers.Expenses;
+using InvenShopfy.API.Handlers.Messages;
 using InvenShopfy.API.Handlers.Notifications;
 using InvenShopfy.API.Handlers.People;
 using InvenShopfy.API.Handlers.Products;
@@ -15,6 +16,7 @@ using InvenShopfy.API.Models;
 using Microsoft.AspNetCore.Identity;
 using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Expenses;
+using InvenShopfy.Core.Handlers.Messages;
 using InvenShopfy.Core.Handlers.Notifications;
 using InvenShopfy.Core.Handlers.People;
 using InvenShopfy.Core.Handlers.Product;
@@ -157,8 +159,9 @@ public static class BuilderExtension
         builder.Services.AddTransient<ISalesHandler, SaleHandler>();
         builder.Services.AddTransient<ISalesReturnHandler, SalesReturnHandlers>(); 
         builder.Services.AddTransient<IPurchaseReturnHandler, PurchaseReturnHandlers>(); 
-        builder.Services.AddTransient<ITransferHandler, TransferHandler>(); // new
-        builder.Services.AddTransient<INotificationHandler, NotificationHandlers>(); // new
+        builder.Services.AddTransient<ITransferHandler, TransferHandler>();
+        builder.Services.AddTransient<INotificationHandler, NotificationHandlers>();
+        builder.Services.AddTransient<IMessageHandler, MessageHandler>(); // new
         builder.Services.AddTransient<IReportHandler, ReportHandler>();
         builder.Services.AddTransient<CloudinaryService>();
        
