@@ -8,5 +8,10 @@ public interface IMessageHandler
 {
     Task<Response<Message?>> CreateMessageAsync(CreateMessageRequest request);
     
-    // Task<PagedResponse<List<Message>?>> GetNotificationAsync(GetAllMessagesRequest request);
+    Task<PagedResponse<List<MessageDto>?>> GetSentMessagesAsync(GetAllMessagesRequest request);
+    //
+    // Task<PagedResponse<List<Message>?>> GetImportantMessageAsync(GetAllMessagesRequest request);
+    //
+    // Task<PagedResponse<List<Message>?>> GetInboxMessageAsync(GetAllMessagesRequest request);
+
 }

@@ -187,6 +187,7 @@ public static class Endpoint
         messageGroup.MapGroup("Message")
             .WithTags("Message")
             .RequireAuthorization()
+            .MapEndpoint<GetMessagesSentEndpoint>()
             .MapEndpoint<CreateMessageEndpoint>();
         
 
