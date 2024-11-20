@@ -106,26 +106,41 @@ public class MessageHandler: IMessageHandler
             var query =  _context.Messages
                 .AsNoTracking()
                 .Join(_userManager.Users,
-                    ul => ul.ToUserId,
+                    ul => ul.UserId,
+                    ur => ur.UserName,
+                    (message, receiverInfo) => new { message, receiverInfo })
+                .Join(_userManager.Users,
+                    ul => ul.message.ToUserId,
                     ur => ur.Id,
-                    (message, userInfo) => new { message, userInfo })
-                .Where(x => x.userInfo.UserName == request.UserId )
+                    (messageWithSender, senderInfo) => new
+                    {
+                        messageWithSender.message.Id,
+                        SenderUserName = senderInfo.UserName,
+                        messageWithSender.receiverInfo.ProfilePicture,
+                        ReceiverUserName = messageWithSender.receiverInfo.UserName,
+                        messageWithSender.message.MessageBody,
+                        messageWithSender.message.Time,
+                        messageWithSender.message.Subject,
+                        messageWithSender.message.Title,
+                        messageWithSender.message.IsDeleted,
+                    })
+                .Where(x => x.SenderUserName == request.UserId && !x.IsDeleted)
                 .Select(g => new
                 {
-                    g.message.Id,
-                    g.userInfo.Name,
-                    g.userInfo.ProfilePicture,
-                    g.message.Time,
-                    g.message.Title,
-                    g.message.Subject,
-                    g.message.MessageBody
-                }).OrderByDescending(x => x.Time);
+                    g.Id,
+                    g.ReceiverUserName,
+                    g.ProfilePicture,
+                    g.Time,
+                    g.Title,
+                    g.Subject,
+                    g.MessageBody
+                });
             
             var message = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToListAsync();
-
+        
             var count = await query.CountAsync();
             
             var result = message.Select(s => new MessageDto
@@ -133,7 +148,7 @@ public class MessageHandler: IMessageHandler
                 Id = s.Id,
                 Title = s.Title,
                 Subject = s.Subject,
-                ToUser = s.Name,
+                ToUser = s.ReceiverUserName,
                 ProfilePicture = s.ProfilePicture,
                 MessageBody = s.MessageBody,
                 Time = s.Time,
