@@ -260,16 +260,16 @@ public class MessageHandler: IMessageHandler
                 .Join(_userManager.Users,
                     ul => ul.UserId,
                     ur => ur.UserName,
-                    (message, receiverInfo) => new { message, receiverInfo })
+                    (message, senderInfo) => new { message, senderInfo })
                 .Join(_userManager.Users,
                     ul => ul.message.ToUserId,
                     ur => ur.Id,
-                    (messageWithSender, senderInfo) => new
+                    (messageWithSender, receiverInfo) => new
                     {
                         messageWithSender.message.Id,
-                        SenderUserName = senderInfo.UserName,
-                        messageWithSender.receiverInfo.ProfilePicture,
-                        ReceiverUserName = messageWithSender.receiverInfo.Name,
+                        ReceiverUserName = receiverInfo.UserName,
+                        messageWithSender.senderInfo.ProfilePicture,
+                        SenderUserName = messageWithSender.senderInfo.Name,
                         messageWithSender.message.MessageBody,
                         messageWithSender.message.Time,
                         messageWithSender.message.Subject,
@@ -277,17 +277,17 @@ public class MessageHandler: IMessageHandler
                         messageWithSender.message.IsDeleted,
                         messageWithSender.message.IsImportant,
                     })
-                .Where(x => x.SenderUserName == request.UserId && !x.IsDeleted && !x.IsImportant)
+                .Where(x => x.ReceiverUserName == request.UserId && !x.IsDeleted && !x.IsImportant)
                 .Select(g => new
                 {
                     g.Id,
-                    g.ReceiverUserName,
+                    g.SenderUserName,
                     g.ProfilePicture,
                     g.Time,
                     g.Title,
                     g.Subject,
                     g.MessageBody
-                });
+                }).OrderByDescending(x => x.Time);
             
             var message = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)
@@ -301,7 +301,7 @@ public class MessageHandler: IMessageHandler
                 Id = s.Id,
                 Title = s.Title,
                 Subject = s.Subject,
-                ToUser = s.ReceiverUserName,
+                ToUser = s.SenderUserName,
                 ProfilePicture = s.ProfilePicture,
                 MessageBody = s.MessageBody,
                 Time = s.Time,
@@ -314,6 +314,55 @@ public class MessageHandler: IMessageHandler
         {
             
             return new PagedResponse<List<MessageDto>?>(null, 500, "It was not possible to received the sent messages");
+        }
+    }
+    
+    public async Task<Response<List<MessageDto>?>> GetLastFiveInboxMessageAsync(GetAllMessagesRequest request)
+    {
+        try
+        {
+            var query =  _context.Messages
+                .AsNoTracking()
+                .Join(_userManager.Users,
+                    ul => ul.UserId,
+                    ur => ur.UserName,
+                    (message, senderInfo) => new { message, senderInfo })
+                .Join(_userManager.Users,
+                    ul => ul.message.ToUserId,
+                    ur => ur.Id,
+                    (messageWithSender, receiverInfo) => new
+                    {
+                        messageWithSender.message.Id,
+                        ReceiverUserName = receiverInfo.UserName,
+                        messageWithSender.senderInfo.ProfilePicture,
+                        SenderUserName = messageWithSender.senderInfo.Name,
+                        messageWithSender.message.Time,
+                        messageWithSender.message.IsDeleted,
+                        messageWithSender.message.IsImportant,
+                    })
+                .Where(x => x.ReceiverUserName == request.UserId && !x.IsDeleted && !x.IsImportant)
+                .Select(g => new
+                {
+                    g.Id,
+                    g.SenderUserName,
+                    g.ProfilePicture,
+                    g.Time,
+                }).OrderByDescending(x => x.Time).Take(5);
+            var result = await query.Select(s => new MessageDto
+            {
+                Id = s.Id,
+                ToUser = s.SenderUserName,
+                ProfilePicture = s.ProfilePicture,
+                Time = s.Time,
+                
+            }).ToListAsync();
+            
+            return new Response<List<MessageDto>?>(result, 201, "Items Retrived sucessfully");
+        }
+        catch
+        {
+            
+            return new Response<List<MessageDto>?>(null, 500, "It was not possible to received the sent messages");
         }
     }
     
@@ -353,7 +402,7 @@ public class MessageHandler: IMessageHandler
                     g.Title,
                     g.Subject,
                     g.MessageBody
-                });
+                }).OrderByDescending(x => x.Time);
             
             var message = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)
@@ -420,7 +469,7 @@ public class MessageHandler: IMessageHandler
                     g.Title,
                     g.Subject,
                     g.MessageBody
-                });
+                }).OrderByDescending(x => x.Time);
 
             var message = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)

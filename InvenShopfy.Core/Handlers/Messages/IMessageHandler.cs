@@ -27,5 +27,7 @@ public interface IMessageHandler
     
     Task<PagedResponse<List<MessageDto>?>> GetInboxMessageAsync(GetAllMessagesRequest request);
     
+    Task<Response<List<MessageDto>?>> GetLastFiveInboxMessageAsync(GetAllMessagesRequest request);
+    
 
 }

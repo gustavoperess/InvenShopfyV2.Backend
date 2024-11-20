@@ -191,6 +191,7 @@ public static class Endpoint
             .MapEndpoint<ControlImportantMessageEndpoint>()
             .MapEndpoint<GetMessagesInboxEndpoint>()
             .MapEndpoint<GetICountImportantEndpoint>()
+            .MapEndpoint<GetLastFiveInboxMessageEndpoint>()
             .MapEndpoint<ControlTrashMessageEndpoint>()
             .MapEndpoint<GetCountTrashEndpoint>()
             .MapEndpoint<GetTrashMessagesEndpoint>()
