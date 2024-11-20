@@ -190,7 +190,8 @@ public static class Endpoint
             .MapEndpoint<GetMessagesSentEndpoint>()
             .MapEndpoint<ControlImportantMessageEndpoint>()
             .MapEndpoint<GetMessagesInboxEndpoint>()
-            .MapEndpoint<GetCountMessagesEndpoint>()
+            .MapEndpoint<GetCountSentEndpoint>()
+            .MapEndpoint<GetCountInboxEndpoint>()
             .MapEndpoint<GetImportantMessagesEndpoint>()
             .MapEndpoint<CreateMessageEndpoint>();
         

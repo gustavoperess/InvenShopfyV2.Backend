@@ -6,7 +6,7 @@ using InvenShopfy.Core.Responses;
 
 namespace InvenShopfy.API.EndPoints.Messages;
 
-public class GetCountMessagesEndpoint : IEndPoint
+public class GetCountSentEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapGet("/sent-messages-amount", HandlerAsync)
@@ -25,7 +25,7 @@ public class GetCountMessagesEndpoint : IEndPoint
             UserId = user.Identity?.Name ?? string.Empty,
         };
 
-        var result = await handler.CountSentMessageAsyn(request);
+        var result = await handler.CountSentMessageAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

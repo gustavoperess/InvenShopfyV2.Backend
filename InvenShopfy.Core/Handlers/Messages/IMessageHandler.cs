@@ -9,7 +9,9 @@ public interface IMessageHandler
     Task<Response<Message?>> CreateMessageAsync(CreateMessageRequest request);
     
     Task<PagedResponse<List<MessageDto>?>> GetSentMessagesAsync(GetAllMessagesRequest request);
-    Task<Response<int?>> CountSentMessageAsyn(GetAllMessagesRequest request);
+    Task<Response<int?>> CountSentMessageAsync(GetAllMessagesRequest request);
+    
+    Task<Response<int?>> CountInboxMessagesAsync(GetAllMessagesRequest request);
     
     Task<PagedResponse<List<MessageDto>?>> GetImportantMessageAsync(GetAllMessagesRequest request);
     

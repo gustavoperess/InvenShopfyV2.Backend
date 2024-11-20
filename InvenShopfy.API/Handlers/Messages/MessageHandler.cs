@@ -132,7 +132,7 @@ public class MessageHandler: IMessageHandler
     }
     
     
-    public async Task<Response<int?>> CountSentMessageAsyn(GetAllMessagesRequest request)
+    public async Task<Response<int?>> CountSentMessageAsync(GetAllMessagesRequest request)
     {
         try
         {
@@ -151,6 +151,28 @@ public class MessageHandler: IMessageHandler
         {
             
             return new PagedResponse<int?>(null, 500, "It was not possible to retrive total sent amount");
+        }
+    }
+    
+    public async Task<Response<int?>> CountInboxMessagesAsync(GetAllMessagesRequest request)
+    {
+        try
+        {
+            var query = _context.Messages.AsNoTracking()
+                .Join(_userManager.Users,
+                    ul => ul.ToUserId,
+                    ur => ur.Id,
+                    (message, user) => new { message, user })
+                .Where(x => x.user.UserName == request.UserId);
+
+            var count = await query.CountAsync();
+
+            return new Response<int?>(count, 200, "Inbox total Amount retrived sucessfully");
+        }
+        catch
+        {
+            
+            return new PagedResponse<int?>(null, 500, "It was not possible to retrive total Inbox amount");
         }
     }
     
