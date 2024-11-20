@@ -4,6 +4,7 @@ using InvenShopfy.Core.Handlers.Messages;
 using InvenShopfy.Core.Models.Messages;
 using InvenShopfy.Core.Requests.Messages;
 using InvenShopfy.Core.Responses;
+using Microsoft.AspNetCore.Mvc;
 
 namespace InvenShopfy.API.EndPoints.Messages;
 
@@ -15,18 +16,15 @@ public class ControlImportantMessageEndpoint : IEndPoint
             .WithSummary("Update the current message important status")
             .WithDescription("Update the current message important status")
             .WithOrder(5)
-            .Produces<PagedResponse<List<MessageDto>?>>();
+            .Produces<Response<MessageDto>?>();
 
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,
-        IMessageHandler handler,
-        MoveMessageToImportantRequest request,
+        IMessageHandler handler,  
+        [FromBody] MoveMessageToImportantRequest request,
         long id)
     {
-       
-        request.UserId = user.Identity?.Name ?? string.Empty;
         request.Id = id;
-
         var result = await handler.MoveMessageToImportantAsycn(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)

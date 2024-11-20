@@ -54,8 +54,7 @@ public class MessageHandler: IMessageHandler
     {
         try
         {
-            var message = _context.Messages.FirstOrDefault(x => x.Id == request.Id 
-                                                                && x.UserId == request.UserId);
+            var message = _context.Messages.FirstOrDefault(x => x.Id == request.Id);
             if (message == null)
             {
                 return new Response<Message?>(null, 500, "Message Not found");
@@ -156,8 +155,9 @@ public class MessageHandler: IMessageHandler
                         messageWithSender.message.Subject,
                         messageWithSender.message.Title,
                         messageWithSender.message.IsDeleted,
+                        messageWithSender.message.IsImportant,
                     })
-                .Where(x => x.SenderUserName == request.UserId && !x.IsDeleted)
+                .Where(x => x.SenderUserName == request.UserId && !x.IsDeleted && !x.IsImportant)
                 .Select(g => new
                 {
                     g.Id,
