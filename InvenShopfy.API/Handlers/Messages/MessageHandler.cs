@@ -54,24 +54,26 @@ public class MessageHandler: IMessageHandler
     {
         try
         {
-            var product = new Message
+            var message = _context.Messages.FirstOrDefault(x => x.Id == request.Id 
+                                                                && x.UserId == request.UserId);
+            if (message == null)
             {
-                UserId = request.UserId,
-                // Title = request.Title,
-                // Subject = request.Subject,
-                // ToUserId = request.ToUserId,
-                // MessageBody = request.MessageBody,
-                IsSent = true,
-                IsImportant = false,
-                IsDeleted = false,
-                IsReceived = false
-        
-            };
+                return new Response<Message?>(null, 500, "Message Not found");
+            }
+
+            if (message.IsImportant)
+            {
+                message.IsImportant = false;
+            } 
+            else if (!message.IsImportant)
+            {
+                message.IsImportant = true;
+            }
             
-            await _context.Messages.AddAsync(product);
+            _context.Messages.Update(message);
             await _context.SaveChangesAsync();
             
-            return new Response<Message?>(product, 201, "Message created successfully");
+            return new Response<Message?>(message, 201, "Message created successfully");
         }
         catch
         {
@@ -90,7 +92,7 @@ public class MessageHandler: IMessageHandler
                     ul => ul.ToUserId,
                     ur => ur.Id,
                     (message, userInfo) => new { message, userInfo })
-                .Where(x => x.message.UserId == request.UserId && x.message.IsSent == true)
+                .Where(x => x.message.UserId == request.UserId)
                 .Select(g => new
                 {
                     g.message.Id,
