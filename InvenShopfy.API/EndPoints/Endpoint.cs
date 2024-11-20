@@ -189,6 +189,7 @@ public static class Endpoint
             .RequireAuthorization()
             .MapEndpoint<GetMessagesSentEndpoint>()
             .MapEndpoint<GetMessagesInboxEndpoint>()
+            .MapEndpoint<GetImportantMessagesEndpoint>()
             .MapEndpoint<CreateMessageEndpoint>();
         
 

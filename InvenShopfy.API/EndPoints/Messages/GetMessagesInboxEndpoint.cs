@@ -16,7 +16,7 @@ public class GetMessagesInboxEndpoint : IEndPoint
             .WithName("Message: Get messages inbox")
             .WithSummary("Get messages inbox")
             .WithDescription("Get all messages inbox")
-            .WithOrder(5)
+            .WithOrder(2)
             .Produces<PagedResponse<List<MessageDto>?>>();
 
     private static async Task<IResult> HandlerAsync(

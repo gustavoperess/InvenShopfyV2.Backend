@@ -9,14 +9,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace InvenShopfy.API.EndPoints.Messages;
 
-public class GetMessagesSentEndpoint : IEndPoint
+public class GetImportantMessagesEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("/messages-sent", HandlerAsync)
-            .WithName("Message: Get messages sent")
-            .WithSummary("Get messages sent")
-            .WithDescription("Get all messages sent")
-            .WithOrder(1)
+        => app.MapGet("/messages-important", HandlerAsync)
+            .WithName("Message: Get important messages")
+            .WithSummary("Get important messages")
+            .WithDescription("Get all important messages")
+            .WithOrder(4)
             .Produces<PagedResponse<List<MessageDto>?>>();
 
     private static async Task<IResult> HandlerAsync(
@@ -32,7 +32,7 @@ public class GetMessagesSentEndpoint : IEndPoint
             PageSize = pageSize,
         };
 
-        var result = await handler.GetSentMessagesAsync(request);
+        var result = await handler.GetImportantMessageAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);
