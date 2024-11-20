@@ -13,6 +13,8 @@ public interface IMessageHandler
     
     Task<Response<int?>> CountInboxMessagesAsync(GetAllMessagesRequest request);
     
+    Task<Response<int?>> CountImportantMessagesAsync(GetAllMessagesRequest request);
+    
     Task<PagedResponse<List<MessageDto>?>> GetImportantMessageAsync(GetAllMessagesRequest request);
     
     Task<Response<Message?>> MoveMessageToImportantAsycn(MoveMessageToImportantRequest request);

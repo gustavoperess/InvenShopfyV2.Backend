@@ -163,7 +163,7 @@ public class MessageHandler: IMessageHandler
                     ul => ul.ToUserId,
                     ur => ur.Id,
                     (message, user) => new { message, user })
-                .Where(x => x.user.UserName == request.UserId);
+                .Where(x => x.user.UserName == request.UserId && !x.message.IsImportant);
 
             var count = await query.CountAsync();
 
@@ -173,6 +173,28 @@ public class MessageHandler: IMessageHandler
         {
             
             return new PagedResponse<int?>(null, 500, "It was not possible to retrive total Inbox amount");
+        }
+    }
+    
+    public async Task<Response<int?>> CountImportantMessagesAsync(GetAllMessagesRequest request)
+    {
+        try
+        {
+            var query = _context.Messages.AsNoTracking()
+                .Join(_userManager.Users,
+                    ul => ul.ToUserId,
+                    ur => ur.Id,
+                    (message, user) => new { message, user })
+                .Where(x => x.user.UserName == request.UserId && x.message.IsImportant);
+
+            var count = await query.CountAsync();
+
+            return new Response<int?>(count, 200, "Important total Amount retrived sucessfully");
+        }
+        catch
+        {
+            
+            return new PagedResponse<int?>(null, 500, "It was not possible to retrive total Important amount");
         }
     }
     
