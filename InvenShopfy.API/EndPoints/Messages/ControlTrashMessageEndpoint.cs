@@ -8,24 +8,24 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace InvenShopfy.API.EndPoints.Messages;
 
-public class ControlImportantMessageEndpoint : IEndPoint
+public class ControlTrashMessageEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapPut("/important-message/{id}", HandlerAsync)
-            .WithName("Message: moves to important")
-            .WithSummary("Update the current message important status")
-            .WithDescription("Update the current message important status")
-            .WithOrder(9)
+        => app.MapPut("/trash-message/{id}", HandlerAsync)
+            .WithName("Message: moves to trash")
+            .WithSummary("Moves the current message to trash can")
+            .WithDescription("Moves the current message to trash can")
+            .WithOrder(8)
             .Produces<Response<MessageDto>?>();
 
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,
-        IMessageHandler handler,  
+        IMessageHandler handler,
         [FromBody] MoveMessageRequest request,
         long id)
     {
         request.Id = id;
-        var result = await handler.MoveMessageToImportantAsycn(request);
+        var result = await handler.MoveMessageToTrashAsycn(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

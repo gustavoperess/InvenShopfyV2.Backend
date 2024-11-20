@@ -6,13 +6,13 @@ using InvenShopfy.Core.Responses;
 
 namespace InvenShopfy.API.EndPoints.Messages;
 
-public class GetCountSentEndpoint : IEndPoint
+public class GetCountTrashEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("/sent-messages-amount", HandlerAsync)
-            .WithName("Message: Get the total amount for the sent messages")
-            .WithSummary("Get the total amount for the sent messagess")
-            .WithDescription("Get the total amount for the sent messages")
+        => app.MapGet("/trash-messages-amount", HandlerAsync)
+            .WithName("Message: Get the total amount for the messages in the trash")
+            .WithSummary("Get the total amount for the messagess in the trash")
+            .WithDescription("Get the total amount for the messages in the trash")
             .WithOrder(5)
             .Produces<Response<int?>>();
 
@@ -25,7 +25,7 @@ public class GetCountSentEndpoint : IEndPoint
             UserId = user.Identity?.Name ?? string.Empty,
         };
 
-        var result = await handler.CountSentMessageAsync(request);
+        var result = await handler.CountTrashtMessagesAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

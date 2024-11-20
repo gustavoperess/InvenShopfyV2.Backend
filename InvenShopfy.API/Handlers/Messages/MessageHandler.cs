@@ -50,7 +50,7 @@ public class MessageHandler: IMessageHandler
     }
     
     
-    public async Task<Response<Message?>> MoveMessageToImportantAsycn(MoveMessageToImportantRequest request)
+    public async Task<Response<Message?>> MoveMessageToImportantAsycn(MoveMessageRequest request)
     {
         try
         {
@@ -72,12 +72,43 @@ public class MessageHandler: IMessageHandler
             _context.Messages.Update(message);
             await _context.SaveChangesAsync();
             
-            return new Response<Message?>(message, 201, "Message created successfully");
+            return new Response<Message?>(message, 201, "Message Moved to important successfully");
         }
         catch
         {
             
-            return new Response<Message?>(null, 500, "It was not possible to create a new Message");
+            return new Response<Message?>(null, 500, "It was not possible to move this message to important");
+        }
+    }
+    
+    public async Task<Response<Message?>> MoveMessageToTrashAsycn(MoveMessageRequest request)
+    {
+        try
+        {
+            var message = _context.Messages.FirstOrDefault(x => x.Id == request.Id);
+            if (message == null)
+            {
+                return new Response<Message?>(null, 500, "Message Not found");
+            }
+
+            if (message.IsDeleted)
+            {
+                message.IsDeleted = false;
+            } 
+            else if (!message.IsDeleted)
+            {
+                message.IsDeleted = true;
+            }
+            
+            _context.Messages.Update(message);
+            await _context.SaveChangesAsync();
+            
+            return new Response<Message?>(message, 201, "Message Deleted successfully");
+        }
+        catch
+        {
+            
+            return new Response<Message?>(null, 500, "It was not possible to Delete this message");
         }
     }
     
@@ -163,7 +194,7 @@ public class MessageHandler: IMessageHandler
                     ul => ul.ToUserId,
                     ur => ur.Id,
                     (message, user) => new { message, user })
-                .Where(x => x.user.UserName == request.UserId && !x.message.IsImportant);
+                .Where(x => x.user.UserName == request.UserId && !x.message.IsImportant && !x.message.IsDeleted);
 
             var count = await query.CountAsync();
 
@@ -173,6 +204,28 @@ public class MessageHandler: IMessageHandler
         {
             
             return new PagedResponse<int?>(null, 500, "It was not possible to retrive total Inbox amount");
+        }
+    }
+    
+    public async Task<Response<int?>> CountTrashtMessagesAsync(GetAllMessagesRequest request)
+    {
+        try
+        {
+            var query = _context.Messages.AsNoTracking()
+                .Join(_userManager.Users,
+                    ul => ul.ToUserId,
+                    ur => ur.Id,
+                    (message, user) => new { message, user })
+                .Where(x => x.user.UserName == request.UserId && !x.message.IsImportant && x.message.IsDeleted);
+
+            var count = await query.CountAsync();
+
+            return new Response<int?>(count, 200, "Trash total Amount retrived sucessfully");
+        }
+        catch
+        {
+            
+            return new PagedResponse<int?>(null, 500, "It was not possible to retrive total trash amount");
         }
     }
     
@@ -326,6 +379,73 @@ public class MessageHandler: IMessageHandler
         catch
         {
             
+            return new PagedResponse<List<MessageDto>?>(null, 500, "It was not possible to received the sent messages");
+        }
+    }
+
+
+    public async Task<PagedResponse<List<MessageDto>?>> GetTrashMessageAsync(GetAllMessagesRequest request)
+    {
+        try
+        {
+            var query = _context.Messages
+                .AsNoTracking()
+                .Join(_userManager.Users,
+                    ul => ul.UserId,
+                    ur => ur.UserName,
+                    (message, receiverInfo) => new { message, receiverInfo })
+                .Join(_userManager.Users,
+                    ul => ul.message.ToUserId,
+                    ur => ur.Id,
+                    (messageWithSender, senderInfo) => new
+                    {
+                        messageWithSender.message.Id,
+                        SenderUserName = senderInfo.UserName,
+                        messageWithSender.receiverInfo.ProfilePicture,
+                        ReceiverUserName = messageWithSender.receiverInfo.Name,
+                        messageWithSender.message.MessageBody,
+                        messageWithSender.message.Time,
+                        messageWithSender.message.Subject,
+                        messageWithSender.message.Title,
+                        messageWithSender.message.IsDeleted,
+                        messageWithSender.message.IsImportant,
+                    })
+                .Where(x => x.SenderUserName == request.UserId && x.IsDeleted)
+                .Select(g => new
+                {
+                    g.Id,
+                    g.ReceiverUserName,
+                    g.ProfilePicture,
+                    g.Time,
+                    g.Title,
+                    g.Subject,
+                    g.MessageBody
+                });
+
+            var message = await query
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToListAsync();
+
+            var count = await query.CountAsync();
+
+            var result = message.Select(s => new MessageDto
+            {
+                Id = s.Id,
+                Title = s.Title,
+                Subject = s.Subject,
+                ToUser = s.ReceiverUserName,
+                ProfilePicture = s.ProfilePicture,
+                MessageBody = s.MessageBody,
+                Time = s.Time,
+
+            }).ToList();
+
+            return new PagedResponse<List<MessageDto>?>(result, count, request.PageNumber, request.PageSize);
+        }
+        catch
+        {
+
             return new PagedResponse<List<MessageDto>?>(null, 500, "It was not possible to received the sent messages");
         }
     }

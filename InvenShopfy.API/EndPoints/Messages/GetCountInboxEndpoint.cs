@@ -13,7 +13,7 @@ public class GetCountInboxEndpoint : IEndPoint
             .WithName("Message: Get the total amount for the inbox messages")
             .WithSummary("Get the total amount for the inbox messagess")
             .WithDescription("Get the total amount for the inbox messages")
-            .WithOrder(5)
+            .WithOrder(6)
             .Produces<Response<int?>>();
 
     private static async Task<IResult> HandlerAsync(

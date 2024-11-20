@@ -1,6 +1,6 @@
 namespace InvenShopfy.Core.Requests.Messages;
 
-public class MoveMessageToImportantRequest
+public class MoveMessageRequest
 {
     public long Id { get; set; }
 }

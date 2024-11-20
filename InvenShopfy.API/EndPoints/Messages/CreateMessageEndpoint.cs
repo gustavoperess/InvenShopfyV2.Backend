@@ -14,7 +14,7 @@ public class CreateMessageEndpoint : IEndPoint
         .WithName("Message: Create message")
         .WithSummary("Create a new message")
         .WithDescription("Create a new message")
-        .WithOrder(3)
+        .WithOrder(7)
         .Produces<Response<Message?>>();
 
     private static async Task<IResult> HandleAsync(

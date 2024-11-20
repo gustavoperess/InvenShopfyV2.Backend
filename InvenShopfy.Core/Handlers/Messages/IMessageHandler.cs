@@ -15,9 +15,15 @@ public interface IMessageHandler
     
     Task<Response<int?>> CountImportantMessagesAsync(GetAllMessagesRequest request);
     
+    Task<Response<int?>> CountTrashtMessagesAsync(GetAllMessagesRequest request);
+    
     Task<PagedResponse<List<MessageDto>?>> GetImportantMessageAsync(GetAllMessagesRequest request);
     
-    Task<Response<Message?>> MoveMessageToImportantAsycn(MoveMessageToImportantRequest request);
+    Task<PagedResponse<List<MessageDto>?>> GetTrashMessageAsync(GetAllMessagesRequest request);
+    
+    Task<Response<Message?>> MoveMessageToImportantAsycn(MoveMessageRequest request);
+    
+    Task<Response<Message?>> MoveMessageToTrashAsycn(MoveMessageRequest request);
     
     Task<PagedResponse<List<MessageDto>?>> GetInboxMessageAsync(GetAllMessagesRequest request);
     
