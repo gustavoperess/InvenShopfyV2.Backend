@@ -32,7 +32,7 @@ public class SalesReturnHandlers : ISalesReturnHandler
                 UserId = request.UserId,
                 ReturnDate = request.ReturnDate,
                 BillerName = request.BillerName,
-                TotalAmount = request.TotalAmount,
+                ReturnTotalAmount = request.TotalAmount,
                 CustomerName = request.CustomerName,
                 WarehouseName = request.WarehouseName,
                 RemarkStatus = request.Remark,
@@ -54,7 +54,7 @@ public class SalesReturnHandlers : ISalesReturnHandler
             
             var notificationRequest = new CreateNotificationsRequest
             {
-                Title =  $"Sale {request.ReferenceNumber} Of {request.TotalAmount.ToString("C", CultureInfo.CurrentCulture)} was returned",
+                NotificationTitle =  $"Sale {request.ReferenceNumber} Of {request.TotalAmount.ToString("C", CultureInfo.CurrentCulture)} was returned",
                 Urgency = true,
                 From = "System-Sales-Return", 
                 Image = null, 
@@ -91,7 +91,7 @@ public class SalesReturnHandlers : ISalesReturnHandler
                     TotalAmount = g.sale.TotalAmount,
                     WarehouseName = g.sale.Warehouse.WarehouseName,
                     SaleStatus = g.sale.SaleStatus,
-                    CustomerName = g.sale.Customer.Name,
+                    CustomerName = g.sale.Customer.CustomerName,
                     BillerName = g.biller.Name.Substring(0, g.biller.Name.IndexOf(" "))
                     + g.biller.Name.Substring(g.biller.Name.LastIndexOf(" ")),
                     ReferenceNumber = g.sale.ReferenceNumber,
@@ -168,7 +168,7 @@ public class SalesReturnHandlers : ISalesReturnHandler
     {
         try
         {
-            var saleReturn = await _context.SaleReturns.AsNoTracking().SumAsync(x => x.TotalAmount);
+            var saleReturn = await _context.SaleReturns.AsNoTracking().SumAsync(x => x.ReturnTotalAmount);
             
             return new Response<decimal?>(saleReturn, message: "saleReturn returned successfully");
         }
@@ -195,7 +195,7 @@ public class SalesReturnHandlers : ISalesReturnHandler
                     BillerName = x.BillerName,
                     CustomerName = x.CustomerName,
                     RemarkStatus = x.RemarkStatus,
-                    TotalAmount = x.TotalAmount,
+                    TotalAmount = x.ReturnTotalAmount,
                 })
                 .OrderByDescending(x => x.ReturnDate).Take(10);
 

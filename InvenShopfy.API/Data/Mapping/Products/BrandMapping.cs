@@ -11,7 +11,7 @@ public class BrandMapping : IEntityTypeConfiguration<Brand>
         builder.ToTable("Brand");
         builder.HasKey(x => x.Id);
         
-        builder.Property(x => x.Title)
+        builder.Property(x => x.BrandName)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
             .HasMaxLength(80);

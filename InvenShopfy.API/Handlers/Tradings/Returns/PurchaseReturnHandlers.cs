@@ -49,7 +49,7 @@ public class PurchaseReturnHandlers : IPurchaseReturnHandler
             
             var notificationRequest = new CreateNotificationsRequest
             {
-                Title =  $"Purchase {request.ReferenceNumber} Of {request.TotalAmount.ToString("C", CultureInfo.CurrentCulture)} was returned",
+                NotificationTitle =  $"Purchase {request.ReferenceNumber} Of {request.TotalAmount.ToString("C", CultureInfo.CurrentCulture)} was returned",
                 Urgency = true,
                 From = "System-Purchases-Return", 
                 Image = null, 

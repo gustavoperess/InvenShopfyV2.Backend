@@ -5,7 +5,7 @@ namespace InvenShopfy.Core.Requests.Messages;
 public class CreateMessageRequest : Request
 {
     [MaxLength(80, ErrorMessage = "Max len of 80 characters")]
-    public string Title { get; set; } = string.Empty;
+    public string MessageTitle { get; set; } = string.Empty;
 
     [MaxLength(80, ErrorMessage = "Max len of 80 characters")]
     public string Subject { get; set; } = string.Empty;

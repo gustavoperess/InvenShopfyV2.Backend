@@ -4,9 +4,9 @@ namespace InvenShopfy.Core.Requests.Products.Brand;
 
 public class CreateBrandRequest : Request
 {
-    [Required(ErrorMessage = "Invalid Title")]
+    [Required(ErrorMessage = "Invalid BrandName")]
     [MaxLength(80,  ErrorMessage= "Max len of 80 characters")]
-    public string Title { get; set; }= string.Empty;
+    public string BrandName { get; set; }= string.Empty;
     
     [Base64String]
     public string? BrandImage { get; set; }

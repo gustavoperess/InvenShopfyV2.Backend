@@ -4,8 +4,8 @@ public class Product
 {
 
     public long Id { get; init; }
-    public string Title { get; set; } = string.Empty;
-    public decimal Price { get; set; }
+    public string ProductName { get; set; } = string.Empty;
+    public decimal ProductPrice { get; set; }
     
     public int ProductCode { get; set; }
     
@@ -30,7 +30,6 @@ public class Product
     public string MarginRange { get; set; } = null!;
     public string Subcategory { get; init; } = string.Empty;
     public bool Featured { get; init; }
-    public bool DifferPriceWarehouse { get; init; }
     public bool Expired { get; init; }
     public bool Sale { get; init; }
 }

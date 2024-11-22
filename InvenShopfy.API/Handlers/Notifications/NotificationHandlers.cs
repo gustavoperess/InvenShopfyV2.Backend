@@ -25,7 +25,7 @@ public class NotificationHandlers(AppDbContext context) : INotificationHandler
             var notification = new Notification
             {
                 
-                Title = request.Title,
+                NotificationTitle = request.NotificationTitle,
                 Urgency = request.Urgency,
                 From = request.From,
                 Image = request.Image,

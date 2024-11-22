@@ -11,12 +11,12 @@ public class ProductsMapping : IEntityTypeConfiguration<Product>
         builder.ToTable("Product");
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.Title)
+        builder.Property(x => x.ProductName)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
             .HasMaxLength(80);
 
-        builder.Property(x => x.Price)
+        builder.Property(x => x.ProductPrice)
             .IsRequired(true)
             .HasColumnType("MONEY");
         
@@ -54,8 +54,6 @@ public class ProductsMapping : IEntityTypeConfiguration<Product>
             .HasColumnType("VARCHAR")
             .HasMaxLength(20);
         
-        builder.Property(x => x.DifferPriceWarehouse)
-            .HasColumnType("BOOLEAN");
         
         builder.Property(x => x.Sale)
             .HasColumnType("BOOLEAN");

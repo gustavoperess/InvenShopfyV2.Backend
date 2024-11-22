@@ -8,7 +8,7 @@ public class UpdateBrandRequest : Request
     
     [Required(ErrorMessage = "Invalid Transaction")]
     [MaxLength(80,  ErrorMessage= "Max len of 80 characters")]
-    public string Title { get; set; } = string.Empty;
+    public string BrandName { get; set; } = string.Empty;
     
     [Required(ErrorMessage = "Invalid Image")]
     [Base64String]

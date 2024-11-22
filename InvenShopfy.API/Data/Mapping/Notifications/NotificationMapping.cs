@@ -11,7 +11,7 @@ public class NotificationMapping : IEntityTypeConfiguration<Notification>
         builder.ToTable("Notification");
         builder.HasKey(x => x.Id);
         
-        builder.Property(x => x.Title)
+        builder.Property(x => x.NotificationTitle)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
             .HasMaxLength(150);

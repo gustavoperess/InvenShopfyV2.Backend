@@ -23,17 +23,17 @@ public class BrandHandler : IBrandHandler
     {
         try
         {
-            var unit = await _context.Unit.FirstOrDefaultAsync(x => x.Title.ToLower() == request.Title.ToLower());
+            var unit = await _context.Unit.FirstOrDefaultAsync(x => x.UnitName.ToLower() == request.BrandName.ToLower());
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             if (unit != null)
             {
-                return new Response<Brand?>(null, 409, $"A Brand with the name '{request.Title}' already exists.");
+                return new Response<Brand?>(null, 409, $"A Brand with the name '{request.BrandName}' already exists.");
             }
             
             var brand = new Brand
             { 
                 UserId = request.UserId,
-                Title = textInfo.ToTitleCase(request.Title),
+                BrandName = textInfo.ToTitleCase(request.BrandName),
             };
             if (request.BrandImage == null)
             {
@@ -68,7 +68,7 @@ public class BrandHandler : IBrandHandler
                 return new Response<Brand?>(null, 404, "Brand not found");
             }
             
-            brand.Title = request.Title;
+            brand.BrandName = request.BrandName;
             brand.BrandImage = request.BrandImage;
             _context.Brands.Update(brand);
             await _context.SaveChangesAsync();
@@ -130,7 +130,7 @@ public class BrandHandler : IBrandHandler
                 .Brands
                 .AsNoTracking()
                 .Where(x => x.UserId == request.UserId)
-                .OrderBy(x => x.Title);
+                .OrderBy(x => x.BrandName);
             
             var brands = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)

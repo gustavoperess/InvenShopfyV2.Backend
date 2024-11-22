@@ -45,7 +45,7 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
                 var product = availableProducts.FirstOrDefault(po => po.Id == item.Key);
                 if (product != null)
                 {
-                    var pricePerProduct = product.Price * quantityToSell;
+                    var pricePerProduct = product.ProductPrice * quantityToSell;
                     var saleProduct = CreateSaleProduct(product.Id, pricePerProduct, quantityToSell);
                     SaleProducts.Add(saleProduct);
                     product.StockQuantity -= quantityToSell;

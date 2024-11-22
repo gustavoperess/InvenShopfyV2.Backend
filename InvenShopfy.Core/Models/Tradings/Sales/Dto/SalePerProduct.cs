@@ -11,6 +11,11 @@ public sealed class SalePerProduct
     public string ReferenceNumber { get; set; } = null!;
     public decimal ShippingCost { get; set; }
     public decimal TotalAmount { get; set; }
+    public string? BrandName { get; set; }
+    public string? ProductImage { get; set; }
+    public bool Featured { get; set; }
+    public decimal ProfitAmount { get; set; }
+    public decimal TaxAmount { get; set; }
     public decimal Discount { get; set; }
     public string? StaffNote { get; set; }
     public string? SaleNote { get; set; }

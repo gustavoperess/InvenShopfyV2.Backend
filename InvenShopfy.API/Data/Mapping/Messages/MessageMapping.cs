@@ -11,7 +11,7 @@ public class MessageMapping : IEntityTypeConfiguration<Message>
         builder.ToTable("Message");
         builder.HasKey(x => x.Id);
         
-        builder.Property(x => x.Title)
+        builder.Property(x => x.MessageTitle)
             .HasColumnType("VARCHAR")
             .HasMaxLength(150);
         

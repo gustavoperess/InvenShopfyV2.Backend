@@ -75,7 +75,7 @@ public class PurchaseHandler : IPurchaseHandler
            
             var notificationRequest = new CreateNotificationsRequest
             {
-                Title =  $"New Purchase Of {request.TotalAmountBought.ToString("C", CultureInfo.CurrentCulture)} created",
+                NotificationTitle =  $"New Purchase Of {request.TotalAmountBought.ToString("C", CultureInfo.CurrentCulture)} created",
                 Urgency = false,
                 From = "System-Purchases", 
                 Image = null, 
@@ -159,11 +159,13 @@ public class PurchaseHandler : IPurchaseHandler
                 .Where(x => x.AddPurchase.UserId == request.UserId && x.AddPurchaseId == request.PurchaseId)
                 .GroupBy(x => new
                 {
-                    x.ProductId, x.Product.Title, x.PurchaseReferenceNumber, x.TotalPricePaidPerProduct,
+                    x.ProductId,
+                    Title = x.Product.ProductName, x.PurchaseReferenceNumber, x.TotalPricePaidPerProduct,
                     x.TotalQuantityBoughtPerProduct,
                     x.AddPurchase.TotalTax,
                     x.TotalInTaxPaidPerProduct,
-                    x.Product.Unit.ShortName, x.AddPurchase.TotalAmountBought, x.Product.Price,
+                    ShortName = x.Product.Unit.UnitShortName, x.AddPurchase.TotalAmountBought,
+                    Price = x.Product.ProductPrice,
                     x.AddPurchase.ShippingCost,
                     x.AddPurchase.PurchaseNote, x.AddPurchase.Supplier.Name, x.AddPurchase.Supplier.Email
                 }).Select(g => new

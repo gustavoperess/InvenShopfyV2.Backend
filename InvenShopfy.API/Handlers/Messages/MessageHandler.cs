@@ -26,7 +26,7 @@ public class MessageHandler: IMessageHandler
             var product = new Message
             {
                 UserId = request.UserId,
-                Title = request.Title,
+                MessageTitle = request.MessageTitle,
                 Subject = request.Subject,
                 ToUserId = request.ToUserId,
                 MessageBody = request.MessageBody,
@@ -133,7 +133,7 @@ public class MessageHandler: IMessageHandler
                     g.userInfo.Name,
                     g.userInfo.ProfilePicture,
                     g.message.Time,
-                    g.message.Title,
+                    g.message.MessageTitle,
                     g.message.Subject,
                     g.message.MessageBody
                 }).OrderByDescending(x => x.Time);
@@ -148,7 +148,7 @@ public class MessageHandler: IMessageHandler
             var result = message.Select(s => new MessageDto
             {
                 Id = s.Id,
-                Title = s.Title,
+                MessageTitle = s.MessageTitle,
                 Subject = s.Subject,
                 ToUser = s.Name,
                 ProfilePicture = s.ProfilePicture,
@@ -277,7 +277,7 @@ public class MessageHandler: IMessageHandler
                         messageWithSender.message.MessageBody,
                         messageWithSender.message.Time,
                         messageWithSender.message.Subject,
-                        messageWithSender.message.Title,
+                        messageWithSender.message.MessageTitle,
                         messageWithSender.message.IsDeleted,
                         messageWithSender.message.IsImportant,
                     })
@@ -288,7 +288,7 @@ public class MessageHandler: IMessageHandler
                     g.SenderUserName,
                     g.ProfilePicture,
                     g.Time,
-                    g.Title,
+                    g.MessageTitle,
                     g.Subject,
                     g.MessageBody
                 }).OrderByDescending(x => x.Time);
@@ -303,7 +303,7 @@ public class MessageHandler: IMessageHandler
             var result = message.Select(s => new MessageDto
             {
                 Id = s.Id,
-                Title = s.Title,
+                MessageTitle = s.MessageTitle,
                 Subject = s.Subject,
                 ToUser = s.SenderUserName,
                 ProfilePicture = s.ProfilePicture,
@@ -392,7 +392,7 @@ public class MessageHandler: IMessageHandler
                         messageWithSender.message.MessageBody,
                         messageWithSender.message.Time,
                         messageWithSender.message.Subject,
-                        messageWithSender.message.Title,
+                        messageWithSender.message.MessageTitle,
                         messageWithSender.message.IsDeleted,
                         messageWithSender.message.IsImportant,
                     })
@@ -403,7 +403,7 @@ public class MessageHandler: IMessageHandler
                     g.ReceiverUserName,
                     g.ProfilePicture,
                     g.Time,
-                    g.Title,
+                    g.MessageTitle,
                     g.Subject,
                     g.MessageBody
                 }).OrderByDescending(x => x.Time);
@@ -418,7 +418,7 @@ public class MessageHandler: IMessageHandler
             var result = message.Select(s => new MessageDto
             {
                 Id = s.Id,
-                Title = s.Title,
+                MessageTitle = s.MessageTitle,
                 Subject = s.Subject,
                 ToUser = s.ReceiverUserName,
                 ProfilePicture = s.ProfilePicture,
@@ -459,7 +459,7 @@ public class MessageHandler: IMessageHandler
                         messageWithSender.message.MessageBody,
                         messageWithSender.message.Time,
                         messageWithSender.message.Subject,
-                        messageWithSender.message.Title,
+                        messageWithSender.message.MessageTitle,
                         messageWithSender.message.IsDeleted,
                         messageWithSender.message.IsImportant,
                     })
@@ -470,7 +470,7 @@ public class MessageHandler: IMessageHandler
                     g.ReceiverUserName,
                     g.ProfilePicture,
                     g.Time,
-                    g.Title,
+                    g.MessageTitle,
                     g.Subject,
                     g.MessageBody
                 }).OrderByDescending(x => x.Time);
@@ -485,7 +485,7 @@ public class MessageHandler: IMessageHandler
             var result = message.Select(s => new MessageDto
             {
                 Id = s.Id,
-                Title = s.Title,
+                MessageTitle = s.MessageTitle,
                 Subject = s.Subject,
                 ToUser = s.ReceiverUserName,
                 ProfilePicture = s.ProfilePicture,

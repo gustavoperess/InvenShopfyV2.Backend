@@ -48,8 +48,8 @@ public class AddPurchase
                 continue; 
             }
 
-            var totalInTaxPaidPerProduct = ((product.Price * item.Value) * product.TaxPercentage) / 100;
-            var pricePerProduct = product.Price * item.Value;
+            var totalInTaxPaidPerProduct = ((product.ProductPrice * item.Value) * product.TaxPercentage) / 100;
+            var pricePerProduct = product.ProductPrice * item.Value;
             var purchaseProduct = CreatePurchaseProduct(product.Id, pricePerProduct, item.Value, totalInTaxPaidPerProduct);
             product.StockQuantity += item.Value;
             sumOfItems += item.Value;

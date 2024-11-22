@@ -14,19 +14,19 @@ public class UnitHandler(AppDbContext context) : IUnitHandler
     {   
         try
         {
-            var unitName = context.Unit.FirstOrDefault(x => x.Title.ToLower() == request.Title.ToLower() || 
-                                                            x.ShortName.ToLower() == request.ShortName.ToLower());
+            var unitName = context.Unit.FirstOrDefault(x => x.UnitName.ToLower() == request.UnitName.ToLower() || 
+                                                            x.UnitShortName.ToLower() == request.UnitShortName.ToLower());
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             if (unitName != null)
             {
-                return new Response<Unit?>(null, 409, $"This Unit/short '{request.Title}' Name already exist");
+                return new Response<Unit?>(null, 409, $"This Unit/short '{request.UnitName}' Name already exist");
             } 
 
             var unit = new Unit
             {
                 UserId = request.UserId,
-                Title = textInfo.ToTitleCase(request.Title),
-                ShortName = textInfo.ToTitleCase(request.ShortName)
+                UnitName = textInfo.ToTitleCase(request.UnitName),
+                UnitShortName = textInfo.ToTitleCase(request.UnitShortName)
             };
             
             await context.Unit.AddAsync(unit);
@@ -52,8 +52,8 @@ public class UnitHandler(AppDbContext context) : IUnitHandler
                 return new Response<Unit?>(null, 404, "Unit not found");
             }
             
-            unit.Title = request.Title;
-            unit.ShortName = request.ShortName;
+            unit.UnitName = request.UnitName;
+            unit.UnitShortName = request.UnitShortName;
             context.Unit.Update(unit);
             await context.SaveChangesAsync();
             return new Response<Unit?>(unit, message: "Unit updated successfully");
@@ -114,7 +114,7 @@ public class UnitHandler(AppDbContext context) : IUnitHandler
                 .Unit
                 .AsNoTracking()
                 .Where(x => x.UserId == request.UserId)
-                .OrderBy(x => x.Title);
+                .OrderBy(x => x.UnitName);
             
             var units = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)

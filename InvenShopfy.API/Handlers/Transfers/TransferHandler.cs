@@ -77,7 +77,7 @@ using InvenShopfy.Core.Handlers.Transfer;
               
               var notificationRequest = new CreateNotificationsRequest
               {
-                  Title =  $"New Product Transfer : {request.Quantity} created",
+                  NotificationTitle =  $"New Product Transfer : {request.Quantity} created",
                   Urgency = true,
                   From = "System-Transfer", 
                   Image = null, 
@@ -117,7 +117,7 @@ using InvenShopfy.Core.Handlers.Transfer;
                     g.Reason,
                     g.TransferStatus,
                     g.TransferNote,
-                    ProductName = g.Product.Title
+                    ProductName = g.Product.ProductName
                     
                 })
                 .OrderBy(x => x.TransferDate);

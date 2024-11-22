@@ -7,7 +7,7 @@ public class Customer
 {
     
     public long Id { get; init; }
-    public string Name { get; set; } = String.Empty;
+    public string CustomerName { get; set; } = String.Empty;
     public string Email { get; set; } = String.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
     public string City { get; set; } = string.Empty;

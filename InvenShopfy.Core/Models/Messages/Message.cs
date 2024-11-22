@@ -3,7 +3,7 @@ namespace InvenShopfy.Core.Models.Messages;
 public class Message
 {
     public long Id { get; set; }
-    public string? Title { get; set; }
+    public string? MessageTitle { get; set; }
     public string? Subject { get; set; }
     public long ToUserId { get; set; }
     public string? MessageBody { get; set; }

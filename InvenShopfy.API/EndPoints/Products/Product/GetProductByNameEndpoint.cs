@@ -29,7 +29,7 @@ public class GetProductByNameEndpoint : IEndPoint
         var request = new GetProductByNameRequest
         {
             UserId = user.Identity?.Name ?? string.Empty,
-            Title = title,
+            ProductName = title,
             PageNumber = pageNumber,
             PageSize = pageSize,
         };

@@ -8,9 +8,9 @@ public class SaleTest
     private readonly Dictionary<long, int> _productIdPlusQuantity = new() { { 1, 5 }, { 2, 10 }, { 3, 2 } };
     private readonly List<Product> _products = new()
     {
-        new Product { Id = 1, StockQuantity = 10, Price = 100 },
-        new Product { Id = 2, StockQuantity = 8, Price = 200 },
-        new Product { Id = 3, StockQuantity = 2, Price = 300 }
+        new Product { Id = 1, StockQuantity = 10, ProductPrice = 100 },
+        new Product { Id = 2, StockQuantity = 8, ProductPrice = 200 },
+        new Product { Id = 3, StockQuantity = 2, ProductPrice = 300 }
     };
     private readonly Sale _sale = new Sale();
     private readonly long _productId = 1;
@@ -41,7 +41,7 @@ public class SaleTest
             var product = _products.FirstOrDefault(p => p.Id == item.Key);
             if (product != null)
             {
-                decimal r = product.Price * int.Parse(item.Value);
+                decimal r = product.ProductPrice * int.Parse(item.Value);
                 results.Add(r);
             }
         }

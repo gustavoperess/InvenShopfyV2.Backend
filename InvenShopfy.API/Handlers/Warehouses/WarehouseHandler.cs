@@ -61,7 +61,7 @@ public class WarehouseHandler : IWarehouseHandler
             
             var notificationRequest = new CreateNotificationsRequest
             {
-                Title =  $"New Warehouse : {request.WarehouseName} created",
+                NotificationTitle =  $"New Warehouse : {request.WarehouseName} created",
                 Urgency = true,
                 From = "System-Warehouse", 
                 Image = null, 

@@ -29,18 +29,18 @@ public class ProductHandler : IProductHandler
     {
         try
         {
-            var findByName = await _context.Products.FirstOrDefaultAsync(x => x.Title.ToLower() == request.Title.ToLower());
+            var findByName = await _context.Products.FirstOrDefaultAsync(x => x.ProductName.ToLower() == request.ProductName.ToLower());
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             if (findByName != null)
             {
-                return new Response<Product?>(null, 409, $"A product with the name '{request.Title}' already exists.");
+                return new Response<Product?>(null, 409, $"A product with the name '{request.ProductName}' already exists.");
             }
             
             var product = new Product
             {
                 UserId = request.UserId,
-                Title = textInfo.ToTitleCase(request.Title),
-                Price = request.Price,
+                ProductName = textInfo.ToTitleCase(request.ProductName),
+                ProductPrice = request.ProductPrice,
                 ProductCode = request.ProductCode,
                 CreateAt = DateOnly.FromDateTime(DateTime.Now),
                 UnitId = request.UnitId,
@@ -50,7 +50,6 @@ public class ProductHandler : IProductHandler
                 Featured = request.Featured,
                 TaxPercentage = request.TaxPercentage,
                 MarginRange = request.MarginRange,
-                DifferPriceWarehouse = request.DifferPriceWarehouse,
                 Expired = request.Expired,
                 Sale = request.Sale
         
@@ -71,7 +70,7 @@ public class ProductHandler : IProductHandler
 
             var notificationRequest = new CreateNotificationsRequest
             {
-                Title =  $"New product created: {product.Title}",
+                NotificationTitle =  $"New product created: {product.ProductName}",
                 Urgency = false,
                 From = "System-Products", 
                 Image = product.ProductImage,
@@ -100,8 +99,8 @@ public class ProductHandler : IProductHandler
                 return new Response<Product?>(null, 404, "Product not found");
             }
             
-            product.Title = request.Title;
-            product.Price = request.Price;
+            product.ProductName = request.ProductName;
+            product.ProductPrice = request.ProductPrice;
             product.ProductCode = request.ProductCode;
             product.UnitId = request.UnitId;
             product.BrandId = request.BrandId;
@@ -172,15 +171,15 @@ public class ProductHandler : IProductHandler
                 .Select(g => new
                 {
                     g.Id,
-                    g.Title,
-                    g.Price,
+                    g.ProductName,
+                    g.ProductPrice,
                     g.StockQuantity,
                     g.ProductImage,
                     g.ProductCode,
                     g.TaxPercentage,
                     g.MarginRange,
-                    UnitName = g.Unit.Title,
-                    BrandName = g.Brand.Title,
+                    g.Unit.UnitName,
+                    g.Brand.BrandName,
                     CategoryName = g.Category.MainCategory,
                     SubCategories = g.Subcategory,
                     
@@ -197,8 +196,8 @@ public class ProductHandler : IProductHandler
             var result = products.Select(s => new ProductList
             {
                 Id = s.Id,
-                Title = s.Title,
-                Price = s.Price,
+                ProductName = s.ProductName,
+                ProductPrice = s.ProductPrice,
                 ProductImage = s.ProductImage,
                 StockQuantity = s.StockQuantity,
                 UnitName = s.UnitName,
@@ -230,12 +229,12 @@ public class ProductHandler : IProductHandler
             var products = await _context.Products
                 .AsNoTracking()
                 .Include(p => p.Category)
-                .Where(x => EF.Functions.ILike(x.Title, $"%{request.Title}%") && x.UserId == request.UserId)
+                .Where(x => EF.Functions.ILike(x.ProductName, $"%{request.ProductName}%") && x.UserId == request.UserId)
                 .Select(g => new ProductByName
                 {
                     Id = g.Id,
-                    Title = g.Title,
-                    Price = g.Price,
+                    ProductName = g.ProductName,
+                    Price = g.ProductPrice,
                     StockQuantity = g.StockQuantity,
                     ProductImage = g.ProductImage,
                     ProductCode = g.ProductCode,

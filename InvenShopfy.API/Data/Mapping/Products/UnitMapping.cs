@@ -13,12 +13,12 @@ public class UnitMapping : IEntityTypeConfiguration<Unit>
         builder.ToTable("Unit");
         builder.HasKey(x => x.Id);
         
-        builder.Property(x => x.Title)
+        builder.Property(x => x.UnitName)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
             .HasMaxLength(80);
         
-        builder.Property(x => x.ShortName)
+        builder.Property(x => x.UnitShortName)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
             .HasMaxLength(80);

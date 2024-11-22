@@ -19,11 +19,11 @@ public class CustomerHandler(AppDbContext context) : ICustomerHandler
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             var existingCustomer = await context.Customers
                 .FirstOrDefaultAsync(
-                    x => x.Name.ToLower() == request.Name.ToLower() || x.Email.ToLower() == request.Email.ToLower());
+                    x => x.CustomerName.ToLower() == request.Name.ToLower() || x.Email.ToLower() == request.Email.ToLower());
 
             if (existingCustomer != null)
             {
-                if (existingCustomer.Name.ToLower() == request.Name.ToLower())
+                if (existingCustomer.CustomerName.ToLower() == request.Name.ToLower())
                 {
                     return new Response<Customer?>(null, 409, $"The customer name '{request.Name}' already exists.");
                 }
@@ -37,7 +37,7 @@ public class CustomerHandler(AppDbContext context) : ICustomerHandler
             var customer = new Customer
             {
                 UserId = request.UserId,
-                Name = textInfo.ToTitleCase(request.Name),
+                CustomerName = textInfo.ToTitleCase(request.Name),
                 Email = request.Email,
                 PhoneNumber = request.PhoneNumber,
                 City = textInfo.ToTitleCase(request.City),
@@ -75,7 +75,7 @@ public class CustomerHandler(AppDbContext context) : ICustomerHandler
                 return new Response<Customer?>(null, 400, "Invalid Customer Group");
             }
 
-            customer.Name = request.Name;
+            customer.CustomerName = request.Name;
             customer.Email = request.Email;
             customer.PhoneNumber = request.PhoneNumber;
             customer.City = request.City;
@@ -145,7 +145,7 @@ public class CustomerHandler(AppDbContext context) : ICustomerHandler
                 .Customers
                 .AsNoTracking()
                 .Where(x => x.UserId == request.UserId)
-                .OrderBy(x => x.Name);
+                .OrderBy(x => x.CustomerName);
 
             var customer = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)
@@ -177,7 +177,7 @@ public class CustomerHandler(AppDbContext context) : ICustomerHandler
                 .Select(x => new CustomerName
                 {
                     Id = x.Id,
-                    Name = x.Name
+                    Name = x.CustomerName
                 })
                 .OrderBy(x => x.Name);
 

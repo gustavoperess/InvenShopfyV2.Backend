@@ -11,7 +11,7 @@ public class CustomerMapping : IEntityTypeConfiguration<Customer>
         builder.ToTable("Customer");
         builder.HasKey(x => x.Id);
         
-        builder.Property(x => x.Name)
+        builder.Property(x => x.CustomerName)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
             .HasMaxLength(150);

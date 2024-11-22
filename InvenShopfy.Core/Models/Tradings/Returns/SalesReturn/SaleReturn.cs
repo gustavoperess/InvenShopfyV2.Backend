@@ -7,7 +7,7 @@ public class SaleReturn
     public string BillerName { get; set; } = null!;
     public string CustomerName { get; set; } = null!;
     public string WarehouseName { get; set; } = null!;
-    public decimal TotalAmount { get; set; } 
+    public decimal ReturnTotalAmount { get; set; } 
     public string ReturnNote { get; set; } = null!;
     public string RemarkStatus { get; set; } = null!;
     public DateOnly ReturnDate { get; init; }  = DateOnly.FromDateTime(DateTime.Now);

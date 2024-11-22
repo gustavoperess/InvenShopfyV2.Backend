@@ -2,5 +2,5 @@ namespace InvenShopfy.Core.Requests.Products.Product;
 
 public class GetProductByNameRequest : PagedRequest
 {
-    public string Title { get; set; } = string.Empty;
+    public string ProductName { get; set; } = string.Empty;
 }

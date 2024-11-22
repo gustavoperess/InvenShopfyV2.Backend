@@ -169,7 +169,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                     (product, purchaseProducts) => new
                     {
                         ProductId = product.Id,
-                        ProductName = product.Title,
+                        ProductName = product.ProductName,
                         product.ProductCode,
                         product.StockQuantity,
                         PurchaseCount = purchaseProducts.Sum(po => (int?)po.TotalQuantityBoughtPerProduct) ?? 0,
@@ -272,10 +272,10 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                     x.SaleDate <= request.EndDate &&
                     x.UserId == request.UserId)
                 .Include(x => x.Customer)
-                .GroupBy(x => new { x.Customer.Name, x.CustomerId, x.Customer.RewardPoint })
+                .GroupBy(x => new { x.Customer.CustomerName, x.CustomerId, x.Customer.RewardPoint })
                 .Select(g => new
                 {
-                    g.Key.Name,
+                    g.Key.CustomerName,
                     g.Key.CustomerId,
                     g.Key.RewardPoint,
                     NumberOfPurchases = g.Count(),
@@ -295,7 +295,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
             {
                 Id = s.CustomerId,
                 RewardPoints = s.RewardPoint,
-                CustomerName = s.Name,
+                CustomerName = s.CustomerName,
                 NumberOfPurchases = s.NumberOfPurchases,
                 TotalAmount = s.TotalAmount,
                 NumberOfProductsBought = s.NumberOfProductsBought,
@@ -506,7 +506,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                 g.purchase.Id,
                 g.purchase.PurchaseDate,
                 g.purchase.Warehouse.WarehouseName,
-                ProductName = g.purchaseProduct.Product.Title,
+                g.purchaseProduct.Product.ProductName,
                 g.purchaseProduct.TotalQuantityBoughtPerProduct,
                 g.purchaseProduct.TotalPricePaidPerProduct,
                 g.purchaseProduct.TotalInTaxPaidPerProduct,

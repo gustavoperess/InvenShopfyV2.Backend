@@ -6,13 +6,13 @@ public class UpdateProductRequest : Request
 {
     public long Id { get; set; }
     
-    [Required(ErrorMessage = "Invalid Title")]
+    [Required(ErrorMessage = "Invalid ProductName")]
     [MaxLength(80,  ErrorMessage= "Max len of 80 characters")]
-    public string Title { get; set; } = string.Empty;
+    public string ProductName { get; set; } = string.Empty;
     
     [Required(ErrorMessage = "Invalid Amount")]
     [Range(0.01, 1000000, ErrorMessage = "Amount must be between 0.01 and 1,000,000.")]
-    public decimal Price { get; set; }
+    public decimal ProductPrice { get; set; }
     
     [Required(ErrorMessage = "Invalid Product Code")]
     [Range(1, 1000, ErrorMessage = "Product code for {0} must be between {1} and {2}.")]

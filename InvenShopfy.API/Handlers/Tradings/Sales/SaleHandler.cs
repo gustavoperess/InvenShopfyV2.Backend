@@ -1,6 +1,5 @@
 using System.Globalization;
 using InvenShopfy.API.Data;
-using InvenShopfy.API.Models;
 using InvenShopfy.Core.Common.Extension;
 using InvenShopfy.Core.Handlers.Notifications;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
@@ -9,8 +8,6 @@ using InvenShopfy.Core.Models.Tradings.Sales.Dto;
 using InvenShopfy.Core.Requests.Notifications;
 using InvenShopfy.Core.Requests.Tradings.Sales;
 using InvenShopfy.Core.Responses;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -63,7 +60,7 @@ public class SaleHandler : ISalesHandler
             
             var notificationRequest = new CreateNotificationsRequest
             {
-                Title =  $"New Sale Of {request.TotalAmount.ToString("C", CultureInfo.CurrentCulture)} created",
+                NotificationTitle =  $"New Sale Of {request.TotalAmount.ToString("C", CultureInfo.CurrentCulture)} created",
                 Urgency = false,
                 From = "System-Sales", 
                 Image = null, 
@@ -154,7 +151,7 @@ public class SaleHandler : ISalesHandler
                     g.sale.SaleStatus,
                     g.sale.TotalAmount,
                     g.sale.Warehouse.WarehouseName,
-                    CustomerName = g.sale.Customer.Name,
+                    g.sale.Customer.CustomerName,
                     g.sale.TotalQuantitySold,
                     g.sale.Discount,
                     g.sale.TaxAmount,
@@ -217,7 +214,7 @@ public class SaleHandler : ISalesHandler
                     x.Sale.SaleDate >= request.StartDate &&
                     x.Sale.SaleDate <= request.EndDate &&
                     x.Sale.UserId == request.UserId)
-                .GroupBy(x => new { x.ProductId, x.Product.Title, x.Product.ProductCode })
+                .GroupBy(x => new { x.ProductId, Title = x.Product.ProductName, x.Product.ProductCode })
                 .Select(g => new
                 {
                     Id = g.Key.ProductId,
@@ -278,10 +275,17 @@ public class SaleHandler : ISalesHandler
                 .Where(x => x.sale.Sale.UserId == request.UserId && x.sale.SaleId == request.SaleId)
                 .GroupBy(x => new
                 {
-                    x.sale.ProductId, x.sale.Product.Title, x.sale.ReferenceNumber, x.sale.TotalPricePerProduct,
+                    x.sale.ProductId,
+                    Title = x.sale.Product.ProductName, x.sale.ReferenceNumber, x.sale.TotalPricePerProduct,
                     x.sale.Sale.Discount,
-                    x.sale.TotalQuantitySoldPerProduct, x.sale.Product.Unit.ShortName, x.sale.Sale.TotalAmount,
-                    x.sale.Product.Price, x.sale.Sale.ShippingCost,
+                    x.sale.Product.Featured,
+                    x.sale.Sale.TaxAmount,
+                    x.sale.Product.ProductImage,
+                    BrandName = x.sale.Product.Brand.BrandName,
+                    x.sale.TotalQuantitySoldPerProduct,
+                    ShortName = x.sale.Product.Unit.UnitShortName, x.sale.Sale.TotalAmount,
+                    Price = x.sale.Product.ProductPrice, x.sale.Sale.ShippingCost,
+                    x.sale.Sale.ProfitAmount,
                     x.sale.Sale.SaleNote, x.sale.Sale.StaffNote, x.userInfo.Name, x.userInfo.Email
                 })
                 .Select(g => new
@@ -291,8 +295,13 @@ public class SaleHandler : ISalesHandler
                     g.Key.TotalAmount,
                     g.Key.ReferenceNumber,
                     ProductName = g.Key.Title,
+                    g.Key.ProductImage,
+                    g.Key.BrandName,
+                    g.Key.TaxAmount,
                     g.Key.Discount,
+                    g.Key.ProfitAmount,
                     g.Key.TotalPricePerProduct,
+                    g.Key.Featured,
                     g.Key.TotalQuantitySoldPerProduct,
                     UnitShortName = g.Key.ShortName,
                     g.Key.ShippingCost,
@@ -314,7 +323,12 @@ public class SaleHandler : ISalesHandler
                 ReferenceNumber = s.ReferenceNumber,
                 TotalPricePerProduct = s.TotalPricePerProduct,
                 TotalQuantitySoldPerProduct = s.TotalQuantitySoldPerProduct,
-                Discount = s.Discount,
+                Discount =  s.Discount,
+                TaxAmount = s.TaxAmount,
+                ProductImage = s.ProductImage,
+                BrandName = s.BrandName,
+                Featured = s.Featured,
+                ProfitAmount = s.ProfitAmount,
                 ShippingCost = s.ShippingCost,
                 SaleNote = s.SaleNote,
                 StaffNote = s.StaffNote,
@@ -349,7 +363,7 @@ public class SaleHandler : ISalesHandler
                     Id = x.Id,
                     SaleDate = x.SaleDate,
                     ReferenceNumber = x.ReferenceNumber,
-                    Customer = x.Customer.Name,
+                    Customer = x.Customer.CustomerName,
                     SaleStatus = x.SaleStatus,
                     TotalAmount = x.TotalAmount,
                     TotalQuantitySold = x.TotalQuantitySold
