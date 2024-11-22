@@ -34,7 +34,6 @@ public class MessageHandler: IMessageHandler
                 IsImportant = false,
                 IsDeleted = false,
                 IsReceived = false
-        
             };
             
             await _context.Messages.AddAsync(product);
@@ -89,6 +88,11 @@ public class MessageHandler: IMessageHandler
             if (message == null)
             {
                 return new Response<Message?>(null, 500, "Message Not found");
+            }
+
+            if (message.IsImportant)
+            {
+                message.IsImportant = false;
             }
 
             if (message.IsDeleted)

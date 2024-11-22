@@ -7,6 +7,7 @@ public sealed class SalesReturnByReturnNumber
     public string WarehouseName { get; set; } = null!;
     public string BillerName { get; set; } = null!;
     public string CustomerName { get; set; } = null!;
+    public string SaleStatus { get; set; } = null!;
     public decimal TotalAmount { get; set; } 
     
 }

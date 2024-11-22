@@ -35,6 +35,7 @@ public class GetAllUsersButYourselfEndpoint : IEndPoint
             
             var users = await query.Select(x => new
             {
+                userId = x.Id,
                 userName = x.Name.Substring(0, x.Name.IndexOf(" ")) + 
                        x.Name.Substring(x.Name.LastIndexOf(" "))
                 

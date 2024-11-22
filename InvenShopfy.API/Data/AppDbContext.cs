@@ -38,7 +38,6 @@ namespace InvenShopfy.API.Data;
         public DbSet<Supplier> Suppliers { get; set; } = null!;
         public DbSet<AddPurchase> Purchases { get; set; } = null!;
         public DbSet<Warehouse> Warehouses { get; set; } = null!;
-        
         public DbSet<Message> Messages { get; set; } = null!;
         public DbSet<Notification> Notifications { get; set; } = null!;
         public DbSet<WarehouseProduct> WarehousesProducts { get; set; } = null!;
