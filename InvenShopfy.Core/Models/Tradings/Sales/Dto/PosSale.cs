@@ -1,6 +1,6 @@
 namespace InvenShopfy.Core.Models.Tradings.Sales.Dto;
 
-public sealed class SalePerProduct
+public class PosSale
 {
     public long ProductId { get; set; }
     public decimal ProductPrice { get; set; }
@@ -13,6 +13,8 @@ public sealed class SalePerProduct
     public decimal TotalAmount { get; set; }
     public string? BrandName { get; set; }
     public string? ProductImage { get; set; }
+    public string? BrandImage { get; set; }
+    public string? MainCategory { get; set; }
     public bool Featured { get; set; }
     public decimal ProfitAmount { get; set; }
     public decimal TaxAmount { get; set; }
@@ -21,5 +23,4 @@ public sealed class SalePerProduct
     public string? SaleNote { get; set; }
     public string? BillerName { get; set; }
     public string? BillerEmail { get; set; }
-
 }

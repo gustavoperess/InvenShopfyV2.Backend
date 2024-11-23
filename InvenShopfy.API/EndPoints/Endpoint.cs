@@ -173,6 +173,7 @@ public static class Endpoint
             .MapEndpoint<CreateSaleEndpoint>()
             .MapEndpoint<UpdateSalesEndpoint>()
             .MapEndpoint<GetAllSalesEndpoint>()
+            .MapEndpoint<GetSalesByIdForPosSaleEndpoint>()
             .MapEndpoint<DeleteSaleEndpoint>()
             .MapEndpoint<GetSalesDashboardEndpoint>()
             .MapEndpoint<GetSalesBySalesIdEndpoint>()

@@ -259,7 +259,117 @@ public class SaleHandler : ISalesHandler
     }
 
 
-    public async Task<Response<List<SalePerProduct>?>> GetSalesBySaleIdAsync(GetSalesBySaleIdRequest request)
+    public async Task<Response<List<PosSale>?>> GetSalesBySaleIdForPosSaleAsync(GetSalesBySaleIdRequest request)
+    {
+        try
+        {
+            var query = _context
+                .SaleProducts
+                .AsNoTracking()
+                .Include(x => x.Sale)
+                .Include(x => x.Product)
+                .Join(_context.Users,
+                    ul => ul.Sale.BillerId,
+                    userInfo => userInfo.Id,
+                    (sale, userInfo) => new { sale, userInfo })
+                .Where(x => x.sale.Sale.UserId == request.UserId && x.sale.SaleId == request.SaleId)
+                .GroupBy(x => new
+                {
+                    //Product
+                    x.sale.ProductId,
+                    x.sale.Product.ProductName, 
+                    x.sale.Product.Unit.UnitShortName,
+                    x.sale.Product.Featured,
+                    x.sale.Product.ProductImage,
+                    x.sale.Product.Brand.BrandName,
+                    x.sale.Product.Brand.BrandImage,
+                    x.sale.Product.Category.MainCategory,
+                    x.sale.Product.ProductPrice,
+                    x.sale.Product.ProductCode,
+                    // sale product
+                    x.sale.TotalPricePerProduct,
+                    x.sale.TotalQuantitySoldPerProduct,
+                    x.sale.ReferenceNumber, 
+                    // sale
+                    x.sale.Sale.Discount,
+                    x.sale.Sale.TaxAmount,
+                    x.sale.Sale.TotalAmount,
+                    x.sale.Sale.ShippingCost,
+                    x.sale.Sale.ProfitAmount,
+                    x.sale.Sale.SaleNote,
+                    x.sale.Sale.StaffNote,
+                    //user
+                    x.userInfo.Name,
+                    x.userInfo.Email
+                })
+                .Select(g => new
+                {
+                    Id = g.Key.ProductId,
+                    g.Key.ProductPrice,
+                    g.Key.TotalAmount,
+                    g.Key.ReferenceNumber,
+                    g.Key.ProductName,
+                    g.Key.ProductImage,
+                    g.Key.BrandName,
+                    g.Key.BrandImage,
+                    g.Key.ProductCode,
+                    g.Key.TaxAmount,
+                    g.Key.MainCategory,
+                    g.Key.Discount,
+                    g.Key.ProfitAmount,
+                    g.Key.TotalPricePerProduct,
+                    g.Key.Featured,
+                    g.Key.TotalQuantitySoldPerProduct,
+                    g.Key.UnitShortName,
+                    g.Key.ShippingCost,
+                    g.Key.SaleNote,
+                    g.Key.StaffNote,
+                    BillerName = g.Key.Name,
+                    BillerEmail = g.Key.Email
+                });
+    
+            var sale = await query.ToListAsync();
+    
+            var result = sale.Select(s => new PosSale
+            {
+                TotalAmount = s.TotalAmount,
+                ProductPrice = s.ProductPrice,
+                ProductId = s.Id,
+                ProductName = s.ProductName,
+                UnitShortName = s.UnitShortName,
+                ReferenceNumber = s.ReferenceNumber,
+                TotalPricePerProduct = s.TotalPricePerProduct,
+                TotalQuantitySoldPerProduct = s.TotalQuantitySoldPerProduct,
+                Discount =  s.Discount,
+                TaxAmount = s.TaxAmount,
+                ProductImage = s.ProductImage,
+                BrandImage = s.BrandImage,
+                MainCategory = s.MainCategory,
+                BrandName = s.BrandName,
+                Featured = s.Featured,
+                ProfitAmount = s.ProfitAmount,
+                ShippingCost = s.ShippingCost,
+                SaleNote = s.SaleNote,
+                StaffNote = s.StaffNote,
+                BillerName = s.BillerName,
+                BillerEmail = s.BillerEmail
+            }).ToList();
+    
+            if (result.Count == 0)
+            {
+                return new Response<List<PosSale>?>(result, 400, "No item found with this Id");
+            }
+    
+            return new Response<List<PosSale>?>(result, 200, "Items retrived Successfully");
+        }
+        catch
+        {
+            return new Response<List<PosSale>?>(null, 500, "It was not possible to consult items for Post Sale");
+        }
+    }
+    
+    
+    public async Task<Response<List<SalePopUp>?>> GetSalesBySaleIdAsync(GetSalesBySaleIdRequest request)
     {
         try
         {
@@ -276,34 +386,31 @@ public class SaleHandler : ISalesHandler
                 .GroupBy(x => new
                 {
                     x.sale.ProductId,
-                    Title = x.sale.Product.ProductName, x.sale.ReferenceNumber, x.sale.TotalPricePerProduct,
+                    x.sale.Product.ProductName, 
+                    x.sale.ReferenceNumber,
+                    x.sale.TotalPricePerProduct,
                     x.sale.Sale.Discount,
-                    x.sale.Product.Featured,
-                    x.sale.Sale.TaxAmount,
-                    x.sale.Product.ProductImage,
-                    BrandName = x.sale.Product.Brand.BrandName,
                     x.sale.TotalQuantitySoldPerProduct,
-                    ShortName = x.sale.Product.Unit.UnitShortName, x.sale.Sale.TotalAmount,
-                    Price = x.sale.Product.ProductPrice, x.sale.Sale.ShippingCost,
-                    x.sale.Sale.ProfitAmount,
-                    x.sale.Sale.SaleNote, x.sale.Sale.StaffNote, x.userInfo.Name, x.userInfo.Email
+                    x.sale.Product.Unit.UnitShortName, 
+                    x.sale.Sale.TotalAmount,
+                    x.sale.Product.ProductPrice,
+                    x.sale.Sale.ShippingCost,
+                    x.sale.Sale.SaleNote,
+                    x.sale.Sale.StaffNote,
+                    x.userInfo.Name,
+                    x.userInfo.Email
                 })
                 .Select(g => new
                 {
                     Id = g.Key.ProductId,
-                    ProductPrice = g.Key.Price,
+                    g.Key.ProductPrice,
                     g.Key.TotalAmount,
-                    g.Key.ReferenceNumber,
-                    ProductName = g.Key.Title,
-                    g.Key.ProductImage,
-                    g.Key.BrandName,
-                    g.Key.TaxAmount,
                     g.Key.Discount,
-                    g.Key.ProfitAmount,
+                    g.Key.ReferenceNumber,
+                    g.Key.ProductName,
                     g.Key.TotalPricePerProduct,
-                    g.Key.Featured,
                     g.Key.TotalQuantitySoldPerProduct,
-                    UnitShortName = g.Key.ShortName,
+                    g.Key.UnitShortName,
                     g.Key.ShippingCost,
                     g.Key.SaleNote,
                     g.Key.StaffNote,
@@ -313,7 +420,7 @@ public class SaleHandler : ISalesHandler
 
             var sale = await query.ToListAsync();
 
-            var result = sale.Select(s => new SalePerProduct
+            var result = sale.Select(s => new SalePopUp
             {
                 TotalAmount = s.TotalAmount,
                 ProductPrice = s.ProductPrice,
@@ -323,12 +430,7 @@ public class SaleHandler : ISalesHandler
                 ReferenceNumber = s.ReferenceNumber,
                 TotalPricePerProduct = s.TotalPricePerProduct,
                 TotalQuantitySoldPerProduct = s.TotalQuantitySoldPerProduct,
-                Discount =  s.Discount,
-                TaxAmount = s.TaxAmount,
-                ProductImage = s.ProductImage,
-                BrandName = s.BrandName,
-                Featured = s.Featured,
-                ProfitAmount = s.ProfitAmount,
+                Discount = s.Discount,
                 ShippingCost = s.ShippingCost,
                 SaleNote = s.SaleNote,
                 StaffNote = s.StaffNote,
@@ -338,17 +440,16 @@ public class SaleHandler : ISalesHandler
 
             if (result.Count == 0)
             {
-                return new Response<List<SalePerProduct>?>(result, 400, "No item found with this Id");
+                return new Response<List<SalePopUp>?>(result, 400, "No item found with this Id");
             }
 
-            return new Response<List<SalePerProduct>?>(result, 200, "Items retrived Successfully");
+            return new Response<List<SalePopUp>?>(result, 200, "Items retrived Successfully");
         }
         catch
         {
-            return new Response<List<SalePerProduct>?>(null, 500, "It was not possible to consult all sale");
+            return new Response<List<SalePopUp>?>(null, 500, "It was not possible to consult all sale");
         }
     }
-
 
     public async Task<Response<List<SallerDashboard>?>> GetSaleStatusDashboardAsync(GetAllSalesRequest request)
     {

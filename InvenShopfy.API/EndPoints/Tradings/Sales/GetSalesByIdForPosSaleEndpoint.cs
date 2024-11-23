@@ -7,15 +7,15 @@ using InvenShopfy.Core.Responses;
 
 namespace InvenShopfy.API.EndPoints.Tradings.Sales;
 
-public class GetSalesBySalesIdEndpoint : IEndPoint
+public class GetSalesByIdForPosSaleEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("/getBySalesId/{SaleId}", HandlerAsync)
-            .WithName("Get by SalesID")
-            .WithSummary("Get the sales by sales Id")
-            .WithDescription("Get the sales by sales Id")
-            .WithOrder(10)
-            .Produces<Response<SalePopUp?>>();
+        => app.MapGet("/posSale/{SaleId}", HandlerAsync)
+            .WithName("Get by SalesID for PosSale")
+            .WithSummary("Get the sales by sales Id for the posSale API")
+            .WithDescription("Get the sales by sales Id for the posSale API")
+            .WithOrder(11)
+            .Produces<Response<PosSale?>>();
 
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,
@@ -28,7 +28,7 @@ public class GetSalesBySalesIdEndpoint : IEndPoint
             SaleId = saleId
         };
 
-        var result = await handler.GetSalesBySaleIdAsync(request);
+        var result = await handler.GetSalesBySaleIdForPosSaleAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);
