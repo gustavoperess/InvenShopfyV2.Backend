@@ -11,9 +11,11 @@ public class PosSale
     public string ReferenceNumber { get; set; } = null!;
     public decimal ShippingCost { get; set; }
     public decimal TotalAmount { get; set; }
+    public string? BrandId { get; set; }
     public string? BrandName { get; set; }
-    public string? ProductImage { get; set; }
     public string? BrandImage { get; set; }
+    public string? ProductImage { get; set; }
+    public string? CategoryId { get; set; }
     public string? MainCategory { get; set; }
     public bool Featured { get; set; }
     public decimal ProfitAmount { get; set; }

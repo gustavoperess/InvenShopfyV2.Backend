@@ -11,7 +11,6 @@ public interface ISalesHandler
     Task<Response<Models.Tradings.Sales.Sale?>> DeleteSaleAsync(DeleteSalesRequest request);
     Task<PagedResponse<List<SaleList>?>> GetSaleByPeriodAsync(GetAllSalesRequest request);
     Task<Response<List<SalePopUp>?>> GetSalesBySaleIdAsync(GetSalesBySaleIdRequest request);
-    
     Task<Response<List<PosSale>?>> GetSalesBySaleIdForPosSaleAsync(GetSalesBySaleIdRequest request);
     Task<PagedResponse<List<MostSoldProduct>?>> GetMostSoldProductAsync(GetMostSoldProduct request);
     Task<Response<List<SallerDashboard>?>> GetSaleStatusDashboardAsync(GetAllSalesRequest request);
