@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241118161620_creatingNotificationsAdjustment")]
-    partial class creatingNotificationsAdjustment
+    [Migration("20241122193139_CreatingNewMigration")]
+    partial class CreatingNewMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -230,6 +230,54 @@ namespace InvenShopfy.API.Migrations
                     b.ToTable("ExpenseCategory", (string)null);
                 });
 
+            modelBuilder.Entity("InvenShopfy.Core.Models.Messages.Message", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("BOOLEAN");
+
+                    b.Property<bool>("IsImportant")
+                        .HasColumnType("BOOLEAN");
+
+                    b.Property<bool>("IsReceived")
+                        .HasColumnType("BOOLEAN");
+
+                    b.Property<bool>("IsSent")
+                        .HasColumnType("BOOLEAN");
+
+                    b.Property<string>("MessageBody")
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MessageTitle")
+                        .HasMaxLength(150)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<string>("Subject")
+                        .HasMaxLength(150)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<DateOnly>("Time")
+                        .HasColumnType("date");
+
+                    b.Property<long>("ToUserId")
+                        .HasColumnType("BIGINT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(160)
+                        .HasColumnType("VARCHAR");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Message", (string)null);
+                });
+
             modelBuilder.Entity("InvenShopfy.Core.Models.Notifications.Notification", b =>
                 {
                     b.Property<long>("Id")
@@ -256,7 +304,7 @@ namespace InvenShopfy.API.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("NotificationTitle")
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("VARCHAR");
@@ -366,14 +414,14 @@ namespace InvenShopfy.API.Migrations
                         .IsRequired()
                         .HasColumnType("VARCHAR(50)");
 
+                    b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("VARCHAR");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(160)
-                        .HasColumnType("VARCHAR");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(150)
                         .HasColumnType("VARCHAR");
 
                     b.Property<string>("PhoneNumber")
@@ -473,7 +521,7 @@ namespace InvenShopfy.API.Migrations
                     b.Property<string>("BrandImage")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("BrandName")
                         .IsRequired()
                         .HasMaxLength(80)
                         .HasColumnType("VARCHAR");
@@ -534,9 +582,6 @@ namespace InvenShopfy.API.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("VARCHAR");
 
-                    b.Property<bool>("DifferPriceWarehouse")
-                        .HasColumnType("BOOLEAN");
-
                     b.Property<bool>("Expired")
                         .HasColumnType("BOOLEAN");
 
@@ -548,9 +593,6 @@ namespace InvenShopfy.API.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("VARCHAR");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("MONEY");
-
                     b.Property<string>("ProductCode")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -558,6 +600,14 @@ namespace InvenShopfy.API.Migrations
 
                     b.Property<string>("ProductImage")
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<decimal>("ProductPrice")
+                        .HasColumnType("MONEY");
 
                     b.Property<bool>("Sale")
                         .HasColumnType("BOOLEAN");
@@ -572,11 +622,6 @@ namespace InvenShopfy.API.Migrations
 
                     b.Property<int>("TaxPercentage")
                         .HasColumnType("INT");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("VARCHAR");
 
                     b.Property<long>("UnitId")
                         .HasColumnType("bigint");
@@ -605,12 +650,12 @@ namespace InvenShopfy.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("ShortName")
+                    b.Property<string>("UnitName")
                         .IsRequired()
                         .HasMaxLength(80)
                         .HasColumnType("VARCHAR");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("UnitShortName")
                         .IsRequired()
                         .HasMaxLength(80)
                         .HasColumnType("VARCHAR");
@@ -794,7 +839,7 @@ namespace InvenShopfy.API.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("TotalAmount")
+                    b.Property<decimal>("ReturnTotalAmount")
                         .HasColumnType("NUMERIC(18,2)");
 
                     b.Property<string>("UserId")

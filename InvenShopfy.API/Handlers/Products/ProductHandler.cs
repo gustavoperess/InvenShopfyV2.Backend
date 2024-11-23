@@ -234,7 +234,7 @@ public class ProductHandler : IProductHandler
                 {
                     Id = g.Id,
                     ProductName = g.ProductName,
-                    Price = g.ProductPrice,
+                    ProductPrice = g.ProductPrice,
                     StockQuantity = g.StockQuantity,
                     ProductImage = g.ProductImage,
                     ProductCode = g.ProductCode,

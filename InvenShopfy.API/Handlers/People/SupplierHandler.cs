@@ -17,14 +17,14 @@ public class SupplierHandler (AppDbContext context) : ISupplierHandler
         {
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             var existingSupplier = await context.Suppliers
-                .FirstOrDefaultAsync(x => x.Name.ToLower() == request.Name.ToLower() || 
+                .FirstOrDefaultAsync(x => x.SupplierName.ToLower() == request.SupplierName.ToLower() || 
                                           x.Email.ToLower() == request.Email.ToLower());
            
             if (existingSupplier != null)
             {
-                if (existingSupplier.Name.ToLower() == request.Name.ToLower())
+                if (existingSupplier.SupplierName.ToLower() == request.SupplierName.ToLower())
                 {
-                    return new Response<Supplier?>(null, 409, $"The supplier name '{request.Name}' already exists.");
+                    return new Response<Supplier?>(null, 409, $"The supplier name '{request.SupplierName}' already exists.");
                 }
                 if (existingSupplier.Email.ToLower() == request.Email.ToLower())
                 {
@@ -35,7 +35,7 @@ public class SupplierHandler (AppDbContext context) : ISupplierHandler
             var supplier = new Supplier
             {
                 UserId = request.UserId,
-                Name = textInfo.ToTitleCase(request.Name),
+                SupplierName = textInfo.ToTitleCase(request.SupplierName),
                 PhoneNumber = request.PhoneNumber,
                 Email = request.Email,
                 SupplierCode = request.SupplierCode,
@@ -69,7 +69,7 @@ public class SupplierHandler (AppDbContext context) : ISupplierHandler
             }
             
             supplier.UserId = request.UserId;
-            supplier.Name = request.Name;
+            supplier.SupplierName = request.SupplierName;
             supplier.PhoneNumber = request.PhoneNumber;
             supplier.Email = request.Email;
             supplier.Country = request.Country;
@@ -139,7 +139,7 @@ public class SupplierHandler (AppDbContext context) : ISupplierHandler
                 .Suppliers
                 .AsNoTracking()
                 .Where(x => x.UserId == request.UserId)
-                .OrderBy(x => x.Name);
+                .OrderBy(x => x.SupplierName);
             
             var supplier = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)
@@ -160,7 +160,7 @@ public class SupplierHandler (AppDbContext context) : ISupplierHandler
         }
     }
     
-    public async Task<PagedResponse<List<SupplierName>?>> GetSupplierNameAsync(GetAllSuppliersRequest request)
+    public async Task<PagedResponse<List<SupplierNameC>?>> GetSupplierNameAsync(GetAllSuppliersRequest request)
     {
         try
         {
@@ -168,13 +168,13 @@ public class SupplierHandler (AppDbContext context) : ISupplierHandler
                 .Suppliers
                 .AsNoTracking()
                 .Where(x => x.UserId == request.UserId)
-                .Select(x => new SupplierName
+                .Select(x => new SupplierNameC
                 { 
                     Id = x.Id,
-                    Name = x.Name
+                    SupplierName = x.SupplierName
                     
                 })
-                .OrderBy(x => x.Name);
+                .OrderBy(x => x.SupplierName);
             
             var supplier = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)
@@ -183,7 +183,7 @@ public class SupplierHandler (AppDbContext context) : ISupplierHandler
             
             var count = await query.CountAsync();
             
-            return new PagedResponse<List<SupplierName>?>(
+            return new PagedResponse<List<SupplierNameC>?>(
                 supplier,
                 count,
                 request.PageNumber,
@@ -191,7 +191,7 @@ public class SupplierHandler (AppDbContext context) : ISupplierHandler
         }
         catch 
         {
-            return new PagedResponse<List<SupplierName>?>(null, 500, "It was not possible to consult all supplier names");
+            return new PagedResponse<List<SupplierNameC>?>(null, 500, "It was not possible to consult all supplier names");
         }
     }
     public async Task<Response<List<TopSupplier>?>> GetTopSuppliersAsync(GetAllSuppliersRequest request)
@@ -205,7 +205,7 @@ public class SupplierHandler (AppDbContext context) : ISupplierHandler
                 .Where(x => x.UserId == request.UserId)
                 .GroupBy(y => new
                 {
-                    y.Supplier.Name,
+                    y.Supplier.SupplierName,
                     y.SupplierId,
                     y.Supplier.SupplierCode,
                     y.Supplier.Company,
@@ -213,7 +213,7 @@ public class SupplierHandler (AppDbContext context) : ISupplierHandler
                 .Select(x => new TopSupplier
                 { 
                     Id = x.Key.SupplierId,
-                    Name = x.Key.Name,
+                    SupplierName = x.Key.SupplierName,
                     SupplierCode = x.Key.SupplierCode,
                     Company = x.Key.Company,
                     TotalPurchase =  x.Sum(s => s.TotalAmountBought),

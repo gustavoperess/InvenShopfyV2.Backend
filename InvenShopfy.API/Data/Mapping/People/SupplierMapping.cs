@@ -12,7 +12,7 @@ public class SupplierMapping : IEntityTypeConfiguration<Supplier>
         builder.ToTable("Supplier");
         builder.HasKey(x => x.Id);
         
-        builder.Property(x => x.Name)
+        builder.Property(x => x.SupplierName)
             .IsRequired(true)
             .HasColumnType("VARCHAR")
             .HasMaxLength(150);

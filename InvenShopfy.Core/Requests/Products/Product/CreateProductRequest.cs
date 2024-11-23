@@ -40,7 +40,6 @@ public class CreateProductRequest : Request
     public long UnitId  { get; set; }
     
     public bool Featured { get; set; } = false;
-    public bool DifferPriceWarehouse { get; set; } = false;
     public bool Expired { get; set; } = false;
     public bool Sale { get; set; } = false;
    

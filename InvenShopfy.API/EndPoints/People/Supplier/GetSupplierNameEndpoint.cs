@@ -17,7 +17,7 @@ public class GetSupplierNameEndpoint : IEndPoint
             .WithSummary("Get All suppliernames")
             .WithDescription("Get all suppliernames")
             .WithOrder(6)
-            .Produces<PagedResponse<List<SupplierName>?>>();
+            .Produces<PagedResponse<List<SupplierNameC>?>>();
 
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,

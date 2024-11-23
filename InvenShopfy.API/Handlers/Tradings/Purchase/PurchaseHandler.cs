@@ -167,14 +167,14 @@ public class PurchaseHandler : IPurchaseHandler
                     ShortName = x.Product.Unit.UnitShortName, x.AddPurchase.TotalAmountBought,
                     Price = x.Product.ProductPrice,
                     x.AddPurchase.ShippingCost,
-                    x.AddPurchase.PurchaseNote, x.AddPurchase.Supplier.Name, x.AddPurchase.Supplier.Email
+                    x.AddPurchase.PurchaseNote, x.AddPurchase.Supplier.SupplierName, x.AddPurchase.Supplier.Email
                 }).Select(g => new
                 {
                     Id = g.Key.ProductId,
                     ProductPrice = g.Key.Price,
                     ProductName = g.Key.Title,
                     UnitShortName = g.Key.ShortName,
-                    SupplierName = g.Key.Name,
+                    SupplierName = g.Key.SupplierName,
                     SupplierEmail = g.Key.Email,
                     g.Key.TotalInTaxPaidPerProduct,
                     g.Key.TotalTax,
@@ -231,7 +231,7 @@ public class PurchaseHandler : IPurchaseHandler
                 {
                     g.Id,
                     g.PurchaseDate,
-                    SupplierName = g.Supplier.Name,
+                    SupplierName = g.Supplier.SupplierName,
                     g.Warehouse.WarehouseName,
                     g.PurchaseStatus,
                     g.ShippingCost,
@@ -287,7 +287,7 @@ public class PurchaseHandler : IPurchaseHandler
                     Id = x.Id,
                     PurchaseDate = x.PurchaseDate,
                     ReferenceNumber = x.ReferenceNumber,
-                    Supplier = x.Supplier.Name,
+                    Supplier = x.Supplier.SupplierName,
                     PurchaseStatus = x.PurchaseStatus,
                     TotalAmountBought = x.TotalAmountBought,
                     TotalNumberOfProductsBought = x.TotalNumberOfProductsBought

@@ -478,11 +478,6 @@ namespace InvenShopfy.API.Migrations
                         .HasMaxLength(160)
                         .HasColumnType("VARCHAR");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("VARCHAR");
-
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(80)
@@ -491,6 +486,11 @@ namespace InvenShopfy.API.Migrations
                     b.Property<long>("SupplierCode")
                         .HasMaxLength(30)
                         .HasColumnType("BIGINT");
+
+                    b.Property<string>("SupplierName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("VARCHAR");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -578,9 +578,6 @@ namespace InvenShopfy.API.Migrations
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("VARCHAR");
-
-                    b.Property<bool>("DifferPriceWarehouse")
-                        .HasColumnType("BOOLEAN");
 
                     b.Property<bool>("Expired")
                         .HasColumnType("BOOLEAN");

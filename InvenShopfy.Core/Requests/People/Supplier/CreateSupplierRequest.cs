@@ -9,7 +9,7 @@ public class CreateSupplierRequest : Request
     
     [Required(ErrorMessage = "Invalid Name")]
     [MaxLength(150, ErrorMessage = "Max length of 150 characters")]
-    public string Name { get; set; } = String.Empty;
+    public string SupplierName { get; set; } = String.Empty;
     
     [Required(ErrorMessage = "Mobile number is required")]
     [RegularExpression(@"^\(\d{3}\)\s\d{3}-\d{4}$", ErrorMessage = "Please enter a valid phone number in the format (123) 456-7890.")]

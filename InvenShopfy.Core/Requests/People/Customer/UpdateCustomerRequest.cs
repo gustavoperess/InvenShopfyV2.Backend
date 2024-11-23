@@ -12,7 +12,7 @@ public class UpdateCustomerRequest : Request
     
     [Required(ErrorMessage = "Invalid Name")]
     [MaxLength(150, ErrorMessage = "Max length of 150 characters")]
-    public string Name { get; set; } = String.Empty;
+    public string CustomerName { get; set; } = String.Empty;
     
     [Required(ErrorMessage = "Invalid Email")]
     [MaxLength(150, ErrorMessage = "Max length of 150 characters")]

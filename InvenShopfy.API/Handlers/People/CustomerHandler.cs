@@ -19,13 +19,13 @@ public class CustomerHandler(AppDbContext context) : ICustomerHandler
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             var existingCustomer = await context.Customers
                 .FirstOrDefaultAsync(
-                    x => x.CustomerName.ToLower() == request.Name.ToLower() || x.Email.ToLower() == request.Email.ToLower());
+                    x => x.CustomerName.ToLower() == request.CustomerName.ToLower() || x.Email.ToLower() == request.Email.ToLower());
 
             if (existingCustomer != null)
             {
-                if (existingCustomer.CustomerName.ToLower() == request.Name.ToLower())
+                if (existingCustomer.CustomerName.ToLower() == request.CustomerName.ToLower())
                 {
-                    return new Response<Customer?>(null, 409, $"The customer name '{request.Name}' already exists.");
+                    return new Response<Customer?>(null, 409, $"The customer name '{request.CustomerName}' already exists.");
                 }
 
                 if (existingCustomer.Email.ToLower() == request.Email.ToLower())
@@ -37,7 +37,7 @@ public class CustomerHandler(AppDbContext context) : ICustomerHandler
             var customer = new Customer
             {
                 UserId = request.UserId,
-                CustomerName = textInfo.ToTitleCase(request.Name),
+                CustomerName = textInfo.ToTitleCase(request.CustomerName),
                 Email = request.Email,
                 PhoneNumber = request.PhoneNumber,
                 City = textInfo.ToTitleCase(request.City),
@@ -75,7 +75,7 @@ public class CustomerHandler(AppDbContext context) : ICustomerHandler
                 return new Response<Customer?>(null, 400, "Invalid Customer Group");
             }
 
-            customer.CustomerName = request.Name;
+            customer.CustomerName = request.CustomerName;
             customer.Email = request.Email;
             customer.PhoneNumber = request.PhoneNumber;
             customer.City = request.City;

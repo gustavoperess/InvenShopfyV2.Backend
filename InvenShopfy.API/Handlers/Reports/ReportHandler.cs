@@ -116,10 +116,10 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                     x.PurchaseDate <= request.EndDate &&
                     x.UserId == request.UserId)
                 .Include(x => x.Supplier)
-                .GroupBy(x => new { x.Supplier.Name, x.Supplier.Id })
+                .GroupBy(x => new { x.Supplier.SupplierName, x.Supplier.Id })
                 .Select(g => new
                 {
-                    g.Key.Name,
+                    g.Key.SupplierName,
                     g.Key.Id,
                     NumberOfPurchases = g.Count(),
                     TotalAmount = g.Sum(x => x.TotalAmountBought),
@@ -136,7 +136,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
             var result = sale.Select(s => new SupplierReport
             {
                 SupplierId = s.Id,
-                SupplierName = s.Name,
+                SupplierName = s.SupplierName,
                 NumberOfPurchases = s.NumberOfPurchases,
                 TotalAmount = s.TotalAmount,
                 NumberOfProductsBought = s.NumberOfProductsBought,
@@ -511,7 +511,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                 g.purchaseProduct.TotalPricePaidPerProduct,
                 g.purchaseProduct.TotalInTaxPaidPerProduct,
                 g.purchaseProduct.PurchaseReferenceNumber,
-                SupplierName = g.purchase.Supplier.Name
+                SupplierName = g.purchase.Supplier.SupplierName
             }).OrderBy(x => x.PurchaseReferenceNumber);
 
         var count = await query.CountAsync();

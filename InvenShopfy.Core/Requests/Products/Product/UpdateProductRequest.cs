@@ -30,7 +30,6 @@ public class UpdateProductRequest : Request
     public string ProductImage { get; set; } = null!;
     
     public bool Featured { get; set; } = false;
-    public bool DifferPriceWarehouse { get; set; } = false;
     public bool Expired { get; set; } = false;
     public bool Sale { get; set; } = false;
     

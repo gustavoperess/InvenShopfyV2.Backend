@@ -79,7 +79,7 @@ public class PurchaseReturnHandlers : IPurchaseReturnHandler
                     Id = g.Id,
                     TotalAmount = g.TotalAmountBought,
                     WarehouseName = g.Warehouse.WarehouseName,
-                    SupplierName= g.Supplier.Name,
+                    SupplierName= g.Supplier.SupplierName,
                     ReferenceNumber = g.ReferenceNumber,
                 }).OrderBy(x => x.SupplierName)
                 .ToListAsync();
