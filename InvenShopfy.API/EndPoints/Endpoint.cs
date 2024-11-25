@@ -44,6 +44,7 @@ public static class Endpoint
             .MapEndpoint<GetAllProductsEndpoint>()
             .MapEndpoint<GetProductByNameEndpoint>()
             .MapEndpoint<DeleteProductEndpoint>()
+            .MapEndpoint<GetProductByPartialNameForUpdatePageEndPoint>()
             .MapEndpoint<GetProductByIdEndpoint>();
 
         productsGroup.MapGroup("Brands")

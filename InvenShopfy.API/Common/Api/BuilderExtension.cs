@@ -145,24 +145,46 @@ public static class BuilderExtension
     
     public static void AddServices(this WebApplicationBuilder builder)
     {
-        builder.Services.AddTransient<IProductHandler, ProductHandler>();
-        builder.Services.AddTransient<IBrandHandler, BrandHandler>();
-        builder.Services.AddTransient<IUnitHandler, UnitHandler>();
-        builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
-        builder.Services.AddTransient<IExpenseCategoryHandler, ExpenseCategoryHandler>();
-        builder.Services.AddTransient<IExpenseHandler, ExpenseHandler>();
-        builder.Services.AddTransient<IBillerHandler, BillerHandler>();
-        builder.Services.AddTransient<ICustomerHandler, CustomerHandler>();
-        builder.Services.AddTransient<ISupplierHandler, SupplierHandler>();
-        builder.Services.AddTransient<IWarehouseHandler, WarehouseHandler>();
-        builder.Services.AddTransient<IPurchaseHandler, PurchaseHandler>();
-        builder.Services.AddTransient<ISalesHandler, SaleHandler>();
-        builder.Services.AddTransient<ISalesReturnHandler, SalesReturnHandlers>(); 
-        builder.Services.AddTransient<IPurchaseReturnHandler, PurchaseReturnHandlers>(); 
-        builder.Services.AddTransient<ITransferHandler, TransferHandler>();
-        builder.Services.AddTransient<INotificationHandler, NotificationHandlers>();
-        builder.Services.AddTransient<IMessageHandler, MessageHandler>(); // new
-        builder.Services.AddTransient<IReportHandler, ReportHandler>();
+        // builder.Services.AddTransient<IProductHandler, ProductHandler>();
+        // builder.Services.AddTransient<IBrandHandler, BrandHandler>();
+        // builder.Services.AddTransient<IUnitHandler, UnitHandler>();
+        // builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
+        // builder.Services.AddTransient<IExpenseCategoryHandler, ExpenseCategoryHandler>();
+        // builder.Services.AddTransient<IExpenseHandler, ExpenseHandler>();
+        // builder.Services.AddTransient<IBillerHandler, BillerHandler>();
+        // builder.Services.AddTransient<ICustomerHandler, CustomerHandler>();
+        // builder.Services.AddTransient<ISupplierHandler, SupplierHandler>();
+        // builder.Services.AddTransient<IWarehouseHandler, WarehouseHandler>();
+        // builder.Services.AddTransient<IPurchaseHandler, PurchaseHandler>();
+        // builder.Services.AddTransient<ISalesHandler, SaleHandler>();
+        // builder.Services.AddTransient<ISalesReturnHandler, SalesReturnHandlers>(); 
+        // builder.Services.AddTransient<IPurchaseReturnHandler, PurchaseReturnHandlers>(); 
+        // builder.Services.AddTransient<ITransferHandler, TransferHandler>();
+        // builder.Services.AddTransient<INotificationHandler, NotificationHandlers>();
+        // builder.Services.AddTransient<IMessageHandler, MessageHandler>(); // new
+        // builder.Services.AddTransient<IReportHandler, ReportHandler>();
+        // TESTING WITH SCOPED 
+        
+        builder.Services.AddScoped<IProductHandler, ProductHandler>();
+        builder.Services.AddScoped<IBrandHandler, BrandHandler>();
+        builder.Services.AddScoped<IUnitHandler, UnitHandler>();
+        builder.Services.AddScoped<ICategoryHandler, CategoryHandler>();
+        builder.Services.AddScoped<IExpenseCategoryHandler, ExpenseCategoryHandler>();
+        builder.Services.AddScoped<IExpenseHandler, ExpenseHandler>();
+        builder.Services.AddScoped<IBillerHandler, BillerHandler>();
+        builder.Services.AddScoped<ICustomerHandler, CustomerHandler>();
+        builder.Services.AddScoped<ISupplierHandler, SupplierHandler>();
+        builder.Services.AddScoped<IWarehouseHandler, WarehouseHandler>();
+        builder.Services.AddScoped<IPurchaseHandler, PurchaseHandler>();
+        builder.Services.AddScoped<ISalesHandler, SaleHandler>();
+        builder.Services.AddScoped<ISalesReturnHandler, SalesReturnHandlers>(); 
+        builder.Services.AddScoped<IPurchaseReturnHandler, PurchaseReturnHandlers>(); 
+        builder.Services.AddScoped<ITransferHandler, TransferHandler>();
+        builder.Services.AddScoped<INotificationHandler, NotificationHandlers>();
+        builder.Services.AddScoped<IMessageHandler, MessageHandler>();
+        builder.Services.AddScoped<IReportHandler, ReportHandler>();
+        
+        
         builder.Services.AddTransient<CloudinaryService>();
        
       

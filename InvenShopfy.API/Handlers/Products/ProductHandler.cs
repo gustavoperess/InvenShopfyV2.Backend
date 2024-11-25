@@ -261,4 +261,44 @@ public class ProductHandler : IProductHandler
             return new PagedResponse<List<ProductByName>?>(null, 500, "It was not possible to consult all Products");
         }
     }
+    
+    
+    public async Task<PagedResponse<List<ProductByNameForUpdatePage>?>> GetProductByPartialNameForUpdatePageAsync(GetProductByNameRequest request)
+    {
+        try
+        {
+            var products = await _context.Products
+                .AsNoTracking()
+                .Include(p => p.Category)
+                .Where(x => EF.Functions.ILike(x.ProductName, $"%{request.ProductName}%") && x.UserId == request.UserId)
+                .Select(g => new ProductByNameForUpdatePage
+                {
+                    Id = g.Id,
+                    ProductName = g.ProductName,
+                    ProductPrice = g.ProductPrice,
+                    ProductImage = g.ProductImage,
+                    ProductCode = g.ProductCode,
+                    MarginRange = g.MarginRange,
+                    TaxPercentage = g.TaxPercentage,
+                    CategoryId = g.Category.Id,
+                    BrandId = g.BrandId,
+                    UnitId = g.UnitId,
+                    UserId = g.UserId,
+                    Expired = g.Expired
+                    
+                }).ToListAsync();
+            
+            if (products.Count == 0)
+            {
+                return new PagedResponse<List<ProductByNameForUpdatePage>?>(new List<ProductByNameForUpdatePage>(), 200, "No products found");
+            }
+            
+            return new PagedResponse<List<ProductByNameForUpdatePage>?>(products);
+    
+        }
+        catch
+        {
+            return new PagedResponse<List<ProductByNameForUpdatePage>?>(null, 500, "It was not possible to consult all Products");
+        }
+    }
 }
