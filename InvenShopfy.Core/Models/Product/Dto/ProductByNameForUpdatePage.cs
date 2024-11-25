@@ -9,9 +9,9 @@ public class ProductByNameForUpdatePage
     public string ProductImage { get; set; } = null!;
     public int TaxPercentage { get; set; }
     public string MarginRange { get; set; } = string.Empty;
-    public long CategoryId { get; set; }
-    public long BrandId { get; set; }
-    public long UnitId { get; set; }
+    public long MainCategoryId { get; set; } 
+    public string BrandName { get; set; } = null!;
+    public string UnitName { get; set; } = null!;
     public bool Expired { get; set; }
     public string UserId { get; set; } = string.Empty;
 }

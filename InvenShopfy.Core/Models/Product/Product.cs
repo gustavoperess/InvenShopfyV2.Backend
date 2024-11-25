@@ -28,7 +28,7 @@ public class Product
     public int TaxPercentage { get; set; }
     
     public string MarginRange { get; set; } = null!;
-    public string Subcategory { get; init; } = string.Empty;
+    public string Subcategory { get; set; } = string.Empty;
     public bool Featured { get; init; }
     public bool Expired { get; init; }
     public bool Sale { get; init; }

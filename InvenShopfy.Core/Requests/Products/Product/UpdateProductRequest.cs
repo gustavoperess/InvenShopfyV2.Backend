@@ -11,11 +11,11 @@ public class UpdateProductRequest : Request
     public string ProductName { get; set; } = string.Empty;
     
     [Required(ErrorMessage = "Invalid Amount")]
-    [Range(0.01, 1000000, ErrorMessage = "Amount must be between 0.01 and 1,000,000.")]
+    [Range(0.01, 1000000, ErrorMessage = "Amount must be between 0.01 and 1,000,000")]
     public decimal ProductPrice { get; set; }
     
     [Required(ErrorMessage = "Invalid Product Code")]
-    [Range(1, 1000, ErrorMessage = "Product code for {0} must be between {1} and {2}.")]
+    [Range(1, 10000000, ErrorMessage = "Product code for {0} must be between {1} and {2}.")]
     public int ProductCode { get; set; }
     
     [Required(ErrorMessage = "Invalid Category Id")]
@@ -24,14 +24,18 @@ public class UpdateProductRequest : Request
     [Required(ErrorMessage = "Invalid Brand Id")]
     public long BrandId { get; set; }
     
+    [Required(ErrorMessage = "Invalid tax amount")]
+    [Range(1, 14, ErrorMessage = "Product code for {0} must be between {1} and {2}.")]
+    public int TaxPercentage { get; set; }
     
-    [Required(ErrorMessage = "Invalid Image")]
+    [Required(ErrorMessage = "Please enter margin range")]
+    public string MarginRange { get; set; } = null!;
+    
     [Base64String]
-    public string ProductImage { get; set; } = null!;
+    public string? ProductImage { get; set; } 
     
-    public bool Featured { get; set; } = false;
-    public bool Expired { get; set; } = false;
-    public bool Sale { get; set; } = false;
+    [Required(ErrorMessage = "Invalid SubCategory")]
+    public string Subcategory { get; set; } = string.Empty;
     
     [Required(ErrorMessage = "Invalid Unit Id")]
     public long UnitId  { get; set; }

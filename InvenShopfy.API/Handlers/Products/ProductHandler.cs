@@ -92,11 +92,21 @@ public class ProductHandler : IProductHandler
     {
         try
         {
-            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
-
+            var product = await _context.Products
+                .Where(x => x.Id == request.Id && x.UserId == request.UserId)
+                .FirstOrDefaultAsync();
             if (product is null)
             {
                 return new Response<Product?>(null, 404, "Product not found");
+            }
+
+            var existingProductWithName = await _context.Products
+                .Where(x => x.ProductName.ToLower() == request.ProductName.ToLower() && x.Id != request.Id)
+                .FirstOrDefaultAsync();
+
+            if (existingProductWithName != null)
+            {
+                return new Response<Product?>(null, 409, $"A product with the name '{request.ProductName}' already exists.");
             }
             
             product.ProductName = request.ProductName;
@@ -105,7 +115,16 @@ public class ProductHandler : IProductHandler
             product.UnitId = request.UnitId;
             product.BrandId = request.BrandId;
             product.CategoryId = request.CategoryId;
-            product.ProductImage = request.ProductImage;
+            product.TaxPercentage = request.TaxPercentage;
+            product.MarginRange = request.MarginRange;
+            product.Subcategory = request.Subcategory;
+            
+            if (request.ProductImage != null)
+            {
+                var uploadResult = await _cloudinaryService.UploadImageAsync(request.ProductImage, "invenShopfy/Products");
+                product.ProductImage = uploadResult.SecureUrl.ToString(); 
+            }
+            
             _context.Products.Update(product);
             await _context.SaveChangesAsync();
             return new Response<Product?>(product, message: "Product updated successfully");
@@ -280,9 +299,9 @@ public class ProductHandler : IProductHandler
                     ProductCode = g.ProductCode,
                     MarginRange = g.MarginRange,
                     TaxPercentage = g.TaxPercentage,
-                    CategoryId = g.Category.Id,
-                    BrandId = g.BrandId,
-                    UnitId = g.UnitId,
+                    MainCategoryId = g.Category.Id,
+                    BrandName = g.Brand.BrandName,
+                    UnitName = g.Unit.UnitName,
                     UserId = g.UserId,
                     Expired = g.Expired
                     
