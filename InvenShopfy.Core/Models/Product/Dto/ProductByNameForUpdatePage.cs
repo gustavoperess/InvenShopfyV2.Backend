@@ -10,6 +10,8 @@ public class ProductByNameForUpdatePage
     public int TaxPercentage { get; set; }
     public string MarginRange { get; set; } = string.Empty;
     public long MainCategoryId { get; set; } 
+    
+    public string Subcategory { get; set; }  = string.Empty;
     public string BrandName { get; set; } = null!;
     public string UnitName { get; set; } = null!;
     public bool Expired { get; set; }

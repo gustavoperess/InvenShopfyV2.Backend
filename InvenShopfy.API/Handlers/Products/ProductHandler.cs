@@ -46,7 +46,7 @@ public class ProductHandler : IProductHandler
                 UnitId = request.UnitId,
                 BrandId = request.BrandId,
                 CategoryId = request.CategoryId,
-                Subcategory = request.Subcategory,
+                SubCategory = request.Subcategory,
                 Featured = request.Featured,
                 TaxPercentage = request.TaxPercentage,
                 MarginRange = request.MarginRange,
@@ -88,7 +88,7 @@ public class ProductHandler : IProductHandler
         }
     }
     
-    public async Task<Response<Product?>> UpdateProductAsync(UpdateProductRequest request)
+    public async Task<Response<ProductByNameForUpdatePage?>> UpdateProductAsync(UpdateProductRequest request)
     {
         try
         {
@@ -97,27 +97,34 @@ public class ProductHandler : IProductHandler
                 .FirstOrDefaultAsync();
             if (product is null)
             {
-                return new Response<Product?>(null, 404, "Product not found");
-            }
-
-            var existingProductWithName = await _context.Products
-                .Where(x => x.ProductName.ToLower() == request.ProductName.ToLower() && x.Id != request.Id)
-                .FirstOrDefaultAsync();
-
-            if (existingProductWithName != null)
-            {
-                return new Response<Product?>(null, 409, $"A product with the name '{request.ProductName}' already exists.");
+                return new Response<ProductByNameForUpdatePage?>(null, 404, "Product not found");
             }
             
-            product.ProductName = request.ProductName;
-            product.ProductPrice = request.ProductPrice;
-            product.ProductCode = request.ProductCode;
-            product.UnitId = request.UnitId;
-            product.BrandId = request.BrandId;
-            product.CategoryId = request.CategoryId;
-            product.TaxPercentage = request.TaxPercentage;
-            product.MarginRange = request.MarginRange;
-            product.Subcategory = request.Subcategory;
+            if(request.ProductName != null)
+            {
+                var existingProductWithName = await _context.Products
+                    .Where(x => x.ProductName.ToLower() == request.ProductName.ToLower() && x.Id != request.Id)
+                    .FirstOrDefaultAsync();
+            
+                if (existingProductWithName != null)
+                {
+                    return new Response<ProductByNameForUpdatePage?>(null, 409, $"A product with the name '{request.ProductName}' already exists.");
+                }
+                
+                product.ProductName = request.ProductName;
+            }
+
+            if (request.ProductPrice != null)
+            {
+           
+            }
+            product.ProductPrice = request.ProductPrice ?? product.ProductPrice;
+            product.UnitId = request.UnitId ?? product.UnitId; 
+            product.BrandId = request.BrandId ?? product.BrandId; 
+            product.CategoryId = request.CategoryId ?? product.CategoryId;
+            product.TaxPercentage = request.TaxPercentage ?? product.TaxPercentage; 
+            product.MarginRange = request.MarginRange ?? product.MarginRange; 
+            product.SubCategory = request.SubCategory ?? product.SubCategory;
             
             if (request.ProductImage != null)
             {
@@ -127,12 +134,12 @@ public class ProductHandler : IProductHandler
             
             _context.Products.Update(product);
             await _context.SaveChangesAsync();
-            return new Response<Product?>(product, message: "Product updated successfully");
+            return new Response<ProductByNameForUpdatePage?>(null, message: "Product updated successfully");
 
         }
         catch 
         {
-            return new Response<Product?>(null, 500, "It was not possible to update this Product");
+            return new Response<ProductByNameForUpdatePage?>(null, 500, "It was not possible to update this Product");
         }
     }
 
@@ -200,7 +207,7 @@ public class ProductHandler : IProductHandler
                     g.Unit.UnitName,
                     g.Brand.BrandName,
                     CategoryName = g.Category.MainCategory,
-                    SubCategories = g.Subcategory,
+                    SubCategories = g.SubCategory,
                     
                 })
                 .OrderBy(x => x.StockQuantity);
@@ -260,7 +267,7 @@ public class ProductHandler : IProductHandler
                     MarginRange = g.MarginRange,
                     TaxPercentage = g.TaxPercentage,
                     Category = g.Category.MainCategory,
-                    Subcategory = g.Subcategory,
+                    Subcategory = g.SubCategory,
                     UserId = g.UserId,
                     Expired = g.Expired
                     

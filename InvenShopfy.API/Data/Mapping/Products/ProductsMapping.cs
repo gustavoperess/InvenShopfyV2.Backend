@@ -34,7 +34,7 @@ public class ProductsMapping : IEntityTypeConfiguration<Product>
             .IsRequired(false)
             .HasColumnType("TEXT");
         
-        builder.Property(x => x.Subcategory)
+        builder.Property(x => x.SubCategory)
             .HasColumnType("VARCHAR")
             .HasMaxLength(255);
 

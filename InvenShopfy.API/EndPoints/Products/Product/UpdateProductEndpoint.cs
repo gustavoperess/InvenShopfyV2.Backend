@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.Product;
+using InvenShopfy.Core.Models.Product.Dto;
 using InvenShopfy.Core.Requests.Products.Product;
 using InvenShopfy.Core.Responses;
 
@@ -15,7 +16,7 @@ public class UpdateProductEndpoint : IEndPoint
             .WithSummary("Update a product")
             .WithDescription("Update a product")
             .WithOrder(2)
-            .Produces<Response<Core.Models.Product.Product?>>();
+            .Produces<Response<ProductByNameForUpdatePage?>>();
 
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,
@@ -33,7 +34,7 @@ public class UpdateProductEndpoint : IEndPoint
             foreach (var i in errors)
             {
                 Console.WriteLine($"{i}");
-                return TypedResults.BadRequest(new Response<Core.Models.Product.Product?>(null, 400, i));
+                return TypedResults.BadRequest(new Response<ProductByNameForUpdatePage?>(null, 400, i));
             }
 
         }
