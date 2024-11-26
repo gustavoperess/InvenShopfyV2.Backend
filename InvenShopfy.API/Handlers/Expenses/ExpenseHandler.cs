@@ -153,6 +153,7 @@ public class ExpenseHandler : IExpenseHandler
                     ExpenseCategory = g.ExpenseCategory.MainCategory,
                     g.VoucherNumber,
                     g.ExpenseCost,
+                    g.ExpenseStatus,
                     g.ExpenseNote,
                     g.ShippingCost
                 })
@@ -174,6 +175,7 @@ public class ExpenseHandler : IExpenseHandler
                 ExpenseType = s.ExpenseType,
                 ExpenseCategory = s.ExpenseCategory,
                 VoucherNumber = s.VoucherNumber,
+                ExpenseStatus = s.ExpenseStatus,
                 ExpenseCost = s.ExpenseCost,
                 ExpenseNote = s.ExpenseNote,
                 ShippingCost = s.ShippingCost

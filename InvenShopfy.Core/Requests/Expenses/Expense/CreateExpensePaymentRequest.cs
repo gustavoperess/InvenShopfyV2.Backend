@@ -11,7 +11,9 @@ public class CreateExpensePaymentRequest : Request
     [DataType(DataType.Date)] 
     public DateOnly Date { get; set; }
 
-    [MaxLength(500, ErrorMessage = "Max len of 500 characters")]
+    [Required]
+    [MaxLength(19, ErrorMessage = "Card number can't exceed 19 characters.")]
+    [RegularExpression(@"^(\d{4} ){3}\d{4}$|^\d{16}$", ErrorMessage = "Invalid card number format.")]
     public string CardNumber { get; set; } = string.Empty;
     
     [Required(ErrorMessage = "ExpenseId required")]
