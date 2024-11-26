@@ -8,7 +8,7 @@ namespace InvenShopfy.API.Handlers.Expenses;
 
 public class ExpensePaymentHandler(AppDbContext context) : IExpensePaymentHandler
 {
-    public async Task<Response<ExpensePayment>?> CreateExpensePaymentAsync(CreateExpensePaymentRequest request)
+    public async Task<Response<ExpensePayment?>> CreateExpensePaymentAsync(CreateExpensePaymentRequest request)
     {
         try
         {
@@ -17,10 +17,25 @@ public class ExpensePaymentHandler(AppDbContext context) : IExpensePaymentHandle
                 UserId = request.UserId,
                 ExpenseId = request.ExpenseId,
                 Date = request.Date,
-                PaymentType = request.ExpenseType
+                PaymentType = request.PaymentType,
+                CardNumber = request.CardNumber,
+                ExpenseNote = request.ExpenseNote,
             };
 
-            return new Response<ExpensePayment?>(null, 500, "It was not possible to create a new payment Expense");
+            var expense = context.Expenses.FirstOrDefault(x => x.Id == request.ExpenseId);
+            if (expense != null)
+            {
+                if (expense.ExpenseStatus != "Completed")
+                {
+                    expense.ExpenseStatus = "Completed";
+                    context.Expenses.Update(expense);
+                }
+            }
+            
+            await context.ExpensesPayments.AddAsync(expensePayment);
+            await context.SaveChangesAsync();
+
+            return new Response<ExpensePayment?>(expensePayment, 201, "Payment Expense created successfully");
         }
         catch (Exception e)
         {

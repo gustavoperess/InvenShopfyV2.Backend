@@ -23,7 +23,7 @@ public class CreatePurchaseRequest : Request
     public Dictionary<long, int> ProductIdPlusQuantity { get; set; } = new Dictionary<long, int>();
     
     [Required(ErrorMessage = "Please inform the Purchase Status")]
-    public string PurchaseStatus { get; set; } = EPurchaseStatus.Completed.ToString();
+    public string PurchaseStatus { get; set; } = EStatus.Completed.ToString();
     
     [Required(ErrorMessage = "Please inform total amount bought")]
     [Range(0.01, 1000000, ErrorMessage = "Amount must be between 0.01 and 1,000,000.")]

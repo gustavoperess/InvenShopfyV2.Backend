@@ -6,6 +6,6 @@ namespace InvenShopfy.Core.Handlers.Expenses;
 
 public interface IExpensePaymentHandler
 {
-    Task<Response<ExpensePayment>?> CreateExpensePaymentAsync(CreateExpensePaymentRequest request);
+    Task<Response<ExpensePayment?>> CreateExpensePaymentAsync(CreateExpensePaymentRequest request);
 
 }

@@ -25,7 +25,7 @@ public class CreateSalesRequest : Request
     [Required(ErrorMessage = "Please Select one of the Sale status")]
     [AllowedValues("Completed", "Incompleted",
         ErrorMessage = "Please select one of the allowed values Completed, Incompleted, Drafts")]
-    public string SaleStatus { get; set; } = ESaleStatus.Completed.ToString();
+    public string SaleStatus { get; set; } = EStatus.Completed.ToString();
 
     [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]
     public string SaleNote { get; set; } = null!;
