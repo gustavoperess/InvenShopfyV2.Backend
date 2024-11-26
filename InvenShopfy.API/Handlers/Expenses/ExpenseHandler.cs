@@ -13,17 +13,18 @@ namespace InvenShopfy.API.Handlers.Expenses;
 public class ExpenseHandler : IExpenseHandler
 {
     private readonly AppDbContext _context;
-    private readonly INotificationHandler _notificationHandler; 
-    public ExpenseHandler(AppDbContext context, INotificationHandler notificationHandler) 
+    private readonly INotificationHandler _notificationHandler;
+
+    public ExpenseHandler(AppDbContext context, INotificationHandler notificationHandler)
     {
         _context = context;
         _notificationHandler = notificationHandler;
     }
-     public async Task<Response<Expense?>> CreateExpenseAsync(CreateExpenseRequest request)
+
+    public async Task<Response<Expense?>> CreateExpenseAsync(CreateExpenseRequest request)
     {
         try
         {
-        
             var expense = new Expense
             {
                 UserId = request.UserId,
@@ -36,24 +37,22 @@ public class ExpenseHandler : IExpenseHandler
                 ExpenseNote = request.ExpenseNote,
                 ExpenseDescription = request.ExpenseDescription,
                 ShippingCost = request.ShippingCost
-                
             };
             await _context.Expenses.AddAsync(expense);
             await _context.SaveChangesAsync();
-            
+
             var notificationRequest = new CreateNotificationsRequest
             {
-                NotificationTitle =  $"New Expense created: {expense.ExpenseType}",
+                NotificationTitle = $"New Expense created: {expense.ExpenseType}",
                 Urgency = false,
-                From = "System-Expenses", 
-                Image = null, 
+                From = "System-Expenses",
+                Image = null,
                 UserId = request.UserId,
                 Href = "/expense/expenselist",
             };
             await _notificationHandler.CreateNotificationAsync(notificationRequest);
 
             return new Response<Expense?>(expense, 201, "Expense  created successfully");
-
         }
         catch
         {
@@ -65,13 +64,14 @@ public class ExpenseHandler : IExpenseHandler
     {
         try
         {
-            var expense = await _context.Expenses.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var expense =
+                await _context.Expenses.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
 
             if (expense is null)
             {
                 return new Response<Expense?>(null, 404, "Expense not found");
             }
-            
+
             expense.WarehouseId = request.WarehouseId;
             expense.ExpenseType = request.ExpenseType;
             expense.ExpenseCategoryId = request.ExpenseCategoryId;
@@ -80,13 +80,12 @@ public class ExpenseHandler : IExpenseHandler
             expense.ExpenseNote = request.ExpenseNote;
             expense.ExpenseDescription = request.ExpenseDescription;
             expense.ShippingCost = request.ShippingCost;
-            
+
             _context.Expenses.Update(expense);
             await _context.SaveChangesAsync();
             return new Response<Expense?>(expense, message: "Expense updated successfully");
-
         }
-        catch 
+        catch
         {
             return new Response<Expense?>(null, 500, "It was not possible to update this Expense");
         }
@@ -96,8 +95,9 @@ public class ExpenseHandler : IExpenseHandler
     {
         try
         {
-            var expense = await _context.Expenses.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
-            
+            var expense =
+                await _context.Expenses.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+
             if (expense is null)
             {
                 return new Response<Expense?>(null, 404, "Expense  not found");
@@ -106,33 +106,33 @@ public class ExpenseHandler : IExpenseHandler
             _context.Expenses.Remove(expense);
             await _context.SaveChangesAsync();
             return new Response<Expense?>(expense, message: "Expense  removed successfully");
-
         }
-        catch 
+        catch
         {
             return new Response<Expense?>(null, 500, "It was not possible to delete this Expense");
         }
     }
-    
+
     public async Task<Response<Expense?>> GetExpenseByIdAsync(GetExpenseByIdRequest request)
     {
         try
         {
-            var expense = await _context.Expenses.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
-            
+            var expense = await _context.Expenses.AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+
             if (expense is null)
             {
                 return new Response<Expense?>(null, 404, "Expense  not found");
             }
 
             return new Response<Expense?>(expense);
-
         }
-        catch 
+        catch
         {
             return new Response<Expense?>(null, 500, "It was not possible to find this Expense");
         }
     }
+
     public async Task<PagedResponse<List<ExpenseDto>?>> GetExpenseByPeriodAsync(GetAllExpensesRequest request)
     {
         try
@@ -157,44 +157,41 @@ public class ExpenseHandler : IExpenseHandler
                     g.ShippingCost
                 })
                 .OrderBy(x => x.ExpenseType);
-            
+
             var expense = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToListAsync();
-            
+
             var count = await query.CountAsync();
-            
+
             var result = expense.Select(s => new ExpenseDto
             {
                 Id = s.Id,
                 ExpenseDescription = s.ExpenseDescription,
                 Date = s.Date,
-                WarehouseName =  s.WarehouseName,
+                WarehouseName = s.WarehouseName,
                 ExpenseType = s.ExpenseType,
                 ExpenseCategory = s.ExpenseCategory,
                 VoucherNumber = s.VoucherNumber,
                 ExpenseCost = s.ExpenseCost,
                 ExpenseNote = s.ExpenseNote,
                 ShippingCost = s.ShippingCost
-                
-               
             }).ToList();
-            
+
             return new PagedResponse<List<ExpenseDto>?>(
                 result,
                 count,
                 request.PageNumber,
                 request.PageSize);
         }
-        catch 
+        catch
         {
             return new PagedResponse<List<ExpenseDto>?>(null, 500, "It was not possible to consult all Expense");
         }
     }
-    
-    public async Task<Response<List<ExpenseDashboard>?>> GetExpenseStatusDashboardAsync(
-        GetAllExpensesRequest request)
+
+    public async Task<Response<List<ExpenseDashboard>?>> GetExpenseStatusDashboardAsync(GetAllExpensesRequest request)
     {
         try
         {
@@ -223,7 +220,7 @@ public class ExpenseHandler : IExpenseHandler
             return new Response<List<ExpenseDashboard>?>(null, 500, "It was not possible to consult all Expenses");
         }
     }
-    
+
     public async Task<Response<decimal?>> GetExpenseTotalAmountAsync()
     {
         try
@@ -232,7 +229,7 @@ public class ExpenseHandler : IExpenseHandler
                 .Expenses
                 .AsNoTracking()
                 .SumAsync(x => x.ExpenseCost);
-            
+
             return new Response<decimal?>(totalExpense, 201, "Expenses returned successfully");
         }
         catch
@@ -240,9 +237,4 @@ public class ExpenseHandler : IExpenseHandler
             return new Response<decimal?>(0, 400, "It was not possible to consult all Expenses");
         }
     }
-    
-    
-    
-    
-    
 }

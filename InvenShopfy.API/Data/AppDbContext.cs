@@ -33,6 +33,8 @@ namespace InvenShopfy.API.Data;
         public DbSet<Unit> Unit { get; set; } = null!;
         public DbSet<ExpenseCategory> ExpenseCategories { get; set; } = null!;
         public DbSet<Expense> Expenses { get; set; } = null!;
+        
+        public DbSet<ExpensePayment> ExpensesPayments { get; set; } = null!;
         public DbSet<Biller> Billers { get; set; } = null!;
         public DbSet<Customer> Customers { get; set; } = null!;
         public DbSet<Supplier> Suppliers { get; set; } = null!;
