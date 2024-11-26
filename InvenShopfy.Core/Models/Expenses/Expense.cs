@@ -14,7 +14,7 @@ public class Expense
     public string ExpenseType { get; set; } = string.Empty;
     public long ExpenseCategoryId { get; set; }
     public ExpenseCategory ExpenseCategory { get; set; } = null!;
-    public long VoucherNumber { get; set; }
+    public string VoucherNumber { get; set; } = null!;
     public decimal ExpenseCost { get; set; }
     public string ExpenseNote { get; set; } = String.Empty;
     public string ExpenseStatus { get; set; } = EStatus.Incompleted.ToString();

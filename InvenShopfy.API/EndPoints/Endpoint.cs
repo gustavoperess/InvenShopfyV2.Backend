@@ -1,6 +1,7 @@
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.API.EndPoints.Expenses.Category;
 using InvenShopfy.API.EndPoints.Expenses.Expense;
+using InvenShopfy.API.EndPoints.Expenses.ExpensePayment;
 using InvenShopfy.API.EndPoints.Identity;
 using InvenShopfy.API.EndPoints.Messages;
 using InvenShopfy.API.EndPoints.Notifications;
@@ -83,6 +84,7 @@ public static class Endpoint
             .RequireAuthorization()
             .MapEndpoint<CreateExpenseEndpoint>()
             .MapEndpoint<UpdateExpenseEndpoint>()
+            .MapEndpoint<GetExpenseByPartialNumberEndpoint>()
             .MapEndpoint<GetAllExpensesEndpoint>()
             .MapEndpoint<GetExpenseTotalAmountEndpoint>()
             .MapEndpoint<GetExpenseDashboardEndpoint>()
@@ -97,6 +99,12 @@ public static class Endpoint
             .MapEndpoint<GetAllExpenseCategoriesEndpoint>()
             .MapEndpoint<DeleteExpenseCategoryEndpoint>()
             .MapEndpoint<GetExpenseCategoryByIdEndpoint>();
+
+        expenseGroup.MapGroup("ExpensePayment")
+            .WithTags("Expenses - payment")
+            .RequireAuthorization()
+            .MapEndpoint<CreateExpensePaymentEndpoint>();
+    
 
         // People Group
         var peopleGroup = endpoints.MapGroup("v2/people")

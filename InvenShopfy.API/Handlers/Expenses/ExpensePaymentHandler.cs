@@ -20,6 +20,7 @@ public class ExpensePaymentHandler(AppDbContext context) : IExpensePaymentHandle
                 PaymentType = request.PaymentType,
                 CardNumber = request.CardNumber,
                 ExpenseNote = request.ExpenseNote,
+                ExpensePaymentDescription = request.ExpensePaymentDescription,
             };
 
             var expense = context.Expenses.FirstOrDefault(x => x.Id == request.ExpenseId);
@@ -37,7 +38,7 @@ public class ExpensePaymentHandler(AppDbContext context) : IExpensePaymentHandle
 
             return new Response<ExpensePayment?>(expensePayment, 201, "Payment Expense created successfully");
         }
-        catch (Exception e)
+        catch
         {
             return new Response<ExpensePayment?>(null, 500, "It was not possible to create a new payment Expense");
         }

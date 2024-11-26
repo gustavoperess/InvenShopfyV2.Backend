@@ -23,7 +23,7 @@ public class CreateExpenseRequest : Request
     
     [Required(ErrorMessage = "Voucher number is required")]
     [Range(1, 10000000, ErrorMessage = "Voucher number for {0} must be between {1} and {2}.")]
-    public long VoucherNumber { get; set; }
+    public string VoucherNumber { get; set; } = null!;
     
     [Required(ErrorMessage = "Invalid Amount")]
     [Range(0.01, 1000000, ErrorMessage = "Amount must be between 0.01 and 1,000,000.")]

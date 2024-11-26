@@ -35,6 +35,7 @@ public class ExpenseHandler : IExpenseHandler
                 VoucherNumber = request.VoucherNumber,
                 ExpenseCost = request.ExpenseCost,
                 ExpenseNote = request.ExpenseNote,
+                ExpenseStatus = request.ExpenseStatus,
                 ExpenseDescription = request.ExpenseDescription,
                 ShippingCost = request.ShippingCost
             };
@@ -235,6 +236,40 @@ public class ExpenseHandler : IExpenseHandler
         catch
         {
             return new Response<decimal?>(0, 400, "It was not possible to consult all Expenses");
+        }
+    }
+    
+    public async Task<PagedResponse<List<ExpenseDto>?>> GetExpenseByPartialNumberAsync(GetExpenseByNumberRequest request)
+    {
+        try
+        {
+            var products = await _context.Expenses
+                .AsNoTracking()
+                .Where(x => EF.Functions.ILike(x.VoucherNumber, $"%{request.ExpenseNumber}%") && x.UserId == request.UserId)
+                .Select(x => new ExpenseDto
+                {
+                    Id = x.Id,
+                    Date = x.Date,
+                    VoucherNumber = x.VoucherNumber,
+                    ExpenseStatus = x.ExpenseStatus,
+                    ExpenseDescription = x.ExpenseDescription,
+                    ExpenseCategory = x.ExpenseCategory.MainCategory,
+                    ExpenseType = x.ExpenseType,
+                    ExpenseCost = x.ExpenseCost,
+                    
+                }).ToListAsync();
+            
+            if (products.Count == 0)
+            {
+                return new PagedResponse<List<ExpenseDto>?>(new List<ExpenseDto>(), 200, "No products found");
+            }
+            
+            return new PagedResponse<List<ExpenseDto>?>(products);
+    
+        }
+        catch
+        {
+            return new PagedResponse<List<ExpenseDto>?>(null, 500, "It was not possible to consult all Products");
         }
     }
 }

@@ -27,6 +27,7 @@ using InvenShopfy.Core.Handlers.Tradings.Returns.SalesReturn;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
 using InvenShopfy.Core.Handlers.Transfer;
 using InvenShopfy.Core.Handlers.Warehouse;
+using InvenShopfy.Core.Models.Expenses;
 using InvenShopfy.Core.Models.Tradings.Returns.PurchaseReturn;
 using Microsoft.EntityFrameworkCore;
 
@@ -181,6 +182,7 @@ public static class BuilderExtension
         builder.Services.AddScoped<IPurchaseReturnHandler, PurchaseReturnHandlers>(); 
         builder.Services.AddScoped<ITransferHandler, TransferHandler>();
         builder.Services.AddScoped<INotificationHandler, NotificationHandlers>();
+        builder.Services.AddScoped<IExpensePaymentHandler, ExpensePaymentHandler>(); // new
         builder.Services.AddScoped<IMessageHandler, MessageHandler>();
         builder.Services.AddScoped<IReportHandler, ReportHandler>();
         

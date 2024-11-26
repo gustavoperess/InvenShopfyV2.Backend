@@ -3,24 +3,24 @@ using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.Expenses;
 using InvenShopfy.Core.Models.Expenses;
-using InvenShopfy.Core.Requests.Expenses.ExpenseCategory;
+using InvenShopfy.Core.Requests.Expenses.Expense;
 using InvenShopfy.Core.Responses;
 
-namespace InvenShopfy.API.EndPoints.Expenses.Category;
+namespace InvenShopfy.API.EndPoints.Expenses.ExpensePayment;
 
-public class CreateExpenseCategoryEndpoint : IEndPoint
+public class CreateExpensePaymentEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app) => app.MapPost("/", HandleAsync)
-        .WithName("Categories: Create A Category Expense")
-        .WithSummary("Create a new Category Expense")
-        .WithDescription("Create a new Category Expense")
+        .WithName("ExpensePayment: Create a new Expense Pay,ent")
+        .WithSummary("Create a new payment for the Expenses")
+        .WithDescription("Create a new payment for the Expenses")
         .WithOrder(1)
-        .Produces<Response<ExpenseCategory?>>();
+        .Produces<Response<Core.Models.Expenses.ExpensePayment?>>();
 
     private static async Task<IResult> HandleAsync(
         ClaimsPrincipal user,
-        IExpenseCategoryHandler handler,
-        CreateExpenseCategoryRequest request)
+        IExpensePaymentHandler handler,
+        CreateExpensePaymentRequest request)
     {
         
         var validationResults = new List<ValidationResult>();
@@ -39,7 +39,7 @@ public class CreateExpenseCategoryEndpoint : IEndPoint
         }
 
         request.UserId = user.Identity?.Name ?? string.Empty;
-        var result = await handler.CreateExpenseCategoryAsync(request);
+        var result = await handler.CreateExpensePaymentAsync(request);
         return result.IsSuccess
             ? TypedResults.Created($"/{result.Data?.Id}", result)
             : TypedResults.BadRequest(result);
