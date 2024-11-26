@@ -15,16 +15,17 @@ public class ExpensePaymentMapping : IEntityTypeConfiguration<ExpensePayment>
             .IsRequired(true)
             .HasColumnType("date");
         
-        builder.Property(x => x.ExpensePaymentDescription)
-            .IsRequired(true)
-            .HasColumnType("VARCHAR(50)");
-        
         builder.Property(x => x.ExpenseNote)
             .IsRequired(true)
             .HasColumnType("TEXT")
             .HasMaxLength(500);
         
-        builder.Property(x => x.ExpenseStatus)
+        builder.Property(x => x.CardNumber)
+            .IsRequired(true)
+            .HasColumnType("VARCHAR")
+            .HasMaxLength(30);
+        
+        builder.Property(x => x.PaymentType)
             .IsRequired(true)
             .HasColumnType("VARCHAR(50)"); 
         

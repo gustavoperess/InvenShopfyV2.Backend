@@ -25,9 +25,4 @@ public class CreateExpensePaymentRequest : Request
     [AllowedValues("Cash", "Card",ErrorMessage = "Please select one of the allowed values Cash, Card")]
     public string PaymentType { get; set; } = EPaymentType.Cash.ToString(); 
     
-    [Required(ErrorMessage = "Please add a short not explaining the Payment description")]
-    [MaxLength(80,  ErrorMessage= "Max len of 80 characters")]
-    public string ExpensePaymentDescription { get; set; } = null!;
-    
-    
 }

@@ -32,7 +32,7 @@ public class SalesReturnHandlers : ISalesReturnHandler
                 UserId = request.UserId,
                 ReturnDate = request.ReturnDate,
                 BillerName = request.BillerName,
-                ReturnTotalAmount = request.TotalAmount,
+                ReturnTotalAmount = request.ReturnTotalAmount,
                 CustomerName = request.CustomerName,
                 WarehouseName = request.WarehouseName,
                 RemarkStatus = request.Remark,
@@ -54,7 +54,7 @@ public class SalesReturnHandlers : ISalesReturnHandler
             
             var notificationRequest = new CreateNotificationsRequest
             {
-                NotificationTitle =  $"Sale {request.ReferenceNumber} Of {request.TotalAmount.ToString("C", CultureInfo.CurrentCulture)} was returned",
+                NotificationTitle =  $"Sale {request.ReferenceNumber} Of {request.ReturnTotalAmount.ToString("C", CultureInfo.CurrentCulture)} was returned",
                 Urgency = true,
                 From = "System-Sales-Return", 
                 Image = null, 
@@ -88,7 +88,7 @@ public class SalesReturnHandlers : ISalesReturnHandler
                 .Select(g => new SalesReturnByReturnNumber
                 {
                     Id = g.sale.Id,
-                    TotalAmount = g.sale.TotalAmount,
+                    ReturnTotalAmount = g.sale.TotalAmount,
                     WarehouseName = g.sale.Warehouse.WarehouseName,
                     SaleStatus = g.sale.SaleStatus,
                     CustomerName = g.sale.Customer.CustomerName,
@@ -195,7 +195,7 @@ public class SalesReturnHandlers : ISalesReturnHandler
                     BillerName = x.BillerName,
                     CustomerName = x.CustomerName,
                     RemarkStatus = x.RemarkStatus,
-                    TotalAmount = x.ReturnTotalAmount,
+                    ReturnTotalAmount = x.ReturnTotalAmount,
                 })
                 .OrderByDescending(x => x.ReturnDate).Take(10);
 

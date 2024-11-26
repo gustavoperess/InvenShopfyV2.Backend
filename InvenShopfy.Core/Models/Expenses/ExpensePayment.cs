@@ -9,10 +9,8 @@ public class ExpensePayment
     public long ExpenseId { get; set; }
     public Expense Expense { get; init; } = null!;
     public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);
-    public string ExpensePaymentDescription { get; set; } = null!;
     public string PaymentType { get; set; }  = EPaymentType.Cash.ToString();
     public string CardNumber { get; set; } = string.Empty;
     public string ExpenseNote { get; set; } = String.Empty;
-    public string ExpenseStatus { get; set; } = EStatus.Completed.ToString();
     public string UserId { get; set; } = string.Empty;
 }

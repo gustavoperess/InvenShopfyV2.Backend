@@ -1,3 +1,4 @@
+using System.Globalization;
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Handlers.Expenses;
 using InvenShopfy.Core.Handlers.Notifications;
@@ -32,10 +33,9 @@ public class ExpenseHandler : IExpenseHandler
                 ExpenseType = request.ExpenseType,
                 WarehouseId = request.WarehouseId,
                 ExpenseCategoryId = request.ExpenseCategoryId,
-                VoucherNumber = request.VoucherNumber,
                 ExpenseCost = request.ExpenseCost,
                 ExpenseNote = request.ExpenseNote,
-                ExpenseStatus = request.ExpenseStatus,
+                ExpenseStatus = request.ExpenseStatus ?? "Incompleted",
                 ExpenseDescription = request.ExpenseDescription,
                 ShippingCost = request.ShippingCost
             };
@@ -76,7 +76,6 @@ public class ExpenseHandler : IExpenseHandler
             expense.WarehouseId = request.WarehouseId;
             expense.ExpenseType = request.ExpenseType;
             expense.ExpenseCategoryId = request.ExpenseCategoryId;
-            expense.VoucherNumber = request.VoucherNumber;
             expense.ExpenseCost = request.ExpenseCost;
             expense.ExpenseNote = request.ExpenseNote;
             expense.ExpenseDescription = request.ExpenseDescription;
@@ -243,6 +242,7 @@ public class ExpenseHandler : IExpenseHandler
     {
         try
         {
+            TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             var products = await _context.Expenses
                 .AsNoTracking()
                 .Where(x => EF.Functions.ILike(x.VoucherNumber, $"%{request.ExpenseNumber}%") && x.UserId == request.UserId)

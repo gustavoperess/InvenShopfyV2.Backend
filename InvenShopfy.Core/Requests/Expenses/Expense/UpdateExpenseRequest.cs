@@ -22,10 +22,6 @@ public class UpdateExpenseRequest : Request
     
     [Required(ErrorMessage = "Invalid Expense Category ID")]
     public long ExpenseCategoryId { get; set; }
-
-    [Required(ErrorMessage = "Voucher number is required")]
-    [Range(1, 1000, ErrorMessage = "Voucher number for {0} must be between {1} and {2}.")]
-    public string VoucherNumber { get; set; } = null!;
     
     [Required(ErrorMessage = "Invalid Amount")]
     [Range(0.01, 1000000, ErrorMessage = "Amount must be between 0.01 and 1,000,000.")]

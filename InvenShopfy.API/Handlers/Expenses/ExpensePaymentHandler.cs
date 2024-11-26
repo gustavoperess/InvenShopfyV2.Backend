@@ -20,7 +20,6 @@ public class ExpensePaymentHandler(AppDbContext context) : IExpensePaymentHandle
                 PaymentType = request.PaymentType,
                 CardNumber = request.CardNumber,
                 ExpenseNote = request.ExpenseNote,
-                ExpensePaymentDescription = request.ExpensePaymentDescription,
             };
 
             var expense = context.Expenses.FirstOrDefault(x => x.Id == request.ExpenseId);
@@ -32,7 +31,7 @@ public class ExpensePaymentHandler(AppDbContext context) : IExpensePaymentHandle
                     context.Expenses.Update(expense);
                 }
             }
-            
+
             await context.ExpensesPayments.AddAsync(expensePayment);
             await context.SaveChangesAsync();
 

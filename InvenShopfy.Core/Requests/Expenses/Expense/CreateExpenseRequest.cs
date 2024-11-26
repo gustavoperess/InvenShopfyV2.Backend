@@ -21,10 +21,6 @@ public class CreateExpenseRequest : Request
     [Required(ErrorMessage = "Invalid Expense Category ID")]
     public long ExpenseCategoryId { get; set; }
     
-    [Required(ErrorMessage = "Voucher number is required")]
-    [Range(1, 10000000, ErrorMessage = "Voucher number for {0} must be between {1} and {2}.")]
-    public string VoucherNumber { get; set; } = null!;
-    
     [Required(ErrorMessage = "Invalid Amount")]
     [Range(0.01, 1000000, ErrorMessage = "Amount must be between 0.01 and 1,000,000.")]
     public decimal ExpenseCost { get; set; }
@@ -39,9 +35,9 @@ public class CreateExpenseRequest : Request
     
     
     [Required(ErrorMessage = "Please Select one of the Payment status")]
-    [AllowedValues("Completed", "Incompleted", "Drafts",
-        ErrorMessage = "Please select one of the allowed values Completed, Incompleted, Drafts")]
-    public string ExpenseStatus { get; set; } = EStatus.Completed.ToString(); 
+    [AllowedValues("Completed", "Incompleted",
+        ErrorMessage = "Please select one of the allowed values Completed, Incompleted")]
+    public string? ExpenseStatus { get; set; } = EStatus.Incompleted.ToString(); 
     
     [Required(ErrorMessage = "Please add a short not explaining the description")]
     [MaxLength(80,  ErrorMessage= "Max len of 80 characters")]
