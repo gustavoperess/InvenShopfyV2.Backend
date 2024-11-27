@@ -18,7 +18,7 @@ public class Expense
     public decimal ExpenseCost { get; set; }
     public string ExpenseNote { get; set; } = String.Empty;
     public string VoucherNumber { get; init; } = GenerateRandomNumber.RandomNumberGenerator();
-    public string ExpenseStatus { get; set; } = EStatus.Incompleted.ToString();
+    public string ExpenseStatus { get; set; } = EPaymentStatus.Unpaid.ToString();
     public decimal ShippingCost { get; set; } 
     public string UserId { get; set; } = string.Empty;
 }

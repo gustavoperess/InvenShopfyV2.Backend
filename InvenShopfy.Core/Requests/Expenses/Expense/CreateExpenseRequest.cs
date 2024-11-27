@@ -35,9 +35,9 @@ public class CreateExpenseRequest : Request
     
     
     [Required(ErrorMessage = "Please Select one of the Payment status")]
-    [AllowedValues("Completed", "Incompleted",
+    [AllowedValues("Paid", "Unpaid",
         ErrorMessage = "Please select one of the allowed values Completed, Incompleted")]
-    public string? ExpenseStatus { get; set; } = EStatus.Incompleted.ToString(); 
+    public string? ExpenseStatus { get; set; } = EPaymentStatus.Unpaid.ToString(); 
     
     [Required(ErrorMessage = "Please add a short not explaining the description")]
     [MaxLength(80,  ErrorMessage= "Max len of 80 characters")]

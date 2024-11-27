@@ -25,9 +25,9 @@ public class ExpensePaymentHandler(AppDbContext context) : IExpensePaymentHandle
             var expense = context.Expenses.FirstOrDefault(x => x.Id == request.ExpenseId);
             if (expense != null)
             {
-                if (expense.ExpenseStatus != "Completed")
+                if (expense.ExpenseStatus != "Paid")
                 {
-                    expense.ExpenseStatus = "Completed";
+                    expense.ExpenseStatus = "Paid";
                     context.Expenses.Update(expense);
                 }
             }
