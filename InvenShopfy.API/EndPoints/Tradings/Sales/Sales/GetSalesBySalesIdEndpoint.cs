@@ -2,20 +2,20 @@ using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
 using InvenShopfy.Core.Models.Tradings.Sales.Dto;
-using InvenShopfy.Core.Requests.Tradings.Sales;
+using InvenShopfy.Core.Requests.Tradings.Sales.Sales;
 using InvenShopfy.Core.Responses;
 
-namespace InvenShopfy.API.EndPoints.Tradings.Sales;
+namespace InvenShopfy.API.EndPoints.Tradings.Sales.Sales;
 
-public class GetSalesByIdForPosSaleEndpoint : IEndPoint
+public class GetSalesBySalesIdEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("/posSale/{SaleId}", HandlerAsync)
-            .WithName("Get by SalesID for PosSale")
-            .WithSummary("Get the sales by sales Id for the posSale API")
-            .WithDescription("Get the sales by sales Id for the posSale API")
-            .WithOrder(11)
-            .Produces<Response<PosSale?>>();
+        => app.MapGet("/getBySalesId/{SaleId}", HandlerAsync)
+            .WithName("Get by SalesID")
+            .WithSummary("Get the sales by sales Id")
+            .WithDescription("Get the sales by sales Id")
+            .WithOrder(10)
+            .Produces<Response<SalePopUp?>>();
 
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,
@@ -28,7 +28,7 @@ public class GetSalesByIdForPosSaleEndpoint : IEndPoint
             SaleId = saleId
         };
 
-        var result = await handler.GetSalesBySaleIdForPosSaleAsync(request);
+        var result = await handler.GetSalesBySaleIdAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

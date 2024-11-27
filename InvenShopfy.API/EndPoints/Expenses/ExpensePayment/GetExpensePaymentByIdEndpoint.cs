@@ -12,7 +12,7 @@ namespace InvenShopfy.API.EndPoints.Expenses.ExpensePayment;
 public class GetExpensePaymentByIdEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("/{expenseId}", HandlerAsync)
+        => app.MapGet("/{id}", HandlerAsync)
             .WithName("ExpensePayment: Get By Id")
             .WithSummary("Get a expensepayment by it's id")
             .WithDescription("Get a expensepayment by it's id")
@@ -22,12 +22,12 @@ public class GetExpensePaymentByIdEndpoint : IEndPoint
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,
         IExpensePaymentHandler handler,
-        long expenseId)
+        long id)
     {
         var request = new GetExpensePaymentByIdRequest
         {
             UserId = user.Identity?.Name ?? string.Empty,
-            ExpenseId = expenseId
+            Id = id
         };
 
         var result = await handler.GetExpensePaymentByIdAsync(request);

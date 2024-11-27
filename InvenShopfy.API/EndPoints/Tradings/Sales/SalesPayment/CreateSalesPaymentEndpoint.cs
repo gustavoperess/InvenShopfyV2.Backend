@@ -1,25 +1,25 @@
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
-using InvenShopfy.Core.Handlers.Expenses;
-using InvenShopfy.Core.Requests.Expenses.ExpensePayment;
+using InvenShopfy.Core.Handlers.Tradings.Sales;
+using InvenShopfy.Core.Requests.Tradings.Sales.SalesPayment;
 using InvenShopfy.Core.Responses;
 
-namespace InvenShopfy.API.EndPoints.Expenses.ExpensePayment;
+namespace InvenShopfy.API.EndPoints.Tradings.Sales.SalesPayment;
 
-public class CreateExpensePaymentEndpoint : IEndPoint
+public class CreateSalesPaymentEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app) => app.MapPost("/", HandleAsync)
-        .WithName("ExpensePayment: Create a new Expense Pay,ent")
-        .WithSummary("Create a new payment for the Expenses")
-        .WithDescription("Create a new payment for the Expenses")
+        .WithName("SalesPayment: Create a new salespayment")
+        .WithSummary("Create a new payment for the Salespayment")
+        .WithDescription("Create a new payment for the Salespayment")
         .WithOrder(1)
-        .Produces<Response<Core.Models.Expenses.ExpensePayment.ExpensePayment?>>();
+        .Produces<Response<Core.Models.Tradings.Sales.SalesPayment.SalesPayment?>>();
 
     private static async Task<IResult> HandleAsync(
         ClaimsPrincipal user,
-        IExpensePaymentHandler handler,
-        CreateExpensePaymentRequest request)
+        ISalesPaymentHandler handler,
+        CreateSalesPaymentRequest request)
     {
         
         var validationResults = new List<ValidationResult>();
@@ -32,13 +32,13 @@ public class CreateExpensePaymentEndpoint : IEndPoint
             foreach (var i in errors)
             {
                 Console.WriteLine($"{i}");
-                return TypedResults.BadRequest(new Response<Core.Models.Expenses.ExpensePayment.ExpensePayment?>(null, 400, i));
+                return TypedResults.BadRequest(new Response<Core.Models.Tradings.Sales.SalesPayment.SalesPayment?>(null, 400, i));
             }
 
         }
 
         request.UserId = user.Identity?.Name ?? string.Empty;
-        var result = await handler.CreateExpensePaymentAsync(request);
+        var result = await handler.CreateSalesPaymentAsync(request);
         return result.IsSuccess
             ? TypedResults.Created($"/{result.Data?.Id}", result)
             : TypedResults.BadRequest(result);

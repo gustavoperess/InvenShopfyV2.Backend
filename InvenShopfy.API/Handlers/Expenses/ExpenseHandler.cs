@@ -148,26 +148,31 @@ public class ExpenseHandler : IExpenseHandler
     {
         try
         {
-            var query = _context
-                .Expenses
+            var query = _context.Expenses
                 .AsNoTracking()
-                .Include(x => x.Warehouse)
-                .Include(x => x.ExpenseCategory)
-                .Where(x => x.UserId == request.UserId)
-                .Select(g => new
+                .GroupJoin(_context.ExpensesPayments,
+                    expense => expense.Id,
+                    payment => payment.Expense.Id,
+                    (expense, payments) => new { expense, payments })
+                .SelectMany(
+                    x => x.payments.DefaultIfEmpty(), 
+                    (x, payment) => new
                 {
-                    g.Id,
-                    g.ExpenseDescription,
-                    g.Date,
-                    g.Warehouse.WarehouseName,
-                    g.ExpenseType,
-                    ExpenseCategory = g.ExpenseCategory.MainCategory,
-                    g.VoucherNumber,
-                    g.ExpenseCost,
-                    g.ExpenseStatus,
-                    g.ExpenseNote,
-                    g.ShippingCost
+                    x.expense.Id,
+                    x.expense.UserId,
+                    x.expense.ExpenseDescription,
+                    x.expense.Date,
+                    x.expense.Warehouse.WarehouseName,
+                    x.expense.ExpenseType,
+                    ExpenseCategory = x.expense.ExpenseCategory.MainCategory,
+                    x.expense.VoucherNumber,
+                    x.expense.ExpenseCost,
+                    x.expense.ExpenseStatus,
+                    x.expense.ExpenseNote,
+                    x.expense.ShippingCost,
+                    ExpensePaymentId = payment != null ? payment.Id : (long?)null
                 })
+                .Where(x => x.UserId ==  request.UserId) 
                 .OrderBy(x => x.ExpenseType);
 
             var expense = await query
@@ -180,6 +185,7 @@ public class ExpenseHandler : IExpenseHandler
             var result = expense.Select(s => new ExpenseDto
             {
                 Id = s.Id,
+                ExpensePaymentId = s.ExpensePaymentId ?? -1,
                 ExpenseDescription = s.ExpenseDescription,
                 Date = s.Date,
                 WarehouseName = s.WarehouseName,

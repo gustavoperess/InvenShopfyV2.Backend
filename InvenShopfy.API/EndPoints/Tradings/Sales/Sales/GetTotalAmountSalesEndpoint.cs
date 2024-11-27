@@ -3,7 +3,7 @@ using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
 using InvenShopfy.Core.Responses;
 
-namespace InvenShopfy.API.EndPoints.Tradings.Sales;
+namespace InvenShopfy.API.EndPoints.Tradings.Sales.Sales;
 public class GetTotalAmountSalesEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)

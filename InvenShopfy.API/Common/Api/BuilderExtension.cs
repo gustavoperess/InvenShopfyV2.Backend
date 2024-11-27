@@ -182,7 +182,8 @@ public static class BuilderExtension
         builder.Services.AddScoped<IPurchaseReturnHandler, PurchaseReturnHandlers>(); 
         builder.Services.AddScoped<ITransferHandler, TransferHandler>();
         builder.Services.AddScoped<INotificationHandler, NotificationHandlers>();
-        builder.Services.AddScoped<IExpensePaymentHandler, ExpensePaymentHandler>(); // new
+        builder.Services.AddScoped<IExpensePaymentHandler, ExpensePaymentHandler>(); 
+        builder.Services.AddScoped<ISalesPaymentHandler, SalesPaymentHandler>(); 
         builder.Services.AddScoped<IMessageHandler, MessageHandler>();
         builder.Services.AddScoped<IReportHandler, ReportHandler>();
         

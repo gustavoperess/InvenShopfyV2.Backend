@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace InvenShopfy.Core.Requests.Tradings.Sales;
+namespace InvenShopfy.Core.Requests.Tradings.Sales.Sales;
 
 public class GetSalesBySeller : Request
 {

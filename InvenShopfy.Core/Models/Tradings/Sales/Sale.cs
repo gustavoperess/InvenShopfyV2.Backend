@@ -2,6 +2,7 @@ using InvenShopfy.Core.Common.RandomNumber;
 using InvenShopfy.Core.Models.People;
 using InvenShopfy.Core.Responses;
 using System.Runtime.CompilerServices;
+using InvenShopfy.Core.Enum;
 
 
 [assembly: InternalsVisibleTo("InvenShopfy.Tests")]
@@ -18,7 +19,7 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
         public Warehouse.Warehouse Warehouse { get; init; } = null!;
         public long BillerId { get; set; }
         public decimal ShippingCost { get; set; } 
-        public string SaleStatus { get; init; } = string.Empty; 
+        public string SaleStatus { get; set; }  = EPaymentStatus.Unpaid.ToString(); 
         public string SaleNote { get; set; } = string.Empty;
         public string StaffNote { get; set; } = string.Empty;
         public int TotalQuantitySold { get; set; }

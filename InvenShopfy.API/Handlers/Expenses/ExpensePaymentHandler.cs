@@ -13,6 +13,17 @@ public class ExpensePaymentHandler(AppDbContext context) : IExpensePaymentHandle
     {
         try
         {
+            var expense = context.Expenses.FirstOrDefault(x => x.Id == request.ExpenseId);
+            if (expense != null)
+            {
+                if (expense.ExpenseStatus == "Paid")
+                {
+                    return new Response<ExpensePayment?>(null, 500, "This Expense has already been paid");
+                  
+                }
+                expense.ExpenseStatus = "Paid";
+                context.Expenses.Update(expense);
+            }
             var expensePayment = new ExpensePayment
             {
                 UserId = request.UserId,
@@ -22,17 +33,7 @@ public class ExpensePaymentHandler(AppDbContext context) : IExpensePaymentHandle
                 CardNumber = request.CardNumber,
                 ExpenseNote = request.ExpenseNote,
             };
-
-            var expense = context.Expenses.FirstOrDefault(x => x.Id == request.ExpenseId);
-            if (expense != null)
-            {
-                if (expense.ExpenseStatus != "Paid")
-                {
-                    expense.ExpenseStatus = "Paid";
-                    context.Expenses.Update(expense);
-                }
-            }
-
+            
             await context.ExpensesPayments.AddAsync(expensePayment);
             await context.SaveChangesAsync();
 
@@ -52,7 +53,7 @@ public class ExpensePaymentHandler(AppDbContext context) : IExpensePaymentHandle
                 .Include(x => x.Expense)
                 .Include(x => x.Expense.ExpenseCategory)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.ExpenseId == request.ExpenseId && x.UserId == request.UserId);
+                .FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
 
             if (expensePayment is null)
             {
@@ -61,6 +62,7 @@ public class ExpensePaymentHandler(AppDbContext context) : IExpensePaymentHandle
             
             var result = new ExpensePaymentDto
             {
+                Id = expensePayment.Id,
                 Date = expensePayment.Date,
                 VoucherNumber = expensePayment.Expense.VoucherNumber,
                 PaymentType = expensePayment.PaymentType,

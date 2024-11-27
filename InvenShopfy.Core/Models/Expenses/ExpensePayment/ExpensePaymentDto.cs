@@ -2,6 +2,7 @@ namespace InvenShopfy.Core.Models.Expenses.ExpensePayment;
 
 public class ExpensePaymentDto
 {
+    public long Id { get; set; }
     public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);
     public string VoucherNumber { get; init; } = null!;
     public decimal ExpenseCost { get; set; }

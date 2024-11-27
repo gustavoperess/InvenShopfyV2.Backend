@@ -1,12 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
-using InvenShopfy.Core.Handlers.Tradings.Purchase;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
-using InvenShopfy.Core.Requests.Tradings.Sales;
+using InvenShopfy.Core.Requests.Tradings.Sales.Sales;
 using InvenShopfy.Core.Responses;
 
-namespace InvenShopfy.API.EndPoints.Tradings.Sales;
+namespace InvenShopfy.API.EndPoints.Tradings.Sales.Sales;
 
 public class CreateSaleEndpoint  : IEndPoint
     {

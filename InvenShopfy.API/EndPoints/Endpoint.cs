@@ -17,6 +17,8 @@ using InvenShopfy.API.EndPoints.Tradings.Purchase.Add;
 using InvenShopfy.API.EndPoints.Tradings.Returns.PurchaseReturn;
 using InvenShopfy.API.EndPoints.Tradings.Returns.SalesReturn;
 using InvenShopfy.API.EndPoints.Tradings.Sales;
+using InvenShopfy.API.EndPoints.Tradings.Sales.Sales;
+using InvenShopfy.API.EndPoints.Tradings.Sales.SalesPayment;
 using InvenShopfy.API.EndPoints.Transfer;
 using InvenShopfy.API.EndPoints.Warehouses;
 using InvenShopfy.API.Models;
@@ -105,7 +107,7 @@ public static class Endpoint
             .RequireAuthorization()
             .MapEndpoint<CreateExpensePaymentEndpoint>()
             .MapEndpoint<GetExpensePaymentByIdEndpoint>();
-    
+
 
         // People Group
         var peopleGroup = endpoints.MapGroup("v2/people")
@@ -172,13 +174,13 @@ public static class Endpoint
             .MapEndpoint<DeletePurchaseEndpoint>()
             .MapEndpoint<GetPurchaseDashboardEndpoint>()
             .MapEndpoint<GetPurchaseByIdEndpoint>();
-
+        
         // Sales GROUP
         var salesGroup = endpoints.MapGroup("v2")
             .WithTags("Sale");
 
         salesGroup.MapGroup("Sale")
-            .WithTags("Sale")
+            .WithTags("Sale - sale")
             .RequireAuthorization()
             .MapEndpoint<CreateSaleEndpoint>()
             .MapEndpoint<UpdateSalesEndpoint>()
@@ -190,8 +192,13 @@ public static class Endpoint
             .MapEndpoint<GetTotalProfitDashboardEndpoint>()
             .MapEndpoint<GetTotalAmountSalesEndpoint>()
             .MapEndpoint<GetMostSouldProductEndpoint>();
-        
-        
+
+        salesGroup.MapGroup("SalesPayment")
+            .WithTags("Sale - salepayment")
+            .RequireAuthorization()
+            .MapEndpoint<CreateSalesPaymentEndpoint>();
+
+
         var messageGroup = endpoints.MapGroup("v2")
             .WithTags("Message");
 
@@ -210,7 +217,7 @@ public static class Endpoint
             .MapEndpoint<GetCountInboxEndpoint>()
             .MapEndpoint<GetImportantMessagesEndpoint>()
             .MapEndpoint<CreateMessageEndpoint>();
-        
+
 
         // Reports GROUP
         var reportGroup = endpoints.MapGroup("v2")
@@ -286,8 +293,8 @@ public static class Endpoint
             .MapEndpoint<GetCurrentUserIdentityEndpoint>()
             .MapEndpoint<CreateRoleIdentityEndpoint>()
             .MapEndpoint<LoginEndpointEndpoint>();
-        
-        
+
+
         // Notification GROUP
         var notificationGroup = endpoints.MapGroup("v2")
             .WithTags("Notification");

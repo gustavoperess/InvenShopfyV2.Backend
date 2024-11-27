@@ -1,8 +1,7 @@
-using InvenShopfy.Core.Enum;
 using System.ComponentModel.DataAnnotations;
+using InvenShopfy.Core.Enum;
 
-
-namespace InvenShopfy.Core.Requests.Tradings.Sales;
+namespace InvenShopfy.Core.Requests.Tradings.Sales.Sales;
 
 public class CreateSalesRequest : Request
 {
@@ -23,9 +22,9 @@ public class CreateSalesRequest : Request
     public decimal TaxAmount { get; set; }
     
     [Required(ErrorMessage = "Please Select one of the Sale status")]
-    [AllowedValues("Completed", "Incompleted",
+    [AllowedValues("Unpaid", "Paid",
         ErrorMessage = "Please select one of the allowed values Completed, Incompleted, Drafts")]
-    public string SaleStatus { get; set; } = EStatus.Completed.ToString();
+    public string SaleStatus { get; set; } = EPaymentStatus.Unpaid.ToString();
 
     [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]
     public string SaleNote { get; set; } = null!;
