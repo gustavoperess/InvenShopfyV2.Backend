@@ -196,6 +196,7 @@ public static class Endpoint
         salesGroup.MapGroup("SalesPayment")
             .WithTags("Sale - salepayment")
             .RequireAuthorization()
+            .MapEndpoint<GetSalesPaymentDetailsByIdEndpoint>()
             .MapEndpoint<GetSalesPaymentByIdAsyncEndpoint>()
             .MapEndpoint<CreateSalesPaymentEndpoint>();
 

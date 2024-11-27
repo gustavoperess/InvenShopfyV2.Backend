@@ -9,6 +9,7 @@ public class CreateSalesPaymentRequest : Request
     [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
     [DataType(DataType.Date)] 
     public DateOnly Date { get; set; }
+    
 
     [Required]
     [MaxLength(19, ErrorMessage = "Card number can't exceed 19 characters.")]
@@ -22,7 +23,4 @@ public class CreateSalesPaymentRequest : Request
     [MaxLength(500,  ErrorMessage= "Max len of 500 characters")]
     public string SalesNote { get; set; } = null!;
     
-    [Required(ErrorMessage = "Please Select one of the Payment status")]
-    [AllowedValues("Cash", "Card",ErrorMessage = "Please select one of the allowed values Cash, Card")]
-    public string PaymentType { get; set; } = EPaymentType.Cash.ToString(); 
 }
