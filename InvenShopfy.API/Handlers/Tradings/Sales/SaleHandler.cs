@@ -3,6 +3,7 @@ using InvenShopfy.API.Data;
 using InvenShopfy.Core.Common.Extension;
 using InvenShopfy.Core.Handlers.Notifications;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
+using InvenShopfy.Core.Models.Expenses.Expense;
 using InvenShopfy.Core.Models.Tradings.Sales;
 using InvenShopfy.Core.Models.Tradings.Sales.Dto;
 using InvenShopfy.Core.Requests.Notifications;

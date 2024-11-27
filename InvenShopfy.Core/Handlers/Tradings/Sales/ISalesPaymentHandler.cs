@@ -9,4 +9,5 @@ public interface ISalesPaymentHandler
     Task<Response<SalesPayment?>> CreateSalesPaymentAsync(CreateSalesPaymentRequest request);
     
     Task<Response<SalesPaymentDto?>> GetSalesPaymentByIdAsync(GetSalesPaymentByIdRequest request);
+    
 }

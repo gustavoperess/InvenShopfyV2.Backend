@@ -1,4 +1,5 @@
 using InvenShopfy.Core.Models.Tradings.Sales.Dto;
+using InvenShopfy.Core.Models.Tradings.Sales.SalesPayment;
 using InvenShopfy.Core.Requests.Tradings.Sales;
 using InvenShopfy.Core.Requests.Tradings.Sales.Sales;
 using InvenShopfy.Core.Responses;

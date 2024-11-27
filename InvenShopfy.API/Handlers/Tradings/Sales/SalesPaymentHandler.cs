@@ -45,30 +45,31 @@ public class SalesPaymentHandler(AppDbContext context) : ISalesPaymentHandler
             return new Response<SalesPayment?>(null, 500, "It was not possible to create a new payment Expense");
         }
     }
+    
+    
+    
+    
 
     public async Task<Response<SalesPaymentDto?>> GetSalesPaymentByIdAsync(GetSalesPaymentByIdRequest request)
     {
         try
         {
-            var expensePayment = await context.SalesPayments
-                // .Include(x => x.Expense.ExpenseCategory)
+            var sales = await context.Sales
+                .Include(x => x.Customer)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
     
-            if (expensePayment is null)
+            if (sales is null)
             {
                 return new Response<SalesPaymentDto?>(null, 404, "It was not possible to find this ExpensePayment");
             }
             
             var result = new SalesPaymentDto
             {
-                Id = expensePayment.Id,
-                Date = expensePayment.Date,
-                // VoucherNumber = expensePayment.Expense.VoucherNumber,
-                // PaymentType = expensePayment.PaymentType,
-                // ExpenseCost = expensePayment.Expense.ExpenseCost,
-                // ExpenseCategory = expensePayment.Expense.ExpenseCategory.MainCategory,
-                CardNumber = $"**** **** **** {expensePayment.CardNumber.Substring(expensePayment.CardNumber.Length - 4)}"
+                Id = sales.Id,
+                ReferenceNumber = sales.ReferenceNumber,
+                TotalAmount = sales.TotalAmount,
+                CustomerName = sales.Customer.CustomerName
             };
             return new Response<SalesPaymentDto?>(result, 201, "Payment Expense retuned successfully");
         }
