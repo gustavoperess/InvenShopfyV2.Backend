@@ -1,7 +1,7 @@
 using InvenShopfy.Core.Common.RandomNumber;
 using InvenShopfy.Core.Enum;
 
-namespace InvenShopfy.Core.Models.Expenses;
+namespace InvenShopfy.Core.Models.Expenses.Expense;
 
 
 

@@ -16,7 +16,7 @@ public class UpdateExpenseEndpoint : IEndPoint
             .WithSummary("Update a Expense")
             .WithDescription("Update a Expense")
             .WithOrder(2)
-            .Produces<Response<Core.Models.Expenses.Expense?>>();
+            .Produces<Response<Core.Models.Expenses.Expense.Expense?>>();
 
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,
@@ -35,7 +35,7 @@ public class UpdateExpenseEndpoint : IEndPoint
             foreach (var i in errors)
             {
                 Console.WriteLine($"{i}");
-                return TypedResults.BadRequest(new Response<Core.Models.Expenses.Expense?>(null, 400, i));
+                return TypedResults.BadRequest(new Response<Core.Models.Expenses.Expense.Expense?>(null, 400, i));
             }
 
         }

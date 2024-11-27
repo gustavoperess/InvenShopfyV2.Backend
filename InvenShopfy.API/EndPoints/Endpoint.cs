@@ -103,7 +103,8 @@ public static class Endpoint
         expenseGroup.MapGroup("ExpensePayment")
             .WithTags("Expenses - payment")
             .RequireAuthorization()
-            .MapEndpoint<CreateExpensePaymentEndpoint>();
+            .MapEndpoint<CreateExpensePaymentEndpoint>()
+            .MapEndpoint<GetExpensePaymentByIdEndpoint>();
     
 
         // People Group

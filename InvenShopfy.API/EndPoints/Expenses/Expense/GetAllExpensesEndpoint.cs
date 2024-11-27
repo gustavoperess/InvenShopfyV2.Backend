@@ -17,7 +17,7 @@ public class GetAllExpensesEndpoint : IEndPoint
             .WithSummary("Get All Expenses")
             .WithDescription("Get all Expenses")
             .WithOrder(5)
-            .Produces<PagedResponse<List<Core.Models.Expenses.Expense>?>>();
+            .Produces<PagedResponse<List<Core.Models.Expenses.Expense.Expense>?>>();
 
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,

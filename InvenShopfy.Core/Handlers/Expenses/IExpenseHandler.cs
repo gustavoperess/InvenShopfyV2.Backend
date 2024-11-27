@@ -1,4 +1,5 @@
 using InvenShopfy.Core.Models.Expenses;
+using InvenShopfy.Core.Models.Expenses.Expense;
 using InvenShopfy.Core.Models.Expenses.ExpenseDto;
 using InvenShopfy.Core.Requests.Expenses.Expense;
 using InvenShopfy.Core.Responses;

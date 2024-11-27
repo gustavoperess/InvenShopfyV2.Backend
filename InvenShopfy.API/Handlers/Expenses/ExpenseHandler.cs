@@ -2,7 +2,7 @@ using System.Globalization;
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Handlers.Expenses;
 using InvenShopfy.Core.Handlers.Notifications;
-using InvenShopfy.Core.Models.Expenses;
+using InvenShopfy.Core.Models.Expenses.Expense;
 using InvenShopfy.Core.Models.Expenses.ExpenseDto;
 using InvenShopfy.Core.Requests.Expenses.Expense;
 using InvenShopfy.Core.Requests.Notifications;

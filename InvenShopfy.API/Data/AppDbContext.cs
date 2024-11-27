@@ -1,6 +1,7 @@
 using System.Reflection;
 using InvenShopfy.API.Models;
 using InvenShopfy.Core.Models.Expenses;
+using InvenShopfy.Core.Models.Expenses.Expense;
 using InvenShopfy.Core.Models.Expenses.ExpenseCategory;
 using InvenShopfy.Core.Models.Expenses.ExpensePayment;
 using InvenShopfy.Core.Models.Messages;

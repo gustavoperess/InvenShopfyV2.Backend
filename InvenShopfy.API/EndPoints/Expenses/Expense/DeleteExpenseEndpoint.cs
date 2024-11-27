@@ -15,7 +15,7 @@ public class DeleteExpenseEndpoint : IEndPoint
             .WithSummary("Delete a Expense")
             .WithDescription("Delete a Expense")
             .WithOrder(3)
-            .Produces<Response<Core.Models.Expenses.Expense?>>();
+            .Produces<Response<Core.Models.Expenses.Expense.Expense?>>();
 
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,

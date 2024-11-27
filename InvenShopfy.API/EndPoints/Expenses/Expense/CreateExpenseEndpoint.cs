@@ -14,7 +14,7 @@ public class CreateExpenseEndpoint : IEndPoint
         .WithSummary("Create a new  Expense")
         .WithDescription("Create a new Expense")
         .WithOrder(1)
-        .Produces<Response<Core.Models.Expenses.Expense?>>();
+        .Produces<Response<Core.Models.Expenses.Expense.Expense?>>();
 
     private static async Task<IResult> HandleAsync(
         ClaimsPrincipal user,
@@ -31,7 +31,7 @@ public class CreateExpenseEndpoint : IEndPoint
             foreach (var i in errors)
             {
                 Console.WriteLine($"{i}");
-                return TypedResults.BadRequest(new Response<Core.Models.Expenses.Expense?>(null, 400, i));
+                return TypedResults.BadRequest(new Response<Core.Models.Expenses.Expense.Expense?>(null, 400, i));
             }
 
         }

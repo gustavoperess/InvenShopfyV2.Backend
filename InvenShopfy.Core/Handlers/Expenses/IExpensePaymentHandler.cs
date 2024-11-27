@@ -10,7 +10,7 @@ public interface IExpensePaymentHandler
 {
     Task<Response<ExpensePayment?>> CreateExpensePaymentAsync(CreateExpensePaymentRequest request);
     
-    Task<List<Response<ExpensePayment?>>> GetExpensePaymentAsync(CreateExpensePaymentRequest request);
+    Task<Response<ExpensePaymentDto?>> GetExpensePaymentByIdAsync(GetExpensePaymentByIdRequest request);
 
 
 }
