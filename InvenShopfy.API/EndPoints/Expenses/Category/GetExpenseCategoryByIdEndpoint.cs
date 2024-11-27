@@ -2,6 +2,7 @@ using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.Expenses;
 using InvenShopfy.Core.Models.Expenses;
+using InvenShopfy.Core.Models.Expenses.ExpenseCategory;
 using InvenShopfy.Core.Requests.Expenses.ExpenseCategory;
 using InvenShopfy.Core.Responses;
 

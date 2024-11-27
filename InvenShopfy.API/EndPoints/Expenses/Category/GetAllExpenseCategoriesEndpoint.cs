@@ -4,6 +4,7 @@ using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Expenses;
 using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Models.Expenses;
+using InvenShopfy.Core.Models.Expenses.ExpenseCategory;
 using InvenShopfy.Core.Requests.Expenses.ExpenseCategory;
 using InvenShopfy.Core.Requests.Products.Brand;
 using InvenShopfy.Core.Responses;

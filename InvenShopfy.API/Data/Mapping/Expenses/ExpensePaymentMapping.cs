@@ -1,4 +1,5 @@
 using InvenShopfy.Core.Models.Expenses;
+using InvenShopfy.Core.Models.Expenses.ExpensePayment;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

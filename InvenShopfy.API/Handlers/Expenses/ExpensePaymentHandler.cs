@@ -1,7 +1,9 @@
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Handlers.Expenses;
 using InvenShopfy.Core.Models.Expenses;
+using InvenShopfy.Core.Models.Expenses.ExpensePayment;
 using InvenShopfy.Core.Requests.Expenses.Expense;
+using InvenShopfy.Core.Requests.Expenses.ExpensePayment;
 using InvenShopfy.Core.Responses;
 
 namespace InvenShopfy.API.Handlers.Expenses;

@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.Expenses;
-using InvenShopfy.Core.Models.Expenses.Dto;
+using InvenShopfy.Core.Models.Expenses.ExpenseDto;
 using InvenShopfy.Core.Requests.Expenses.Expense;
 using InvenShopfy.Core.Responses;
 

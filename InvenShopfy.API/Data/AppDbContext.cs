@@ -1,6 +1,8 @@
 using System.Reflection;
 using InvenShopfy.API.Models;
 using InvenShopfy.Core.Models.Expenses;
+using InvenShopfy.Core.Models.Expenses.ExpenseCategory;
+using InvenShopfy.Core.Models.Expenses.ExpensePayment;
 using InvenShopfy.Core.Models.Messages;
 using InvenShopfy.Core.Models.Notifications;
 using InvenShopfy.Core.Models.People;
@@ -33,7 +35,6 @@ namespace InvenShopfy.API.Data;
         public DbSet<Unit> Unit { get; set; } = null!;
         public DbSet<ExpenseCategory> ExpenseCategories { get; set; } = null!;
         public DbSet<Expense> Expenses { get; set; } = null!;
-        
         public DbSet<ExpensePayment> ExpensesPayments { get; set; } = null!;
         public DbSet<Biller> Billers { get; set; } = null!;
         public DbSet<Customer> Customers { get; set; } = null!;

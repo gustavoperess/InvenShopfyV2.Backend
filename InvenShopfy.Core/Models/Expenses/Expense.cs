@@ -14,7 +14,7 @@ public class Expense
     public Warehouse.Warehouse Warehouse { get; set; } = null!;
     public string ExpenseType { get; set; } = string.Empty;
     public long ExpenseCategoryId { get; set; }
-    public ExpenseCategory ExpenseCategory { get; set; } = null!;
+    public ExpenseCategory.ExpenseCategory ExpenseCategory { get; set; } = null!;
     public decimal ExpenseCost { get; set; }
     public string ExpenseNote { get; set; } = String.Empty;
     public string VoucherNumber { get; init; } = GenerateRandomNumber.RandomNumberGenerator();

@@ -1,4 +1,4 @@
-namespace InvenShopfy.Core.Models.Expenses.Dto;
+namespace InvenShopfy.Core.Models.Expenses.ExpenseDto;
 
 public sealed class ExpenseDto
 {
@@ -7,7 +7,6 @@ public sealed class ExpenseDto
     public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);
     public string WarehouseName { get; set; } = string.Empty;
     public string ExpenseType { get; set; } = string.Empty;
-    
     public string ExpenseStatus { get; set; } = string.Empty;
     public string ExpenseCategory { get; set; } = string.Empty;
     public string VoucherNumber { get; set; } = null!;

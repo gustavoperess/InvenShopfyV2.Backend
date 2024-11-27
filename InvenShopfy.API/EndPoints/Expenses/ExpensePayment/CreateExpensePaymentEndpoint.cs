@@ -3,7 +3,9 @@ using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.Expenses;
 using InvenShopfy.Core.Models.Expenses;
+using InvenShopfy.Core.Models.Expenses.ExpenseCategory;
 using InvenShopfy.Core.Requests.Expenses.Expense;
+using InvenShopfy.Core.Requests.Expenses.ExpensePayment;
 using InvenShopfy.Core.Responses;
 
 namespace InvenShopfy.API.EndPoints.Expenses.ExpensePayment;
@@ -15,7 +17,7 @@ public class CreateExpensePaymentEndpoint : IEndPoint
         .WithSummary("Create a new payment for the Expenses")
         .WithDescription("Create a new payment for the Expenses")
         .WithOrder(1)
-        .Produces<Response<Core.Models.Expenses.ExpensePayment?>>();
+        .Produces<Response<Core.Models.Expenses.ExpensePayment.ExpensePayment?>>();
 
     private static async Task<IResult> HandleAsync(
         ClaimsPrincipal user,

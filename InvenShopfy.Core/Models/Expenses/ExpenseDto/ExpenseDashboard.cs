@@ -1,4 +1,4 @@
-namespace InvenShopfy.Core.Models.Expenses.Dto;
+namespace InvenShopfy.Core.Models.Expenses.ExpenseDto;
 
 public class ExpenseDashboard
 {

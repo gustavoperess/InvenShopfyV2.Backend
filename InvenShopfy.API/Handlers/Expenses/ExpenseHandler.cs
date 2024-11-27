@@ -3,7 +3,7 @@ using InvenShopfy.API.Data;
 using InvenShopfy.Core.Handlers.Expenses;
 using InvenShopfy.Core.Handlers.Notifications;
 using InvenShopfy.Core.Models.Expenses;
-using InvenShopfy.Core.Models.Expenses.Dto;
+using InvenShopfy.Core.Models.Expenses.ExpenseDto;
 using InvenShopfy.Core.Requests.Expenses.Expense;
 using InvenShopfy.Core.Requests.Notifications;
 using InvenShopfy.Core.Responses;
@@ -113,23 +113,34 @@ public class ExpenseHandler : IExpenseHandler
         }
     }
 
-    public async Task<Response<Expense?>> GetExpenseByIdAsync(GetExpenseByIdRequest request)
+    public async Task<Response<ExpenseUpdate?>> GetExpenseByIdAsync(GetExpenseByIdRequest request)
     {
         try
         {
-            var expense = await _context.Expenses.AsNoTracking()
+            var expense = await _context.Expenses
+                .Include(x => x.ExpenseCategory)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
 
             if (expense is null)
             {
-                return new Response<Expense?>(null, 404, "Expense  not found");
+                return new Response<ExpenseUpdate?>(null, 404, "Expense  not found");
             }
-
-            return new Response<Expense?>(expense);
+            
+            var query = new ExpenseUpdate
+            {
+                Id = expense.Id,
+                ExpenseCost = expense.ExpenseCost,
+                VoucherNumber = expense.VoucherNumber,
+                ExpenseCategory = expense.ExpenseCategory.MainCategory,
+                PaymentStatus = expense.ExpenseStatus
+            };
+            
+            return new Response<ExpenseUpdate?>(query);
         }
         catch
         {
-            return new Response<Expense?>(null, 500, "It was not possible to find this Expense");
+            return new Response<ExpenseUpdate?>(null, 500, "It was not possible to find this Expense");
         }
     }
 

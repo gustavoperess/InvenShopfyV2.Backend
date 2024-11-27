@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.Expenses;
+using InvenShopfy.Core.Models.Expenses.ExpenseDto;
 using InvenShopfy.Core.Requests.Expenses.Expense;
 using InvenShopfy.Core.Requests.Expenses.ExpenseCategory;
 using InvenShopfy.Core.Responses;
@@ -15,7 +16,7 @@ public class GetExpenseByIdEndpoint : IEndPoint
             .WithSummary("Get a Expense")
             .WithDescription("Get a Expense")
             .WithOrder(4)
-            .Produces<Response<Core.Models.Expenses.Expense?>>();
+            .Produces<Response<ExpenseUpdate?>>();
 
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,

@@ -1,4 +1,4 @@
-namespace InvenShopfy.Core.Models.Expenses;
+namespace InvenShopfy.Core.Models.Expenses.ExpenseCategory;
 
 public class ExpenseCategory
 {

@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using InvenShopfy.Core.Enum;
 
-namespace InvenShopfy.Core.Requests.Expenses.Expense;
+namespace InvenShopfy.Core.Requests.Expenses.ExpensePayment;
 
 public class CreateExpensePaymentRequest : Request
 {
