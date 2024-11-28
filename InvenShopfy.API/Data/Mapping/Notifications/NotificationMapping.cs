@@ -38,9 +38,5 @@ public class NotificationMapping : IEntityTypeConfiguration<Notification>
             .HasColumnType("VARCHAR")
             .HasMaxLength(255);
         
-        builder.Property(x => x.UserId)
-            .IsRequired(true)
-            .HasColumnType("VARCHAR")
-            .HasMaxLength(160);
     }
 }

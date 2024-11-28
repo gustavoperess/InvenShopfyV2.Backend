@@ -20,9 +20,5 @@ public class BrandMapping : IEntityTypeConfiguration<Brand>
             .IsRequired(false)
             .HasColumnType("TEXT");
         
-        builder.Property(x => x.UserId)
-            .IsRequired(true)
-            .HasColumnType("VARCHAR")
-            .HasMaxLength(160);
     }
 }

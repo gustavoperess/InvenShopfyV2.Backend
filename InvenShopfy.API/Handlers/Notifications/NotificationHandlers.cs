@@ -29,7 +29,6 @@ public class NotificationHandlers(AppDbContext context) : INotificationHandler
                 Urgency = request.Urgency,
                 From = request.From,
                 Image = request.Image,
-                UserId = request.UserId,
                 Href = request.Href,
                 CreateAt = DateOnly.FromDateTime(DateTime.Now)
         
@@ -56,7 +55,7 @@ public class NotificationHandlers(AppDbContext context) : INotificationHandler
         try
         {
             var query = await context.Notifications
-                .AsNoTracking().Where(x => x.UserId == request.UserId)
+                .AsNoTracking()
                 .OrderByDescending(x => x.Id).ToListAsync();
             
             return new Response<List<Notification>?>(query, 201, "Notification retrived successfully");

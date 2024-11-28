@@ -17,7 +17,7 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
         {
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             var existingCategory = await context.Categories.FirstOrDefaultAsync(c =>
-                c.MainCategory == request.MainCategory && c.UserId == request.UserId);
+                c.MainCategory == request.MainCategory);
             if (existingCategory != null)
             {
                 foreach (var subcategory in request.SubCategory)
@@ -35,7 +35,6 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
             
             var category = new Category
             {
-                UserId = request.UserId,
                 SubCategory = request.SubCategory,
                 MainCategory = textInfo.ToTitleCase(request.MainCategory)
             };
@@ -55,7 +54,7 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
     {
         try
         {
-            var category  = await context.Categories.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var category  = await context.Categories.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (category is null)
             {
@@ -79,7 +78,7 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
     {
         try
         {
-            var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == request.Id);
             
             if (category is null)
             {
@@ -101,7 +100,7 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
     {
         try
         {
-            var category = await context.Categories.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var category = await context.Categories.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id);
             
             if (category is null)
             {
@@ -123,7 +122,6 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
             var query = context
                 .Categories
                 .AsNoTracking()
-                .Where(x => x.UserId == request.UserId)
                 .OrderBy(x => x.MainCategory);
             
             var categories = await query

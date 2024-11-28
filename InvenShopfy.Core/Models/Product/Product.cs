@@ -16,7 +16,7 @@ public class Product
     public long CategoryId { get; set; }
     public Category Category { get; init; } = null!;
     public string ProductImage { get; set; } = null!;
-    public string UserId { get; init; } = string.Empty;
+    // public string UserId { get; init; } = string.Empty;
     public int TaxPercentage { get; set; }
     public string MarginRange { get; set; } = null!;
     public string SubCategory { get; set; } = string.Empty;

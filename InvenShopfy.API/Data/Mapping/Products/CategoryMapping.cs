@@ -20,9 +20,5 @@ public class CategoryMapping : IEntityTypeConfiguration<Category>
             .IsRequired(true)
             .HasColumnType("text[]");
         
-        builder.Property(x => x.UserId)
-            .IsRequired(true)
-            .HasColumnType("VARCHAR")
-            .HasMaxLength(160);
     }
 }

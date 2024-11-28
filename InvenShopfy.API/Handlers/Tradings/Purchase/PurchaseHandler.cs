@@ -79,7 +79,6 @@ public class PurchaseHandler : IPurchaseHandler
                 Urgency = false,
                 From = "System-Purchases", 
                 Image = null, 
-                UserId = request.UserId,
                 Href = "/trading/purchase/managepurchase",
             };
             await _notificationHandler.CreateNotificationAsync(notificationRequest);

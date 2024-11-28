@@ -1,4 +1,4 @@
-using InvenShopfy.API.Common;
+using InvenShopfy.API.Common.DateTimeHandler;
 using InvenShopfy.API.Data;
 using InvenShopfy.Core.Common.Extension;
 using InvenShopfy.Core.Handlers.Reports;
@@ -169,7 +169,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                     (product, purchaseProducts) => new
                     {
                         ProductId = product.Id,
-                        ProductName = product.ProductName,
+                        product.ProductName,
                         product.ProductCode,
                         product.StockQuantity,
                         PurchaseCount = purchaseProducts.Sum(po => (int?)po.TotalQuantityBoughtPerProduct) ?? 0,
@@ -511,7 +511,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                 g.purchaseProduct.TotalPricePaidPerProduct,
                 g.purchaseProduct.TotalInTaxPaidPerProduct,
                 g.purchaseProduct.PurchaseReferenceNumber,
-                SupplierName = g.purchase.Supplier.SupplierName
+                g.purchase.Supplier.SupplierName
             }).OrderBy(x => x.PurchaseReferenceNumber);
 
         var count = await query.CountAsync();

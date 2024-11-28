@@ -8,7 +8,6 @@ public class Notification
     public string NotificationTitle { get; set; } = string.Empty;
     public string From { get; set; } = string.Empty;
     public DateOnly CreateAt { get; init; } = DateOnly.FromDateTime(DateTime.Now);
-    public string UserId { get; init; } = string.Empty;
     public string Href { get; set; } = null!;
     
 }

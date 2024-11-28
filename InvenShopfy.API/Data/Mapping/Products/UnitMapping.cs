@@ -23,10 +23,5 @@ public class UnitMapping : IEntityTypeConfiguration<Unit>
             .HasColumnType("VARCHAR")
             .HasMaxLength(80);
         
-        builder.Property(x => x.UserId)
-            .IsRequired(true)
-            .HasColumnType("VARCHAR")
-            .HasMaxLength(160);
-        
     }
 }

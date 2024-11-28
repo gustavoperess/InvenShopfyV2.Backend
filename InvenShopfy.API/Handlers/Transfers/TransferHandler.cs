@@ -81,7 +81,6 @@ using InvenShopfy.Core.Handlers.Transfer;
                   Urgency = true,
                   From = "System-Transfer", 
                   Image = null, 
-                  UserId = request.UserId,
                   Href = "/transfer/transferlist",
               };
               await _notificationHandler.CreateNotificationAsync(notificationRequest);

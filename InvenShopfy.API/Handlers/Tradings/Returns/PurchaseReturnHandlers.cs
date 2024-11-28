@@ -53,7 +53,6 @@ public class PurchaseReturnHandlers : IPurchaseReturnHandler
                 Urgency = true,
                 From = "System-Purchases-Return", 
                 Image = null, 
-                UserId = request.UserId,
                 Href = "/trading/purchase/purchasereturns",
             };
             await _notificationHandler.CreateNotificationAsync(notificationRequest);

@@ -61,9 +61,5 @@ public class ProductsMapping : IEntityTypeConfiguration<Product>
         builder.Property(x => x.Expired)
             .HasColumnType("BOOLEAN");
         
-        builder.Property(x => x.UserId)
-            .IsRequired(true)
-            .HasColumnType("VARCHAR")
-            .HasMaxLength(160);
     }
 }

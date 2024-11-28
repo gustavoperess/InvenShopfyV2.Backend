@@ -9,7 +9,9 @@ public class CustomUserRequest : IdentityUser<long>
     public DateTime? DateOfJoin { get; set; } = DateTime.UtcNow;
     public string? ProfilePicture { get; set; }
     public string Gender { get; set; } = EGender.Male.ToString();
-    public List<IdentityUserRole<long>>? UserRoles { get; set; } = new List<IdentityUserRole<long>>();
+    // public List<IdentityUserRole<long>>? UserRoles { get; set; } = new List<IdentityUserRole<long>>();
+    
+    public long RoleId { get; set; }
     
     // public ICollection<IdentityUserClaim<long>> UserClaims { get; set; } = new List<IdentityUserClaim<long>>();
     // public ICollection<IdentityUserRole<long>> UserRoles { get; set; } = new List<IdentityUserRole<long>>();

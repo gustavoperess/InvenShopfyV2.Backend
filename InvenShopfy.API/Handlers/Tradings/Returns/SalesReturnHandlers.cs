@@ -58,7 +58,6 @@ public class SalesReturnHandlers : ISalesReturnHandler
                 Urgency = true,
                 From = "System-Sales-Return", 
                 Image = null, 
-                UserId = request.UserId,
                 Href = "/trading/sales/salereturns",
             };
             await _notificationHandler.CreateNotificationAsync(notificationRequest);

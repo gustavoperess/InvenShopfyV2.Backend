@@ -1,6 +1,7 @@
 using System.Globalization;
 using InvenShopfy.API.Common.CloudinaryServiceNamespace;
 using InvenShopfy.API.Data;
+using InvenShopfy.API.Models;
 using InvenShopfy.Core.Handlers.Notifications;
 using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Models.Product;
@@ -8,6 +9,7 @@ using InvenShopfy.Core.Models.Product.Dto;
 using InvenShopfy.Core.Requests.Notifications;
 using InvenShopfy.Core.Requests.Products.Product;
 using InvenShopfy.Core.Responses;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace InvenShopfy.API.Handlers.Products;
@@ -17,8 +19,11 @@ public class ProductHandler : IProductHandler
     
     private readonly AppDbContext _context;
     private readonly CloudinaryService _cloudinaryService;
-    private readonly INotificationHandler _notificationHandler; 
-    public ProductHandler(AppDbContext context, CloudinaryService cloudinaryService, INotificationHandler notificationHandler) 
+    private readonly INotificationHandler _notificationHandler;
+    public ProductHandler(
+        AppDbContext context, 
+        CloudinaryService cloudinaryService, 
+        INotificationHandler notificationHandler) 
     {
         _context = context;
         _cloudinaryService = cloudinaryService;
@@ -29,6 +34,8 @@ public class ProductHandler : IProductHandler
     {
         try
         {
+         
+            
             var findByName = await _context.Products.FirstOrDefaultAsync(x => x.ProductName.ToLower() == request.ProductName.ToLower());
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             if (findByName != null)
@@ -38,7 +45,7 @@ public class ProductHandler : IProductHandler
             
             var product = new Product
             {
-                UserId = request.UserId,
+              
                 ProductName = textInfo.ToTitleCase(request.ProductName),
                 ProductPrice = request.ProductPrice,
                 ProductCode = request.ProductCode,
@@ -74,7 +81,6 @@ public class ProductHandler : IProductHandler
                 Urgency = false,
                 From = "System-Products", 
                 Image = product.ProductImage,
-                UserId = request.UserId,
                 Href = "/product/productlist",
             };
              await _notificationHandler.CreateNotificationAsync(notificationRequest);
@@ -93,7 +99,7 @@ public class ProductHandler : IProductHandler
         try
         {
             var product = await _context.Products
-                .Where(x => x.Id == request.Id && x.UserId == request.UserId)
+                .Where(x => x.Id == request.Id)
                 .FirstOrDefaultAsync();
             if (product is null)
             {
@@ -147,7 +153,7 @@ public class ProductHandler : IProductHandler
     {
         try
         {
-            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == request.Id);
             
             if (product is null)
             {
@@ -169,7 +175,7 @@ public class ProductHandler : IProductHandler
     {
         try
         {
-            var product = await _context.Products.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var product = await _context.Products.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id);
             
             if (product is null)
             {
@@ -193,7 +199,6 @@ public class ProductHandler : IProductHandler
                 .Include(p => p.Category)
                 .Include(p => p.Brand)
                 .Include(p => p.Unit)
-                .Where(x => x.UserId == request.UserId)
                 .Select(g => new
                 {
                     g.Id,
@@ -255,7 +260,7 @@ public class ProductHandler : IProductHandler
             var products = await _context.Products
                 .AsNoTracking()
                 .Include(p => p.Category)
-                .Where(x => EF.Functions.ILike(x.ProductName, $"%{request.ProductName}%") && x.UserId == request.UserId)
+                .Where(x => EF.Functions.ILike(x.ProductName, $"%{request.ProductName}%"))
                 .Select(g => new ProductByName
                 {
                     Id = g.Id,
@@ -268,7 +273,6 @@ public class ProductHandler : IProductHandler
                     TaxPercentage = g.TaxPercentage,
                     Category = g.Category.MainCategory,
                     Subcategory = g.SubCategory,
-                    UserId = g.UserId,
                     Expired = g.Expired
                     
                 }).OrderBy(x => x.StockQuantity)
@@ -296,7 +300,7 @@ public class ProductHandler : IProductHandler
             var products = await _context.Products
                 .AsNoTracking()
                 .Include(p => p.Category)
-                .Where(x => EF.Functions.ILike(x.ProductName, $"%{request.ProductName}%") && x.UserId == request.UserId)
+                .Where(x => EF.Functions.ILike(x.ProductName, $"%{request.ProductName}%"))
                 .Select(g => new ProductByNameForUpdatePage
                 {
                     Id = g.Id,
@@ -309,7 +313,6 @@ public class ProductHandler : IProductHandler
                     MainCategoryId = g.Category.Id,
                     BrandName = g.Brand.BrandName,
                     UnitName = g.Unit.UnitName,
-                    UserId = g.UserId,
                     Expired = g.Expired
                     
                 }).ToListAsync();

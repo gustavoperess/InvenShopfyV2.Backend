@@ -67,7 +67,6 @@ public class SaleHandler : ISalesHandler
                 Urgency = false,
                 From = "System-Sales",
                 Image = null,
-                UserId = request.UserId,
                 Href = "/sales/salelist",
             };
             await _notificationHandler.CreateNotificationAsync(notificationRequest);

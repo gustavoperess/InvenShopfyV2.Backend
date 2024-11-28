@@ -1,6 +1,6 @@
 using InvenShopfy.Core.Common.Extension;
 
-namespace InvenShopfy.API.Common;
+namespace InvenShopfy.API.Common.DateTimeHandler;
 
 public class DateTimeHandler
 {

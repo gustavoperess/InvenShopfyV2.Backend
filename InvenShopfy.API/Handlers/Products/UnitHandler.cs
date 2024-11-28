@@ -24,7 +24,6 @@ public class UnitHandler(AppDbContext context) : IUnitHandler
 
             var unit = new Unit
             {
-                UserId = request.UserId,
                 UnitName = textInfo.ToTitleCase(request.UnitName),
                 UnitShortName = textInfo.ToTitleCase(request.UnitShortName)
             };
@@ -45,7 +44,7 @@ public class UnitHandler(AppDbContext context) : IUnitHandler
     {
         try
         {
-            var unit = await context.Unit.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var unit = await context.Unit.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (unit is null)
             {
@@ -69,7 +68,7 @@ public class UnitHandler(AppDbContext context) : IUnitHandler
     {
         try
         {
-            var unit = await context.Unit.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var unit = await context.Unit.FirstOrDefaultAsync(x => x.Id == request.Id);
             
             if (unit is null)
             {
@@ -91,7 +90,7 @@ public class UnitHandler(AppDbContext context) : IUnitHandler
     {
         try
         {
-            var unit = await context.Unit.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var unit = await context.Unit.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id);
             
             if (unit is null)
             {
@@ -113,7 +112,6 @@ public class UnitHandler(AppDbContext context) : IUnitHandler
             var query = context
                 .Unit
                 .AsNoTracking()
-                .Where(x => x.UserId == request.UserId)
                 .OrderBy(x => x.UnitName);
             
             var units = await query

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using InvenShopfy.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241128172232_fixingProduct")]
+    partial class fixingProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,9 +74,6 @@ namespace InvenShopfy.API.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
-                    b.Property<long?>("CustomIdentityRoleId")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime?>("DateOfJoin")
                         .HasColumnType("timestamp with time zone");
 
@@ -125,9 +125,6 @@ namespace InvenShopfy.API.Migrations
                         .HasMaxLength(70000)
                         .HasColumnType("character varying(70000)");
 
-                    b.Property<long>("RoleId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
 
@@ -139,8 +136,6 @@ namespace InvenShopfy.API.Migrations
                         .HasColumnType("character varying(180)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomIdentityRoleId");
 
                     b.HasIndex("NormalizedEmail")
                         .IsUnique();
@@ -357,6 +352,11 @@ namespace InvenShopfy.API.Migrations
 
                     b.Property<bool>("Urgency")
                         .HasColumnType("BOOLEAN");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(160)
+                        .HasColumnType("VARCHAR");
 
                     b.HasKey("Id");
 
@@ -1314,7 +1314,7 @@ namespace InvenShopfy.API.Migrations
                     b.Property<long>("RoleId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("UserId");
+                    b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
@@ -1340,13 +1340,6 @@ namespace InvenShopfy.API.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("IdentityUserToken", (string)null);
-                });
-
-            modelBuilder.Entity("InvenShopfy.API.Models.CustomUserRequest", b =>
-                {
-                    b.HasOne("InvenShopfy.API.Models.CustomIdentityRole", null)
-                        .WithMany("Users")
-                        .HasForeignKey("CustomIdentityRoleId");
                 });
 
             modelBuilder.Entity("InvenShopfy.Core.Models.Expenses.Expense.Expense", b =>
@@ -1588,8 +1581,8 @@ namespace InvenShopfy.API.Migrations
                         .IsRequired();
 
                     b.HasOne("InvenShopfy.API.Models.CustomUserRequest", null)
-                        .WithOne()
-                        .HasForeignKey("Microsoft.AspNetCore.Identity.IdentityUserRole<long>", "UserId")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1603,9 +1596,9 @@ namespace InvenShopfy.API.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("InvenShopfy.API.Models.CustomIdentityRole", b =>
+            modelBuilder.Entity("InvenShopfy.API.Models.CustomUserRequest", b =>
                 {
-                    b.Navigation("Users");
+                    b.Navigation("UserRoles");
                 });
 
             modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Purchase.AddPurchase", b =>

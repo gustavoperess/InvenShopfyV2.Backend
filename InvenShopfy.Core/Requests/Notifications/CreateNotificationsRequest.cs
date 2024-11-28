@@ -1,6 +1,6 @@
 namespace InvenShopfy.Core.Requests.Notifications;
 
-public class CreateNotificationsRequest : Request
+public class CreateNotificationsRequest 
 {
     public string NotificationTitle { get; set; } = string.Empty;
     public string? Image { get; set; }

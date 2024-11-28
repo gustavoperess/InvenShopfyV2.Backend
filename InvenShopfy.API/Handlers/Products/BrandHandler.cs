@@ -32,7 +32,6 @@ public class BrandHandler : IBrandHandler
             
             var brand = new Brand
             { 
-                UserId = request.UserId,
                 BrandName = textInfo.ToTitleCase(request.BrandName),
             };
             if (request.BrandImage == null)
@@ -61,7 +60,7 @@ public class BrandHandler : IBrandHandler
     {
         try
         {
-            var brand = await _context.Brands.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var brand = await _context.Brands.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (brand is null)
             {
@@ -85,13 +84,14 @@ public class BrandHandler : IBrandHandler
     {
         try
         {
-            var brand = await _context.Brands.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var brand = await _context.Brands.FirstOrDefaultAsync(x => x.Id == request.Id);
             
             if (brand is null)
             {
                 return new Response<Brand?>(null, 404, "Brand not found");
             }
-
+            // var isAuthorized = await IsAuthorizedAsync(user, "Product", "delete");
+            
             _context.Brands.Remove(brand);
             await _context.SaveChangesAsync();
             return new Response<Brand?>(brand, message: "brand removed successfully");
@@ -107,7 +107,7 @@ public class BrandHandler : IBrandHandler
     {
         try
         {
-            var brand = await _context.Brands.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var brand = await _context.Brands.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id);
             
             if (brand is null)
             {
@@ -129,7 +129,6 @@ public class BrandHandler : IBrandHandler
             var query = _context
                 .Brands
                 .AsNoTracking()
-                .Where(x => x.UserId == request.UserId)
                 .OrderBy(x => x.BrandName);
             
             var brands = await query
