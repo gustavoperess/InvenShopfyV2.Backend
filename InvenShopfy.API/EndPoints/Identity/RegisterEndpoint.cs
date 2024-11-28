@@ -50,7 +50,7 @@ namespace InvenShopfy.API.EndPoints.Identity
                 PhoneNumber = request.PhoneNumber,
                 Gender = request.Gender,
                 SecurityStamp = Guid.NewGuid().ToString(), 
-                LastLoginTime = DateTime.UtcNow
+                LastActivityTime = DateTime.UtcNow
             };
             
             if (request.ProfilePicture == null)
@@ -71,6 +71,7 @@ namespace InvenShopfy.API.EndPoints.Identity
                 return Results.BadRequest("Password is required.");
             }
 
+          
             // Create the user in the database
             var resultCreate = await userManager.CreateAsync(user, request.PasswordHash);
             if (!resultCreate.Succeeded)
@@ -85,7 +86,6 @@ namespace InvenShopfy.API.EndPoints.Identity
             if (role != null)
             {
                 // Assign the role to the user
-              
                 
                 var resultAssignRole = await userManager.AddToRoleAsync(user, normalizedRoleName);
                 if (!resultAssignRole.Succeeded)

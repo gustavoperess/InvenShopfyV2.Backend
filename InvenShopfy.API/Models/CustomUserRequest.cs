@@ -10,6 +10,6 @@ public class CustomUserRequest : IdentityUser<long>
     public string? ProfilePicture { get; set; }
     public string Gender { get; set; } = EGender.Male.ToString();
     public List<IdentityUserRole<long>>? UserRoles { get; set; } = new List<IdentityUserRole<long>>();
-    public virtual DateTime? LastLoginTime { get; set; }
-
+    public virtual DateTime? LastActivityTime { get; set; }
+    
 }

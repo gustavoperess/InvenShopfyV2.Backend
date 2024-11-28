@@ -51,6 +51,7 @@ public class SalesPaymentHandler(AppDbContext context) : ISalesPaymentHandler
         {
             var paidItem = await context.SalesPayments
                 .Include(x => x.Sales)
+                .Include(x => x.Sales.Customer)
                 .AsNoTracking().
                 FirstOrDefaultAsync(x => x.SalesId == request.Id);
             if (paidItem is null)
@@ -62,9 +63,11 @@ public class SalesPaymentHandler(AppDbContext context) : ISalesPaymentHandler
             {
                 Id = paidItem.Id,
                 ReferenceNumber = paidItem.Sales.ReferenceNumber,
+                CustomerName = paidItem.Sales.Customer.CustomerName,
                 Date = paidItem.Sales.SaleDate,
                 TotalAmount = paidItem.Sales.TotalAmount,
                 PaymentType = paidItem.PaymentType,
+                CardNumber = $"**** **** **** {paidItem.CardNumber.Substring(paidItem.CardNumber.Length - 4)}"
             };
             return new Response<SalesPaymentDto?>(result, 201, "Payment Expense retuned successfully");
         }
@@ -75,8 +78,7 @@ public class SalesPaymentHandler(AppDbContext context) : ISalesPaymentHandler
         }
         
     }
-
-
+    
     public async Task<Response<SalesPaymentDto?>> GetSalesPaymentByIdAsync(GetSalesPaymentByIdRequest request)
     {
         try

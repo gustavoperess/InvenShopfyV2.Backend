@@ -1,8 +1,6 @@
 using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.API.Data;
-using InvenShopfy.API.Models;
-using InvenShopfy.Core.Models.UserManagement;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +18,7 @@ public class GetIdentityUsersEndpoint : IEndPoint
     {
         try
         {
+            DateTime? onlineThreshold = DateTime.UtcNow.AddMinutes(-10);
             var userRoles = await context.Set<IdentityUserRole<long>>()
                 .Join(context.Users,
                     userRole => userRole.UserId,
@@ -37,7 +36,8 @@ public class GetIdentityUsersEndpoint : IEndPoint
                         ur.User.ProfilePicture,
                         UserName = ur.User.Name,
                         RoleName = role.Name,
-                        LastLogin = ur.User.LastLoginTime
+                        ur.User.LastActivityTime,
+                        isOnline = ur.User.LastActivityTime >= onlineThreshold
                     })
                 .ToListAsync();
             

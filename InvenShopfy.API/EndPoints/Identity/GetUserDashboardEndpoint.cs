@@ -19,6 +19,8 @@ public class GetUserDashboardEndpoint : IEndPoint
     {
         try
         {
+            DateTime? onlineThreshold = DateTime.UtcNow.AddMinutes(-10);
+            
             var userRoles = await context.Set<IdentityUserRole<long>>()
                 .Join(context.Users,
                     userRole => userRole.UserId,
@@ -33,8 +35,9 @@ public class GetUserDashboardEndpoint : IEndPoint
                         UserName = ur.User.Name,
                         ur.User.ProfilePicture,
                         RoleName = role.Name,
-                        LastLogin = ur.User.LastLoginTime
-                    }).OrderByDescending(x => x.LastLogin).Take(5)
+                        ur.User.LastActivityTime,
+                        isOnline = ur.User.LastActivityTime >= onlineThreshold
+                    }).OrderByDescending(x => x.LastActivityTime).Take(5)
                 .ToListAsync();
             
             return Results.Ok(userRoles);

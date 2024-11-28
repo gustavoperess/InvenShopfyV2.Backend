@@ -27,9 +27,8 @@ using InvenShopfy.Core.Handlers.Tradings.Returns.SalesReturn;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
 using InvenShopfy.Core.Handlers.Transfer;
 using InvenShopfy.Core.Handlers.Warehouse;
-using InvenShopfy.Core.Models.Expenses;
-using InvenShopfy.Core.Models.Tradings.Returns.PurchaseReturn;
 using Microsoft.EntityFrameworkCore;
+using Serilog.Events;
 
 
 namespace InvenShopfy.API.Common.Api;
@@ -41,7 +40,6 @@ public static class BuilderExtension
         Configuration.ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
         Configuration.BackendUrl = builder.Configuration.GetValue<string>("BackendUrl") ?? string.Empty;
         Configuration.FrontendUrl = builder.Configuration.GetValue<string>("FrontendUrl") ?? string.Empty;
-        
     }
 
     public static void CloudinaryConfiguration(this WebApplicationBuilder builder)
@@ -51,7 +49,7 @@ public static class BuilderExtension
         if (cloudinarySettings != null)
         {
             Configuration.CloudinarySettings = cloudinarySettings;
-        } 
+        }
         else
         {
             throw new Exception("Cloudinary settings are not properly configured. " +
@@ -59,34 +57,33 @@ public static class BuilderExtension
                                 "section is present and filled correctly.");
         }
     }
-    
+
     public static void AddDocumentation(this WebApplicationBuilder builder)
     {
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(x => { x.CustomSchemaIds(n => n.FullName); });
     }
-    
+
     public static void AddSecurity(this WebApplicationBuilder builder)
     {
-        
         builder.Services
             .AddAuthentication(IdentityConstants.ApplicationScheme)
             .AddIdentityCookies();
 
         builder.Services.AddAuthorization();
+        
     }
-    
+
     public static void AddDataContexts(this WebApplicationBuilder builder)
     {
         builder.Services.AddDbContext<AppDbContext>(
             x => x.UseNpgsql(Configuration.ConnectionString));
-    
+
         builder.Services.AddIdentityCore<CustomUserRequest>().AddRoles<CustomIdentityRole>()
             .AddEntityFrameworkStores<AppDbContext>()
             .AddApiEndpoints();
-    
     }
-    
+
     public static void AddCrossOrigin(this WebApplicationBuilder builder)
     {
         builder.Services.AddCors(options => options.AddPolicy(Configuration.CorsPolicyName,
@@ -97,53 +94,39 @@ public static class BuilderExtension
                 ]).AllowAnyHeader().AllowAnyMethod().AllowCredentials()
         ));
     }
-
+    
     public static void AddSerilog(this WebApplicationBuilder builder)
-{
-    var loggerConfiguration = new LoggerConfiguration()
-        .Enrich.FromLogContext();
-    loggerConfiguration.WriteTo.File(
-        "logs/log-.txt", 
-        rollingInterval: RollingInterval.Day, 
-        outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} StatusCode: {StatusCode} Message: {Message} {NewLine}{Exception}"
-    );
-    Log.Logger = loggerConfiguration.CreateLogger();
-    
-    var consoleLogger = new LoggerConfiguration()
-        .Enrich.FromLogContext()
-        .WriteTo.Console(
-            outputTemplate: "[{Timestamp:HH:mm:ss} StatusCode: {StatusCode} {Message}{NewLine}"
-        )
-        .Filter.ByIncludingOnly(logEvent =>
-        {
-            return logEvent.Properties.ContainsKey("StatusCode") &&
-                   logEvent.Properties["StatusCode"] is Serilog.Events.ScalarValue scalarValue &&
-                   scalarValue.Value is int statusCode &&
-                   statusCode >= 400;
-        })
-        .CreateLogger();
+    {
+        // Define a shared filter for logs with StatusCode >= 400
+        Func<LogEvent, bool> isErrorOrStatusCode = logEvent =>
+            logEvent.Properties.ContainsKey("StatusCode") &&
+            logEvent.Properties["StatusCode"] is ScalarValue scalarValue &&
+            scalarValue.Value is int statusCode &&
+            statusCode >= 400;
 
-    
-    Log.Logger = new LoggerConfiguration()
-        .Enrich.FromLogContext()
-        .WriteTo.Logger(lc => lc
-            .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day, 
-                outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} StatusCode: {StatusCode} Message: {Message} {NewLine}{Exception}"))
-        .WriteTo.Logger(lc => lc
-            .Filter.ByIncludingOnly(logEvent =>
-            {
-                return logEvent.Properties.ContainsKey("StatusCode") &&
-                       logEvent.Properties["StatusCode"] is Serilog.Events.ScalarValue scalarValue &&
-                       scalarValue.Value is int statusCode &&
-                       statusCode >= 400;
-            })
-            .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} StatusCode: {StatusCode} {Message}{NewLine}"))
-        .CreateLogger();
+        // Configure the main logger
+        Log.Logger = new LoggerConfiguration()
+            .Enrich.FromLogContext()
+            // File sink for all logs
+            .WriteTo.File(
+                "logs/log-.txt",
+                rollingInterval: RollingInterval.Day,
+                outputTemplate:
+                "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} StatusCode: {StatusCode} {NewLine}{Exception}"
+            )
+            // Console sink for filtered logs (errors only)
+            .WriteTo.Console(
+                outputTemplate: "[{Timestamp:HH:mm:ss} StatusCode: {StatusCode}] {Message}{NewLine}{Exception}",
+                restrictedToMinimumLevel: LogEventLevel.Information
+            )
+            .Filter.ByIncludingOnly(isErrorOrStatusCode) // Apply the filter to the console sink
+            .CreateLogger();
 
-    builder.Host.UseSerilog();
-}
+        // Add Serilog to the builder
+        builder.Host.UseSerilog();
+    }
 
-    
+
     public static void AddServices(this WebApplicationBuilder builder)
     {
         // builder.Services.AddTransient<IProductHandler, ProductHandler>();
@@ -165,7 +148,7 @@ public static class BuilderExtension
         // builder.Services.AddTransient<IMessageHandler, MessageHandler>(); // new
         // builder.Services.AddTransient<IReportHandler, ReportHandler>();
         // TESTING WITH SCOPED 
-        
+
         builder.Services.AddScoped<IProductHandler, ProductHandler>();
         builder.Services.AddScoped<IBrandHandler, BrandHandler>();
         builder.Services.AddScoped<IUnitHandler, UnitHandler>();
@@ -178,18 +161,16 @@ public static class BuilderExtension
         builder.Services.AddScoped<IWarehouseHandler, WarehouseHandler>();
         builder.Services.AddScoped<IPurchaseHandler, PurchaseHandler>();
         builder.Services.AddScoped<ISalesHandler, SaleHandler>();
-        builder.Services.AddScoped<ISalesReturnHandler, SalesReturnHandlers>(); 
-        builder.Services.AddScoped<IPurchaseReturnHandler, PurchaseReturnHandlers>(); 
+        builder.Services.AddScoped<ISalesReturnHandler, SalesReturnHandlers>();
+        builder.Services.AddScoped<IPurchaseReturnHandler, PurchaseReturnHandlers>();
         builder.Services.AddScoped<ITransferHandler, TransferHandler>();
         builder.Services.AddScoped<INotificationHandler, NotificationHandlers>();
-        builder.Services.AddScoped<IExpensePaymentHandler, ExpensePaymentHandler>(); 
-        builder.Services.AddScoped<ISalesPaymentHandler, SalesPaymentHandler>(); 
+        builder.Services.AddScoped<IExpensePaymentHandler, ExpensePaymentHandler>();
+        builder.Services.AddScoped<ISalesPaymentHandler, SalesPaymentHandler>();
         builder.Services.AddScoped<IMessageHandler, MessageHandler>();
         builder.Services.AddScoped<IReportHandler, ReportHandler>();
-        
-        
+
+
         builder.Services.AddTransient<CloudinaryService>();
-       
-      
     }
 }

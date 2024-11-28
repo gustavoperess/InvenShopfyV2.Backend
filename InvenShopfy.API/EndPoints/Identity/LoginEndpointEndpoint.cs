@@ -30,8 +30,8 @@ public class LoginEndpointEndpoint : IEndPoint
         
         if (result.Succeeded)
         {
-            user.LastLoginTime = DateTime.UtcNow;
-            await userManager.UpdateAsync(user);
+            // user.LastLoginTime = DateTime.UtcNow;
+            // await userManager.UpdateAsync(user);
             return Results.Ok("Login successful");
         }
         else

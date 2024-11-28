@@ -26,7 +26,6 @@ public class GetCurrentUserIdentityEndpoint : IEndPoint
             {
                 return Results.Unauthorized();
             }
-            
             var currentUser = await context.Users
                 .Where(u => u.UserName == user.Identity.Name)
                 .Select(u => new
@@ -35,11 +34,12 @@ public class GetCurrentUserIdentityEndpoint : IEndPoint
                     FullName = u.Name,
                     u.UserName,
                     u.ProfilePicture,
-                    u.LastLoginTime,
+                    u.LastActivityTime,
                     u.PhoneNumber,
                     u.Email,
                     u.Gender,
                     u.DateOfJoin,
+                    
                     Roles = context.UserRoles
                         .Where(ur => ur.UserId == u.Id)
                         .Join(context.Roles, ur => ur.RoleId, r => r.Id, (ur, r) => r.Name)
