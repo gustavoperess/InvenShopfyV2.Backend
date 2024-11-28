@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace InvenShopfy.API.EndPoints.Identity;
+namespace InvenShopfy.API.EndPoints.Identity.User;
 
-public class GetIdentityUsersEndpoint : IEndPoint
+public class GetManagerOrAdminEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("/get-user-custom", Handle).RequireAuthorization();
+        => app.MapGet("/get-manager-admin-custom", Handle).RequireAuthorization();
     
     private static async Task<IResult> Handle(
         ClaimsPrincipal user,
@@ -18,7 +18,6 @@ public class GetIdentityUsersEndpoint : IEndPoint
     {
         try
         {
-            DateTime? onlineThreshold = DateTime.UtcNow.AddMinutes(-10);
             var userRoles = await context.Set<IdentityUserRole<long>>()
                 .Join(context.Users,
                     userRole => userRole.UserId,
@@ -30,15 +29,10 @@ public class GetIdentityUsersEndpoint : IEndPoint
                     (ur, role) => new
                     {
                         UserId = ur.User.Id,
-                        ur.User.DateOfJoin,
-                        ur.User.PhoneNumber,
-                        ur.User.Email,
-                        ur.User.ProfilePicture,
                         UserName = ur.User.Name,
-                        RoleName = role.Name,
-                        ur.User.LastActivityTime,
-                        isOnline = ur.User.LastActivityTime >= onlineThreshold
+                        RoleName = role.Name
                     })
+                .Where(x => x.RoleName == "Admin" || x.RoleName == "Manager")
                 .ToListAsync();
             
             return Results.Ok(userRoles);

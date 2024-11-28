@@ -4,7 +4,7 @@ using InvenShopfy.Core.Requests.UserManagement.Role;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InvenShopfy.API.EndPoints.Identity;
+namespace InvenShopfy.API.EndPoints.Identity.Role;
 
 public class CreateRoleIdentityEndpoint : IEndPoint
 {
@@ -17,6 +17,7 @@ public class CreateRoleIdentityEndpoint : IEndPoint
     {
         // Check if role already exists
         var roleExists = await roleManager.RoleExistsAsync(request.RoleName);
+       
         if (roleExists)
         {
             return Results.Conflict(new { Message = "Role already exists." });

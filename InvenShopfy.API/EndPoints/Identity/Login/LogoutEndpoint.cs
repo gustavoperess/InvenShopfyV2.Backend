@@ -2,8 +2,7 @@ using InvenShopfy.API.Common.Api;
 using InvenShopfy.API.Models;
 using Microsoft.AspNetCore.Identity;
 
-
-namespace InvenShopfy.API.EndPoints.Identity;
+namespace InvenShopfy.API.EndPoints.Identity.Login;
 
 public class LogoutEndpoint : IEndPoint
 {

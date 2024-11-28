@@ -7,7 +7,7 @@ using InvenShopfy.Core.Requests.UserManagement.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InvenShopfy.API.EndPoints.Identity
+namespace InvenShopfy.API.EndPoints.Identity.Register
 // NEED TO CHECK WHY IT IS NOT ADDING TO THE ROLES, SOMETHING TO DO WITH THE NORMALIZED NAME
 {
         public class RegisterEndpoint : IEndPoint

@@ -4,7 +4,7 @@ using InvenShopfy.API.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace InvenShopfy.API.EndPoints.Identity;
+namespace InvenShopfy.API.EndPoints.Identity.User;
 
 public class GetCurrentUserIdentityEndpoint : IEndPoint
 {

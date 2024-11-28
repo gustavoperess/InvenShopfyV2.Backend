@@ -5,18 +5,21 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace InvenShopfy.API.EndPoints.Identity;
+namespace InvenShopfy.API.EndPoints.Identity.User;
 
-public class GetBillerEndpoint : IEndPoint
+public class GetUserDashboardEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("/get-billers", Handle).RequireAuthorization();
+        => app.MapGet("dashboard/get-user-dashboard", Handle).RequireAuthorization();
+    
     private static async Task<IResult> Handle(
         ClaimsPrincipal user,
         [FromServices] AppDbContext context)
     {
         try
         {
+            DateTime? onlineThreshold = DateTime.UtcNow.AddMinutes(-10);
+            
             var userRoles = await context.Set<IdentityUserRole<long>>()
                 .Join(context.Users,
                     userRole => userRole.UserId,
@@ -29,18 +32,19 @@ public class GetBillerEndpoint : IEndPoint
                     {
                         UserId = ur.User.Id,
                         UserName = ur.User.Name,
+                        ur.User.ProfilePicture,
                         RoleName = role.Name,
-                        roleId = role.Id
-                    })
-                .Where(x => x.roleId <= 3)
+                        ur.User.LastActivityTime,
+                        isOnline = ur.User.LastActivityTime >= onlineThreshold
+                    }).OrderByDescending(x => x.LastActivityTime).Take(5)
                 .ToListAsync();
-
+            
             return Results.Ok(userRoles);
         }
         catch (Exception e)
         {
             return Results.NotFound($"Error . {e.Message}");
         }
-
+        
     }
 }

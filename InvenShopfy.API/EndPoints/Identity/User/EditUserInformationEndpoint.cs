@@ -5,7 +5,7 @@ using InvenShopfy.Core.Requests.UserManagement.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InvenShopfy.API.EndPoints.Identity;
+namespace InvenShopfy.API.EndPoints.Identity.User;
 
 public class EditUserInformationEndpoint : IEndPoint
 {

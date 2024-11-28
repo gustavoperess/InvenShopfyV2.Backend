@@ -4,23 +4,19 @@ using InvenShopfy.API.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Globalization;
 
-namespace InvenShopfy.API.EndPoints.Identity;
+namespace InvenShopfy.API.EndPoints.Identity.User;
 
-public class GetUserDashboardEndpoint : IEndPoint
+public class GetBillerEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("dashboard/get-user-dashboard", Handle).RequireAuthorization();
-    
+        => app.MapGet("/get-billers", Handle).RequireAuthorization();
     private static async Task<IResult> Handle(
         ClaimsPrincipal user,
         [FromServices] AppDbContext context)
     {
         try
         {
-            DateTime? onlineThreshold = DateTime.UtcNow.AddMinutes(-10);
-            
             var userRoles = await context.Set<IdentityUserRole<long>>()
                 .Join(context.Users,
                     userRole => userRole.UserId,
@@ -33,19 +29,18 @@ public class GetUserDashboardEndpoint : IEndPoint
                     {
                         UserId = ur.User.Id,
                         UserName = ur.User.Name,
-                        ur.User.ProfilePicture,
                         RoleName = role.Name,
-                        ur.User.LastActivityTime,
-                        isOnline = ur.User.LastActivityTime >= onlineThreshold
-                    }).OrderByDescending(x => x.LastActivityTime).Take(5)
+                        roleId = role.Id
+                    })
+                .Where(x => x.roleId <= 3)
                 .ToListAsync();
-            
+
             return Results.Ok(userRoles);
         }
         catch (Exception e)
         {
             return Results.NotFound($"Error . {e.Message}");
         }
-        
+
     }
 }

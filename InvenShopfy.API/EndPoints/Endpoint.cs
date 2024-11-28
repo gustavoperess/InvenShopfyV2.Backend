@@ -3,6 +3,10 @@ using InvenShopfy.API.EndPoints.Expenses.Category;
 using InvenShopfy.API.EndPoints.Expenses.Expense;
 using InvenShopfy.API.EndPoints.Expenses.ExpensePayment;
 using InvenShopfy.API.EndPoints.Identity;
+using InvenShopfy.API.EndPoints.Identity.Login;
+using InvenShopfy.API.EndPoints.Identity.Register;
+using InvenShopfy.API.EndPoints.Identity.Role;
+using InvenShopfy.API.EndPoints.Identity.User;
 using InvenShopfy.API.EndPoints.Messages;
 using InvenShopfy.API.EndPoints.Notifications;
 using InvenShopfy.API.EndPoints.People.Biller;
@@ -286,6 +290,7 @@ public static class Endpoint
             .MapEndpoint<RegisterEndpoint>()
             .MapEndpoint<GetManagerOrAdminEndpoint>()
             .MapEndpoint<GetIdentityUsersEndpoint>()
+            .MapEndpoint<AssignPermissionsToRoleEndpoint>()
             .MapEndpoint<DeleteRoleIdentityEndpoint>()
             .MapEndpoint<EditUserInformationEndpoint>()
             .MapEndpoint<GetAllUsersButYourselfEndpoint>()

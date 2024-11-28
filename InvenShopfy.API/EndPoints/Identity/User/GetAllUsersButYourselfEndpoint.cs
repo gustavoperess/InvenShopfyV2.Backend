@@ -1,13 +1,10 @@
 using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.API.Data;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using InvenShopfy.API.Models;
-using InvenShopfy.Core.Requests.UserManagement.User;
 using Microsoft.EntityFrameworkCore;
 
-namespace InvenShopfy.API.EndPoints.Identity;
+namespace InvenShopfy.API.EndPoints.Identity.User;
 
 public class GetAllUsersButYourselfEndpoint : IEndPoint
 {

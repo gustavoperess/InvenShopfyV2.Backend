@@ -1,10 +1,9 @@
-using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
+using InvenShopfy.API.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using InvenShopfy.API.Models;
 
-namespace InvenShopfy.API.EndPoints.Identity;
+namespace InvenShopfy.API.EndPoints.Identity.Login;
 
 public class LoginEndpointEndpoint : IEndPoint
 {

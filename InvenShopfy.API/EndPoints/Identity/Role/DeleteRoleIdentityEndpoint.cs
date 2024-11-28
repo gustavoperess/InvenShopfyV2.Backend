@@ -1,10 +1,9 @@
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.API.Models;
-using InvenShopfy.Core.Requests.UserManagement.Role;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InvenShopfy.API.EndPoints.Identity;
+namespace InvenShopfy.API.EndPoints.Identity.Role;
 
 public class DeleteRoleIdentityEndpoint : IEndPoint
 {
