@@ -1,4 +1,5 @@
 using System.Reflection;
+using InvenShopfy.API.Data.Mapping.Identity;
 using InvenShopfy.API.Models;
 using InvenShopfy.Core.Models.Expenses;
 using InvenShopfy.Core.Models.Expenses.Expense;
@@ -31,6 +32,8 @@ namespace InvenShopfy.API.Data;
     {
        
         public DbSet<SaleReturn> SaleReturns { get; set; } = null!;
+        
+        public DbSet<RolePermission> RolePermissions { get; set; } = null!;
         public DbSet<Product> Products { get; set; } = null!;
         public DbSet<Brand> Brands { get; set; } = null!;
         public DbSet<Category> Categories { get; set; } = null!;
