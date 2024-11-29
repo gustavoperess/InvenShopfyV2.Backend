@@ -60,6 +60,7 @@ public class BrandHandler : IBrandHandler
     {
         try
         {
+            
             var brand = await _context.Brands.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (brand is null)
@@ -90,7 +91,6 @@ public class BrandHandler : IBrandHandler
             {
                 return new Response<Brand?>(null, 404, "Brand not found");
             }
-            // var isAuthorized = await IsAuthorizedAsync(user, "Product", "delete");
             
             _context.Brands.Remove(brand);
             await _context.SaveChangesAsync();

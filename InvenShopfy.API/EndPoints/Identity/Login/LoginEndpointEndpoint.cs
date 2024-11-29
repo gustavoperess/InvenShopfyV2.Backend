@@ -1,7 +1,11 @@
+using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
+using InvenShopfy.API.Data;
 using InvenShopfy.API.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using Newtonsoft.Json;
 
 namespace InvenShopfy.API.EndPoints.Identity.Login;
 
@@ -12,6 +16,7 @@ public class LoginEndpointEndpoint : IEndPoint
 
     private static async Task<IResult> Handle(
         [FromBody] CustomLoginRequest request,
+        [FromServices] AppDbContext dbContext,
         [FromServices] UserManager<CustomUserRequest> userManager,
         [FromServices] SignInManager<CustomUserRequest> signInManager)
     {
@@ -24,14 +29,38 @@ public class LoginEndpointEndpoint : IEndPoint
         {
             return Results.NotFound("Invalid Username or Email");
         }
+
         var result = await signInManager.PasswordSignInAsync(user, request.Password, isPersistent: false, lockoutOnFailure: false);
-        
         
         if (result.Succeeded)
         {
-            // user.LastLoginTime = DateTime.UtcNow;
-            // await userManager.UpdateAsync(user);
-            return Results.Ok("Login successful");
+           
+            var rolePermissions = dbContext.RolePermissions 
+                .Where(x => x.RoleId == user.RoleId)             
+                .Select(rp => new                          
+                {
+                    rp.EntityType,
+                    rp.Action,
+                    rp.IsAllowed
+                })
+                .ToList();
+            
+            // Create claims for allowed permissions
+            var claims = rolePermissions
+                .Where(p => p.IsAllowed)  // Only include allowed permissions
+                .Select(p => new Claim($"Permission:{p.EntityType}:{p.Action}", "true"))
+                .ToList();
+            
+
+            // Create a ClaimsIdentity with the permission claims
+            var identity = new ClaimsIdentity(claims, "Custom");
+            var principal = new ClaimsPrincipal(identity);
+            var claimList = principal.Claims.Select(c => new { c.Type, c.Value }).ToList();
+            // Refresh user session by adding claims
+            await signInManager.RefreshSignInAsync(user);
+            
+            return Results.Ok(new { Message = "Login successful", Claims = claims });
+            // return Results.Ok(new { Message = "Login successful" });
         }
         else
         {
