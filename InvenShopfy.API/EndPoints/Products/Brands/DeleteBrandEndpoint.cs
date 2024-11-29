@@ -22,10 +22,14 @@ public class DeleteBrandEndpoint : IEndPoint
         IBrandHandler handler,
         long id)
     {
+        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:ProductBrand:Delete");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+   
         var request = new DeleteBrandRequest()
         {
             UserId = user.Identity?.Name ?? string.Empty,
-            Id = id
+            Id = id,
+            UserHasPermission = hasPermission
         };
 
         var result = await handler.DeleteProductBrandAsync(request);

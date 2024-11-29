@@ -29,13 +29,10 @@ public class GetAllBrandsEndpoint : IEndPoint
     {
         var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:ProductBrand:View");
         var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
-        if (!hasPermission)
-        {
-            return TypedResults.BadRequest("User does not have authorization to proceed with this task");
-        }
-     
+        
         var request = new GetAllBrandsRequest
         {
+            UserHasPermission = hasPermission,
             UserId = user.Identity?.Name ?? string.Empty,
             PageNumber = pageNumber,
             PageSize = pageSize,

@@ -55,12 +55,10 @@ public class LoginEndpointEndpoint : IEndPoint
             // Create a ClaimsIdentity with the permission claims
             var identity = new ClaimsIdentity(claims, "Custom");
             var principal = new ClaimsPrincipal(identity);
-            var claimList = principal.Claims.Select(c => new { c.Type, c.Value }).ToList();
-            // Refresh user session by adding claims
             await signInManager.RefreshSignInAsync(user);
             
-            return Results.Ok(new { Message = "Login successful", Claims = claims });
-            // return Results.Ok(new { Message = "Login successful" });
+            return Results.Ok(new { Message = "Login successful" });
+          
         }
         else
         {

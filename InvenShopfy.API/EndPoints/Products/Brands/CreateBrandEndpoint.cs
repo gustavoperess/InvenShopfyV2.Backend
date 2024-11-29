@@ -22,6 +22,12 @@ public class CreateBrandEndpoint : IEndPoint
         IBrandHandler handler,
         CreateBrandRequest request)
     {
+        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:ProductBrand:Add");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+        request.UserHasPermission = hasPermission;
+        request.UserId = user.Identity?.Name ?? string.Empty;
+        
+        
         var validationResults = new List<ValidationResult>();
         var validationContext = new ValidationContext(request);
         bool isValid = Validator.TryValidateObject(request, validationContext, validationResults, true);
@@ -36,7 +42,7 @@ public class CreateBrandEndpoint : IEndPoint
             }
 
         }
-        request.UserId = user.Identity?.Name ?? string.Empty;
+        
 
         var result = await handler.CreateProductBrandAsync(request);
         return result.IsSuccess

@@ -24,6 +24,12 @@ public class UpdateBrandEndpoint : IEndPoint
         UpdateBrandRequest request,
         long id)
     {
+        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:ProductBrand:Update");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+        request.UserId = user.Identity?.Name ?? string.Empty;
+        request.Id = id;
+        request.UserHasPermission = hasPermission;
+        
         var validationResults = new List<ValidationResult>();
         var validationContext = new ValidationContext(request);
         bool isValid = Validator.TryValidateObject(request, validationContext, validationResults, true);
@@ -38,8 +44,7 @@ public class UpdateBrandEndpoint : IEndPoint
             }
 
         }
-        request.UserId = user.Identity?.Name ?? string.Empty;
-        request.Id = id;
+ 
         var result = await handler.UpdateProductBrandAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)

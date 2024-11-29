@@ -1,6 +1,7 @@
 using System.Globalization;
 using InvenShopfy.API.Common.CloudinaryServiceNamespace;
 using InvenShopfy.API.Data;
+using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Models.Product;
 using InvenShopfy.Core.Requests.Products.Brand;
@@ -23,6 +24,12 @@ public class BrandHandler : IBrandHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new Response<Brand?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            }
+
+            
             var unit = await _context.Unit.FirstOrDefaultAsync(x => x.UnitName.ToLower() == request.BrandName.ToLower());
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             if (unit != null)
@@ -47,12 +54,12 @@ public class BrandHandler : IBrandHandler
             await _context.Brands.AddAsync(brand);
             await _context.SaveChangesAsync();
 
-            return new Response<Brand?>(brand, 201, "Brand created successfully");
+            return new Response<Brand?>(brand, 201, $"Brand {Configuration.Created}");
 
         }
         catch
         {
-            return new Response<Brand?>(null, 500, "It was not possible to create a new Brand");
+            return new Response<Brand?>(null, 500, $"{Configuration.NotCreated} Brand");
         }
     }
 
@@ -65,19 +72,19 @@ public class BrandHandler : IBrandHandler
 
             if (brand is null)
             {
-                return new Response<Brand?>(null, 404, "Brand not found");
+                return new Response<Brand?>(null, 404, $"Brand {Configuration.NotFound}");
             }
             
             brand.BrandName = request.BrandName;
             brand.BrandImage = request.BrandImage;
             _context.Brands.Update(brand);
             await _context.SaveChangesAsync();
-            return new Response<Brand?>(brand, message: "brand updated successfully");
+            return new Response<Brand?>(brand, message: $"Brand {Configuration.Updated}");
 
         }
         catch 
         {
-            return new Response<Brand?>(null, 500, "It was not possible to update this Brand");
+            return new Response<Brand?>(null, 500, $"{Configuration.NotUpdated} Brand");
         }
     }
 
@@ -85,21 +92,26 @@ public class BrandHandler : IBrandHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new Response<Brand?>(null, 409, $"{Configuration.NotAuthorized} 'Delete'");
+            }
+            
             var brand = await _context.Brands.FirstOrDefaultAsync(x => x.Id == request.Id);
             
             if (brand is null)
             {
-                return new Response<Brand?>(null, 404, "Brand not found");
+                return new Response<Brand?>(null, 404, $"Brand {Configuration.NotFound}");
             }
             
             _context.Brands.Remove(brand);
             await _context.SaveChangesAsync();
-            return new Response<Brand?>(brand, message: "brand removed successfully");
+            return new Response<Brand?>(brand, message: $"Brand {Configuration.Deleted}");
 
         }
         catch 
         {
-            return new Response<Brand?>(null, 500, "It was not possible to delete this Brand");
+            return new Response<Brand?>(null, 500, $"{Configuration.NotDeleted} Brand");
         }
     }
     
@@ -111,7 +123,7 @@ public class BrandHandler : IBrandHandler
             
             if (brand is null)
             {
-                return new Response<Brand?>(null, 404, "Brand not found");
+                return new Response<Brand?>(null, 404, $"Brand {Configuration.NotFound}");
             }
 
             return new Response<Brand?>(brand);
@@ -119,13 +131,18 @@ public class BrandHandler : IBrandHandler
         }
         catch 
         {
-            return new Response<Brand?>(null, 500, "It was not possible to find this Brand");
+            return new Response<Brand?>(null, 500, $"{Configuration.NotRetrived} Brand");
         }
     }
     public async Task<PagedResponse<List<Brand>?>> GetProductBrandByPeriodAsync(GetAllBrandsRequest request)
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<Brand>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
+            
             var query = _context
                 .Brands
                 .AsNoTracking()
@@ -138,6 +155,7 @@ public class BrandHandler : IBrandHandler
             
             var count = await query.CountAsync();
             
+            
             return new PagedResponse<List<Brand>?>(
                 brands,
                 count,
@@ -146,7 +164,7 @@ public class BrandHandler : IBrandHandler
         }
         catch 
         {
-            return new PagedResponse<List<Brand>?>(null, 500, "It was not possible to consult all brands");
+            return new PagedResponse<List<Brand>?>(null, 500, $"{Configuration.NotRetrived} all brands ");
         }
     }
 }
