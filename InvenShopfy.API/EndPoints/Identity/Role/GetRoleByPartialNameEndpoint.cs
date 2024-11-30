@@ -12,7 +12,7 @@ public class GetRoleByPartialNameEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapGet("/get-role-by-partial/{name}", Handle);
-    
+
     private static async Task<IResult> Handle(
         string name,
         ClaimsPrincipal user,
@@ -25,17 +25,41 @@ public class GetRoleByPartialNameEndpoint : IEndPoint
             {
                 return Results.BadRequest("Name parameter cannot be null or empty.");
             }
-            
-            var roles = await context.Roles
-                .AsNoTracking()
-                .Where(x => EF.Functions.ILike(x.Name ?? "", $"%{name}%")) 
-                .Select(g => new
-                {
-                    RoleName = g.Name,
-                    g.Id
-                }).ToListAsync();
 
-            return Results.Ok(roles);
+            var actions = new[] { "Add", "View", "Delete", "Update" };
+
+            var filteredRoles = await context.Roles
+                .Where(r => EF.Functions.ILike(r.Name ?? "", $"%{name}%"))
+                .Select(r => new { r.Id, r.Name })
+                .ToListAsync();
+
+            var roleIds = filteredRoles.Select(r => r.Id).ToList();
+
+            var rolePermissions = await context.RolePermissions
+                .Where(rp => roleIds.Contains(rp.RoleId))
+                .GroupBy(rp => new { rp.RoleId, rp.EntityType })
+                .ToListAsync();
+
+            var rolesWithPermissions = rolePermissions
+                .GroupBy(g => g.Key.RoleId)
+                .Select(roleGroup => new
+                {
+                    RoleName = filteredRoles.First(r => r.Id == roleGroup.Key).Name,
+                    PermissionsByEntity = roleGroup
+                        .Select(g => new
+                        {
+                            g.Key.EntityType,
+                            Permissions = actions.Select(action => new
+                            {
+                                Action = action,
+                                IsAllowed = g.Any(x => x.Action == action && x.IsAllowed)
+                            }).ToList()
+                        })
+                        .ToList()
+                })
+                .ToList();
+
+            return Results.Ok(rolesWithPermissions);
         }
         catch (Exception e)
         {
@@ -43,7 +67,3 @@ public class GetRoleByPartialNameEndpoint : IEndPoint
         }
     }
 }
-
-
-
-
