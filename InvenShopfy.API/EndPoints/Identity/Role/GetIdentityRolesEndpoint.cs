@@ -16,7 +16,9 @@ public class GetIdentityRolesEndpoint : IEndPoint
         ClaimsPrincipal user,
         [FromServices] RoleManager<CustomIdentityRole> roleManager)
     {
-        var roles = await roleManager.Roles.ToListAsync();
+        var roles = await roleManager.Roles
+            .AsNoTracking()
+            .ToListAsync();
 
         var roleDtos = roles.Select(role => new
         {

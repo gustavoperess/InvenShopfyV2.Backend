@@ -19,6 +19,7 @@ public class GetManagerOrAdminEndpoint : IEndPoint
         try
         {
             var userRoles = await context.Set<IdentityUserRole<long>>()
+                .AsNoTracking()
                 .Join(context.Users,
                     userRole => userRole.UserId,
                     userinfo => userinfo.Id,

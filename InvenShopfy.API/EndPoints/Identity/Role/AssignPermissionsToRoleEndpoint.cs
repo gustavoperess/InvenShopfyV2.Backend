@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using InvenShopfy.API.Data;
-using Newtonsoft.Json;
 
 namespace InvenShopfy.API.EndPoints.Identity.Role;
 

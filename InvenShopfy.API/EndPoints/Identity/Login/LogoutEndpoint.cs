@@ -10,8 +10,6 @@ public class LogoutEndpoint : IEndPoint
         => app.MapPost("/logout-custom", HandleAsync).RequireAuthorization();
     
     private static async Task<IResult> HandleAsync(
-        // ClaimsPrincipal user,
-        // [FromServices] AppDbContext context,
         SignInManager<CustomUserRequest> signInManage)
     {
      

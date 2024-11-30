@@ -21,6 +21,7 @@ public class GetUserDashboardEndpoint : IEndPoint
             DateTime? onlineThreshold = DateTime.UtcNow.AddMinutes(-10);
             
             var userRoles = await context.Set<IdentityUserRole<long>>()
+                .AsNoTracking()
                 .Join(context.Users,
                     userRole => userRole.UserId,
                     userinfo => userinfo.Id,

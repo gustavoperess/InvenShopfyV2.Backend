@@ -25,11 +25,15 @@ public class GetAllCategoriesEndpoint : IEndPoint
         [FromQuery]int pageNumber = Configuration.DefaultPageNumber,
         [FromQuery]int pageSize = Configuration.DefaultPageSize)
     {
+        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:ProductCategory:View");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+        
         var request = new GetAllCategoriesRequest()
         {
             UserId = user.Identity?.Name ?? string.Empty,
             PageNumber = pageNumber,
             PageSize = pageSize,
+            UserHasPermission = hasPermission
         };
 
         var result = await handler.GetProductCateogyByPeriodAsync(request);

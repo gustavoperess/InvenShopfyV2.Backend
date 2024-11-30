@@ -22,10 +22,14 @@ public class DeleteCategoryEndpoint : IEndPoint
         ICategoryHandler handler,
         long id)
     {
+        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:ProductCategory:Delete");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+        
         var request = new DeleteCategoryRequest
         {
             UserId = user.Identity?.Name ?? string.Empty,
-            Id = id
+            Id = id,
+            UserHasPermission = hasPermission
         };
 
         var result = await handler.DeleteProductCategoryAsync(request);

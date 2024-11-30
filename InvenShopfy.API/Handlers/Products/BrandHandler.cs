@@ -94,7 +94,7 @@ public class BrandHandler : IBrandHandler
         {
             if (!request.UserHasPermission)
             {
-                return new Response<Brand?>(null, 409, $"{Configuration.NotAuthorized} 'Delete'");
+                return new Response<Brand?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
             }
             
             var brand = await _context.Brands.FirstOrDefaultAsync(x => x.Id == request.Id);

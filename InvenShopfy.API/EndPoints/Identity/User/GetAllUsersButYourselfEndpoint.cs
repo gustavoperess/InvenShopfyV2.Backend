@@ -27,7 +27,8 @@ public class GetAllUsersButYourselfEndpoint : IEndPoint
                 return Results.Unauthorized();
             }
 
-            var query = context.Users.AsNoTracking().
+            var query = context.Users
+                .AsNoTracking().
                 Where(x => x.UserName != user.Identity.Name);
             
             var users = await query.Select(x => new

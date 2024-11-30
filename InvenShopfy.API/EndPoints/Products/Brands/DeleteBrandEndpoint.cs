@@ -36,5 +36,6 @@ public class DeleteBrandEndpoint : IEndPoint
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);
+       
     }
 }

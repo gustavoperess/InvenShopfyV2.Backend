@@ -27,6 +27,7 @@ public class GetCurrentUserIdentityEndpoint : IEndPoint
                 return Results.Unauthorized();
             }
             var currentUser = await context.Users
+                .AsNoTracking()
                 .Where(u => u.UserName == user.Identity.Name)
                 .Select(u => new
                 {

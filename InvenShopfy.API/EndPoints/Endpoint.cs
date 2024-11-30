@@ -296,6 +296,7 @@ public static class Endpoint
             .MapEndpoint<GetAllUsersButYourselfEndpoint>()
             .MapEndpoint<GetBillerEndpoint>()
             .MapEndpoint<GetIdentityRolesEndpoint>()
+            .MapEndpoint<GetRoleByPartialNameEndpoint>()
             .MapEndpoint<GetUserDashboardEndpoint>()
             .MapEndpoint<GetCurrentUserIdentityEndpoint>()
             .MapEndpoint<CreateRoleIdentityEndpoint>()
