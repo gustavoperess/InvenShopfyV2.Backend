@@ -29,7 +29,7 @@ public class GetRoleByPartialNameEndpoint : IEndPoint
             var actions = new[] { "Add", "View", "Delete", "Update" };
 
             var filteredRoles = await context.Roles
-                .Where(r => EF.Functions.ILike(r.Name ?? "", $"%{name}%"))
+                .Where(r => r.Name == name)
                 .Select(r => new { r.Id, r.Name })
                 .ToListAsync();
 
@@ -44,7 +44,6 @@ public class GetRoleByPartialNameEndpoint : IEndPoint
                 .GroupBy(g => g.Key.RoleId)
                 .Select(roleGroup => new
                 {
-                    RoleName = filteredRoles.First(r => r.Id == roleGroup.Key).Name,
                     PermissionsByEntity = roleGroup
                         .Select(g => new
                         {

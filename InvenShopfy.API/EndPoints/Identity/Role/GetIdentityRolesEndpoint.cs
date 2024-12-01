@@ -23,7 +23,7 @@ public class GetIdentityRolesEndpoint : IEndPoint
         var roleDtos = roles.Select(role => new
         {
             role.Id,
-            role.Name,
+            RoleName = role.Name,
             role.Description
         });
 
