@@ -364,7 +364,12 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
+# Ignore IDE and system files
+.DS_Store
+.idea/
 
+# Ignore build and obj directories
 /InvenShopfy.API/obj/
 /InvenShopfy.Core/obj/
+/InvenShopfy.Tests/obj/
 /bin/
