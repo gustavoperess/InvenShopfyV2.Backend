@@ -7,7 +7,6 @@ namespace InvenShopfy.API.Models
     {
         public string Description { get; set; } = String.Empty;
         
-        public ICollection<CustomUserRequest> Users { get; set; } = new List<CustomUserRequest>();
-
+        // public ICollection<CustomUserRequest> Users { get; set; } = new List<CustomUserRequest>();
     }
 }

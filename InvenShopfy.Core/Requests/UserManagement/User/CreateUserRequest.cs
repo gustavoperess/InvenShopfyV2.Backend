@@ -18,8 +18,7 @@ public class CreateUserRequest
     public string? ProfilePicture { get; set; }
     
     [Required(ErrorMessage = "Invalid Role Name")]
-    [MaxLength(80,  ErrorMessage= "Max len of 80 characters")]
-    public string RoleName { get; set; } = string.Empty;
+    public long RoleId { get; set; }
     
     [Required(ErrorMessage = "Invalid Username")]
     [MaxLength(80,  ErrorMessage= "Max len of 80 characters")]

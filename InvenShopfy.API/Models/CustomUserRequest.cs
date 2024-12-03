@@ -9,7 +9,6 @@ public class CustomUserRequest : IdentityUser<long>
     public DateTime? DateOfJoin { get; set; } = DateTime.UtcNow;
     public string? ProfilePicture { get; set; }
     public string Gender { get; set; } = EGender.Male.ToString();
-    
     public long RoleId { get; set; }
     public virtual DateTime? LastActivityTime { get; set; }
     

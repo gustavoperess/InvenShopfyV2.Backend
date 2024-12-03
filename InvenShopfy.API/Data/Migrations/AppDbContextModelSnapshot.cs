@@ -71,9 +71,6 @@ namespace InvenShopfy.API.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
-                    b.Property<long?>("CustomIdentityRoleId")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime?>("DateOfJoin")
                         .HasColumnType("timestamp with time zone");
 
@@ -139,8 +136,6 @@ namespace InvenShopfy.API.Migrations
                         .HasColumnType("character varying(180)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomIdentityRoleId");
 
                     b.HasIndex("NormalizedEmail")
                         .IsUnique();
@@ -1373,13 +1368,6 @@ namespace InvenShopfy.API.Migrations
                     b.ToTable("IdentityUserToken", (string)null);
                 });
 
-            modelBuilder.Entity("InvenShopfy.API.Models.CustomUserRequest", b =>
-                {
-                    b.HasOne("InvenShopfy.API.Models.CustomIdentityRole", null)
-                        .WithMany("Users")
-                        .HasForeignKey("CustomIdentityRoleId");
-                });
-
             modelBuilder.Entity("InvenShopfy.API.Models.RolePermission", b =>
                 {
                     b.HasOne("InvenShopfy.API.Models.CustomIdentityRole", null)
@@ -1641,11 +1629,6 @@ namespace InvenShopfy.API.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("InvenShopfy.API.Models.CustomIdentityRole", b =>
-                {
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Purchase.AddPurchase", b =>

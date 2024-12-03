@@ -50,7 +50,8 @@ namespace InvenShopfy.API.EndPoints.Identity.Register
                 PhoneNumber = request.PhoneNumber,
                 Gender = request.Gender,
                 SecurityStamp = Guid.NewGuid().ToString(), 
-                LastActivityTime = DateTime.UtcNow
+                LastActivityTime = DateTime.UtcNow,
+                RoleId = request.RoleId
             };
             
             if (request.ProfilePicture == null)
@@ -70,33 +71,13 @@ namespace InvenShopfy.API.EndPoints.Identity.Register
             {
                 return Results.BadRequest("Password is required.");
             }
-
-          
+            
             // Create the user in the database
             var resultCreate = await userManager.CreateAsync(user, request.PasswordHash);
             if (!resultCreate.Succeeded)
             {
                 var createErrors = string.Join(", ", resultCreate.Errors.Select(e => e.Description));
                 return Results.BadRequest($"Create Errors: {createErrors}");
-            }
- 
-            // Find the staff role by name
-            var normalizedRoleName = roleManager.NormalizeKey(request.RoleName);
-            var role = await roleManager.FindByNameAsync(normalizedRoleName);
-            if (role != null)
-            {
-                // Assign the role to the user
-                
-                var resultAssignRole = await userManager.AddToRoleAsync(user, normalizedRoleName);
-                if (!resultAssignRole.Succeeded)
-                {
-                    var roleErrors = string.Join(", ", resultAssignRole.Errors.Select(e => e.Description));
-                    return Results.BadRequest($"Role Assignment Errors: {roleErrors}");
-                }
-            }
-            else
-            {
-                return Results.BadRequest($"Role {role?.Name} does not exist.");
             }
             
             return Results.Ok("User registered successfully");

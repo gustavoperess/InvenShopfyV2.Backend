@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241126203404_fixingDataForExpensePayment")]
-    partial class fixingDataForExpensePayment
+    [Migration("20241203160431_addingNewIdentityRole")]
+    partial class addingNewIdentityRole
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -89,7 +89,7 @@ namespace InvenShopfy.API.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("character varying(10)");
 
-                    b.Property<DateTime?>("LastLoginTime")
+                    b.Property<DateTime?>("LastActivityTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("LockoutEnabled")
@@ -125,6 +125,9 @@ namespace InvenShopfy.API.Migrations
                         .HasMaxLength(70000)
                         .HasColumnType("character varying(70000)");
 
+                    b.Property<long>("RoleId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
 
@@ -146,7 +149,38 @@ namespace InvenShopfy.API.Migrations
                     b.ToTable("IdentityUser", (string)null);
                 });
 
-            modelBuilder.Entity("InvenShopfy.Core.Models.Expenses.Expense", b =>
+            modelBuilder.Entity("InvenShopfy.API.Models.RolePermission", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("EntityType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<bool>("IsAllowed")
+                        .HasColumnType("boolean");
+
+                    b.Property<long>("RoleId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("RolePermissions", (string)null);
+                });
+
+            modelBuilder.Entity("InvenShopfy.Core.Models.Expenses.Expense.Expense", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -204,7 +238,7 @@ namespace InvenShopfy.API.Migrations
                     b.ToTable("Expense", (string)null);
                 });
 
-            modelBuilder.Entity("InvenShopfy.Core.Models.Expenses.ExpenseCategory", b =>
+            modelBuilder.Entity("InvenShopfy.Core.Models.Expenses.ExpenseCategory.ExpenseCategory", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -231,7 +265,7 @@ namespace InvenShopfy.API.Migrations
                     b.ToTable("ExpenseCategory", (string)null);
                 });
 
-            modelBuilder.Entity("InvenShopfy.Core.Models.Expenses.ExpensePayment", b =>
+            modelBuilder.Entity("InvenShopfy.Core.Models.Expenses.ExpensePayment.ExpensePayment", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -352,11 +386,6 @@ namespace InvenShopfy.API.Migrations
 
                     b.Property<bool>("Urgency")
                         .HasColumnType("BOOLEAN");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasMaxLength(160)
-                        .HasColumnType("VARCHAR");
 
                     b.HasKey("Id");
 
@@ -567,11 +596,6 @@ namespace InvenShopfy.API.Migrations
                         .HasMaxLength(80)
                         .HasColumnType("VARCHAR");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasMaxLength(160)
-                        .HasColumnType("VARCHAR");
-
                     b.HasKey("Id");
 
                     b.ToTable("Brand", (string)null);
@@ -593,11 +617,6 @@ namespace InvenShopfy.API.Migrations
                     b.Property<List<string>>("SubCategory")
                         .IsRequired()
                         .HasColumnType("text[]");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasMaxLength(160)
-                        .HasColumnType("VARCHAR");
 
                     b.HasKey("Id");
 
@@ -667,11 +686,6 @@ namespace InvenShopfy.API.Migrations
                     b.Property<long>("UnitId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasMaxLength(160)
-                        .HasColumnType("VARCHAR");
-
                     b.HasKey("Id");
 
                     b.HasIndex("BrandId");
@@ -699,11 +713,6 @@ namespace InvenShopfy.API.Migrations
                     b.Property<string>("UnitShortName")
                         .IsRequired()
                         .HasMaxLength(80)
-                        .HasColumnType("VARCHAR");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasMaxLength(160)
                         .HasColumnType("VARCHAR");
 
                     b.HasKey("Id");
@@ -991,6 +1000,46 @@ namespace InvenShopfy.API.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("SaleProduct", (string)null);
+                });
+
+            modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Sales.SalesPayment.SalesPayment", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("CardNumber")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<string>("PaymentType")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)");
+
+                    b.Property<long>("SalesId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("SalesNote")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(160)
+                        .HasColumnType("VARCHAR");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SalesId");
+
+                    b.ToTable("SalesPayment", (string)null);
                 });
 
             modelBuilder.Entity("InvenShopfy.Core.Models.Transfer.Transfer", b =>
@@ -1294,7 +1343,7 @@ namespace InvenShopfy.API.Migrations
                     b.Property<long>("RoleId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("UserId", "RoleId");
+                    b.HasKey("UserId");
 
                     b.HasIndex("RoleId");
 
@@ -1322,9 +1371,18 @@ namespace InvenShopfy.API.Migrations
                     b.ToTable("IdentityUserToken", (string)null);
                 });
 
-            modelBuilder.Entity("InvenShopfy.Core.Models.Expenses.Expense", b =>
+            modelBuilder.Entity("InvenShopfy.API.Models.RolePermission", b =>
                 {
-                    b.HasOne("InvenShopfy.Core.Models.Expenses.ExpenseCategory", "ExpenseCategory")
+                    b.HasOne("InvenShopfy.API.Models.CustomIdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("InvenShopfy.Core.Models.Expenses.Expense.Expense", b =>
+                {
+                    b.HasOne("InvenShopfy.Core.Models.Expenses.ExpenseCategory.ExpenseCategory", "ExpenseCategory")
                         .WithMany()
                         .HasForeignKey("ExpenseCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1341,9 +1399,9 @@ namespace InvenShopfy.API.Migrations
                     b.Navigation("Warehouse");
                 });
 
-            modelBuilder.Entity("InvenShopfy.Core.Models.Expenses.ExpensePayment", b =>
+            modelBuilder.Entity("InvenShopfy.Core.Models.Expenses.ExpensePayment.ExpensePayment", b =>
                 {
-                    b.HasOne("InvenShopfy.Core.Models.Expenses.Expense", "Expense")
+                    b.HasOne("InvenShopfy.Core.Models.Expenses.Expense.Expense", "Expense")
                         .WithMany()
                         .HasForeignKey("ExpenseId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1466,6 +1524,17 @@ namespace InvenShopfy.API.Migrations
                     b.Navigation("Sale");
                 });
 
+            modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Sales.SalesPayment.SalesPayment", b =>
+                {
+                    b.HasOne("InvenShopfy.Core.Models.Tradings.Sales.Sale", "Sales")
+                        .WithMany()
+                        .HasForeignKey("SalesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Sales");
+                });
+
             modelBuilder.Entity("InvenShopfy.Core.Models.Transfer.Transfer", b =>
                 {
                     b.HasOne("InvenShopfy.Core.Models.Warehouse.Warehouse", "FromWarehouse")
@@ -1550,8 +1619,8 @@ namespace InvenShopfy.API.Migrations
                         .IsRequired();
 
                     b.HasOne("InvenShopfy.API.Models.CustomUserRequest", null)
-                        .WithMany("UserRoles")
-                        .HasForeignKey("UserId")
+                        .WithOne()
+                        .HasForeignKey("Microsoft.AspNetCore.Identity.IdentityUserRole<long>", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1563,11 +1632,6 @@ namespace InvenShopfy.API.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("InvenShopfy.API.Models.CustomUserRequest", b =>
-                {
-                    b.Navigation("UserRoles");
                 });
 
             modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Purchase.AddPurchase", b =>
