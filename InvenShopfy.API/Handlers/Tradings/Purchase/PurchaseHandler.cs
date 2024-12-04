@@ -1,5 +1,6 @@
 using System.Globalization;
 using InvenShopfy.API.Data;
+using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Notifications;
 using InvenShopfy.Core.Handlers.Tradings.Purchase;
 using InvenShopfy.Core.Models.Tradings.Purchase;
@@ -27,6 +28,11 @@ public class PurchaseHandler : IPurchaseHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new Response<AddPurchase?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            }
+
             var purchase = new AddPurchase
             {
                 UserId = request.UserId,
@@ -102,7 +108,7 @@ public class PurchaseHandler : IPurchaseHandler
         try
         {
             var purchase =
-                await _context.Purchases.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+                await _context.Purchases.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (purchase is null)
             {
@@ -128,8 +134,14 @@ public class PurchaseHandler : IPurchaseHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new Response<AddPurchase?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
+            }
+
+            
             var purchase =
-                await _context.Purchases.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+                await _context.Purchases.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (purchase is null)
             {
@@ -150,12 +162,17 @@ public class PurchaseHandler : IPurchaseHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<PurchasePerProduct>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
+            
             var query = _context
                 .PurchaseProducts
                 .AsNoTracking()
                 .Include(x => x.AddPurchase)
                 .Include(x => x.Product)
-                .Where(x => x.AddPurchase.UserId == request.UserId && x.AddPurchaseId == request.PurchaseId)
+                .Where(x =>  x.AddPurchaseId == request.PurchaseId)
                 .GroupBy(x => new
                 {
                     x.ProductId,
@@ -173,7 +190,7 @@ public class PurchaseHandler : IPurchaseHandler
                     ProductPrice = g.Key.Price,
                     ProductName = g.Key.Title,
                     UnitShortName = g.Key.ShortName,
-                    SupplierName = g.Key.SupplierName,
+                    g.Key.SupplierName,
                     SupplierEmail = g.Key.Email,
                     g.Key.TotalInTaxPaidPerProduct,
                     g.Key.TotalTax,
@@ -225,7 +242,6 @@ public class PurchaseHandler : IPurchaseHandler
                 .AsNoTracking()
                 .Include(x => x.Warehouse)
                 .Include(x => x.Supplier)
-                .Where(x => x.UserId == request.UserId)
                 .Select(g => new
                 {
                     g.Id,
@@ -280,7 +296,6 @@ public class PurchaseHandler : IPurchaseHandler
             var query = _context
                 .Purchases
                 .AsNoTracking()
-                .Where(x => x.UserId == request.UserId)
                 .Select(x => new PurchaseDashboard
                 { 
                     Id = x.Id,

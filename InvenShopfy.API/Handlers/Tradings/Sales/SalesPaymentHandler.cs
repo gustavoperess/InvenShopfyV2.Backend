@@ -87,7 +87,7 @@ public class SalesPaymentHandler(AppDbContext context) : ISalesPaymentHandler
                 .Include(x => x.Warehouse)
                 .Include(x => x.Customer)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+                .FirstOrDefaultAsync(x => x.Id == request.Id);
     
             if (sales is null)
             {

@@ -91,7 +91,7 @@ public class SaleHandler : ISalesHandler
     {
         try
         {
-            var sale = await _context.Sales.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var sale = await _context.Sales.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (sale is null)
             {
@@ -124,7 +124,7 @@ public class SaleHandler : ISalesHandler
                 return new Response<Sale?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
             }
             
-            var sale = await _context.Sales.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var sale = await _context.Sales.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (sale is null)
             {
