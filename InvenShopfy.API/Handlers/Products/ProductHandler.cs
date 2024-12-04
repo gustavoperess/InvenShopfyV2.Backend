@@ -1,7 +1,7 @@
 using System.Globalization;
 using InvenShopfy.API.Common.CloudinaryServiceNamespace;
 using InvenShopfy.API.Data;
-using InvenShopfy.API.Models;
+using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Notifications;
 using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Models.Product;
@@ -9,7 +9,6 @@ using InvenShopfy.Core.Models.Product.Dto;
 using InvenShopfy.Core.Requests.Notifications;
 using InvenShopfy.Core.Requests.Products.Product;
 using InvenShopfy.Core.Responses;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace InvenShopfy.API.Handlers.Products;
@@ -34,8 +33,11 @@ public class ProductHandler : IProductHandler
     {
         try
         {
-         
-            
+            if (!request.UserHasPermission)
+            {
+                return new Response<Product?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            }
+
             var findByName = await _context.Products.FirstOrDefaultAsync(x => x.ProductName.ToLower() == request.ProductName.ToLower());
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             if (findByName != null)
@@ -153,6 +155,13 @@ public class ProductHandler : IProductHandler
     {
         try
         {
+            
+            if (!request.UserHasPermission)
+            {
+                return new Response<Product?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
+            }
+
+            
             var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == request.Id);
             
             if (product is null)
@@ -193,6 +202,12 @@ public class ProductHandler : IProductHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<ProductList>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
+            
+            
             var query = _context
                 .Products
                 .AsNoTracking()

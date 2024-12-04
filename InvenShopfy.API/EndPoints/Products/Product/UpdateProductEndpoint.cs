@@ -24,6 +24,12 @@ public class UpdateProductEndpoint : IEndPoint
         UpdateProductRequest request,
         long id)
     {
+        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:Product:Update");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+        request.UserId = user.Identity?.Name ?? string.Empty;
+        request.Id = id;
+        request.UserHasPermission = hasPermission;
+        
         var validationResults = new List<ValidationResult>();
         var validationContext = new ValidationContext(request);
         bool isValid = Validator.TryValidateObject(request, validationContext, validationResults, true);
@@ -38,8 +44,6 @@ public class UpdateProductEndpoint : IEndPoint
             }
 
         }
-        request.UserId = user.Identity?.Name ?? string.Empty;
-        request.Id = id;
         var result = await handler.UpdateProductAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)

@@ -20,10 +20,15 @@ public class CreateProductEndpoint : IEndPoint
         .Produces<Response<Core.Models.Product.Product?>>();
 
     private static async Task<IResult> HandleAsync(
-        // ClaimsPrincipal user,
+        ClaimsPrincipal user,
         IProductHandler handler,
         CreateProductRequest request)
     {
+        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:Product:Add");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+        request.UserHasPermission = hasPermission;
+        request.UserId = user.Identity?.Name ?? string.Empty;
+        
         var validationResults = new List<ValidationResult>();
         var validationContext = new ValidationContext(request);
         bool isValid = Validator.TryValidateObject(request, validationContext, validationResults, true);
