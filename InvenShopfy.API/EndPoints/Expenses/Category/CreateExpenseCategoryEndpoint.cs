@@ -23,6 +23,10 @@ public class CreateExpenseCategoryEndpoint : IEndPoint
         IExpenseCategoryHandler handler,
         CreateExpenseCategoryRequest request)
     {
+        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:ExpenseCategory:Add");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+        request.UserHasPermission = hasPermission;
+        request.UserId = user.Identity?.Name ?? string.Empty;
         
         var validationResults = new List<ValidationResult>();
         var validationContext = new ValidationContext(request);
@@ -39,7 +43,6 @@ public class CreateExpenseCategoryEndpoint : IEndPoint
 
         }
 
-        request.UserId = user.Identity?.Name ?? string.Empty;
         var result = await handler.CreateExpenseCategoryAsync(request);
         return result.IsSuccess
             ? TypedResults.Created($"/{result.Data?.Id}", result)

@@ -1,5 +1,6 @@
 using System.Globalization;
 using InvenShopfy.API.Data;
+using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Expenses;
 using InvenShopfy.Core.Models.Expenses;
 using InvenShopfy.Core.Models.Expenses.ExpenseCategory;
@@ -15,8 +16,13 @@ public class ExpenseCategoryHandler(AppDbContext context) : IExpenseCategoryHand
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new Response<ExpenseCategory?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            }
+            
             var existingExpenseCategory = await context.ExpenseCategories.FirstOrDefaultAsync(c =>
-                c.MainCategory.ToLower() == request.Category.ToLower() && c.UserId == request.UserId);
+                c.MainCategory.ToLower() == request.Category.ToLower());
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             if (existingExpenseCategory != null)
             {
@@ -59,7 +65,7 @@ public class ExpenseCategoryHandler(AppDbContext context) : IExpenseCategoryHand
         {
             var expenseCategory =
                 await context.ExpenseCategories.FirstOrDefaultAsync(x =>
-                    x.Id == request.Id && x.UserId == request.UserId);
+                    x.Id == request.Id);
 
             if (expenseCategory is null)
             {
@@ -82,9 +88,14 @@ public class ExpenseCategoryHandler(AppDbContext context) : IExpenseCategoryHand
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new Response<ExpenseCategory?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
+            }
+            
             var expenseCategory =
                 await context.ExpenseCategories.FirstOrDefaultAsync(x =>
-                    x.Id == request.Id && x.UserId == request.UserId);
+                    x.Id == request.Id);
 
             if (expenseCategory is null)
             {
@@ -106,7 +117,7 @@ public class ExpenseCategoryHandler(AppDbContext context) : IExpenseCategoryHand
         try
         {
             var expenseCategory = await context.ExpenseCategories.AsNoTracking()
-                .FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+                .FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (expenseCategory is null)
             {
@@ -126,10 +137,15 @@ public class ExpenseCategoryHandler(AppDbContext context) : IExpenseCategoryHand
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<ExpenseCategory>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
+
+            
             var query = context
                 .ExpenseCategories
                 .AsNoTracking()
-                .Where(x => x.UserId == request.UserId)
                 .OrderBy(x => x.MainCategory);
 
             var expenseCategory = await query
