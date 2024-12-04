@@ -1,5 +1,6 @@
 using System.Globalization;
 using InvenShopfy.API.Data;
+using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Models.Product;
 using InvenShopfy.Core.Requests.Products.Category;
@@ -15,6 +16,12 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
     {   
         try
         {
+            
+            if (!request.UserHasPermission)
+            {
+                return new Response<Category?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            }
+            
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             var existingCategory = await context.Categories.FirstOrDefaultAsync(c =>
                 c.MainCategory == request.MainCategory);
@@ -78,6 +85,12 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new Response<Category?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
+            }
+
+            
             var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == request.Id);
             
             if (category is null)
@@ -119,6 +132,11 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<Category>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
+            
             var query = context
                 .Categories
                 .AsNoTracking()
