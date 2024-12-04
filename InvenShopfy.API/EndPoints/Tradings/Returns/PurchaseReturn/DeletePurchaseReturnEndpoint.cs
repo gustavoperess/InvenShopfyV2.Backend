@@ -22,10 +22,14 @@ public class DeletePurchaseReturnEndpoint : IEndPoint
         IPurchaseReturnHandler handler,
         long id)
     {
+        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:PurchaseReturn:Delete");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+        
         var request = new DeletePurchaseReturnRequest
         {
             UserId = user.Identity?.Name ?? string.Empty,
-            Id = id
+            Id = id,
+            UserHasPermission = hasPermission
         };
 
         var result = await handler.DeletePurchaseReturnAsync(request);

@@ -128,7 +128,6 @@ public class SalesReturnHandlers : ISalesReturnHandler
             
             var query = _context.SaleReturns
                 .AsNoTracking()
-                .Where(x => x.UserId == request.UserId)
                 .OrderBy(x => x.ReturnDate);
 
             var salesReturn = await query
@@ -160,7 +159,7 @@ public class SalesReturnHandlers : ISalesReturnHandler
             }
             
             var saleReturn =
-                await _context.SaleReturns.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+                await _context.SaleReturns.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (saleReturn is null)
             {

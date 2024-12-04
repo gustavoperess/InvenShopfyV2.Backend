@@ -1,5 +1,6 @@
 using System.Globalization;
 using InvenShopfy.API.Data;
+using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Notifications;
 using InvenShopfy.Core.Handlers.Tradings.Returns.PurchaseReturn;
 using InvenShopfy.Core.Models.Tradings.Returns.PurchaseReturn;
@@ -26,6 +27,11 @@ public class PurchaseReturnHandlers : IPurchaseReturnHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new Response<PurchaseReturn?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            }
+            
             var purchasereturn = new PurchaseReturn
             {
                 UserId = request.UserId,
@@ -72,7 +78,7 @@ public class PurchaseReturnHandlers : IPurchaseReturnHandler
         {
             var returns = await _context.Purchases
                 .AsNoTracking()
-                .Where(x => EF.Functions.ILike(x.ReferenceNumber, $"%{request.ReferenceNumber}%") && x.UserId == request.UserId)
+                .Where(x => EF.Functions.ILike(x.ReferenceNumber, $"%{request.ReferenceNumber}%"))
                 .Select(g => new PurchaseReturnByReturnNumber
                 {
                     Id = g.Id,
@@ -101,9 +107,13 @@ public class PurchaseReturnHandlers : IPurchaseReturnHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<PurchaseReturn>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
+            
             var query = _context.PurchaseReturns
                 .AsNoTracking()
-                .Where(x => x.UserId == request.UserId)
                 .OrderBy(x => x.ReturnDate);
             
             var purchaseReturn = await query
@@ -129,7 +139,12 @@ public class PurchaseReturnHandlers : IPurchaseReturnHandler
     {
         try
         {
-            var purchaseReturn = await _context.PurchaseReturns.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            if (!request.UserHasPermission)
+            {
+                return new Response<PurchaseReturn?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
+            }
+            
+            var purchaseReturn = await _context.PurchaseReturns.FirstOrDefaultAsync(x => x.Id == request.Id);
             
             if (purchaseReturn is null)
             {

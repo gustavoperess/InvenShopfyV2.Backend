@@ -162,11 +162,6 @@ public class PurchaseHandler : IPurchaseHandler
     {
         try
         {
-            if (!request.UserHasPermission)
-            {
-                return new PagedResponse<List<PurchasePerProduct>?>([], 201, $"{Configuration.NotAuthorized}");
-            }
-            
             var query = _context
                 .PurchaseProducts
                 .AsNoTracking()
@@ -237,6 +232,11 @@ public class PurchaseHandler : IPurchaseHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<PurchaseList>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
+            
             var query = _context
                 .Purchases
                 .AsNoTracking()
