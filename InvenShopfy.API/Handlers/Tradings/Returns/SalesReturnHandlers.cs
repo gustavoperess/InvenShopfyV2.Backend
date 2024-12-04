@@ -1,5 +1,6 @@
 using System.Globalization;
 using InvenShopfy.API.Data;
+using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Notifications;
 using InvenShopfy.Core.Handlers.Tradings.Returns.SalesReturn;
 using InvenShopfy.Core.Models.Tradings.Returns.SalesReturn;
@@ -27,6 +28,11 @@ public class SalesReturnHandlers : ISalesReturnHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new Response<SaleReturn?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            }
+            
             var saleReturn = new SaleReturn
             {
                 UserId = request.UserId,
@@ -82,8 +88,7 @@ public class SalesReturnHandlers : ISalesReturnHandler
                     ul => ul.BillerId,
                     ur => ur.Id,
                     (sale, biller) => new {sale, biller})
-                .Where(x => EF.Functions.ILike(x.sale.ReferenceNumber, $"%{request.ReferenceNumber}%") &&
-                            x.sale.UserId == request.UserId)
+                .Where(x => EF.Functions.ILike(x.sale.ReferenceNumber, $"%{request.ReferenceNumber}%"))
                 .Select(g => new SalesReturnByReturnNumber
                 {
                     Id = g.sale.Id,
@@ -116,6 +121,11 @@ public class SalesReturnHandlers : ISalesReturnHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<SaleReturn>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
+            
             var query = _context.SaleReturns
                 .AsNoTracking()
                 .Where(x => x.UserId == request.UserId)
@@ -144,6 +154,11 @@ public class SalesReturnHandlers : ISalesReturnHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new Response<SaleReturn?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
+            }
+            
             var saleReturn =
                 await _context.SaleReturns.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
 
@@ -185,7 +200,6 @@ public class SalesReturnHandlers : ISalesReturnHandler
             var query = _context
                 .SaleReturns
                 .AsNoTracking()
-                .Where(x => x.UserId == request.UserId)
                 .Select(x => new SalesReturnDashboard
                 {
                     Id = x.Id,

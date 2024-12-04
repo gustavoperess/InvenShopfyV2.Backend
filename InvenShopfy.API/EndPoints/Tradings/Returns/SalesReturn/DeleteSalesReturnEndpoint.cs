@@ -22,10 +22,14 @@ public class DeleteSalesReturnEndpoint : IEndPoint
         ISalesReturnHandler handler,
         long id)
     {
+        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:SalesReturn:Delete");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+        
         var request = new DeleteSalesReturnRequest
         {
             UserId = user.Identity?.Name ?? string.Empty,
-            Id = id
+            Id = id,
+            UserHasPermission = hasPermission,
         };
 
         var result = await handler.DeleteSalesReturnAsync(request);
