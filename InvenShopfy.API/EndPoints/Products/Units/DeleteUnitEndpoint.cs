@@ -22,10 +22,14 @@ public class DeleteUnitEndpoint : IEndPoint
         IUnitHandler handler,
         long id)
     {
+        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:ProductUnit:Delete");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+        
         var request = new DeleteUnitRequest
         {
             UserId = user.Identity?.Name ?? string.Empty,
-            Id = id
+            Id = id,
+            UserHasPermission = hasPermission
         };
 
         var result = await handler.DeleteProductUnitAsync(request);

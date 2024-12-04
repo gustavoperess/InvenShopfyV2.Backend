@@ -1,5 +1,6 @@
 using System.Globalization;
 using InvenShopfy.API.Data;
+using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Product;
 using InvenShopfy.Core.Models.Product;
 using InvenShopfy.Core.Requests.Products.Unit;
@@ -14,6 +15,11 @@ public class UnitHandler(AppDbContext context) : IUnitHandler
     {   
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new Response<Unit?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            }
+            
             var unitName = context.Unit.FirstOrDefault(x => x.UnitName.ToLower() == request.UnitName.ToLower() || 
                                                             x.UnitShortName.ToLower() == request.UnitShortName.ToLower());
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
@@ -68,6 +74,11 @@ public class UnitHandler(AppDbContext context) : IUnitHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new Response<Unit?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
+            }
+            
             var unit = await context.Unit.FirstOrDefaultAsync(x => x.Id == request.Id);
             
             if (unit is null)
@@ -109,6 +120,11 @@ public class UnitHandler(AppDbContext context) : IUnitHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<Unit>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
+            
             var query = context
                 .Unit
                 .AsNoTracking()

@@ -22,6 +22,12 @@ public class CreateUnitEndpoint : IEndPoint
         IUnitHandler handler,
         CreateUnitRequest request)
     {
+        
+        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:ProductUnit:Add");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+        request.UserHasPermission = hasPermission;
+        request.UserId = user.Identity?.Name ?? string.Empty;
+        
         var validationResults = new List<ValidationResult>();
         var validationContext = new ValidationContext(request);
         bool isValid = Validator.TryValidateObject(request, validationContext, validationResults, true);
@@ -36,7 +42,7 @@ public class CreateUnitEndpoint : IEndPoint
             }
 
         }
-        request.UserId = user.Identity?.Name ?? string.Empty;
+        
         var result = await handler.CreateProductUnitAsync(request);
         return result.IsSuccess
             ? TypedResults.Created($"/{result.Data?.Id}", result)
