@@ -7,6 +7,7 @@ using InvenShopfy.Core.Models.Expenses.ExpenseDto;
 using InvenShopfy.Core.Requests.Expenses.Expense;
 using InvenShopfy.Core.Requests.Notifications;
 using InvenShopfy.Core.Responses;
+using InvenShopfy.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace InvenShopfy.API.Handlers.Expenses;
@@ -26,6 +27,11 @@ public class ExpenseHandler : IExpenseHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new Response<Expense?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            }
+            
             var expense = new Expense
             {
                 UserId = request.UserId,
@@ -65,7 +71,7 @@ public class ExpenseHandler : IExpenseHandler
         try
         {
             var expense =
-                await _context.Expenses.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+                await _context.Expenses.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (expense is null)
             {
@@ -94,8 +100,14 @@ public class ExpenseHandler : IExpenseHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new Response<Expense?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
+            }
+
+            
             var expense =
-                await _context.Expenses.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+                await _context.Expenses.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (expense is null)
             {
@@ -119,7 +131,7 @@ public class ExpenseHandler : IExpenseHandler
             var expense = await _context.Expenses
                 .Include(x => x.ExpenseCategory)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+                .FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (expense is null)
             {
@@ -147,6 +159,11 @@ public class ExpenseHandler : IExpenseHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<ExpenseDto>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
+            
             var query = _context.Expenses
                 .AsNoTracking()
                 .GroupJoin(_context.ExpensesPayments,
@@ -158,7 +175,7 @@ public class ExpenseHandler : IExpenseHandler
                     (x, payment) => new
                 {
                     x.expense.Id,
-                    x.expense.UserId,
+                    // x.expense.UserId,
                     x.expense.ExpenseDescription,
                     x.expense.Date,
                     x.expense.Warehouse.WarehouseName,
@@ -171,7 +188,6 @@ public class ExpenseHandler : IExpenseHandler
                     x.expense.ShippingCost,
                     ExpensePaymentId = payment != null ? payment.Id : (long?)null
                 })
-                .Where(x => x.UserId ==  request.UserId) 
                 .OrderBy(x => x.ExpenseType);
 
             var expense = await query
@@ -216,7 +232,6 @@ public class ExpenseHandler : IExpenseHandler
             var query = _context
                 .Expenses
                 .AsNoTracking()
-                .Where(x => x.UserId == request.UserId)
                 .Select(x => new ExpenseDashboard
                 {
                     Id = x.Id,
@@ -263,7 +278,7 @@ public class ExpenseHandler : IExpenseHandler
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             var products = await _context.Expenses
                 .AsNoTracking()
-                .Where(x => EF.Functions.ILike(x.VoucherNumber, $"%{request.ExpenseNumber}%") && x.UserId == request.UserId)
+                .Where(x => EF.Functions.ILike(x.VoucherNumber, $"%{request.ExpenseNumber}%"))
                 .Select(x => new ExpenseDto
                 {
                     Id = x.Id,
