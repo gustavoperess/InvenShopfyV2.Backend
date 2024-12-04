@@ -25,8 +25,12 @@ public class GetAllSalesEndpoint : IEndPoint
         [FromQuery]int pageNumber = Configuration.DefaultPageNumber,
         [FromQuery]int pageSize = Configuration.DefaultPageSize)
     {
+        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:Sales:View");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+        
         var request = new GetAllSalesRequest
         {
+            UserHasPermission = hasPermission,
             UserId = user.Identity?.Name ?? string.Empty,
             PageNumber = pageNumber,
             PageSize = pageSize,

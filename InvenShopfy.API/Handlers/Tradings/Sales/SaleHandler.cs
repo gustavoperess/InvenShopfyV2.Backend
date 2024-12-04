@@ -1,13 +1,12 @@
 using System.Globalization;
 using InvenShopfy.API.Data;
+using InvenShopfy.Core;
 using InvenShopfy.Core.Common.Extension;
 using InvenShopfy.Core.Handlers.Notifications;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
-using InvenShopfy.Core.Models.Expenses.Expense;
 using InvenShopfy.Core.Models.Tradings.Sales;
 using InvenShopfy.Core.Models.Tradings.Sales.Dto;
 using InvenShopfy.Core.Requests.Notifications;
-using InvenShopfy.Core.Requests.Tradings.Sales;
 using InvenShopfy.Core.Requests.Tradings.Sales.Sales;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +29,12 @@ public class SaleHandler : ISalesHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new Response<Sale?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            }
+
+            
             var productIds = request.ProductIdPlusQuantity.Keys;
             var availableSaleProducts = await _context.Products.Where(sp => productIds.Contains(sp.Id)).ToListAsync();
             var sale = new Sale
@@ -114,6 +119,11 @@ public class SaleHandler : ISalesHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new Response<Sale?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
+            }
+            
             var sale = await _context.Sales.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
 
             if (sale is null)
@@ -135,6 +145,11 @@ public class SaleHandler : ISalesHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<SaleList>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
+            
             var query = _context
                 .Sales
                 .AsNoTracking()
@@ -144,7 +159,6 @@ public class SaleHandler : ISalesHandler
                     ul => ul.BillerId,
                     userinfo => userinfo.Id,
                     (sale, userinfo) => new { sale, userinfo })
-                .Where(x => x.sale.UserId == request.UserId)
                 .Select(g => new
                 {
                     g.sale.Id,
@@ -211,10 +225,9 @@ public class SaleHandler : ISalesHandler
                 .AsNoTracking()
                 .Include(x => x.Sale)
                 .Include(x => x.Product)
-                .Where(x =>
-                    x.Sale.SaleDate >= request.StartDate &&
-                    x.Sale.SaleDate <= request.EndDate &&
-                    x.Sale.UserId == request.UserId)
+                // .Where(x =>
+                //     x.Sale.SaleDate >= request.StartDate &&
+                //     x.Sale.SaleDate <= request.EndDate)
                 .GroupBy(x => new { x.ProductId, Title = x.Product.ProductName, x.Product.ProductCode })
                 .Select(g => new
                 {
@@ -275,7 +288,7 @@ public class SaleHandler : ISalesHandler
                     ul => ul.Sale.BillerId,
                     userInfo => userInfo.Id,
                     (sale, userInfo) => new { sale, userInfo })
-                .Where(x => x.sale.Sale.UserId == request.UserId && x.sale.SaleId == request.SaleId)
+                .Where(x => x.sale.SaleId == request.SaleId)
                 .GroupBy(x => new
                 {
                     //Product
@@ -404,7 +417,7 @@ public class SaleHandler : ISalesHandler
                     ul => ul.Sale.BillerId,
                     userInfo => userInfo.Id,
                     (sale, userInfo) => new { sale, userInfo })
-                .Where(x => x.sale.Sale.UserId == request.UserId && x.sale.SaleId == request.SaleId)
+                .Where(x => x.sale.SaleId == request.SaleId)
                 .GroupBy(x => new
                 {
                     x.sale.ProductId,
@@ -507,7 +520,6 @@ public class SaleHandler : ISalesHandler
             var query = _context
                 .Sales
                 .AsNoTracking()
-                .Where(x => x.UserId == request.UserId)
                 .Select(x => new SallerDashboard
                 {
                     Id = x.Id,

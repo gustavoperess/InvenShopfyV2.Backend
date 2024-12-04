@@ -21,10 +21,14 @@ public class DeleteSaleEndpoint : IEndPoint
         ISalesHandler handler,
         long id)
     {
+        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:Sales:Delete");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+        
         var request = new DeleteSalesRequest
         {
             UserId = user.Identity?.Name ?? string.Empty,
-            Id = id
+            Id = id,
+            UserHasPermission = hasPermission
         };
 
         var result = await handler.DeleteSaleAsync(request);
