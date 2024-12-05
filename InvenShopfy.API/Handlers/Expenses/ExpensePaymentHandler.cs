@@ -1,4 +1,5 @@
 using InvenShopfy.API.Data;
+using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Expenses;
 using InvenShopfy.Core.Models.Expenses.ExpensePayment;
 using InvenShopfy.Core.Requests.Expenses.ExpensePayment;
@@ -13,6 +14,11 @@ public class ExpensePaymentHandler(AppDbContext context) : IExpensePaymentHandle
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new Response<ExpensePayment?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            }
+            
             var expense = context.Expenses.FirstOrDefault(x => x.Id == request.ExpenseId);
             if (expense != null)
             {
@@ -53,7 +59,7 @@ public class ExpensePaymentHandler(AppDbContext context) : IExpensePaymentHandle
                 .Include(x => x.Expense)
                 .Include(x => x.Expense.ExpenseCategory)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+                .FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (expensePayment is null)
             {

@@ -1,4 +1,5 @@
 using InvenShopfy.API.Data;
+using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.People;
 using InvenShopfy.Core.Models.People;
 using InvenShopfy.Core.Models.People.Dto;
@@ -15,6 +16,7 @@ public class BillerHandler (AppDbContext context) : IBillerHandler
     {
         try
         {
+            
             var biller = new Biller
             {
                 UserId = request.UserId,
@@ -46,7 +48,7 @@ public class BillerHandler (AppDbContext context) : IBillerHandler
     {
         try
         {
-            var biller = await context.Billers.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var biller = await context.Billers.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (biller is null)
             {
@@ -78,7 +80,12 @@ public class BillerHandler (AppDbContext context) : IBillerHandler
     {
         try
         {
-            var biller = await context.Billers.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            if (!request.UserHasPermission)
+            {
+                return new Response<Biller?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
+            }
+            
+            var biller = await context.Billers.FirstOrDefaultAsync(x => x.Id == request.Id);
             
             if (biller is null)
             {
@@ -100,7 +107,7 @@ public class BillerHandler (AppDbContext context) : IBillerHandler
     {
         try
         {
-            var biller = await context.Billers.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var biller = await context.Billers.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id);
             
             if (biller is null)
             {
@@ -119,11 +126,15 @@ public class BillerHandler (AppDbContext context) : IBillerHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<BillerDto>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
+            
             var query = context
                 .Billers
                 .AsNoTracking()
                 .Include(x => x.Warehouse)
-                .Where(x => x.UserId == request.UserId)
                 .GroupBy(x => new
                 {
                     x.PhoneNumber, x.Address, x.Id, x.Country, x.Email, x.Identification,
@@ -183,7 +194,6 @@ public class BillerHandler (AppDbContext context) : IBillerHandler
             var query = context
                 .Billers
                 .AsNoTracking()
-                .Where(x => x.UserId == request.UserId)
                 .Select(x => new BillerName
                 { 
                     Id = x.Id,

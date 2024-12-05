@@ -22,6 +22,11 @@ public class CreateSupplierEndpoint : IEndPoint
         ISupplierHandler handler,
         CreateSupplierRequest request)
     {
+        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:Supplier:Add");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+        request.UserHasPermission = hasPermission;
+        request.UserId = user.Identity?.Name ?? string.Empty;
+        
         var validationResults = new List<ValidationResult>();
         var validationContext = new ValidationContext(request);
         bool isValid = Validator.TryValidateObject(request, validationContext, validationResults, true);
@@ -36,7 +41,7 @@ public class CreateSupplierEndpoint : IEndPoint
             }
 
         }
-        request.UserId = user.Identity?.Name ?? string.Empty;
+
         var result = await handler.CreateSupplierAsync(request);
         return result.IsSuccess
             ? TypedResults.Created($"/{result.Data?.Id}", result)

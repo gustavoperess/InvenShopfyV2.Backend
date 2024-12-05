@@ -22,10 +22,14 @@ public class DeleteCustomerEndpoint : IEndPoint
         ICustomerHandler handler,
         long id)
     {
+        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:Customer:Delete");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+        
         var request = new DeleteCustomerRequest
         {
             UserId = user.Identity?.Name ?? string.Empty,
-            Id = id
+            Id = id,
+            UserHasPermission = hasPermission
         };
 
         var result = await handler.DeleteCustomerAsync(request);

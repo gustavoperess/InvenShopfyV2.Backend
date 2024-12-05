@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.API.Models;
+using InvenShopfy.Core;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,14 @@ public class GetIdentityRolesEndpoint : IEndPoint
         ClaimsPrincipal user,
         [FromServices] RoleManager<CustomIdentityRole> roleManager)
     {
+        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:Roles:View");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+
+        if (!hasPermission)
+        {
+            return Results.Json(new { data = new List<object>(), message = Configuration.NotAuthorized }, statusCode: 201);
+        }
+
         var roles = await roleManager.Roles
             .AsNoTracking()
             .ToListAsync();
@@ -26,7 +35,7 @@ public class GetIdentityRolesEndpoint : IEndPoint
             RoleName = role.Name,
             role.Description
         });
-
-        return Results.Ok(roleDtos);
+        return Results.Json(new { data = roleDtos, message = "Roles retrived sucessfully"}, statusCode: 201);
+        
     }
 }

@@ -1,5 +1,6 @@
 using System.Globalization;
 using InvenShopfy.API.Data;
+using InvenShopfy.Core;
 using InvenShopfy.Core.Enum;
 using InvenShopfy.Core.Handlers.People;
 using InvenShopfy.Core.Models.People;
@@ -16,6 +17,11 @@ public class CustomerHandler(AppDbContext context) : ICustomerHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new Response<Customer?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            }
+            
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             var existingCustomer = await context.Customers
                 .FirstOrDefaultAsync(
@@ -63,7 +69,7 @@ public class CustomerHandler(AppDbContext context) : ICustomerHandler
         try
         {
             var customer =
-                await context.Customers.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+                await context.Customers.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (customer is null)
             {
@@ -99,8 +105,13 @@ public class CustomerHandler(AppDbContext context) : ICustomerHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new Response<Customer?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
+            }
+            
             var customer =
-                await context.Customers.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+                await context.Customers.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (customer is null)
             {
@@ -122,7 +133,7 @@ public class CustomerHandler(AppDbContext context) : ICustomerHandler
         try
         {
             var customer = await context.Customers.AsNoTracking()
-                .FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+                .FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (customer is null)
             {
@@ -141,10 +152,14 @@ public class CustomerHandler(AppDbContext context) : ICustomerHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<Customer>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
+            
             var query = context
                 .Customers
                 .AsNoTracking()
-                .Where(x => x.UserId == request.UserId)
                 .OrderBy(x => x.CustomerName);
 
             var customer = await query
@@ -173,7 +188,6 @@ public class CustomerHandler(AppDbContext context) : ICustomerHandler
             var query = context
                 .Customers
                 .AsNoTracking()
-                .Where(x => x.UserId == request.UserId)
                 .Select(x => new CustomerName
                 {
                     Id = x.Id,

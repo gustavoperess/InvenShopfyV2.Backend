@@ -1,5 +1,6 @@
 using System.Globalization;
 using InvenShopfy.API.Data;
+using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.People;
 using InvenShopfy.Core.Models.People;
 using InvenShopfy.Core.Models.People.Dto;
@@ -15,6 +16,11 @@ public class SupplierHandler (AppDbContext context) : ISupplierHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new Response<Supplier?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            }
+            
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             var existingSupplier = await context.Suppliers
                 .FirstOrDefaultAsync(x => x.SupplierName.ToLower() == request.SupplierName.ToLower() || 
@@ -61,7 +67,7 @@ public class SupplierHandler (AppDbContext context) : ISupplierHandler
     {
         try
         {
-            var supplier = await context.Suppliers.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var supplier = await context.Suppliers.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (supplier is null)
             {
@@ -94,7 +100,12 @@ public class SupplierHandler (AppDbContext context) : ISupplierHandler
     {
         try
         {
-            var supplier = await context.Suppliers.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            if (!request.UserHasPermission)
+            {
+                return new Response<Supplier?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
+            }
+            
+            var supplier = await context.Suppliers.FirstOrDefaultAsync(x => x.Id == request.Id);
             
             if (supplier is null)
             {
@@ -116,7 +127,7 @@ public class SupplierHandler (AppDbContext context) : ISupplierHandler
     {
         try
         {
-            var supplier = await context.Suppliers.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var supplier = await context.Suppliers.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id);
             
             if (supplier is null)
             {
@@ -135,10 +146,14 @@ public class SupplierHandler (AppDbContext context) : ISupplierHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<Supplier>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
+            
             var query = context
                 .Suppliers
                 .AsNoTracking()
-                .Where(x => x.UserId == request.UserId)
                 .OrderBy(x => x.SupplierName);
             
             var supplier = await query
@@ -167,7 +182,6 @@ public class SupplierHandler (AppDbContext context) : ISupplierHandler
             var query = context
                 .Suppliers
                 .AsNoTracking()
-                .Where(x => x.UserId == request.UserId)
                 .Select(x => new SupplierNameC
                 { 
                     Id = x.Id,
@@ -202,7 +216,6 @@ public class SupplierHandler (AppDbContext context) : ISupplierHandler
                 .Purchases
                 .AsNoTracking()
                 .Include(x => x.Supplier)
-                .Where(x => x.UserId == request.UserId)
                 .GroupBy(y => new
                 {
                     y.Supplier.SupplierName,

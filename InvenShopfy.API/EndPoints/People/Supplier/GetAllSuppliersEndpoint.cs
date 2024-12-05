@@ -25,8 +25,12 @@ public class GetAllSuppliersEndpoint : IEndPoint
         [FromQuery]int pageNumber = Configuration.DefaultPageNumber,
         [FromQuery]int pageSize = Configuration.DefaultPageSize)
     {
+        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:Supplier:View");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+        
         var request = new GetAllSuppliersRequest
         {
+            UserHasPermission = hasPermission,
             UserId = user.Identity?.Name ?? string.Empty,
             PageNumber = pageNumber,
             PageSize = pageSize,

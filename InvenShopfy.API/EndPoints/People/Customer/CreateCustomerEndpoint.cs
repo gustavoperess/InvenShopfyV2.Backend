@@ -21,6 +21,10 @@ public class CreateCustomerEndpoint : IEndPoint
         ICustomerHandler handler,
         CreateCustomerRequest request)
     {
+        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:Customer:Add");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+        request.UserHasPermission = hasPermission;
+        request.UserId = user.Identity?.Name ?? string.Empty;
         
         var validationResults = new List<ValidationResult>();
         var validationContext = new ValidationContext(request);
@@ -36,7 +40,7 @@ public class CreateCustomerEndpoint : IEndPoint
             }
 
         }
-        request.UserId = user.Identity?.Name ?? string.Empty;
+
         var result = await handler.CreateCustomerAsync(request);
         return result.IsSuccess
             ? TypedResults.Created($"/{result.Data?.Id}", result)

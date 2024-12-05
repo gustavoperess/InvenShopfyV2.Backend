@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.API.Data;
+using InvenShopfy.Core;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,15 @@ public class GetIdentityUsersEndpoint : IEndPoint
     {
         try
         {
+            var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:User:View");
+            var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+
+            if (!hasPermission)
+            {
+                return Results.Json(new { data = new List<object>(), message = Configuration.NotAuthorized }, statusCode: 201);
+            }
+            
+            
             DateTime? onlineThreshold = DateTime.UtcNow.AddMinutes(-10);
             var userRoles = await context.Set<IdentityUserRole<long>>()
                 .AsNoTracking()
@@ -42,7 +52,9 @@ public class GetIdentityUsersEndpoint : IEndPoint
                     })
                 .ToListAsync();
             
-            return Results.Ok(userRoles);
+        
+            return Results.Json(new { data = userRoles, message = "User retrived sucessfully"}, statusCode: 201);
+
         }
         catch (Exception e)
         {
