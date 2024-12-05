@@ -28,8 +28,12 @@ public class GetSupplierReportEndpoint : IEndPoint
         [FromQuery]int pageNumber = Configuration.DefaultPageNumber,
         [FromQuery]int pageSize = Configuration.DefaultPageSize)
     {
+        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:Reports:View");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+        
         var request = new GetReportRequest
         {
+            UserHasPermission = hasPermission,
             UserId = user.Identity?.Name ?? string.Empty,
             DateRange = dateRange, 
             PageNumber = pageNumber,

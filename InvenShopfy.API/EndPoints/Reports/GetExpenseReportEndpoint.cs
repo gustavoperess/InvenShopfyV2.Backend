@@ -28,6 +28,9 @@ public class GetExpenseReportEndpoint : IEndPoint
         [FromQuery]int pageNumber = Configuration.DefaultPageNumber,
         [FromQuery]int pageSize = Configuration.DefaultPageSize)
     {
+        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:Reports:View");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+        
         var request = new GetReportRequest
         {
             UserId = user.Identity?.Name ?? string.Empty,
@@ -35,7 +38,8 @@ public class GetExpenseReportEndpoint : IEndPoint
             PageNumber = pageNumber,
             PageSize = pageSize,
             StartDate = startDate,
-            EndDate = endDate
+            EndDate = endDate,
+            UserHasPermission = hasPermission
         };
 
         var result = await handler.GetExpenseReportAsync(request);

@@ -1,5 +1,6 @@
 using InvenShopfy.API.Common.DateTimeHandler;
 using InvenShopfy.API.Data;
+using InvenShopfy.Core;
 using InvenShopfy.Core.Common.Extension;
 using InvenShopfy.Core.Handlers.Reports;
 using InvenShopfy.Core.Models.Reports;
@@ -17,6 +18,11 @@ public class ReportHandler(AppDbContext context) : IReportHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<SaleReport>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
+            
             var datetimeHandler = new DateTimeHandler();
             if (request.DateRange != null && request.StartDate == null && request.EndDate == null)
             {
@@ -40,8 +46,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                 .AsNoTracking()
                 .Where(x =>
                     x.SaleDate >= request.StartDate &&
-                    x.SaleDate <= request.EndDate &&
-                    x.UserId == request.UserId)
+                    x.SaleDate <= request.EndDate)
                 .Join(context.Users,
                     ul => ul.BillerId,
                     ur => ur.Id,
@@ -89,6 +94,11 @@ public class ReportHandler(AppDbContext context) : IReportHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<SupplierReport>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
+            
             var datetimeHandler = new DateTimeHandler();
             if (request.DateRange != null && request.StartDate == null && request.EndDate == null)
             {
@@ -113,8 +123,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                 .AsNoTracking()
                 .Where(x =>
                     x.PurchaseDate >= request.StartDate &&
-                    x.PurchaseDate <= request.EndDate &&
-                    x.UserId == request.UserId)
+                    x.PurchaseDate <= request.EndDate)
                 .Include(x => x.Supplier)
                 .GroupBy(x => new { x.Supplier.SupplierName, x.Supplier.Id })
                 .Select(g => new
@@ -160,6 +169,11 @@ public class ReportHandler(AppDbContext context) : IReportHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<ProductReport>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
+            
             var query = context.Products
                 .AsNoTracking()
                 .GroupJoin(
@@ -245,6 +259,11 @@ public class ReportHandler(AppDbContext context) : IReportHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<CustomerReport>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
+            
             var datetimeHandler = new DateTimeHandler();
             if (request.DateRange != null && request.StartDate == null && request.EndDate == null)
             {
@@ -269,8 +288,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                 .AsNoTracking()
                 .Where(x =>
                     x.SaleDate >= request.StartDate &&
-                    x.SaleDate <= request.EndDate &&
-                    x.UserId == request.UserId)
+                    x.SaleDate <= request.EndDate)
                 .Include(x => x.Customer)
                 .GroupBy(x => new { x.Customer.CustomerName, x.CustomerId, x.Customer.RewardPoint })
                 .Select(g => new
@@ -318,6 +336,11 @@ public class ReportHandler(AppDbContext context) : IReportHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<ExpenseReport>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
+            
             var datetimeHandler = new DateTimeHandler();
             if (request.DateRange != null && request.StartDate == null && request.EndDate == null)
             {
@@ -342,8 +365,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                 .AsNoTracking()
                 .Where(x =>
                     x.Date >= request.StartDate &&
-                    x.Date <= request.EndDate &&
-                    x.UserId == request.UserId)
+                    x.Date <= request.EndDate)
                 .Include(x => x.ExpenseCategory)
                 .GroupBy(x => new { x.ExpenseCategoryId, x.ExpenseCategory.MainCategory })
                 .Select(g => new
@@ -382,6 +404,11 @@ public class ReportHandler(AppDbContext context) : IReportHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<WarehouseReport>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
+            
             var query = context.Warehouses
                 .AsNoTracking()
                 .GroupJoin(
@@ -471,6 +498,11 @@ public class ReportHandler(AppDbContext context) : IReportHandler
 {
     try
     {
+        if (!request.UserHasPermission)
+        {
+            return new PagedResponse<List<PurchaseReport>?>([], 201, $"{Configuration.NotAuthorized}");
+        }
+        
         var datetimeHandler = new DateTimeHandler();
         if (request.DateRange != null && request.StartDate == null && request.EndDate == null)
         {
@@ -495,8 +527,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
             .AsNoTracking()
             .Where(x =>
                 x.PurchaseDate >= request.StartDate &&
-                x.PurchaseDate <= request.EndDate &&
-                x.UserId == request.UserId)
+                x.PurchaseDate <= request.EndDate)
             .Join(context.PurchaseProducts,
                 ul => ul.Id,
                 ur => ur.AddPurchaseId,
