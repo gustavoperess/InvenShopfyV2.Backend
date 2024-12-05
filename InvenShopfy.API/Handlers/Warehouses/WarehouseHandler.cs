@@ -1,5 +1,6 @@
 using System.Globalization;
 using InvenShopfy.API.Data;
+using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Notifications;
 using InvenShopfy.Core.Handlers.Warehouse;
 using InvenShopfy.Core.Models.Warehouse;
@@ -25,6 +26,11 @@ public class WarehouseHandler : IWarehouseHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new Response<Warehouse?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            }
+            
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             var existingWarehouse = await _context.Warehouses
                 .FirstOrDefaultAsync(
@@ -81,7 +87,7 @@ public class WarehouseHandler : IWarehouseHandler
         try
         {
             var warehouse =
-                await _context.Warehouses.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+                await _context.Warehouses.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (warehouse is null)
             {
@@ -109,8 +115,13 @@ public class WarehouseHandler : IWarehouseHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new Response<Warehouse?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
+            }
+            
             var warehouse =
-                await _context.Warehouses.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+                await _context.Warehouses.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (warehouse is null)
             {
@@ -133,7 +144,7 @@ public class WarehouseHandler : IWarehouseHandler
         {
             var warehouse =
                 await _context.Warehouses.AsNoTracking().FirstOrDefaultAsync(x =>
-                    x.Id == byIdRequest.Id && x.UserId == byIdRequest.UserId);
+                    x.Id == byIdRequest.Id);
 
             if (warehouse is null)
             {
@@ -153,6 +164,7 @@ public class WarehouseHandler : IWarehouseHandler
     {
         try
         {
+            
             var response = await _context.WarehousesProducts
                 .AsNoTracking()
                 .Where(x =>
@@ -194,6 +206,11 @@ public class WarehouseHandler : IWarehouseHandler
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<Warehouse>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
+            
             var query = _context
                 .Warehouses
                 .AsNoTracking()
@@ -201,7 +218,6 @@ public class WarehouseHandler : IWarehouseHandler
                     warehouse => warehouse.Id,
                     warehouseProduct => warehouseProduct.WarehouseId,
                     (warehouse, warehouseProduct) => new { warehouse, warehouseProduct })
-                .Where(x => x.warehouse.UserId == request.UserId)
                 .Select(g => new
                 {
                     g.warehouse.Id,
@@ -282,7 +298,6 @@ public class WarehouseHandler : IWarehouseHandler
             var query = _context
                 .Warehouses
                 .AsNoTracking()
-                .Where(x => x.UserId == request.UserId)
                 .Select(x => new WarehouseName
                 { 
                     Id = x.Id,

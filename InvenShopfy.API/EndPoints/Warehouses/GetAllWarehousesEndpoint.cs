@@ -26,11 +26,16 @@ public class GetAllWarehousesEndpoint : IEndPoint
         [FromQuery]int pageNumber = Configuration.DefaultPageNumber,
         [FromQuery]int pageSize = Configuration.DefaultPageSize)
     {
+        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:Warehouse:View");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+
+        
         var request = new GetAllWarehousesRequest
         {
             UserId = user.Identity?.Name ?? string.Empty,
             PageNumber = pageNumber,
             PageSize = pageSize,
+            UserHasPermission = hasPermission
         };
 
         var result = await handler.GetWarehouseByPeriodAsync(request);

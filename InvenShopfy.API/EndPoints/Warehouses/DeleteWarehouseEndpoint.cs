@@ -23,10 +23,15 @@ public class DeleteWarehouseEndpoint : IEndPoint
         IWarehouseHandler handler,
         long id)
     {
+        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:Warehouse:Delete");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+
+        
         var request = new DeleteWarehouseRequest
         {
             UserId = user.Identity?.Name ?? string.Empty,
-            Id = id
+            Id = id,
+            UserHasPermission = hasPermission
         };
 
         var result = await handler.DeleteWarehouseAsync(request);
