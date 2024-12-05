@@ -20,6 +20,7 @@ public class GetIdentityUsersEndpoint : IEndPoint
         try
         {
             var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:User:View");
+           
             var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
 
             if (!hasPermission)

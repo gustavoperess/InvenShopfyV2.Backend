@@ -38,7 +38,6 @@ public class WarehouseHandler : IWarehouseHandler
             
             if (existingWarehouse != null)
             {
-                Console.WriteLine("THIS HAPPENED");
                 if (existingWarehouse.WarehouseName.ToLower() == request.WarehouseName.ToLower())
                 {
                     return new Response<Warehouse?>(null, 409, $"A Warehouse with the name'{request.WarehouseName}' already exists.");

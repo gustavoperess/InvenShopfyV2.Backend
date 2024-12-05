@@ -74,11 +74,39 @@ namespace InvenShopfy.API.EndPoints.Identity.Register
             
             // Create the user in the database
             var resultCreate = await userManager.CreateAsync(user, request.PasswordHash);
+         
             if (!resultCreate.Succeeded)
             {
                 var createErrors = string.Join(", ", resultCreate.Errors.Select(e => e.Description));
                 return Results.BadRequest($"Create Errors: {createErrors}");
             }
+            var userInDb = await userManager.FindByEmailAsync(user.Email);
+            if (userInDb == null)
+            {
+                return Results.BadRequest("Failed to retrieve the user after creation.");
+            }
+            
+            // Find the role by Id and ensure it exists
+            var role = await roleManager.FindByIdAsync(request.RoleId.ToString());
+            if (role == null)
+            {
+                return Results.BadRequest("Invalid role specified.");
+            }
+
+            if (role.Name == null)
+            {
+                return Results.BadRequest("Invalid role name.");
+            } 
+            
+            // Assign the role to the user
+           
+            var addToRoleResult = await userManager.AddToRoleAsync(userInDb, role.Name);
+            if (!addToRoleResult.Succeeded)
+            {
+                var roleErrors = string.Join(", ", addToRoleResult.Errors.Select(e => e.Description));
+                return Results.BadRequest($"Role Assignment Errors: {roleErrors}");
+            }
+            
             
             return Results.Ok("User registered successfully");
         }

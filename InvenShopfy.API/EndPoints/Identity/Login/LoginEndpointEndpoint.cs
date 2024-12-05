@@ -57,7 +57,7 @@ public class LoginEndpointEndpoint : IEndPoint
             var principal = new ClaimsPrincipal(identity);
             await signInManager.RefreshSignInAsync(user);
             
-            return Results.Ok(new { Message = "Login successful" });
+            return Results.Ok(new { Message = "User logged sucessfully" });
           
         }
         else

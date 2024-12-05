@@ -78,10 +78,8 @@ public class SaleHandler : ISalesHandler
 
             return new Response<Sale?>(sale, 201, "Sale created successfully");
         }
-        catch (Exception ex)
+        catch
         {
-            Console.WriteLine($"An error occurred: {ex.Message}");
-            Console.WriteLine($"Stack Trace: {ex.StackTrace}");
             return new Response<Sale?>(null, 500, "It was not possible to create a new sale");
         }
     }

@@ -48,7 +48,7 @@ public class AssignPermissionsToRoleEndpoint : IEndPoint
         foreach (var userId in roleUsers)
         {
             var currentUser = await userManager.FindByIdAsync(userId.ToString());
-        
+            
             if (currentUser != null)
             {
                 var existingClaims = await userManager.GetClaimsAsync(currentUser);
