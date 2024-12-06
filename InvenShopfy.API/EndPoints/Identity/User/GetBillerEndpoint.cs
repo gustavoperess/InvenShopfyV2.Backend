@@ -3,6 +3,7 @@ using InvenShopfy.API.Common.Api;
 using InvenShopfy.API.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using InvenShopfy.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace InvenShopfy.API.EndPoints.Identity.User;
@@ -17,26 +18,20 @@ public class GetBillerEndpoint : IEndPoint
     {
         try
         {
-            var userRoles = await context.Set<IdentityUserRole<long>>()
-                .AsNoTracking()
-                .Join(context.Users,
-                    userRole => userRole.UserId,
-                    userinfo => userinfo.Id,
-                    (userRole, userinfo) => new { userRole.RoleId, User = userinfo })
-                .Join(context.Roles,
-                    ur => ur.RoleId,
-                    role => role.Id,
-                    (ur, role) => new
-                    {
-                        UserId = ur.User.Id,
-                        UserName = ur.User.Name,
-                        RoleName = role.Name,
-                        roleId = role.Id
-                    })
-                .Where(x => x.roleId <= 3)
-                .ToListAsync();
+            var userWithPermissions = await context.Users
+                .Join(context.UserClaims,
+                    userInfo => userInfo.Id,
+                    claim => claim.UserId,
+                    (userInfo, claim) => new { User = userInfo, Claim = claim })
+                .Where(uc => uc.Claim.ClaimType == "Permission:Sales:Add" && uc.Claim.ClaimValue == "True")
+                .Select(uc => new
+                {
+                    UserId = uc.User.Id,
+                    uc.User.UserName,
 
-            return Results.Ok(userRoles);
+                }).ToListAsync();
+            
+            return Results.Ok(userWithPermissions);
         }
         catch (Exception e)
         {
