@@ -2,6 +2,7 @@ using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.API.Data;
 using InvenShopfy.API.Models;
+using InvenShopfy.Core;
 using InvenShopfy.Core.Requests.UserManagement.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +19,19 @@ public class EditUserRoleEndpoint : IEndPoint
         [FromBody] UpdateUserRoleRequest request,
         [FromServices] RoleManager<CustomIdentityRole> roleManager,
         [FromServices] AppDbContext context,
+        ClaimsPrincipal cuser,
         [FromServices] UserManager<CustomUserRequest> userManager,
         string userId)
     {
+        var permissionClaim = cuser.Claims.FirstOrDefault(c => c.Type == "Permission:Roles:Update");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+        if (!hasPermission)
+        {
+            return Results.Json(new { data = string.Empty, message = Configuration.NotAuthorized }, statusCode: 409);
+        }
+      
+
+
         // Step 1: Validate User
         var user = await userManager.FindByIdAsync(userId);
         if (user == null)
