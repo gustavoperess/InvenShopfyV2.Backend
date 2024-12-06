@@ -21,6 +21,11 @@ public class CreateTransferEndpoint : IEndPoint
         ITransferHandler handler,
         CreateTransferRequest request)
     {
+        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:Transfers:Add");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+        request.UserHasPermission = hasPermission;
+        request.UserId = user.Identity?.Name ?? string.Empty;
+        
         var validationResults = new List<ValidationResult>();
         var validationContext = new ValidationContext(request);
         bool isValid = Validator.TryValidateObject(request, validationContext, validationResults, true);
@@ -36,7 +41,6 @@ public class CreateTransferEndpoint : IEndPoint
 
         }
 
-        request.UserId = user.Identity?.Name ?? string.Empty;
         var result = await handler.CreateTransferAsyncAsync(request);
         return result.IsSuccess
             ? TypedResults.Created($"/{result.Data?.Id}", result)

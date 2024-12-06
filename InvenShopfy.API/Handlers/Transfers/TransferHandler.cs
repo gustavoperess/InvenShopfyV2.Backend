@@ -1,4 +1,5 @@
 using InvenShopfy.API.Data;
+using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Notifications;
 using InvenShopfy.Core.Handlers.Transfer;
   using InvenShopfy.Core.Models.Transfer;
@@ -26,6 +27,12 @@ using InvenShopfy.Core.Handlers.Transfer;
       {
           try
           {
+              if (!request.UserHasPermission)
+              {
+                  return new Response<Transfer?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+              }
+
+              
               var transfer = new Transfer
               {
                   UserId = request.UserId,
@@ -98,6 +105,11 @@ using InvenShopfy.Core.Handlers.Transfer;
     {
         try
         {
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<TransferDto>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
+            
             var query = _context
                 .Transfers
                 .AsNoTracking()

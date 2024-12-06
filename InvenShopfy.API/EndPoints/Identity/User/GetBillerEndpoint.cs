@@ -1,9 +1,7 @@
 using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.API.Data;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using InvenShopfy.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace InvenShopfy.API.EndPoints.Identity.User;
@@ -19,6 +17,7 @@ public class GetBillerEndpoint : IEndPoint
         try
         {
             var userWithPermissions = await context.Users
+                .AsNoTracking()
                 .Join(context.UserClaims,
                     userInfo => userInfo.Id,
                     claim => claim.UserId,

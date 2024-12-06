@@ -6,7 +6,6 @@ using InvenShopfy.Core.Handlers.Tradings.Purchase;
 using InvenShopfy.Core.Models.Tradings.Purchase;
 using InvenShopfy.Core.Models.Tradings.Purchase.Dto;
 using InvenShopfy.Core.Models.Warehouse;
-using InvenShopfy.Core.Requests;
 using InvenShopfy.Core.Requests.Notifications;
 using InvenShopfy.Core.Requests.Tradings.Purchase.AddPurchase;
 using InvenShopfy.Core.Responses;

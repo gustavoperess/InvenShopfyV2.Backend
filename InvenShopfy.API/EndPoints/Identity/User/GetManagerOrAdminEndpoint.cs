@@ -18,23 +18,36 @@ public class GetManagerOrAdminEndpoint : IEndPoint
     {
         try
         {
-            var userRoles = await context.Set<IdentityUserRole<long>>()
+            // var userRoles = await context.Set<IdentityUserRole<long>>()
+            //     .AsNoTracking()
+            //     .Join(context.Users,
+            //         userRole => userRole.UserId,
+            //         userinfo => userinfo.Id,
+            //         (userRole, userinfo) => new { userRole.RoleId, User = userinfo })
+            //     .Join(context.Roles,
+            //         ur => ur.RoleId,
+            //         role => role.Id,
+            //         (ur, role) => new
+            //         {
+            //             UserId = ur.User.Id,
+            //             UserName = ur.User.Name,
+            //             RoleName = role.Name
+            //         })
+            //     .Where(x => x.RoleName == "Admin" || x.RoleName == "Manager")
+            //     .ToListAsync();
+
+            var userRoles = await context.Users
                 .AsNoTracking()
-                .Join(context.Users,
-                    userRole => userRole.UserId,
-                    userinfo => userinfo.Id,
-                    (userRole, userinfo) => new { userRole.RoleId, User = userinfo })
-                .Join(context.Roles,
-                    ur => ur.RoleId,
-                    role => role.Id,
-                    (ur, role) => new
-                    {
-                        UserId = ur.User.Id,
-                        UserName = ur.User.Name,
-                        RoleName = role.Name
-                    })
-                .Where(x => x.RoleName == "Admin" || x.RoleName == "Manager")
-                .ToListAsync();
+                .Join(context.UserClaims,
+                    (userinfo => userinfo.Id),
+                    (claim => claim.UserId),
+                    (userinfo, claim) => new { User = userinfo, CLaim = claim })
+                .Where(uc => uc.CLaim.ClaimType == "Permission:Transfers:Add" && uc.CLaim.ClaimValue == "True")
+                .Select(us => new
+                {
+                    UserId = us.User.Id,
+                    UserName = us.User.Name,
+                }).ToListAsync();
             
             return Results.Ok(userRoles);
         }

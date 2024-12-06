@@ -24,11 +24,15 @@ public class GetAllTransfersEndpoint : IEndPoint
         [FromQuery] int pageNumber = Configuration.DefaultPageNumber,
         [FromQuery] int pageSize = Configuration.DefaultPageSize)
     {
+        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:Transfers:View");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+        
         var request = new GetAllTransfersRequest
         {
             UserId = user.Identity?.Name ?? string.Empty,
             PageNumber = pageNumber,
             PageSize = pageSize,
+            UserHasPermission = hasPermission
         };
 
         var result = await handler.GetAllTransfersAsync(request);
