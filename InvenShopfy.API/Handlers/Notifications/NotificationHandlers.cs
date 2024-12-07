@@ -30,7 +30,7 @@ public class NotificationHandlers(AppDbContext context) : INotificationHandler
                 From = request.From,
                 Image = request.Image,
                 Href = request.Href,
-                CreateAt = DateOnly.FromDateTime(DateTime.Now)
+                CreateAt = DateTime.UtcNow
         
             };
             if (request.Image == null)

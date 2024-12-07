@@ -73,7 +73,7 @@ public class SaleHandler : ISalesHandler
                 Urgency = false,
                 From = "System-Sales",
                 Image = null,
-                Href = "/sales/salelist",
+                Href = "/trading/sales/salelist",
             };
             await _notificationHandler.CreateNotificationAsync(notificationRequest);
 

@@ -281,7 +281,7 @@ public class WarehouseHandler : IWarehouseHandler
     {
         try
         {
-            var stockQuantity = await _context.Warehouses.AsNoTracking().SumAsync(x => x.QuantityOfItems);
+            var stockQuantity = await _context.WarehousesProducts.AsNoTracking().SumAsync(x => x.Quantity);
             return new Response<int?>(stockQuantity, 200, "Total stock quantity retrieved successfully"); 
         }
         catch

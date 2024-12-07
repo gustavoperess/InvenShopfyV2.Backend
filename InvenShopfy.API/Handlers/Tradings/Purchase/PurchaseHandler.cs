@@ -84,7 +84,7 @@ public class PurchaseHandler : IPurchaseHandler
                 Urgency = false,
                 From = "System-Purchases", 
                 Image = null, 
-                Href = "/trading/purchase/managepurchase",
+                Href = "/trading/purchase/purchaselist",
             };
             await _notificationHandler.CreateNotificationAsync(notificationRequest);
             

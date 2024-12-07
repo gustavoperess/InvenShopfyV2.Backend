@@ -7,7 +7,7 @@ public class Notification
     public string? Image { get; set; }
     public string NotificationTitle { get; set; } = string.Empty;
     public string From { get; set; } = string.Empty;
-    public DateOnly CreateAt { get; init; } = DateOnly.FromDateTime(DateTime.Now);
+    public DateTime CreateAt { get; init; }
     public string Href { get; set; } = null!;
     
 }

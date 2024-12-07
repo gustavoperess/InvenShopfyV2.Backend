@@ -84,6 +84,12 @@ namespace InvenShopfy.API.EndPoints.Identity.Register
                 var createErrors = string.Join(", ", resultCreate.Errors.Select(e => e.Description));
                 return Results.BadRequest($"Create Errors: {createErrors}");
             }
+            
+            if (request.RoleId == 0)
+            {
+                return Results.Ok("User registered successfully");
+            }
+            
             var userInDb = await userManager.FindByEmailAsync(user.Email);
             if (userInDb == null)
             {
