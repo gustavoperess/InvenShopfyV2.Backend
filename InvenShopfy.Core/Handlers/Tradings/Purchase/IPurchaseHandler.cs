@@ -13,4 +13,6 @@ public interface IPurchaseHandler
     Task<PagedResponse<List<PurchaseList>?>> GetPurchaseByPeriodAsync(GetAllPurchasesRequest request);
     Task<Response<decimal>> GetTotalPurchasedAmountAsync();
     Task<Response<List<PurchaseDashboard>?>> GetPurchaseStatusDashboardAsync(GetAllPurchasesRequest request);
+    
+    Task<Response<List<LossDashBoard>>> GetLossOverViewDashboard();
 }

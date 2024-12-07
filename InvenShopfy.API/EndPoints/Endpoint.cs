@@ -172,6 +172,7 @@ public static class Endpoint
             .RequireAuthorization()
             .MapEndpoint<CreatePurchaseEndpoint>()
             .MapEndpoint<GetTotalAmountPurchasedEndpoint>()
+            .MapEndpoint<GetLossOverViewDashboardEndpoint>()
             .MapEndpoint<UpdatePurchaseEndpoint>()
             .MapEndpoint<GetAllPurchasesEndpoint>()
             .MapEndpoint<DeletePurchaseEndpoint>()

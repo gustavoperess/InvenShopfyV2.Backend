@@ -12,6 +12,7 @@ using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
 
 
+
 namespace InvenShopfy.API.Handlers.Tradings.Sales;
 
 public class SaleHandler : ISalesHandler
@@ -563,7 +564,7 @@ public class SaleHandler : ISalesHandler
                 {
                     Amount = x.Sum(y => y.TotalAmount),
                     NumberOfSales = x.Count(),
-                    Month = x.Key.Month,
+                    Month = CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(x.Key.Month)
                 }).ToListAsync();
             
             return new Response<List<ProfitDashBoard>>(query, 200, "Total profit overview returned succesfully");

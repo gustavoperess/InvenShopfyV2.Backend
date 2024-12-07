@@ -1,4 +1,3 @@
-using System.Globalization;
 using InvenShopfy.API.Data;
 using InvenShopfy.Core;
 using InvenShopfy.Core.Handlers.Notifications;
@@ -10,6 +9,7 @@ using InvenShopfy.Core.Requests.Notifications;
 using InvenShopfy.Core.Requests.Tradings.Purchase.AddPurchase;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace InvenShopfy.API.Handlers.Tradings.Purchase;
 
@@ -328,6 +328,28 @@ public class PurchaseHandler : IPurchaseHandler
         catch
         {
             return new Response<decimal>(0, 500, "It was not possible return the total amount purchased");
+        }
+    }
+    
+    public async Task<Response<List<LossDashBoard>>> GetLossOverViewDashboard()
+    {
+        try
+        {
+            var query = await _context.Purchases
+                .AsNoTracking()
+                .GroupBy(x => new { Month = x.PurchaseDate.Month})
+                .Select(x => new LossDashBoard
+                {
+                    Amount = x.Sum(y => y.TotalAmountBought),
+                    NumberOfPurchases = x.Count(),
+                    Month = CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(x.Key.Month)
+                }).ToListAsync();
+            
+            return new Response<List<LossDashBoard>>(query, 200, "Total Loss overview returned succesfully");
+        }
+        catch
+        {
+            return new Response<List<LossDashBoard>>(null, 500, "It was not possible to get the Loss overview");
         }
     }
 }
