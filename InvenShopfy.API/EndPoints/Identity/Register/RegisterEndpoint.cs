@@ -2,10 +2,12 @@ using System.Globalization;
 using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.API.Common.CloudinaryServiceNamespace;
+using InvenShopfy.API.Data;
 using InvenShopfy.API.Models;
 using InvenShopfy.Core.Requests.UserManagement.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace InvenShopfy.API.EndPoints.Identity.Register
 // NEED TO CHECK WHY IT IS NOT ADDING TO THE ROLES, SOMETHING TO DO WITH THE NORMALIZED NAME
@@ -19,6 +21,8 @@ namespace InvenShopfy.API.EndPoints.Identity.Register
             [FromBody] CreateUserRequest request,
             CloudinaryService cloudinaryService,
             ClaimsPrincipal principal,
+            [FromServices] AppDbContext context,
+
             [FromServices] RoleManager<CustomIdentityRole> roleManager,
             [FromServices] UserManager<CustomUserRequest> userManager)
         {
@@ -97,6 +101,22 @@ namespace InvenShopfy.API.EndPoints.Identity.Register
             {
                 return Results.BadRequest("Invalid role name.");
             } 
+            
+            var permissions = await context.RolePermissions
+                .AsNoTracking()
+                .Where(p => p.RoleId == request.RoleId) 
+                .ToListAsync();
+            
+            foreach (var permission in permissions)
+            {
+                var claim = new Claim($"Permission:{permission.EntityType}:{permission.Action}", permission.IsAllowed.ToString());
+                var result = await userManager.AddClaimAsync(user, claim);
+                if (!result.Succeeded)
+                {
+                    var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                    return Results.BadRequest($"Error adding claims: {errors}");
+                }
+            }
             
             // Assign the role to the user
            

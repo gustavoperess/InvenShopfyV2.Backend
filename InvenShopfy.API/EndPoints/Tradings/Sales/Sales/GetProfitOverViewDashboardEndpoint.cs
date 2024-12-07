@@ -2,27 +2,26 @@ using System.Security.Claims;
 using InvenShopfy.API.Common.Api;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
 using InvenShopfy.Core.Models.Tradings.Sales.Dto;
-using InvenShopfy.Core.Requests.Tradings.Sales.Sales;
 using InvenShopfy.Core.Responses;
 
 namespace InvenShopfy.API.EndPoints.Tradings.Sales.Sales;
 
-public class GetSalesDashboardEndpoint : IEndPoint
+public class GetProfitOverViewDashboardEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("/dashboard/top-sales", HandlerAsync)
-            .WithName("Sales: Get 10 sales for the dashboard")
-            .WithSummary("Get Get 10 sales for the dashboard")
-            .WithDescription("Get Get 10 sales for the dashboard")
-            .WithOrder(9)
-            .Produces<Response<List<SallerDashboard>?>>();
+        => app.MapGet("/dashboard/profitoverview", HandlerAsync)
+            .WithName("Sales: get the profitoverview for the dasboard graph")
+            .WithSummary("Sales: get the profitoverview for the dasboard graph")
+            .WithDescription("Sales: get the profitoverview for the dasboard graph")
+            .WithOrder(11)
+            .Produces<Response<List<ProfitDashBoard>?>>();
 
     private static async Task<IResult> HandlerAsync(
         ClaimsPrincipal user,
         ISalesHandler handler)
     {
         
-        var result = await handler.GetSaleStatusDashboardAsync();
+        var result = await handler.GetProfitOverViewDashboard();
         return result.IsSuccess
             ? TypedResults.Ok(result)
             : TypedResults.BadRequest(result);

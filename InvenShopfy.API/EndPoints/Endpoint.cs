@@ -20,7 +20,6 @@ using InvenShopfy.API.EndPoints.Reports;
 using InvenShopfy.API.EndPoints.Tradings.Purchase.Add;
 using InvenShopfy.API.EndPoints.Tradings.Returns.PurchaseReturn;
 using InvenShopfy.API.EndPoints.Tradings.Returns.SalesReturn;
-using InvenShopfy.API.EndPoints.Tradings.Sales;
 using InvenShopfy.API.EndPoints.Tradings.Sales.Sales;
 using InvenShopfy.API.EndPoints.Tradings.Sales.SalesPayment;
 using InvenShopfy.API.EndPoints.Transfer;
@@ -191,6 +190,7 @@ public static class Endpoint
             .MapEndpoint<GetAllSalesEndpoint>()
             .MapEndpoint<GetSalesByIdForPosSaleEndpoint>()
             .MapEndpoint<DeleteSaleEndpoint>()
+            .MapEndpoint<GetProfitOverViewDashboardEndpoint>()
             .MapEndpoint<GetSalesDashboardEndpoint>()
             .MapEndpoint<GetSalesBySalesIdEndpoint>()
             .MapEndpoint<GetTotalProfitDashboardEndpoint>()

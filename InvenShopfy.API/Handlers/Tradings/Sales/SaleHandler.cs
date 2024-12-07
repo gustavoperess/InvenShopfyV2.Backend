@@ -511,7 +511,7 @@ public class SaleHandler : ISalesHandler
         }
     }
 
-    public async Task<Response<List<SallerDashboard>?>> GetSaleStatusDashboardAsync(GetAllSalesRequest request)
+    public async Task<Response<List<SallerDashboard>?>> GetSaleStatusDashboardAsync()
     {
         try
         {
@@ -549,6 +549,28 @@ public class SaleHandler : ISalesHandler
         catch
         {
             return new Response<decimal>(0, 500, "It was not possible to get the total profit amount");
+        }
+    }
+    
+    public async Task<Response<List<ProfitDashBoard>>> GetProfitOverViewDashboard()
+    {
+        try
+        {
+            var query = await _context.Sales
+                .AsNoTracking()
+                .GroupBy(x => new { Month = x.SaleDate.Month})
+                .Select(x => new ProfitDashBoard
+                {
+                    Amount = x.Sum(y => y.TotalAmount),
+                    NumberOfSales = x.Count(),
+                    Month = x.Key.Month,
+                }).ToListAsync();
+            
+            return new Response<List<ProfitDashBoard>>(query, 200, "Total profit overview returned succesfully");
+        }
+        catch
+        {
+            return new Response<List<ProfitDashBoard>>(null, 500, "It was not possible to get the profit overview");
         }
     }
 }
