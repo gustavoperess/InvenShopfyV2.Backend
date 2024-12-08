@@ -115,16 +115,24 @@ public static class BuilderExtension
 
     public static void AddCrossOrigin(this WebApplicationBuilder builder)
     {
-        builder.Services.AddCors(options => options.AddPolicy(Configuration.CorsPolicyName,
-            policy =>
-                policy.WithOrigins(
-                        Configuration.BackendUrl,  
-                        Configuration.FrontendUrl   
-                    )
+        // builder.Services.AddCors(options => options.AddPolicy(Configuration.CorsPolicyName,
+        //     policy =>
+        //         policy.WithOrigins(
+        //                 Configuration.BackendUrl,  
+        //                 Configuration.FrontendUrl   
+        //             )
+        //             .AllowAnyHeader()
+        //             .AllowAnyMethod()
+        //             .AllowCredentials()  // Allow cookies to be sent with requests
+        // ));
+        builder.Services.AddCors(options =>
+            options.AddPolicy(Configuration.CorsPolicyName, policy =>
+                policy.AllowAnyOrigin()
                     .AllowAnyHeader()
                     .AllowAnyMethod()
-                    .AllowCredentials()  // Allow cookies to be sent with requests
-        ));
+                    .AllowCredentials()
+            )
+        );
     }
     
     public static void AddSerilog(this WebApplicationBuilder builder)
