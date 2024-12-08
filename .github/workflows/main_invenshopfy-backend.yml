@@ -34,7 +34,8 @@ jobs:
         run: |
           cd ./InvenShopfy.Api
           echo "Using connection string from secrets"
-          dotnet ef database update --connection "$ConnectionStrings__DefaultConnection"
+          echo "Connection String Debug: ${ConnectionStrings__DefaultConnection:0:50}..."
+          dotnet ef database update --connection "${{ secrets.AZURE_SQL_CONNECTION_STRING }}"
 
 
       - name: Build with dotnet
