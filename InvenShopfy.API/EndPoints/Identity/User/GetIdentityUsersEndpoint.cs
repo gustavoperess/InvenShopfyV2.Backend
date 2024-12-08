@@ -19,14 +19,14 @@ public class GetIdentityUsersEndpoint : IEndPoint
     {
         try
         {
-            // var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:User:View");
-            //
-            // var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
-            //
-            // if (!hasPermission)
-            // {
-            //     return Results.Json(new { data = new List<object>(), message = Configuration.NotAuthorized }, statusCode: 201);
-            // }
+            var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:User:View");
+           
+            var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+
+            if (!hasPermission)
+            {
+                return Results.Json(new { data = new List<object>(), message = Configuration.NotAuthorized }, statusCode: 201);
+            }
             
             
             DateTime? onlineThreshold = DateTime.UtcNow.AddMinutes(-10);
