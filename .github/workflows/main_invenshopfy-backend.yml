@@ -15,7 +15,7 @@ env:
 jobs:
   build:
     runs-on: windows-latest
-
+    
     steps:
       - uses: actions/checkout@v4
 
@@ -25,10 +25,14 @@ jobs:
           dotnet-version: '8.x'
       
       - name: Install EF Tools
-        run: dotnet tool install --global dotnet-ef
+        run: | 
+          cd ./InvenShopfy.Api
+          dotnet tool install --global dotnet-ef
       
       - name: Update database
-        run: dotnet ef database update
+        run: |
+          cd ./InvenShopfy.Api
+          dotnet ef database update
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
