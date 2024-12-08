@@ -18,10 +18,10 @@ public class ReportHandler(AppDbContext context) : IReportHandler
     {
         try
         {
-            // if (!request.UserHasPermission)
-            // {
-            //     return new PagedResponse<List<SaleReport>?>([], 201, $"{Configuration.NotAuthorized}");
-            // }
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<SaleReport>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
             
             var datetimeHandler = new DateTimeHandler();
             if (request.DateRange != null && request.StartDate == null && request.EndDate == null)
@@ -94,10 +94,10 @@ public class ReportHandler(AppDbContext context) : IReportHandler
     {
         try
         {
-            // if (!request.UserHasPermission)
-            // {
-            //     return new PagedResponse<List<SupplierReport>?>([], 201, $"{Configuration.NotAuthorized}");
-            // }
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<SupplierReport>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
             
             var datetimeHandler = new DateTimeHandler();
             if (request.DateRange != null && request.StartDate == null && request.EndDate == null)
@@ -169,10 +169,10 @@ public class ReportHandler(AppDbContext context) : IReportHandler
     {
         try
         {
-            // if (!request.UserHasPermission)
-            // {
-            //     return new PagedResponse<List<ProductReport>?>([], 201, $"{Configuration.NotAuthorized}");
-            // }
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<ProductReport>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
             
             var query = context.Products
                 .AsNoTracking()
@@ -259,10 +259,10 @@ public class ReportHandler(AppDbContext context) : IReportHandler
     {
         try
         {
-            // if (!request.UserHasPermission)
-            // {
-            //     return new PagedResponse<List<CustomerReport>?>([], 201, $"{Configuration.NotAuthorized}");
-            // }
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<CustomerReport>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
             
             var datetimeHandler = new DateTimeHandler();
             if (request.DateRange != null && request.StartDate == null && request.EndDate == null)
@@ -336,10 +336,10 @@ public class ReportHandler(AppDbContext context) : IReportHandler
     {
         try
         {
-            // if (!request.UserHasPermission)
-            // {
-            //     return new PagedResponse<List<ExpenseReport>?>([], 201, $"{Configuration.NotAuthorized}");
-            // }
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<ExpenseReport>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
             
             var datetimeHandler = new DateTimeHandler();
             if (request.DateRange != null && request.StartDate == null && request.EndDate == null)
@@ -404,10 +404,10 @@ public class ReportHandler(AppDbContext context) : IReportHandler
     {
         try
         {
-            // if (!request.UserHasPermission)
-            // {
-            //     return new PagedResponse<List<WarehouseReport>?>([], 201, $"{Configuration.NotAuthorized}");
-            // }
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<WarehouseReport>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
             
             var query = context.Warehouses
                 .AsNoTracking()
@@ -498,10 +498,10 @@ public class ReportHandler(AppDbContext context) : IReportHandler
 {
     try
     {
-        // if (!request.UserHasPermission)
-        // {
-        //     return new PagedResponse<List<PurchaseReport>?>([], 201, $"{Configuration.NotAuthorized}");
-        // }
+        if (!request.UserHasPermission)
+        {
+            return new PagedResponse<List<PurchaseReport>?>([], 201, $"{Configuration.NotAuthorized}");
+        }
         
         var datetimeHandler = new DateTimeHandler();
         if (request.DateRange != null && request.StartDate == null && request.EndDate == null)

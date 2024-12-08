@@ -17,10 +17,10 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
         try
         {
             
-            // if (!request.UserHasPermission)
-            // {
-            //     return new Response<Category?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
-            // }
+            if (!request.UserHasPermission)
+            {
+                return new Response<Category?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            }
             
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             var existingCategory = await context.Categories.FirstOrDefaultAsync(c =>
@@ -85,10 +85,10 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
     {
         try
         {
-            // if (!request.UserHasPermission)
-            // {
-            //     return new Response<Category?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
-            // }
+            if (!request.UserHasPermission)
+            {
+                return new Response<Category?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
+            }
 
             
             var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == request.Id);
@@ -132,10 +132,10 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
     {
         try
         {
-            // if (!request.UserHasPermission)
-            // {
-            //     return new PagedResponse<List<Category>?>([], 201, $"{Configuration.NotAuthorized}");
-            // }
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<Category>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
             
             var query = context
                 .Categories

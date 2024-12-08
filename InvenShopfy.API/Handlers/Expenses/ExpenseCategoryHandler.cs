@@ -16,10 +16,10 @@ public class ExpenseCategoryHandler(AppDbContext context) : IExpenseCategoryHand
     {
         try
         {
-            // if (!request.UserHasPermission)
-            // {
-            //     return new Response<ExpenseCategory?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
-            // }
+            if (!request.UserHasPermission)
+            {
+                return new Response<ExpenseCategory?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            }
             
             var existingExpenseCategory = await context.ExpenseCategories.FirstOrDefaultAsync(c =>
                 c.MainCategory.ToLower() == request.Category.ToLower());
@@ -88,10 +88,10 @@ public class ExpenseCategoryHandler(AppDbContext context) : IExpenseCategoryHand
     {
         try
         {
-            // if (!request.UserHasPermission)
-            // {
-            //     return new Response<ExpenseCategory?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
-            // }
+            if (!request.UserHasPermission)
+            {
+                return new Response<ExpenseCategory?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
+            }
             
             var expenseCategory =
                 await context.ExpenseCategories.FirstOrDefaultAsync(x =>
@@ -137,10 +137,10 @@ public class ExpenseCategoryHandler(AppDbContext context) : IExpenseCategoryHand
     {
         try
         {
-            // if (!request.UserHasPermission)
-            // {
-            //     return new PagedResponse<List<ExpenseCategory>?>([], 201, $"{Configuration.NotAuthorized}");
-            // }
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<ExpenseCategory>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
 
             
             var query = context

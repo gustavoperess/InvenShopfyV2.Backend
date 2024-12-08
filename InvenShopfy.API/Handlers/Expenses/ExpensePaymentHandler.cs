@@ -14,10 +14,10 @@ public class ExpensePaymentHandler(AppDbContext context) : IExpensePaymentHandle
     {
         try
         {
-            // if (!request.UserHasPermission)
-            // {
-            //     return new Response<ExpensePayment?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
-            // }
+            if (!request.UserHasPermission)
+            {
+                return new Response<ExpensePayment?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            }
             
             var expense = context.Expenses.FirstOrDefault(x => x.Id == request.ExpenseId);
             if (expense != null)

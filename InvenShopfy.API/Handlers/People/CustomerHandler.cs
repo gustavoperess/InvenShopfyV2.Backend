@@ -17,10 +17,10 @@ public class CustomerHandler(AppDbContext context) : ICustomerHandler
     {
         try
         {
-            // if (!request.UserHasPermission)
-            // {
-            //     return new Response<Customer?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
-            // }
+            if (!request.UserHasPermission)
+            {
+                return new Response<Customer?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            }
             
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             var existingCustomer = await context.Customers
@@ -105,10 +105,10 @@ public class CustomerHandler(AppDbContext context) : ICustomerHandler
     {
         try
         {
-            // if (!request.UserHasPermission)
-            // {
-            //     return new Response<Customer?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
-            // }
+            if (!request.UserHasPermission)
+            {
+                return new Response<Customer?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
+            }
             
             var customer =
                 await context.Customers.FirstOrDefaultAsync(x => x.Id == request.Id);
@@ -152,10 +152,10 @@ public class CustomerHandler(AppDbContext context) : ICustomerHandler
     {
         try
         {
-            // if (!request.UserHasPermission)
-            // {
-            //     return new PagedResponse<List<Customer>?>([], 201, $"{Configuration.NotAuthorized}");
-            // }
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<Customer>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
             
             var query = context
                 .Customers

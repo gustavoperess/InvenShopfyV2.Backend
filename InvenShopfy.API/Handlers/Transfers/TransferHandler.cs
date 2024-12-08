@@ -27,10 +27,10 @@ using InvenShopfy.Core.Handlers.Transfer;
       {
           try
           {
-              // if (!request.UserHasPermission)
-              // {
-              //     return new Response<Transfer?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
-              // }
+              if (!request.UserHasPermission)
+              {
+                  return new Response<Transfer?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+              }
 
               
               var transfer = new Transfer
@@ -105,10 +105,10 @@ using InvenShopfy.Core.Handlers.Transfer;
     {
         try
         {
-            // if (!request.UserHasPermission)
-            // {
-            //     return new PagedResponse<List<TransferDto>?>([], 201, $"{Configuration.NotAuthorized}");
-            // }
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<TransferDto>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
             
             var query = _context
                 .Transfers

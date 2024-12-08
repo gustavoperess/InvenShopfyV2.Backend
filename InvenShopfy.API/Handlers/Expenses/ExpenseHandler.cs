@@ -27,10 +27,10 @@ public class ExpenseHandler : IExpenseHandler
     {
         try
         {
-            // if (!request.UserHasPermission)
-            // {
-            //     return new Response<Expense?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
-            // }
+            if (!request.UserHasPermission)
+            {
+                return new Response<Expense?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            }
             
             var expense = new Expense
             {
@@ -100,10 +100,10 @@ public class ExpenseHandler : IExpenseHandler
     {
         try
         {
-            // if (!request.UserHasPermission)
-            // {
-            //     return new Response<Expense?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
-            // }
+            if (!request.UserHasPermission)
+            {
+                return new Response<Expense?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
+            }
 
             
             var expense =
@@ -159,10 +159,10 @@ public class ExpenseHandler : IExpenseHandler
     {
         try
         {
-            // if (!request.UserHasPermission)
-            // {
-            //     return new PagedResponse<List<ExpenseDto>?>([], 201, $"{Configuration.NotAuthorized}");
-            // }
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<ExpenseDto>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
             
             var query = _context.Expenses
                 .AsNoTracking()

@@ -9,7 +9,7 @@ namespace InvenShopfy.API.EndPoints.Identity.User;
 public class GetCurrentUserIdentityEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("get-current-user", Handle);
+        => app.MapGet("get-current-user", Handle).RequireAuthorization();
     
     private static async Task<IResult> Handle(
         ClaimsPrincipal user,
@@ -17,15 +17,15 @@ public class GetCurrentUserIdentityEndpoint : IEndPoint
     {
         try
         {
-            // if (user.Identity == null)
-            // {
-            //     return Results.Unauthorized();
-            // }
-            //
-            // if (!user.Identity.IsAuthenticated || string.IsNullOrEmpty(user.Identity.Name))
-            // {
-            //     return Results.Unauthorized();
-            // }
+            if (user.Identity == null)
+            {
+                return Results.Unauthorized();
+            }
+            
+            if (!user.Identity.IsAuthenticated || string.IsNullOrEmpty(user.Identity.Name))
+            {
+                return Results.Unauthorized();
+            }
             var currentUser = await context.Users
                 .AsNoTracking()
                 .Where(u => u.UserName == user.Identity.Name)

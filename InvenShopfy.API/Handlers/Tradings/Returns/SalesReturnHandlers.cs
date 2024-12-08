@@ -28,10 +28,10 @@ public class SalesReturnHandlers : ISalesReturnHandler
     {
         try
         {
-            // if (!request.UserHasPermission)
-            // {
-            //     return new Response<SaleReturn?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
-            // }
+            if (!request.UserHasPermission)
+            {
+                return new Response<SaleReturn?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            }
             
             var saleReturn = new SaleReturn
             {
@@ -121,10 +121,10 @@ public class SalesReturnHandlers : ISalesReturnHandler
     {
         try
         {
-            // if (!request.UserHasPermission)
-            // {
-            //     return new PagedResponse<List<SaleReturn>?>([], 201, $"{Configuration.NotAuthorized}");
-            // }
+            if (!request.UserHasPermission)
+            {
+                return new PagedResponse<List<SaleReturn>?>([], 201, $"{Configuration.NotAuthorized}");
+            }
             
             var query = _context.SaleReturns
                 .AsNoTracking()
@@ -153,10 +153,10 @@ public class SalesReturnHandlers : ISalesReturnHandler
     {
         try
         {
-            // if (!request.UserHasPermission)
-            // {
-            //     return new Response<SaleReturn?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
-            // }
+            if (!request.UserHasPermission)
+            {
+                return new Response<SaleReturn?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
+            }
             
             var saleReturn =
                 await _context.SaleReturns.FirstOrDefaultAsync(x => x.Id == request.Id);

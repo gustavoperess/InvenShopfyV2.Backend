@@ -21,13 +21,13 @@ public class CreateRoleIdentityEndpoint : IEndPoint
         [FromBody] CreateRoleRequest request)
     {
         
-        // var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:Roles:Add");
-        // var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
-        //
-        // if (!hasPermission)
-        // {
-        //     return Results.Json(new { data = string.Empty, message = Configuration.NotAuthorized }, statusCode: 409);
-        // }
+        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:Roles:Add");
+        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+        
+        if (!hasPermission)
+        {
+            return Results.Json(new { data = string.Empty, message = Configuration.NotAuthorized }, statusCode: 409);
+        }
 
         
         
