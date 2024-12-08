@@ -79,7 +79,8 @@ public static class BuilderExtension
             .AddAuthentication(IdentityConstants.ApplicationScheme)
             .AddCookie(options =>
             {
-           
+                options.LoginPath = "/v2/identity/login"; // Correct login endpoint
+                options.LogoutPath = "/v2/identity/logout"; // Correct logout endpoint
                 options.Cookie.SameSite = SameSiteMode.None;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 options.Cookie.Expiration = TimeSpan.FromDays(1);  
