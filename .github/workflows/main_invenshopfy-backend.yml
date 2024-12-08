@@ -9,8 +9,7 @@ on:
       - main
   workflow_dispatch:
 
-env:
-  ConnectionStrings__DefaultConnection": ${{ secrets.CONNECTION_STRING }}
+
 
 jobs:
   build:
@@ -29,9 +28,12 @@ jobs:
           cd ./InvenShopfy.Api
           dotnet tool install --global dotnet-ef
       
-      - name: Update database
+      - name: Set connection string for Azure PostgreSQL
+        env:
+          ConnectionStrings__DefaultConnection": ${{ secrets.CONNECTION_STRING }}
         run: |
           cd ./InvenShopfy.Api
+          echo "Using connection string from secrets"
           dotnet ef database update
 
       - name: Build with dotnet
