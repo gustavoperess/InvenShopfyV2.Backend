@@ -27,10 +27,10 @@ public class PurchaseReturnHandlers : IPurchaseReturnHandler
     {
         try
         {
-            if (!request.UserHasPermission)
-            {
-                return new Response<PurchaseReturn?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
-            }
+            // if (!request.UserHasPermission)
+            // {
+            //     return new Response<PurchaseReturn?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            // }
             
             var purchasereturn = new PurchaseReturn
             {
@@ -107,10 +107,10 @@ public class PurchaseReturnHandlers : IPurchaseReturnHandler
     {
         try
         {
-            if (!request.UserHasPermission)
-            {
-                return new PagedResponse<List<PurchaseReturn>?>([], 201, $"{Configuration.NotAuthorized}");
-            }
+            // if (!request.UserHasPermission)
+            // {
+            //     return new PagedResponse<List<PurchaseReturn>?>([], 201, $"{Configuration.NotAuthorized}");
+            // }
             
             var query = _context.PurchaseReturns
                 .AsNoTracking()
@@ -139,10 +139,10 @@ public class PurchaseReturnHandlers : IPurchaseReturnHandler
     {
         try
         {
-            if (!request.UserHasPermission)
-            {
-                return new Response<PurchaseReturn?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
-            }
+            // if (!request.UserHasPermission)
+            // {
+            //     return new Response<PurchaseReturn?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
+            // }
             
             var purchaseReturn = await _context.PurchaseReturns.FirstOrDefaultAsync(x => x.Id == request.Id);
             

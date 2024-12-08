@@ -24,10 +24,10 @@ public class BrandHandler : IBrandHandler
     {
         try
         {
-            if (!request.UserHasPermission)
-            {
-                return new Response<Brand?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
-            }
+            // if (!request.UserHasPermission)
+            // {
+            //     return new Response<Brand?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            // }
 
             
             var unit = await _context.Unit.FirstOrDefaultAsync(x => x.UnitName.ToLower() == request.BrandName.ToLower());
@@ -92,10 +92,10 @@ public class BrandHandler : IBrandHandler
     {
         try
         {
-            if (!request.UserHasPermission)
-            {
-                return new Response<Brand?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
-            }
+            // if (!request.UserHasPermission)
+            // {
+            //     return new Response<Brand?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
+            // }
             
             var brand = await _context.Brands.FirstOrDefaultAsync(x => x.Id == request.Id);
             
@@ -138,10 +138,10 @@ public class BrandHandler : IBrandHandler
     {
         try
         {
-            if (!request.UserHasPermission)
-            {
-                return new PagedResponse<List<Brand>?>([], 201, $"{Configuration.NotAuthorized}");
-            }
+            // if (!request.UserHasPermission)
+            // {
+            //     return new PagedResponse<List<Brand>?>([], 201, $"{Configuration.NotAuthorized}");
+            // }
             
             var query = _context
                 .Brands

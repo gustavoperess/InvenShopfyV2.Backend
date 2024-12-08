@@ -80,10 +80,10 @@ public class BillerHandler (AppDbContext context) : IBillerHandler
     {
         try
         {
-            if (!request.UserHasPermission)
-            {
-                return new Response<Biller?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
-            }
+            // if (!request.UserHasPermission)
+            // {
+            //     return new Response<Biller?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
+            // }
             
             var biller = await context.Billers.FirstOrDefaultAsync(x => x.Id == request.Id);
             
@@ -126,10 +126,10 @@ public class BillerHandler (AppDbContext context) : IBillerHandler
     {
         try
         {
-            if (!request.UserHasPermission)
-            {
-                return new PagedResponse<List<BillerDto>?>([], 201, $"{Configuration.NotAuthorized}");
-            }
+            // if (!request.UserHasPermission)
+            // {
+            //     return new PagedResponse<List<BillerDto>?>([], 201, $"{Configuration.NotAuthorized}");
+            // }
             
             var query = context
                 .Billers

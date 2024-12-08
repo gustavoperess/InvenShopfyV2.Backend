@@ -27,10 +27,10 @@ public class PurchaseHandler : IPurchaseHandler
     {
         try
         {
-            if (!request.UserHasPermission)
-            {
-                return new Response<AddPurchase?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
-            }
+            // if (!request.UserHasPermission)
+            // {
+            //     return new Response<AddPurchase?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            // }
 
             var purchase = new AddPurchase
             {
@@ -133,10 +133,10 @@ public class PurchaseHandler : IPurchaseHandler
     {
         try
         {
-            if (!request.UserHasPermission)
-            {
-                return new Response<AddPurchase?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
-            }
+            // if (!request.UserHasPermission)
+            // {
+            //     return new Response<AddPurchase?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
+            // }
 
             
             var purchase =
@@ -231,10 +231,10 @@ public class PurchaseHandler : IPurchaseHandler
     {
         try
         {
-            if (!request.UserHasPermission)
-            {
-                return new PagedResponse<List<PurchaseList>?>([], 201, $"{Configuration.NotAuthorized}");
-            }
+            // if (!request.UserHasPermission)
+            // {
+            //     return new PagedResponse<List<PurchaseList>?>([], 201, $"{Configuration.NotAuthorized}");
+            // }
             
             var query = _context
                 .Purchases

@@ -33,10 +33,10 @@ public class ProductHandler : IProductHandler
     {
         try
         {
-            if (!request.UserHasPermission)
-            {
-                return new Response<Product?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
-            }
+            // if (!request.UserHasPermission)
+            // {
+            //     return new Response<Product?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            // }
 
             var findByName = await _context.Products.FirstOrDefaultAsync(x => x.ProductName.ToLower() == request.ProductName.ToLower());
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
@@ -156,10 +156,10 @@ public class ProductHandler : IProductHandler
         try
         {
             
-            if (!request.UserHasPermission)
-            {
-                return new Response<Product?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
-            }
+            // if (!request.UserHasPermission)
+            // {
+            //     return new Response<Product?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
+            // }
 
             
             var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == request.Id);
@@ -202,10 +202,10 @@ public class ProductHandler : IProductHandler
     {
         try
         {
-            if (!request.UserHasPermission)
-            {
-                return new PagedResponse<List<ProductList>?>([], 201, $"{Configuration.NotAuthorized}");
-            }
+            // if (!request.UserHasPermission)
+            // {
+            //     return new PagedResponse<List<ProductList>?>([], 201, $"{Configuration.NotAuthorized}");
+            // }
             
             
             var query = _context

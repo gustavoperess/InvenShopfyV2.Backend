@@ -30,10 +30,10 @@ public class SaleHandler : ISalesHandler
     {
         try
         {
-            if (!request.UserHasPermission)
-            {
-                return new Response<Sale?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
-            }
+            // if (!request.UserHasPermission)
+            // {
+            //     return new Response<Sale?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            // }
 
             
             var productIds = request.ProductIdPlusQuantity.Keys;
@@ -118,10 +118,10 @@ public class SaleHandler : ISalesHandler
     {
         try
         {
-            if (!request.UserHasPermission)
-            {
-                return new Response<Sale?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
-            }
+            // if (!request.UserHasPermission)
+            // {
+            //     return new Response<Sale?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
+            // }
             
             var sale = await _context.Sales.FirstOrDefaultAsync(x => x.Id == request.Id);
 
@@ -144,10 +144,10 @@ public class SaleHandler : ISalesHandler
     {
         try
         {
-            if (!request.UserHasPermission)
-            {
-                return new PagedResponse<List<SaleList>?>([], 201, $"{Configuration.NotAuthorized}");
-            }
+            // if (!request.UserHasPermission)
+            // {
+            //     return new PagedResponse<List<SaleList>?>([], 201, $"{Configuration.NotAuthorized}");
+            // }
             
             var query = _context
                 .Sales

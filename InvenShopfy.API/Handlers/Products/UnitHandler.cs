@@ -15,10 +15,10 @@ public class UnitHandler(AppDbContext context) : IUnitHandler
     {   
         try
         {
-            if (!request.UserHasPermission)
-            {
-                return new Response<Unit?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
-            }
+            // if (!request.UserHasPermission)
+            // {
+            //     return new Response<Unit?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            // }
             
             var unitName = context.Unit.FirstOrDefault(x => x.UnitName.ToLower() == request.UnitName.ToLower() || 
                                                             x.UnitShortName.ToLower() == request.UnitShortName.ToLower());
@@ -74,10 +74,10 @@ public class UnitHandler(AppDbContext context) : IUnitHandler
     {
         try
         {
-            if (!request.UserHasPermission)
-            {
-                return new Response<Unit?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
-            }
+            // if (!request.UserHasPermission)
+            // {
+            //     return new Response<Unit?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
+            // }
             
             var unit = await context.Unit.FirstOrDefaultAsync(x => x.Id == request.Id);
             
@@ -120,10 +120,10 @@ public class UnitHandler(AppDbContext context) : IUnitHandler
     {
         try
         {
-            if (!request.UserHasPermission)
-            {
-                return new PagedResponse<List<Unit>?>([], 201, $"{Configuration.NotAuthorized}");
-            }
+            // if (!request.UserHasPermission)
+            // {
+            //     return new PagedResponse<List<Unit>?>([], 201, $"{Configuration.NotAuthorized}");
+            // }
             
             var query = context
                 .Unit

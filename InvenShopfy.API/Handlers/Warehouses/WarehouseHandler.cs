@@ -26,10 +26,10 @@ public class WarehouseHandler : IWarehouseHandler
     {
         try
         {
-            if (!request.UserHasPermission)
-            {
-                return new Response<Warehouse?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
-            }
+            // if (!request.UserHasPermission)
+            // {
+            //     return new Response<Warehouse?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
+            // }
             
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             var existingWarehouse = await _context.Warehouses
@@ -114,10 +114,10 @@ public class WarehouseHandler : IWarehouseHandler
     {
         try
         {
-            if (!request.UserHasPermission)
-            {
-                return new Response<Warehouse?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
-            }
+            // if (!request.UserHasPermission)
+            // {
+            //     return new Response<Warehouse?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
+            // }
             
             var warehouse =
                 await _context.Warehouses.FirstOrDefaultAsync(x => x.Id == request.Id);
@@ -205,10 +205,10 @@ public class WarehouseHandler : IWarehouseHandler
     {
         try
         {
-            if (!request.UserHasPermission)
-            {
-                return new PagedResponse<List<Warehouse>?>([], 201, $"{Configuration.NotAuthorized}");
-            }
+            // if (!request.UserHasPermission)
+            // {
+            //     return new PagedResponse<List<Warehouse>?>([], 201, $"{Configuration.NotAuthorized}");
+            // }
             
             var query = _context
                 .Warehouses

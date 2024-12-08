@@ -64,42 +64,42 @@ public static class BuilderExtension
         builder.Services.AddSwaggerGen(x => { x.CustomSchemaIds(n => n.FullName); });
     }
 
-    // public static void AddSecurity(this WebApplicationBuilder builder)
-    // {
-    //     builder.Services
-    //         .AddAuthentication(IdentityConstants.ApplicationScheme)
-    //         .AddIdentityCookies();
-    //
-    //     builder.Services.AddAuthorization();
-    //     
-    // }
     public static void AddSecurity(this WebApplicationBuilder builder)
     {
         builder.Services
             .AddAuthentication(IdentityConstants.ApplicationScheme)
-            .AddCookie(options =>
-            {
-                // Update the LoginPath and prevent redirection for unauthorized requests
-                options.LoginPath = "/login-custom"; // Your custom login endpoint
-                options.AccessDeniedPath = "/access-denied"; // Optional access denied endpoint
-
-                options.Events.OnRedirectToLogin = context =>
-                {
-                    // Return 401 Unauthorized instead of redirecting to the login page
-                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                    return Task.CompletedTask;
-                };
-            
-                options.Events.OnRedirectToAccessDenied = context =>
-                {
-                    // Return 403 Forbidden instead of redirecting to an access denied page
-                    context.Response.StatusCode = StatusCodes.Status403Forbidden;
-                    return Task.CompletedTask;
-                };
-            });
-
+            .AddIdentityCookies();
+    
         builder.Services.AddAuthorization();
+        
     }
+    // public static void AddSecurity(this WebApplicationBuilder builder)
+    // {
+    //     builder.Services
+    //         .AddAuthentication(IdentityConstants.ApplicationScheme)
+    //         .AddCookie(options =>
+    //         {
+    //             // Update the LoginPath and prevent redirection for unauthorized requests
+    //             options.LoginPath = "/login-custom"; // Your custom login endpoint
+    //             options.AccessDeniedPath = "/access-denied"; // Optional access denied endpoint
+    //
+    //             options.Events.OnRedirectToLogin = context =>
+    //             {
+    //                 // Return 401 Unauthorized instead of redirecting to the login page
+    //                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+    //                 return Task.CompletedTask;
+    //             };
+    //         
+    //             options.Events.OnRedirectToAccessDenied = context =>
+    //             {
+    //                 // Return 403 Forbidden instead of redirecting to an access denied page
+    //                 context.Response.StatusCode = StatusCodes.Status403Forbidden;
+    //                 return Task.CompletedTask;
+    //             };
+    //         });
+    //
+    //     builder.Services.AddAuthorization();
+    // }
 
 
 
