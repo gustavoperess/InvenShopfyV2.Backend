@@ -17,13 +17,13 @@ public class DeleteUserEndpoint : IEndPoint
         [FromServices] UserManager<CustomUserRequest> userManager,
         long id)
     {
-        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:User:Delete");
-        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
-        
-        if (!hasPermission)
-        {
-            return Results.Json(new { data = string.Empty, message = Configuration.NotAuthorized }, statusCode: 409);
-        }
+        // var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:User:Delete");
+        // var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+        //
+        // if (!hasPermission)
+        // {
+        //     return Results.Json(new { data = string.Empty, message = Configuration.NotAuthorized }, statusCode: 409);
+        // }
         
         var userToDelete = await userManager.FindByIdAsync(id.ToString());
         if (userToDelete == null)

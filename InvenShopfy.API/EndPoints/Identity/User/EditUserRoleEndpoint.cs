@@ -23,12 +23,12 @@ public class EditUserRoleEndpoint : IEndPoint
         [FromServices] UserManager<CustomUserRequest> userManager,
         string userId)
     {
-        var permissionClaim = cuser.Claims.FirstOrDefault(c => c.Type == "Permission:Roles:Update");
-        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
-        if (!hasPermission)
-        {
-            return Results.Json(new { data = string.Empty, message = Configuration.NotAuthorized }, statusCode: 409);
-        }
+        // var permissionClaim = cuser.Claims.FirstOrDefault(c => c.Type == "Permission:Roles:Update");
+        // var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+        // if (!hasPermission)
+        // {
+        //     return Results.Json(new { data = string.Empty, message = Configuration.NotAuthorized }, statusCode: 409);
+        // }
         
         // Step 1: Validate User
         var user = await userManager.FindByIdAsync(userId);
