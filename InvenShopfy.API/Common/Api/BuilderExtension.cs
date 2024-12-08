@@ -65,43 +65,43 @@ public static class BuilderExtension
         builder.Services.AddSwaggerGen(x => { x.CustomSchemaIds(n => n.FullName); });
     }
 
-    public static void AddSecurity(this WebApplicationBuilder builder)
-    {
-        builder.Services
-            .AddAuthentication(IdentityConstants.ApplicationScheme)
-            .AddIdentityCookies();
-    
-        builder.Services.AddAuthorization();
-        
-    }
-    
     // public static void AddSecurity(this WebApplicationBuilder builder)
     // {
-    //     builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
-    //         .AddCookie(IdentityConstants.ApplicationScheme, options =>
-    //         {
-    //             options.Cookie.HttpOnly = true;
-    //             options.Cookie.SecurePolicy = CookieSecurePolicy.Always; 
-    //             options.Cookie.SameSite = SameSiteMode.None; 
-    //             options.Cookie.Name = ".AspNetCore.Identity.Application";
-    //
-    //             options.Events = new CookieAuthenticationEvents
-    //             {
-    //                 OnRedirectToLogin = context =>
-    //                 {
-    //                     context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-    //                     return Task.CompletedTask;
-    //                 },
-    //                 OnRedirectToAccessDenied = context =>
-    //                 {
-    //                     context.Response.StatusCode = StatusCodes.Status403Forbidden;
-    //                     return Task.CompletedTask;
-    //                 }
-    //             };
-    //         });
+    //     builder.Services
+    //         .AddAuthentication(IdentityConstants.ApplicationScheme)
+    //         .AddIdentityCookies();
     //
     //     builder.Services.AddAuthorization();
+    //     
     // }
+    
+    public static void AddSecurity(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
+            .AddCookie(IdentityConstants.ApplicationScheme, options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest; 
+                options.Cookie.SameSite = SameSiteMode.Lax; 
+                options.Cookie.Name = ".AspNetCore.Identity.Application";
+    
+                options.Events = new CookieAuthenticationEvents
+                {
+                    OnRedirectToLogin = context =>
+                    {
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        return Task.CompletedTask;
+                    },
+                    OnRedirectToAccessDenied = context =>
+                    {
+                        context.Response.StatusCode = StatusCodes.Status403Forbidden;
+                        return Task.CompletedTask;
+                    }
+                };
+            });
+    
+        builder.Services.AddAuthorization();
+    }
 
 
     public static void AddDataContexts(this WebApplicationBuilder builder)
