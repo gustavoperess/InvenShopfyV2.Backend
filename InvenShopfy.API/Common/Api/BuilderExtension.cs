@@ -80,17 +80,21 @@ public static class BuilderExtension
         builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
             .AddCookie(IdentityConstants.ApplicationScheme, options =>
             {
-                // Configure redirection behavior
+                options.Cookie.HttpOnly = true;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always; 
+                options.Cookie.SameSite = SameSiteMode.None; 
+                options.Cookie.Name = ".AspNetCore.Identity.Application";
+
                 options.Events = new CookieAuthenticationEvents
                 {
                     OnRedirectToLogin = context =>
                     {
-                        context.Response.StatusCode = StatusCodes.Status401Unauthorized; // Return 401 instead of redirect
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                         return Task.CompletedTask;
                     },
                     OnRedirectToAccessDenied = context =>
                     {
-                        context.Response.StatusCode = StatusCodes.Status403Forbidden; // Return 403 instead of redirect
+                        context.Response.StatusCode = StatusCodes.Status403Forbidden;
                         return Task.CompletedTask;
                     }
                 };
@@ -109,20 +113,32 @@ public static class BuilderExtension
             .AddEntityFrameworkStores<AppDbContext>()
             .AddApiEndpoints();
     }
+    
     public static void AddCrossOrigin(this WebApplicationBuilder builder)
     {
         builder.Services.AddCors(options => options.AddPolicy(Configuration.CorsPolicyName,
             policy =>
-                policy.WithOrigins(
-                        Configuration.BackendUrl,  
-                        Configuration.FrontendUrl   
-                    )
+                policy.WithOrigins("https://ambitious-plant-040152503.4.azurestaticapps.net")
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials()  
         ));
       
     }
+    // public static void AddCrossOrigin(this WebApplicationBuilder builder)
+    // {
+    //     builder.Services.AddCors(options => options.AddPolicy(Configuration.CorsPolicyName,
+    //         policy =>
+    //             policy.WithOrigins(
+    //                     Configuration.BackendUrl,  
+    //                     Configuration.FrontendUrl   
+    //                 )
+    //                 .AllowAnyHeader()
+    //                 .AllowAnyMethod()
+    //                 .AllowCredentials()  
+    //     ));
+    //   
+    // }
     
     
     public static void AddSerilog(this WebApplicationBuilder builder)
