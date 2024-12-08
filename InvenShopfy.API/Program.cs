@@ -14,6 +14,13 @@ builder.AddServices();
 builder.CloudinaryConfiguration();
 builder.AddSerilog();
 
+var frontendUrl = builder.Configuration["FrontendUrl"];
+var backendUrl = builder.Configuration["BackendUrl"];
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+Console.WriteLine($"FrontendUrl: {frontendUrl}");
+Console.WriteLine($"BackendUrl: {backendUrl}");
+Console.WriteLine($"ConnectionString: {connectionString}");
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())

@@ -33,6 +33,8 @@ jobs:
 
       - name: Build with dotnet
         env:
+          echo "FrontendUrl: $FrontendUrl"
+          echo "BackendUrl: $BackendUrl"
           FrontendUrl: ${{ secrets.FRONTENDURL }}
           BackendUrl: ${{ secrets.BACKENDURL }}
         run: dotnet build --configuration Release
