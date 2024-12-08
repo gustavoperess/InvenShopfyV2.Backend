@@ -27,6 +27,7 @@ using InvenShopfy.Core.Handlers.Tradings.Returns.SalesReturn;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
 using InvenShopfy.Core.Handlers.Transfer;
 using InvenShopfy.Core.Handlers.Warehouse;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Serilog.Events;
 
@@ -64,43 +65,39 @@ public static class BuilderExtension
         builder.Services.AddSwaggerGen(x => { x.CustomSchemaIds(n => n.FullName); });
     }
 
-    public static void AddSecurity(this WebApplicationBuilder builder)
-    {
-        builder.Services
-            .AddAuthentication(IdentityConstants.ApplicationScheme)
-            .AddIdentityCookies();
-    
-        builder.Services.AddAuthorization();
-        
-    }
     // public static void AddSecurity(this WebApplicationBuilder builder)
     // {
     //     builder.Services
     //         .AddAuthentication(IdentityConstants.ApplicationScheme)
-    //         .AddCookie(options =>
-    //         {
-    //             // Update the LoginPath and prevent redirection for unauthorized requests
-    //             options.LoginPath = "/login-custom"; // Your custom login endpoint
-    //             options.AccessDeniedPath = "/access-denied"; // Optional access denied endpoint
-    //
-    //             options.Events.OnRedirectToLogin = context =>
-    //             {
-    //                 // Return 401 Unauthorized instead of redirecting to the login page
-    //                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-    //                 return Task.CompletedTask;
-    //             };
-    //         
-    //             options.Events.OnRedirectToAccessDenied = context =>
-    //             {
-    //                 // Return 403 Forbidden instead of redirecting to an access denied page
-    //                 context.Response.StatusCode = StatusCodes.Status403Forbidden;
-    //                 return Task.CompletedTask;
-    //             };
-    //         });
+    //         .AddIdentityCookies();
     //
     //     builder.Services.AddAuthorization();
+    //     
     // }
+    
+    public static void AddSecurity(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
+            .AddCookie(IdentityConstants.ApplicationScheme, options =>
+            {
+                // Configure redirection behavior
+                options.Events = new CookieAuthenticationEvents
+                {
+                    OnRedirectToLogin = context =>
+                    {
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized; // Return 401 instead of redirect
+                        return Task.CompletedTask;
+                    },
+                    OnRedirectToAccessDenied = context =>
+                    {
+                        context.Response.StatusCode = StatusCodes.Status403Forbidden; // Return 403 instead of redirect
+                        return Task.CompletedTask;
+                    }
+                };
+            });
 
+        builder.Services.AddAuthorization();
+    }
 
 
     public static void AddDataContexts(this WebApplicationBuilder builder)
@@ -112,32 +109,21 @@ public static class BuilderExtension
             .AddEntityFrameworkStores<AppDbContext>()
             .AddApiEndpoints();
     }
-    // public static void AddCrossOrigin(this WebApplicationBuilder builder)
-    // {
-    //     builder.Services.AddCors(options => options.AddPolicy(Configuration.CorsPolicyName,
-    //         policy =>
-    //             policy.WithOrigins(
-    //                     Configuration.BackendUrl,  
-    //                     Configuration.FrontendUrl   
-    //                 )
-    //                 .AllowAnyHeader()
-    //                 .AllowAnyMethod()
-    //                 .AllowCredentials()  
-    //     ));
-    //   
-    // }
-
     public static void AddCrossOrigin(this WebApplicationBuilder builder)
     {
-        builder.Services.AddCors(options =>
-            options.AddPolicy(Configuration.CorsPolicyName, policy =>
-            {
-                policy.SetIsOriginAllowed(_ => true) // Allow all origins for testing
+        builder.Services.AddCors(options => options.AddPolicy(Configuration.CorsPolicyName,
+            policy =>
+                policy.WithOrigins(
+                        Configuration.BackendUrl,  
+                        Configuration.FrontendUrl   
+                    )
                     .AllowAnyHeader()
                     .AllowAnyMethod()
-                    .AllowCredentials(); // Note: This is insecure, only use for local testing!
-            }));
+                    .AllowCredentials()  
+        ));
+      
     }
+    
     
     public static void AddSerilog(this WebApplicationBuilder builder)
     {
