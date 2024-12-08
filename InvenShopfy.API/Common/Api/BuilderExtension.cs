@@ -84,6 +84,7 @@ public static class BuilderExtension
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always; 
                 options.Cookie.SameSite = SameSiteMode.None; 
                 options.Cookie.Name = ".AspNetCore.Identity.Application";
+                options.Cookie.Domain = "invenshopfy-backend-gqfwethzeggegqdv.westeurope-01.azurewebsites.net";
     
                 options.Events = new CookieAuthenticationEvents
                 {
