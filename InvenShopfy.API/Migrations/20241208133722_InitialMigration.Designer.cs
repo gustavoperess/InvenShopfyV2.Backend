@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241129131433_addingRolePermissionMapping")]
-    partial class addingRolePermissionMapping
+    [Migration("20241208133722_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -73,9 +73,6 @@ namespace InvenShopfy.API.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("text");
-
-                    b.Property<long?>("CustomIdentityRoleId")
-                        .HasColumnType("bigint");
 
                     b.Property<DateTime?>("DateOfJoin")
                         .HasColumnType("timestamp with time zone");
@@ -142,8 +139,6 @@ namespace InvenShopfy.API.Migrations
                         .HasColumnType("character varying(180)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomIdentityRoleId");
 
                     b.HasIndex("NormalizedEmail")
                         .IsUnique();
@@ -1348,7 +1343,7 @@ namespace InvenShopfy.API.Migrations
                     b.Property<long>("RoleId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("UserId");
+                    b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
@@ -1374,13 +1369,6 @@ namespace InvenShopfy.API.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("IdentityUserToken", (string)null);
-                });
-
-            modelBuilder.Entity("InvenShopfy.API.Models.CustomUserRequest", b =>
-                {
-                    b.HasOne("InvenShopfy.API.Models.CustomIdentityRole", null)
-                        .WithMany("Users")
-                        .HasForeignKey("CustomIdentityRoleId");
                 });
 
             modelBuilder.Entity("InvenShopfy.API.Models.RolePermission", b =>
@@ -1631,8 +1619,8 @@ namespace InvenShopfy.API.Migrations
                         .IsRequired();
 
                     b.HasOne("InvenShopfy.API.Models.CustomUserRequest", null)
-                        .WithOne()
-                        .HasForeignKey("Microsoft.AspNetCore.Identity.IdentityUserRole<long>", "UserId")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1644,11 +1632,6 @@ namespace InvenShopfy.API.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("InvenShopfy.API.Models.CustomIdentityRole", b =>
-                {
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("InvenShopfy.Core.Models.Tradings.Purchase.AddPurchase", b =>
