@@ -64,30 +64,29 @@ public static class BuilderExtension
         builder.Services.AddSwaggerGen(x => { x.CustomSchemaIds(n => n.FullName); });
     }
 
-    // public static void AddSecurity(this WebApplicationBuilder builder)
-    // {
-    //     builder.Services
-    //         .AddAuthentication(IdentityConstants.ApplicationScheme)
-    //         .AddIdentityCookies();
-    //
-    //     builder.Services.AddAuthorization();
-    //     
-    // }
     public static void AddSecurity(this WebApplicationBuilder builder)
     {
         builder.Services
             .AddAuthentication(IdentityConstants.ApplicationScheme)
-            .AddCookie(options =>
-            {
-                options.LoginPath = "/v2/identity/login"; // Correct login endpoint
-                options.LogoutPath = "/v2/identity/logout"; // Correct logout endpoint
-                options.Cookie.SameSite = SameSiteMode.None;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                options.Cookie.Expiration = TimeSpan.FromDays(1);  
-            });
-
+            .AddIdentityCookies();
+    
         builder.Services.AddAuthorization();
+        
     }
+    // public static void AddSecurity(this WebApplicationBuilder builder)
+    // {
+    //     builder.Services
+    //         .AddAuthentication(IdentityConstants.ApplicationScheme)
+    //         .AddCookie(options =>
+    //         {
+    //             options.Cookie.SameSite = SameSiteMode.None;
+    //             options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    //             options.Cookie.Expiration = TimeSpan.FromDays(1);  
+    //             options.SlidingExpiration = true; 
+    //         });
+    //
+    //     builder.Services.AddAuthorization();
+    // }
 
 
     public static void AddDataContexts(this WebApplicationBuilder builder)
