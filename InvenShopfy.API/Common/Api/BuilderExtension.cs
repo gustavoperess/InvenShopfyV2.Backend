@@ -64,14 +64,29 @@ public static class BuilderExtension
         builder.Services.AddSwaggerGen(x => { x.CustomSchemaIds(n => n.FullName); });
     }
 
+    // public static void AddSecurity(this WebApplicationBuilder builder)
+    // {
+    //     builder.Services
+    //         .AddAuthentication(IdentityConstants.ApplicationScheme)
+    //         .AddIdentityCookies();
+    //
+    //     builder.Services.AddAuthorization();
+    //     
+    // }
     public static void AddSecurity(this WebApplicationBuilder builder)
     {
         builder.Services
             .AddAuthentication(IdentityConstants.ApplicationScheme)
-            .AddIdentityCookies();
+            .AddCookie(options =>
+            {
+                // Ensure cookies are set to SameSite=None to allow cross-origin authentication
+                options.Cookie.SameSite = SameSiteMode.None;
+            
+                // Ensure cookies are sent securely over HTTPS
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            });
 
         builder.Services.AddAuthorization();
-        
     }
 
     public static void AddDataContexts(this WebApplicationBuilder builder)
