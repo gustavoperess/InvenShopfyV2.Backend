@@ -20,6 +20,12 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.x'
+      
+      - name: Install EF Tools
+        run: dotnet tool install --global dotnet-ef
+      
+      - name: Update database
+        run: dotnet ef database update
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
