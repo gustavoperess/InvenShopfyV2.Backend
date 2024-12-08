@@ -79,15 +79,15 @@ public static class BuilderExtension
             .AddAuthentication(IdentityConstants.ApplicationScheme)
             .AddCookie(options =>
             {
-                // Ensure cookies are set to SameSite=None to allow cross-origin authentication
+           
                 options.Cookie.SameSite = SameSiteMode.None;
-            
-                // Ensure cookies are sent securely over HTTPS
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.Expiration = TimeSpan.FromDays(1);  
             });
 
         builder.Services.AddAuthorization();
     }
+
 
     public static void AddDataContexts(this WebApplicationBuilder builder)
     {
@@ -103,10 +103,13 @@ public static class BuilderExtension
     {
         builder.Services.AddCors(options => options.AddPolicy(Configuration.CorsPolicyName,
             policy =>
-                policy.WithOrigins([
-                    Configuration.BackendUrl,
-                    Configuration.FrontendUrl
-                ]).AllowAnyHeader().AllowAnyMethod().AllowCredentials()
+                policy.WithOrigins(
+                        Configuration.BackendUrl,  
+                        Configuration.FrontendUrl   
+                    )
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials()  // Allow cookies to be sent with requests
         ));
     }
     
