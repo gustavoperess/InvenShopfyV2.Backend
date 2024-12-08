@@ -9,7 +9,7 @@ namespace InvenShopfy.API.EndPoints.Identity.User;
 public class GetCurrentUserIdentityEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("get-current-user", Handle).RequireAuthorization();
+        => app.MapGet("get-current-user", Handle);
     
     private static async Task<IResult> Handle(
         ClaimsPrincipal user,
