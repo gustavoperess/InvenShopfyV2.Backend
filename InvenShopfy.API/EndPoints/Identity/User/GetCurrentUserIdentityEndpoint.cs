@@ -17,15 +17,15 @@ public class GetCurrentUserIdentityEndpoint : IEndPoint
     {
         try
         {
-            if (user.Identity == null)
-            {
-                return Results.Unauthorized();
-            }
-            
-            if (!user.Identity.IsAuthenticated || string.IsNullOrEmpty(user.Identity.Name))
-            {
-                return Results.Unauthorized();
-            }
+            // if (user.Identity == null)
+            // {
+            //     return Results.Unauthorized();
+            // }
+            //
+            // if (!user.Identity.IsAuthenticated || string.IsNullOrEmpty(user.Identity.Name))
+            // {
+            //     return Results.Unauthorized();
+            // }
             var currentUser = await context.Users
                 .AsNoTracking()
                 .Where(u => u.UserName == user.Identity.Name)

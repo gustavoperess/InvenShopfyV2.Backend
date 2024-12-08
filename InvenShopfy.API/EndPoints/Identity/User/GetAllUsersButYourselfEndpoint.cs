@@ -17,15 +17,15 @@ public class GetAllUsersButYourselfEndpoint : IEndPoint
     {
         try
         {
-            if (user.Identity == null)
-            {
-                return Results.Unauthorized();
-            }
-
-            if (!user.Identity.IsAuthenticated || string.IsNullOrEmpty(user.Identity.Name))
-            {
-                return Results.Unauthorized();
-            }
+            // if (user.Identity == null)
+            // {
+            //     return Results.Unauthorized();
+            // }
+            //
+            // if (!user.Identity.IsAuthenticated || string.IsNullOrEmpty(user.Identity.Name))
+            // {
+            //     return Results.Unauthorized();
+            // }
 
             var query = context.Users
                 .AsNoTracking().
