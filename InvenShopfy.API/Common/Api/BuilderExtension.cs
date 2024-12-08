@@ -112,27 +112,31 @@ public static class BuilderExtension
             .AddEntityFrameworkStores<AppDbContext>()
             .AddApiEndpoints();
     }
+    // public static void AddCrossOrigin(this WebApplicationBuilder builder)
+    // {
+    //     builder.Services.AddCors(options => options.AddPolicy(Configuration.CorsPolicyName,
+    //         policy =>
+    //             policy.WithOrigins(
+    //                     Configuration.BackendUrl,  
+    //                     Configuration.FrontendUrl   
+    //                 )
+    //                 .AllowAnyHeader()
+    //                 .AllowAnyMethod()
+    //                 .AllowCredentials()  
+    //     ));
+    //   
+    // }
 
     public static void AddCrossOrigin(this WebApplicationBuilder builder)
     {
-        // builder.Services.AddCors(options => options.AddPolicy(Configuration.CorsPolicyName,
-        //     policy =>
-        //         policy.WithOrigins(
-        //                 Configuration.BackendUrl,  
-        //                 Configuration.FrontendUrl   
-        //             )
-        //             .AllowAnyHeader()
-        //             .AllowAnyMethod()
-        //             .AllowCredentials()  // Allow cookies to be sent with requests
-        // ));
         builder.Services.AddCors(options =>
             options.AddPolicy(Configuration.CorsPolicyName, policy =>
-                policy.AllowAnyOrigin()
+            {
+                policy.SetIsOriginAllowed(_ => true) // Allow all origins for testing
                     .AllowAnyHeader()
                     .AllowAnyMethod()
-                    .AllowCredentials()
-            )
-        );
+                    .AllowCredentials(); // Note: This is insecure, only use for local testing!
+            }));
     }
     
     public static void AddSerilog(this WebApplicationBuilder builder)
