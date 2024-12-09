@@ -86,8 +86,9 @@ public static class BuilderExtension
                 options.Cookie.SameSite = SameSiteMode.None; 
                 options.Cookie.Name = ".AspNetCore.Identity.Application";
                 options.Cookie.Domain = null;
-                // options.Cookie.Domain = "invenshopfy-backend-gqfwethzeggegqdv.westeurope-01.azurewebsites.net";
-    
+                options.ExpireTimeSpan = TimeSpan.FromHours(1); 
+                options.SlidingExpiration = true; 
+                
                 options.Events = new CookieAuthenticationEvents
                 {
                     OnRedirectToLogin = context =>
@@ -168,26 +169,6 @@ public static class BuilderExtension
 
     public static void AddServices(this WebApplicationBuilder builder)
     {
-        // builder.Services.AddTransient<IProductHandler, ProductHandler>();
-        // builder.Services.AddTransient<IBrandHandler, BrandHandler>();
-        // builder.Services.AddTransient<IUnitHandler, UnitHandler>();
-        // builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
-        // builder.Services.AddTransient<IExpenseCategoryHandler, ExpenseCategoryHandler>();
-        // builder.Services.AddTransient<IExpenseHandler, ExpenseHandler>();
-        // builder.Services.AddTransient<IBillerHandler, BillerHandler>();
-        // builder.Services.AddTransient<ICustomerHandler, CustomerHandler>();
-        // builder.Services.AddTransient<ISupplierHandler, SupplierHandler>();
-        // builder.Services.AddTransient<IWarehouseHandler, WarehouseHandler>();
-        // builder.Services.AddTransient<IPurchaseHandler, PurchaseHandler>();
-        // builder.Services.AddTransient<ISalesHandler, SaleHandler>();
-        // builder.Services.AddTransient<ISalesReturnHandler, SalesReturnHandlers>(); 
-        // builder.Services.AddTransient<IPurchaseReturnHandler, PurchaseReturnHandlers>(); 
-        // builder.Services.AddTransient<ITransferHandler, TransferHandler>();
-        // builder.Services.AddTransient<INotificationHandler, NotificationHandlers>();
-        // builder.Services.AddTransient<IMessageHandler, MessageHandler>(); // new
-        // builder.Services.AddTransient<IReportHandler, ReportHandler>();
-        // TESTING WITH SCOPED 
-
         builder.Services.AddScoped<IProductHandler, ProductHandler>();
         builder.Services.AddScoped<IBrandHandler, BrandHandler>();
         builder.Services.AddScoped<IUnitHandler, UnitHandler>();
@@ -208,8 +189,6 @@ public static class BuilderExtension
         builder.Services.AddScoped<ISalesPaymentHandler, SalesPaymentHandler>();
         builder.Services.AddScoped<IMessageHandler, MessageHandler>();
         builder.Services.AddScoped<IReportHandler, ReportHandler>();
-
-
         builder.Services.AddTransient<CloudinaryService>();
     }
 }
