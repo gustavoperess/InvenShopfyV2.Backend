@@ -15,7 +15,7 @@ public static class AppExtension
     public static void UseSecurity(this WebApplication app)
     {
         app.UseAuthentication();
-        app.UseMiddleware<UserActivityTrackingMiddleware>();
+        // app.UseMiddleware<UserActivityTrackingMiddleware>();
         app.UseAuthorization();
     }
 }
