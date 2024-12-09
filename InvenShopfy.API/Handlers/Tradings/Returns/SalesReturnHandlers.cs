@@ -92,14 +92,15 @@ public class SalesReturnHandlers : ISalesReturnHandler
                 .Select(g => new SalesReturnByReturnNumber
                 {
                     Id = g.sale.Id,
-                    // ReturnTotalAmount = g.sale.TotalAmount,
-                    // WarehouseName = g.sale.Warehouse.WarehouseName,
-                    // SaleStatus = g.sale.SaleStatus,
-                    // CustomerName = g.sale.Customer.CustomerName,
-                    // BillerName = g.biller.Name.Substring(0, g.biller.Name.IndexOf(" "))
+                    ReturnTotalAmount = g.sale.TotalAmount,
+                    WarehouseName = g.sale.Warehouse.WarehouseName,
+                    SaleStatus = g.sale.SaleStatus,
+                    CustomerName = g.sale.Customer.CustomerName,
+                    BillerName = g.biller.Name,
+                    // BillerName = g.biller.Name.Substring(0, g.biller.Name.IndexOf(" ")),
                     // + g.biller.Name.Substring(g.biller.Name.LastIndexOf(" ")),
-                    // ReferenceNumber = g.sale.ReferenceNumber,
-                }).OrderBy(x => x.ReferenceNumber)
+                    ReferenceNumber = g.sale.ReferenceNumber,
+                }).OrderBy(x => x.Id)
                 .ToListAsync();
 
             if (returns.Count == 0)
