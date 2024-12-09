@@ -18,7 +18,6 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
         public long WarehouseId { get; set; }
         public Warehouse.Warehouse Warehouse { get; init; } = null!;
         public long BillerId { get; set; }
-        
         public decimal ShippingCost { get; set; } 
         public string SaleStatus { get; set; }  = EPaymentStatus.Unpaid.ToString(); 
         public string SaleNote { get; set; } = string.Empty;
