@@ -83,19 +83,22 @@ public class SalesReturnHandlers : ISalesReturnHandler
         {
             var returns = await _context
                 .Sales
-                .Include(x => x.BillerId)
                 .AsNoTracking()
-                .Where(x => EF.Functions.ILike(x.ReferenceNumber, $"%{request.ReferenceNumber}%"))
+                .Join(_context.Users,
+                    ul => ul.BillerId,
+                    ur => ur.Id,
+                    (sale, biller) => new {sale, biller})
+                .Where(x => EF.Functions.ILike(x.sale.ReferenceNumber, $"%{request.ReferenceNumber}%"))
                 .Select(g => new SalesReturnByReturnNumber
                 {
-                    Id = g.Id,
-                    ReturnTotalAmount = g.TotalAmount,
-                    WarehouseName = g.Warehouse.WarehouseName,
-                    SaleStatus = g.SaleStatus,
-                    CustomerName = g.Customer.CustomerName,
-                    // BillerName = g.Name.Substring(0, g.biller.Name.IndexOf(" "))
-                    // + g.biller.Name.Substring(g.biller.Name.LastIndexOf(" ")),
-                    // ReferenceNumber = g.sale.ReferenceNumber,
+                    Id = g.sale.Id,
+                    ReturnTotalAmount = g.sale.TotalAmount,
+                    WarehouseName = g.sale.Warehouse.WarehouseName,
+                    SaleStatus = g.sale.SaleStatus,
+                    CustomerName = g.sale.Customer.CustomerName,
+                    BillerName = g.biller.Name.Substring(0, g.biller.Name.IndexOf(" "))
+                    + g.biller.Name.Substring(g.biller.Name.LastIndexOf(" ")),
+                    ReferenceNumber = g.sale.ReferenceNumber,
                 }).OrderBy(x => x.CustomerName)
                 .ToListAsync();
 
