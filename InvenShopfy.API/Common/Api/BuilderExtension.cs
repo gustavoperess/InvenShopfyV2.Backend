@@ -84,7 +84,8 @@ public static class BuilderExtension
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always; 
                 options.Cookie.SameSite = SameSiteMode.None; 
                 options.Cookie.Name = ".AspNetCore.Identity.Application";
-                options.Cookie.Domain = "invenshopfy-backend-gqfwethzeggegqdv.westeurope-01.azurewebsites.net";
+                options.Cookie.Domain = null;
+                // options.Cookie.Domain = "invenshopfy-backend-gqfwethzeggegqdv.westeurope-01.azurewebsites.net";
     
                 options.Events = new CookieAuthenticationEvents
                 {
@@ -103,17 +104,7 @@ public static class BuilderExtension
     
         builder.Services.AddAuthorization();
     }
-
-
-    public static void AddDataContexts(this WebApplicationBuilder builder)
-    {
-        builder.Services.AddDbContext<AppDbContext>(
-            x => x.UseNpgsql(Configuration.ConnectionString));
-
-        builder.Services.AddIdentityCore<CustomUserRequest>().AddRoles<CustomIdentityRole>()
-            .AddEntityFrameworkStores<AppDbContext>()
-            .AddApiEndpoints();
-    }
+    
     
     public static void AddCrossOrigin(this WebApplicationBuilder builder)
     {
@@ -128,6 +119,17 @@ public static class BuilderExtension
                     .AllowCredentials()  
         ));
       
+    }
+    
+    
+    public static void AddDataContexts(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddDbContext<AppDbContext>(
+            x => x.UseNpgsql(Configuration.ConnectionString));
+
+        builder.Services.AddIdentityCore<CustomUserRequest>().AddRoles<CustomIdentityRole>()
+            .AddEntityFrameworkStores<AppDbContext>()
+            .AddApiEndpoints();
     }
     
     
