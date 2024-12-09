@@ -29,9 +29,9 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
             {
                 foreach (var subcategory in request.SubCategory)
                 {
-                    if (!existingCategory.SubCategory.Contains(subcategory))
+                    if (!existingCategory.SubCategory.Contains(textInfo.ToTitleCase(subcategory)))
                     {
-                        existingCategory.SubCategory.Add(subcategory);
+                        existingCategory.SubCategory.Add(textInfo.ToTitleCase(subcategory));
                     }
                 }
 
