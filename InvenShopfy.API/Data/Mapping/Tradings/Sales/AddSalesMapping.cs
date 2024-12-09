@@ -27,10 +27,6 @@ public class AddSalesMapping : IEntityTypeConfiguration<Sale>
             .IsRequired(true)
             .HasColumnType("INT");
         
-        builder.Property(x => x.BillerId)
-            .IsRequired(true)
-            .HasColumnType("INT");
-        
         builder.Property(x => x.TaxAmount)
             .IsRequired(true)
             .HasColumnType("NUMERIC(18,2)");
