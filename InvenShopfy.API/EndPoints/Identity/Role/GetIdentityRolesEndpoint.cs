@@ -17,13 +17,13 @@ public class GetIdentityRolesEndpoint : IEndPoint
         ClaimsPrincipal user,
         [FromServices] RoleManager<CustomIdentityRole> roleManager)
     {
-        var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:Roles:View");
-        var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
-
-        if (!hasPermission)
-        {
-            return Results.Json(new { data = new List<object>(), message = Configuration.NotAuthorized }, statusCode: 201);
-        }
+        // var permissionClaim = user.Claims.FirstOrDefault(c => c.Type == "Permission:Roles:View");
+        // var hasPermission = permissionClaim != null && permissionClaim.Value == "True";
+        //
+        // if (!hasPermission)
+        // {
+        //     return Results.Json(new { data = new List<object>(), message = Configuration.NotAuthorized }, statusCode: 201);
+        // }
 
         var roles = await roleManager.Roles
             .AsNoTracking()
