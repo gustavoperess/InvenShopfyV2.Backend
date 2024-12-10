@@ -48,9 +48,7 @@ public class GetIdentityUsersEndpoint : IEndPoint
                     isOnline = ur.LastActivityTime >= onlineThreshold
                 })
                 .ToListAsync();
-
             
-        
             return Results.Json(new { data = userRoles, message = "Users retrived sucessfully"}, statusCode: 201);
 
         }
