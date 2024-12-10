@@ -15,13 +15,14 @@ namespace InvenShopfy.API.Handlers.Warehouses;
 public class WarehouseHandler : IWarehouseHandler
 {
     private readonly AppDbContext _context;
-    private readonly INotificationHandler _notificationHandler; 
+    private readonly INotificationHandler _notificationHandler;
 
     public WarehouseHandler(AppDbContext context, INotificationHandler notificationHandler)
     {
         _context = context;
         _notificationHandler = notificationHandler;
     }
+
     public async Task<Response<Warehouse?>> CreateWarehouseAsync(CreateWarehouseRequest request)
     {
         try
@@ -30,24 +31,28 @@ public class WarehouseHandler : IWarehouseHandler
             {
                 return new Response<Warehouse?>(null, 409, $"{Configuration.NotAuthorized} 'create'");
             }
-            
+
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             var existingWarehouse = await _context.Warehouses
                 .FirstOrDefaultAsync(
-                    x => x.WarehouseName.ToLower() == request.WarehouseName.ToLower() || x.WarehouseEmail.ToLower() == request.WarehouseEmail.ToLower());
-            
+                    x => x.WarehouseName.ToLower() == request.WarehouseName.ToLower() ||
+                         x.WarehouseEmail.ToLower() == request.WarehouseEmail.ToLower());
+
             if (existingWarehouse != null)
             {
                 if (existingWarehouse.WarehouseName.ToLower() == request.WarehouseName.ToLower())
                 {
-                    return new Response<Warehouse?>(null, 409, $"A Warehouse with the name'{request.WarehouseName}' already exists.");
+                    return new Response<Warehouse?>(null, 409,
+                        $"A Warehouse with the name'{request.WarehouseName}' already exists.");
                 }
-            
+
                 if (existingWarehouse.WarehouseEmail.ToLower() == request.WarehouseEmail.ToLower())
                 {
-                    return new Response<Warehouse?>(null, 409, $"A Warehouse with email '{request.WarehouseEmail}' already exists.");
+                    return new Response<Warehouse?>(null, 409,
+                        $"A Warehouse with email '{request.WarehouseEmail}' already exists.");
                 }
             }
+
             var warehouse = new Warehouse
             {
                 UserId = request.UserId,
@@ -58,18 +63,17 @@ public class WarehouseHandler : IWarehouseHandler
                 WarehouseCountry = textInfo.ToTitleCase(request.WarehouseCountry),
                 WarehouseZipCode = request.WarehouseZipCode,
                 WarehouseOpeningNotes = request.WarehouseOpeningNotes
-              
             };
-            
+
             await _context.Warehouses.AddAsync(warehouse);
             await _context.SaveChangesAsync();
-            
+
             var notificationRequest = new CreateNotificationsRequest
             {
-                NotificationTitle =  $"New Warehouse : {request.WarehouseName} created",
+                NotificationTitle = $"New Warehouse : {request.WarehouseName} created",
                 Urgency = true,
-                From = "System-Warehouse", 
-                Image = null, 
+                From = "System-Warehouse",
+                Image = null,
                 Href = "/warehouse/warehouselist",
             };
             await _notificationHandler.CreateNotificationAsync(notificationRequest);
@@ -118,7 +122,7 @@ public class WarehouseHandler : IWarehouseHandler
             {
                 return new Response<Warehouse?>(null, 400, $"{Configuration.NotAuthorized} 'Delete'");
             }
-            
+
             var warehouse =
                 await _context.Warehouses.FirstOrDefaultAsync(x => x.Id == request.Id);
 
@@ -157,13 +161,13 @@ public class WarehouseHandler : IWarehouseHandler
             return new Response<Warehouse?>(null, 500, "It was not possible to find this warehouse");
         }
     }
-    
-    
-    public async Task<Response<WarehouseProductDto?>> GetTotalQuantityByWarehouseAndProductIdAsync(GetTotalQuantityByWarehouseAndProductIdRequest request)
+
+
+    public async Task<Response<WarehouseProductDto?>> GetTotalQuantityByWarehouseAndProductIdAsync(
+        GetTotalQuantityByWarehouseAndProductIdRequest request)
     {
         try
         {
-            
             var response = await _context.WarehousesProducts
                 .AsNoTracking()
                 .Where(x =>
@@ -176,23 +180,23 @@ public class WarehouseHandler : IWarehouseHandler
                     Quantity = x.Quantity
                 })
                 .FirstOrDefaultAsync();
-            
+
             if (response?.Quantity <= 0 || response?.Quantity == null)
             {
                 return new Response<WarehouseProductDto?>(new WarehouseProductDto
                 {
                     ProductId = request.ProductId,
                     WarehouseId = request.WarehouseId,
-                    Quantity = 0 
+                    Quantity = 0
                 }, 200, "Warehouse does not contain this item");
             }
-            
+
             if (response?.WarehouseId is null)
             {
                 return new Response<WarehouseProductDto?>(null, 404, "Warehouse Id does not exist");
             }
-           
-          
+
+
             return new Response<WarehouseProductDto?>(response);
         }
         catch
@@ -200,7 +204,7 @@ public class WarehouseHandler : IWarehouseHandler
             return new Response<WarehouseProductDto?>(null, 500, "It was not possible to find the total quantity");
         }
     }
-    
+
     public async Task<PagedResponse<List<Warehouse>?>> GetWarehouseByPeriodAsync(GetAllWarehousesRequest request)
     {
         try
@@ -209,36 +213,36 @@ public class WarehouseHandler : IWarehouseHandler
             {
                 return new PagedResponse<List<Warehouse>?>([], 201, $"{Configuration.NotAuthorized}");
             }
-            
+
             var query = _context
                 .Warehouses
                 .AsNoTracking()
-                .GroupJoin(_context.WarehousesProducts,
+                .GroupJoin(
+                    _context.WarehousesProducts,
                     warehouse => warehouse.Id,
                     warehouseProduct => warehouseProduct.WarehouseId,
-                    (warehouse, warehouseProduct) => new { warehouse, warehouseProduct })
-                .Select(g => new
+                    (warehouse, warehouseProducts) =>
+                        new { Warehouse = warehouse, WarehouseProducts = warehouseProducts })
+                .Select(grouped => new
                 {
-                    g.warehouse.Id,
-                    g.warehouse.WarehousePhoneNumber,
-                    g.warehouse.WarehouseEmail,
-                    g.warehouse.WarehouseCity,
-                    g.warehouse.WarehouseName,
-                    g.warehouse.WarehouseCountry,
-                    g.warehouse.WarehouseOpeningNotes,
-                    g.warehouse.WarehouseZipCode,
-                    TotalQuantityItems = g.warehouseProduct.Sum(p => p.Quantity)
+                    grouped.Warehouse.Id,
+                    grouped.Warehouse.WarehousePhoneNumber,
+                    grouped.Warehouse.WarehouseEmail,
+                    grouped.Warehouse.WarehouseCity,
+                    grouped.Warehouse.WarehouseName,
+                    grouped.Warehouse.WarehouseCountry,
+                    grouped.Warehouse.WarehouseOpeningNotes,
+                    grouped.Warehouse.WarehouseZipCode,
+                    TotalQuantityItems = grouped.WarehouseProducts.Sum(p => p.Quantity) 
                 })
-                .OrderBy(x => x.Id);
+                .OrderBy(x => x.TotalQuantityItems);
 
-         
             var totalCount = await query.CountAsync();
             var warehouses = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToListAsync();
 
-          
             var result = warehouses.Select(w => new Warehouse
             {
                 Id = w.Id,
@@ -249,7 +253,7 @@ public class WarehouseHandler : IWarehouseHandler
                 WarehouseOpeningNotes = w.WarehouseOpeningNotes,
                 WarehousePhoneNumber = w.WarehousePhoneNumber,
                 WarehouseName = w.WarehouseName,
-                QuantityOfItems = w.TotalQuantityItems, 
+                QuantityOfItems = w.TotalQuantityItems
             }).ToList();
 
             return new PagedResponse<List<Warehouse>?>(
@@ -263,6 +267,7 @@ public class WarehouseHandler : IWarehouseHandler
             return new PagedResponse<List<Warehouse>?>(null, 500, $"An error occurred: {ex.Message}");
         }
     }
+
 
     public async Task<Response<int?>> GetWarehouseQuantityAsync()
     {
@@ -282,14 +287,14 @@ public class WarehouseHandler : IWarehouseHandler
         try
         {
             var stockQuantity = await _context.WarehousesProducts.AsNoTracking().SumAsync(x => x.Quantity);
-            return new Response<int?>(stockQuantity, 200, "Total stock quantity retrieved successfully"); 
+            return new Response<int?>(stockQuantity, 200, "Total stock quantity retrieved successfully");
         }
         catch
         {
-            return new Response<int?>(0, 400, "It was not possible to retrive the total stock quantity"); 
+            return new Response<int?>(0, 400, "It was not possible to retrive the total stock quantity");
         }
     }
-    
+
     public async Task<PagedResponse<List<WarehouseName>?>> GetWarehouseNameAsync(GetAllWarehousesRequest request)
     {
         try
@@ -298,27 +303,26 @@ public class WarehouseHandler : IWarehouseHandler
                 .Warehouses
                 .AsNoTracking()
                 .Select(x => new WarehouseName
-                { 
+                {
                     Id = x.Id,
                     WarehouseTitle = x.WarehouseName
-                    
                 })
                 .OrderBy(x => x.WarehouseTitle);
-            
+
             var warehouse = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToListAsync();
-            
+
             var count = await query.CountAsync();
-            
+
             return new PagedResponse<List<WarehouseName>?>(
                 warehouse,
                 count,
                 request.PageNumber,
                 request.PageSize);
         }
-        catch 
+        catch
         {
             return new PagedResponse<List<WarehouseName>?>(null, 500, "It was not possible to consult all brands");
         }
