@@ -29,7 +29,6 @@ public class GetIdentityUsersEndpoint : IEndPoint
             //     return Results.Json(new { data = new List<object>(), message = Configuration.NotAuthorized }, statusCode: 201);
             // }
             
-            
             DateTime? onlineThreshold = DateTime.UtcNow.AddMinutes(-10);
             var userRoles = await context.Users  
                 .AsNoTracking()
