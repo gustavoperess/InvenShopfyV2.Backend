@@ -253,7 +253,7 @@ public class PurchaseHandler : IPurchaseHandler
                     g.ReferenceNumber,
                     g.TotalTax,
                     g.TotalNumberOfProductsBought
-                }).OrderBy(x => x.PurchaseDate);
+                }).OrderByDescending(x => x.PurchaseDate);
 
             var purchase = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)

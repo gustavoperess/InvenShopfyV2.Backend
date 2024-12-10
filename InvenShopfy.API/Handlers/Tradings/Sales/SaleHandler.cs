@@ -172,7 +172,7 @@ public class SaleHandler : ISalesHandler
                     g.sale.TaxAmount,
                     BillerName = g.userinfo.Name,
                 })
-                .OrderBy(x => x.SaleDate);
+                .OrderByDescending(x => x.SaleDate);
 
             var sale = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)
