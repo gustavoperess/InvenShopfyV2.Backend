@@ -12,7 +12,7 @@ public interface ISalesReturnHandler
     Task<Response<SaleReturn?>> DeleteSalesReturnAsync(DeleteSalesReturnRequest request);
     Task<Response<List<SalesReturnByReturnNumber>?>> GetSalesPartialByReferenceNumberAsync(GetSalesReturnByNumberRequest request);
     Task<Response<List<SalesReturnDashboard>?>> GetSaleReturnDashboardAsync(GetAllSalesReturnsRequest request);
-    Task<Response<SaleReturn>> GetSalesReturnByIdAsync(GetSalesReturnByIdRequest request);
+    Task<Response<SaleReturnById>> GetSalesReturnByIdAsync(GetSalesReturnByIdRequest request);
     Task <Response<decimal?>> GetTotalSalesReturnAsync(GetAllSalesReturnsRequest request);
 
 }

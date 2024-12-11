@@ -41,7 +41,7 @@ public class SalesReturnHandlers : ISalesReturnHandler
                 ReturnTotalAmount = request.ReturnTotalAmount,
                 CustomerName = request.CustomerName,
                 WarehouseName = request.WarehouseName,
-                RemarkStatus = request.Remark,
+                RemarkStatus = request.RemarkStatus,
                 ReturnNote = request.ReturnNote,
                 ReferenceNumber = request.ReferenceNumber,
             };
@@ -194,7 +194,7 @@ public class SalesReturnHandlers : ISalesReturnHandler
         }
     }
     
-    public async Task<Response<SaleReturn>> GetSalesReturnByIdAsync(GetSalesReturnByIdRequest request)
+    public async Task<Response<SaleReturnById>> GetSalesReturnByIdAsync(GetSalesReturnByIdRequest request)
     {
         try
         {
@@ -203,10 +203,10 @@ public class SalesReturnHandlers : ISalesReturnHandler
                 FirstOrDefaultAsync(x => x.Id == request.Id);
             if (returnedSale is null)
             {
-                return new Response<SaleReturn>(null, 404, "It was not possible to find this sale Return");
+                return new Response<SaleReturnById>(null, 404, "It was not possible to find this sale Return");
             
             }
-            var result = new SaleReturn
+            var result = new SaleReturnById
             {
                 Id = returnedSale.Id,
                 ReferenceNumber = returnedSale.ReferenceNumber,
@@ -218,11 +218,11 @@ public class SalesReturnHandlers : ISalesReturnHandler
                 RemarkStatus = returnedSale.RemarkStatus,
                 ReturnTotalAmount = returnedSale.ReturnTotalAmount,
             };
-            return new Response<SaleReturn>(result, 201, "Sale Returned sucessfully");
+            return new Response<SaleReturnById>(result, 201, "Sale Returned sucessfully");
         }
         catch
         {
-            return new Response<SaleReturn>(null, 500, "It was not possible to find this salereturn");
+            return new Response<SaleReturnById>(null, 500, "It was not possible to find this salereturn");
 
         }
     }
