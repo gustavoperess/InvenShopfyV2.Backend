@@ -420,6 +420,8 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                         warehouse.Id,
                         warehouse.WarehouseName,
                         StockQuantity = warehouse.QuantityOfItems,
+                        // StockQuantity = warehouse.WarehouseProducts.Sum(p => p.Quantity) ,
+                        // StockQuantity = purchases.Sum(po => (int?)po.TotalAmountBought),
                         TotalAmountBought = purchases.Sum(po => (decimal?)po.TotalAmountBought) ?? 0,
                         TotalQtyOfProductsBought = purchases.Sum(po => (decimal?)po.TotalNumberOfProductsBought) ?? 0
                     }

@@ -177,6 +177,8 @@ public class SalesReturnHandlers : ISalesReturnHandler
         }
     }
     
+    
+    
 
     public async Task<Response<decimal?>> GetTotalSalesReturnAsync(GetAllSalesReturnsRequest request)
     {
@@ -191,6 +193,40 @@ public class SalesReturnHandlers : ISalesReturnHandler
             return new Response<decimal?>(0, 500, "It was not possible to returned this saleReturn");
         }
     }
+    
+    public async Task<Response<SaleReturn>> GetSalesReturnByIdAsync(GetSalesReturnByIdRequest request)
+    {
+        try
+        {
+            var returnedSale = await _context.SaleReturns
+                .AsNoTracking().
+                FirstOrDefaultAsync(x => x.Id == request.Id);
+            if (returnedSale is null)
+            {
+                return new Response<SaleReturn>(null, 404, "It was not possible to find this sale Return");
+            
+            }
+            var result = new SaleReturn
+            {
+                Id = returnedSale.Id,
+                ReferenceNumber = returnedSale.ReferenceNumber,
+                CustomerName = returnedSale.CustomerName,
+                ReturnDate = returnedSale.ReturnDate,
+                WarehouseName = returnedSale.WarehouseName,
+                BillerName = returnedSale.BillerName,
+                ReturnNote = returnedSale.ReturnNote,
+                RemarkStatus = returnedSale.RemarkStatus,
+                ReturnTotalAmount = returnedSale.ReturnTotalAmount,
+            };
+            return new Response<SaleReturn>(result, 201, "Sale Returned sucessfully");
+        }
+        catch
+        {
+            return new Response<SaleReturn>(null, 500, "It was not possible to find this salereturn");
+
+        }
+    }
+
 
     public async Task<Response<List<SalesReturnDashboard>?>> GetSaleReturnDashboardAsync(
         GetAllSalesReturnsRequest request)

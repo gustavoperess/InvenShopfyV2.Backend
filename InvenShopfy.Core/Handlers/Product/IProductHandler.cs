@@ -12,7 +12,6 @@ public interface IProductHandler
     Task<Response<Models.Product.Product?>> GetProductByIdAsync(GetProductByIdRequest request);
     Task<PagedResponse<List<ProductByName>?>> GetProductByPartialNameAsync(GetProductByNameRequest request);
     Task<PagedResponse<List<ProductByNameForUpdatePage>?>> GetProductByPartialNameForUpdatePageAsync(GetProductByNameRequest request);
-
     Task<PagedResponse<List<ProductList>?>> GetProductByPeriodAsync(GetAllProductsRequest request);
     
     

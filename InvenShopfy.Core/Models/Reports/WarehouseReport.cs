@@ -11,7 +11,7 @@ public class WarehouseReport
     public decimal TotalQtyOfProductsSold { get; set; }
     public int TotalNumberOfSales { get; set; }
     public decimal TotalProfit { get; set; }
-    public int StockQuantity { get; set; }
+    public int? StockQuantity { get; set; }
     
 }
 
