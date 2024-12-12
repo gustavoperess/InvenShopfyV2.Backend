@@ -75,7 +75,7 @@ public static class BuilderExtension
     //     
     // }
     // const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
-
+     // testing with new key
     public static void AddSecurity(this WebApplicationBuilder builder)
     {
         builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
