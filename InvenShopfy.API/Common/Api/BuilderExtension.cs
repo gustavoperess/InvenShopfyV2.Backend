@@ -82,10 +82,10 @@ public static class BuilderExtension
             .AddCookie(IdentityConstants.ApplicationScheme, options =>
             {
                 options.Cookie.HttpOnly = true;
-                options.Cookie.SecurePolicy = builder.Environment.IsDevelopment()
-                    ? CookieSecurePolicy.None
-                    : CookieSecurePolicy.Always;
-                options.Cookie.SameSite = SameSiteMode.None; 
+                // options.Cookie.SecurePolicy = builder.Environment.IsDevelopment()
+                //     ? CookieSecurePolicy.None
+                //     : CookieSecurePolicy.Always;
+                // options.Cookie.SameSite = SameSiteMode.None; 
                 options.Cookie.Name = ".AspNetCore.Identity.Application";
                 options.Cookie.Domain = "invenshopfy.online"; 
                 options.ExpireTimeSpan = TimeSpan.FromHours(1); 
