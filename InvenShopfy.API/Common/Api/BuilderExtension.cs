@@ -87,7 +87,7 @@ public static class BuilderExtension
                     : CookieSecurePolicy.Always;
                 options.Cookie.SameSite = SameSiteMode.None; 
                 options.Cookie.Name = ".AspNetCore.Identity.Application";
-                options.Cookie.Domain = "invenshopfy.online"; 
+                options.Cookie.Domain = null;
                 options.ExpireTimeSpan = TimeSpan.FromHours(1); 
                 options.SlidingExpiration = true;
                 
