@@ -40,7 +40,7 @@ public static class BuilderExtension
     {
         Configuration.ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
         Configuration.BackendUrl = builder.Configuration.GetValue<string>("BackendUrl") ?? string.Empty;
-        Configuration.FrontendUrl = builder.Configuration.GetValue<string>("FrontendUrl") ?? string.Empty; 
+        Configuration.FrontendUrl = builder.Configuration.GetValue<string>("FrontendUrl") ?? string.Empty;
     }
 
     public static void CloudinaryConfiguration(this WebApplicationBuilder builder)
@@ -76,56 +76,109 @@ public static class BuilderExtension
     // }
     // const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
+    // public static void AddSecurity(this WebApplicationBuilder builder)
+    // {
+    //     builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
+    //         .AddCookie(IdentityConstants.ApplicationScheme, options =>
+    //         {
+    //             options.Cookie.HttpOnly = true;
+    //             options.Cookie.SecurePolicy = builder.Environment.IsDevelopment()
+    //                 ? CookieSecurePolicy.None
+    //                 : CookieSecurePolicy.Always;
+    //             options.Cookie.SameSite = SameSiteMode.None; 
+    //             options.Cookie.Name = ".AspNetCore.Identity.Application";
+    //             options.Cookie.Domain = "invenshopfy.online";
+    //             options.ExpireTimeSpan = TimeSpan.FromHours(1); 
+    //             options.SlidingExpiration = true;
+    //             
+    //             options.Events = new CookieAuthenticationEvents
+    //             {
+    //                 OnRedirectToLogin = context =>
+    //                 {
+    //                     context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+    //                     return Task.CompletedTask;
+    //                 },
+    //                 OnRedirectToAccessDenied = context =>
+    //                 {
+    //                     context.Response.StatusCode = StatusCodes.Status403Forbidden;
+    //                     return Task.CompletedTask;
+    //                 }
+    //             };
+    //         });
+    //
+    //     builder.Services.AddAuthorization();
+    // }
     public static void AddSecurity(this WebApplicationBuilder builder)
     {
         builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
             .AddCookie(IdentityConstants.ApplicationScheme, options =>
             {
+                // Cookie Configuration
                 options.Cookie.HttpOnly = true;
-                // options.Cookie.SecurePolicy = builder.Environment.IsDevelopment()
-                //     ? CookieSecurePolicy.None
-                //     : CookieSecurePolicy.Always;
-                // options.Cookie.SameSite = SameSiteMode.None; 
+                options.Cookie.SecurePolicy = builder.Environment.IsDevelopment()
+                    ? CookieSecurePolicy.None
+                    : CookieSecurePolicy.Always; // Set to 'Always' for production to use HTTPS
+                options.Cookie.SameSite = SameSiteMode.None; // For cross-origin requests
                 options.Cookie.Name = ".AspNetCore.Identity.Application";
-                options.Cookie.Domain = "invenshopfy.online"; 
-                options.ExpireTimeSpan = TimeSpan.FromHours(1); 
+                options.Cookie.Domain = "invenshopfy.online"; // Ensure this is correct for your setup
+                options.ExpireTimeSpan = TimeSpan.FromHours(1);
                 options.SlidingExpiration = true;
-                
+
+                // Cookie Authentication Events
                 options.Events = new CookieAuthenticationEvents
                 {
+                    OnSignedIn = context =>
+                    {
+                        // Log cookie details when the user signs in
+                        var userName = context.Principal?.Identity?.Name ?? "Unknown";
+                        var cookieExpiry = context.Properties?.ExpiresUtc?.ToString("o") ?? "No expiry";
+
+                        Log.Information("User signed in, cookie issued. User: {UserId}, Cookie Expiry: {CookieExpiry}",
+                            userName, cookieExpiry);
+
+                        return Task.CompletedTask;
+                    },
+                    OnValidatePrincipal = context =>
+                    {
+                        // Log cookie validation details
+                        var userName = context.Principal?.Identity?.Name ?? "Unknown";
+                        var lastAccessed = context.Properties?.IssuedUtc?.ToString("o") ?? "No issued time";
+
+                        Log.Information("Validating cookie for user: {UserId}, Last Accessed: {LastAccessed}",
+                            userName, lastAccessed);
+
+                        return Task.CompletedTask;
+                    },
                     OnRedirectToLogin = context =>
                     {
+                        // Log when a user is redirected to login
+                        Log.Warning("Redirecting to login. Request Path: {RequestPath}", context.Request.Path);
                         context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                         return Task.CompletedTask;
                     },
-                    OnRedirectToAccessDenied = context =>
-                    {
-                        context.Response.StatusCode = StatusCodes.Status403Forbidden;
-                        return Task.CompletedTask;
-                    }
                 };
             });
-    
+
         builder.Services.AddAuthorization();
     }
-    
-    
+   
+
+
     public static void AddCrossOrigin(this WebApplicationBuilder builder)
     {
         builder.Services.AddCors(options => options.AddPolicy(Configuration.CorsPolicyName,
             policy =>
                 policy.WithOrigins(
-                        Configuration.BackendUrl,  
-                        Configuration.FrontendUrl   
+                        Configuration.BackendUrl,
+                        Configuration.FrontendUrl
                     )
                     .AllowAnyHeader()
                     .AllowAnyMethod()
-                    .AllowCredentials()  
+                    .AllowCredentials()
         ));
-      
     }
-    
-    
+
+
     public static void AddDataContexts(this WebApplicationBuilder builder)
     {
         builder.Services.AddDbContext<AppDbContext>(
@@ -135,8 +188,8 @@ public static class BuilderExtension
             .AddEntityFrameworkStores<AppDbContext>()
             .AddApiEndpoints();
     }
-    
-    
+
+
     public static void AddSerilog(this WebApplicationBuilder builder)
     {
         // Define a shared filter for logs with StatusCode >= 400
