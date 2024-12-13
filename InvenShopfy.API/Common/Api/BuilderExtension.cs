@@ -87,7 +87,7 @@ public static class BuilderExtension
                      : CookieSecurePolicy.Always;
                  options.Cookie.SameSite = SameSiteMode.Lax; 
                  options.Cookie.Name = ".AspNetCore.Identity.Application";
-                 options.Cookie.Domain = Configuration.BackendUrl;
+                 options.Cookie.Domain = Configuration.FrontendUrl;
                  options.ExpireTimeSpan = TimeSpan.FromHours(1); 
                  options.SlidingExpiration = true;
                  
