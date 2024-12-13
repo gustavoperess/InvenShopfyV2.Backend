@@ -82,13 +82,12 @@ public static class BuilderExtension
             .AddCookie(IdentityConstants.ApplicationScheme, options =>
             {
                 options.Cookie.HttpOnly = true;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                // options.Cookie.SecurePolicy = builder.Environment.IsDevelopment()
-                //     ? CookieSecurePolicy.None
-                //     : CookieSecurePolicy.Always;
+                options.Cookie.SecurePolicy = builder.Environment.IsDevelopment()
+                    ? CookieSecurePolicy.None
+                    : CookieSecurePolicy.Always;
                 options.Cookie.SameSite = SameSiteMode.None; 
                 options.Cookie.Name = ".AspNetCore.Identity.Application";
-                options.Cookie.Domain = "invenshopfy.online";
+                options.Cookie.Domain = ".invenshopfy.online";
                 options.ExpireTimeSpan = TimeSpan.FromHours(1); 
                 options.SlidingExpiration = true;
                 
@@ -109,25 +108,13 @@ public static class BuilderExtension
     
         builder.Services.AddAuthorization();
     }
-    // public static void AddCrossOrigin(this WebApplicationBuilder builder)
-    // {
-    //     builder.Services.AddCors(options => options.AddPolicy(Configuration.CorsPolicyName,
-    //         policy =>
-    //             policy.WithOrigins(
-    //                     Configuration.BackendUrl,
-    //                     Configuration.FrontendUrl
-    //                 )
-    //                 .AllowAnyHeader()
-    //                 .AllowAnyMethod()
-    //                 .AllowCredentials()
-    //     ));
-    // }
     public static void AddCrossOrigin(this WebApplicationBuilder builder)
     {
         builder.Services.AddCors(options => options.AddPolicy(Configuration.CorsPolicyName,
             policy =>
                 policy.WithOrigins(
-                     "https://invenshopfy.online"
+                        Configuration.BackendUrl,
+                        Configuration.FrontendUrl
                     )
                     .AllowAnyHeader()
                     .AllowAnyMethod()
