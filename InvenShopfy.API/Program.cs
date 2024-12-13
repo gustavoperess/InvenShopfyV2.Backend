@@ -14,6 +14,9 @@ builder.AddServices();
 builder.CloudinaryConfiguration();
 builder.AddSerilog();
 
+Console.WriteLine($"Environment: {builder.Environment.EnvironmentName}");
+Console.WriteLine($"Backend URL: {builder.Configuration["BackendUrl"]}");
+Console.WriteLine($"Frontend URL: {builder.Configuration["FrontendUrl"]}");
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
