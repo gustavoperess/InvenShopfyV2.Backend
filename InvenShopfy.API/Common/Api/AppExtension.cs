@@ -1,6 +1,3 @@
-using InvenShopfy.API.EndPoints.Identity;
-using InvenShopfy.API.EndPoints.Identity.User;
-
 namespace InvenShopfy.API.Common.Api;
 
 public static class AppExtension
