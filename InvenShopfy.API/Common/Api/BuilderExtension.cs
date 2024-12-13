@@ -86,11 +86,11 @@ public static class BuilderExtension
                      ? CookieSecurePolicy.None
                      : CookieSecurePolicy.Always;
                  options.Cookie.SameSite = SameSiteMode.None; 
-                 // options.Cookie.Name = ".AspNetCore.Identity.Application";
+                 options.Cookie.Name = ".AspNetCore.Identity.Application";
                  // options.Cookie.Domain = null;
-                 // // options.Cookie.Domain = builder.Configuration["BackendUrl"];
-                 // options.ExpireTimeSpan = TimeSpan.FromHours(1); 
-                 // options.SlidingExpiration = true;
+                 options.Cookie.Domain = builder.Configuration["BackendUrl"];
+                 options.ExpireTimeSpan = TimeSpan.FromHours(1); 
+                 options.SlidingExpiration = true;
                  
                  options.Events = new CookieAuthenticationEvents
                  {
