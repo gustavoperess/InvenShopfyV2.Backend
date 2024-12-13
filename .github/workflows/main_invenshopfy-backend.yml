@@ -30,29 +30,43 @@ jobs:
           cd ./InvenShopfy.Api
           echo "Using connection string from secrets"
           dotnet ef database update --connection "${{ secrets.AZURE_SQL_CONNECTION_STRING }}"
-
+      
+      - name: List directory contents
+        run: |
+          ls -R ${{env.DOTNET_ROOT}}/myapp
+      
       - name: Debug environment variables
         run: |
           echo "FrontendUrl: ${{ secrets.FRONTENDURL }}"
           echo "BackendUrl: ${{ secrets.BACKENDURL }}"
-
+          echo "Environment: ${{ env.ASPNETCORE_ENVIRONMENT }}"
+      
       - name: Build with dotnet
+        env:
+          echo "FrontendUrl: $FrontendUrl"
+          echo "BackendUrl: $BackendUrl"
+          FrontendUrl: ${{ secrets.FRONTENDURL }}
+          BackendUrl: ${{ secrets.BACKENDURL }}
         run: dotnet build --configuration Release
 
-      - name: Publish application
-        run: dotnet publish -c Release -o ${{ github.workspace }}/published
+      - name: dotnet publish
+        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{ github.workspace }}/published
+          path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
     runs-on: windows-latest
     needs: build
     environment:
       name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write #This is required for requesting the JWT checking
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
@@ -62,16 +76,17 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_BA8651B221B247D4B9725F04662EE1F4 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_E030F87F43DF4E9C9B85E8DFBC7FD16E }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_99BF6E83CF9647F4B6075A794433103D }}
 
       - name: Deploy to Azure Web App
+        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'Invenshopfy-backend'
           slot-name: 'Production'
-          package: ${{ github.workspace }}/published
+          package: .
         env:
           ASPNETCORE_ENVIRONMENT: "Production"
           FrontendUrl: ${{ secrets.FRONTENDURL }}
