@@ -31,15 +31,11 @@ jobs:
           echo "Using connection string from secrets"
           dotnet ef database update --connection "${{ secrets.AZURE_SQL_CONNECTION_STRING }}"
       
-      - name: List directory contents
-        run: |
-          ls -R ${{env.DOTNET_ROOT}}/myapp
-      
+
       - name: Debug environment variables
         run: |
           echo "FrontendUrl: ${{ secrets.FRONTENDURL }}"
           echo "BackendUrl: ${{ secrets.BACKENDURL }}"
-          echo "Environment: ${{ env.ASPNETCORE_ENVIRONMENT }}"
       
       - name: Build with dotnet
         env:
