@@ -18,14 +18,8 @@ public class LoginEndpointEndpoint : IEndPoint
         [FromBody] CustomLoginRequest request,
         [FromServices] AppDbContext dbContext,
         [FromServices] UserManager<CustomUserRequest> userManager,
-        [FromServices] IConfiguration configuration,
         [FromServices] SignInManager<CustomUserRequest> signInManager)
     {
-        
-        Console.WriteLine($"Environment: {Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}");
-        Console.WriteLine($"Backend URL: {configuration["BackendUrl"]}");
-        Console.WriteLine($"Frontend URL: {configuration["FrontendUrl"]}");
-        
         var user = await userManager.FindByNameAsync(request.UserName);
         if (user == null)
         {

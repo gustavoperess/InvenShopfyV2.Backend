@@ -36,9 +36,6 @@ namespace InvenShopfy.Core
         public const string NotRetrived = "It was not possible to retrive";
         
         public const string NotFound = "Not Found";
-
-        
-
         
         public static string ConnectionString { get; set; } = string.Empty;
         public static string BackendUrl { get; set; } = string.Empty;
