@@ -43,12 +43,16 @@ public class PurchaseReturnHandlers : IPurchaseReturnHandler
                 ReturnNote = request.ReturnNote,
                 ReferenceNumber = request.ReferenceNumber,
             };
-            // var findPurchaseByReferenceNumber = await _context.Purchases.FirstOrDefaultAsync(x => x.ReferenceNumber == request.ReferenceNumber);
-            // if (findPurchaseByReferenceNumber != null)
-            // {
-            //     findPurchaseByReferenceNumber.HasProductBeenReturnn = true;
-            //     _context.Purchases.Update(findPurchaseByReferenceNumber);
-            // }
+            var purchasesByReferenceNumber = await _context.PurchaseProducts.
+                Where(x => x.PurchaseReferenceNumber == request.ReferenceNumber).ToListAsync();
+            if (purchasesByReferenceNumber.Any())
+            {
+                foreach (var purchase in purchasesByReferenceNumber)
+                {
+                    purchase.HasProductBeenReturned = true;
+                }
+                _context.PurchaseProducts.UpdateRange(purchasesByReferenceNumber);
+            }
             
             await _context.PurchaseReturns.AddAsync(purchasereturn);
             await _context.SaveChangesAsync();

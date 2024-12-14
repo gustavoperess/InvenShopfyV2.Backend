@@ -725,9 +725,6 @@ namespace InvenShopfy.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<bool>("HasProductBeenReturnn")
-                        .HasColumnType("BOOLEAN");
-
                     b.Property<DateOnly>("PurchaseDate")
                         .HasColumnType("date");
 
@@ -785,6 +782,9 @@ namespace InvenShopfy.API.Migrations
 
                     b.Property<long>("ProductId")
                         .HasColumnType("bigint");
+
+                    b.Property<bool>("HasProductBeenReturned")
+                        .HasColumnType("BOOLEAN");
 
                     b.Property<string>("PurchaseReferenceNumber")
                         .IsRequired()

@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241214123339_addingProductReturnedFlag")]
-    partial class addingProductReturnedFlag
+    [Migration("20241214132137_updatingPurchaseHandler")]
+    partial class updatingPurchaseHandler
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -728,9 +728,6 @@ namespace InvenShopfy.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<bool>("HasProductBeenReturnn")
-                        .HasColumnType("BOOLEAN");
-
                     b.Property<DateOnly>("PurchaseDate")
                         .HasColumnType("date");
 
@@ -788,6 +785,9 @@ namespace InvenShopfy.API.Migrations
 
                     b.Property<long>("ProductId")
                         .HasColumnType("bigint");
+
+                    b.Property<bool>("HasProductBeenReturned")
+                        .HasColumnType("BOOLEAN");
 
                     b.Property<string>("PurchaseReferenceNumber")
                         .IsRequired()

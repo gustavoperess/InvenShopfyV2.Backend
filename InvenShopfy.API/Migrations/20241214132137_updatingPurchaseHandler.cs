@@ -5,14 +5,18 @@
 namespace InvenShopfy.API.Migrations
 {
     /// <inheritdoc />
-    public partial class addingProductReturnedFlag : Migration
+    public partial class updatingPurchaseHandler : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<bool>(
+            migrationBuilder.DropColumn(
                 name: "HasProductBeenReturnn",
-                table: "Purchase",
+                table: "Purchase");
+
+            migrationBuilder.AddColumn<bool>(
+                name: "HasProductBeenReturned",
+                table: "PurchaseProduct",
                 type: "BOOLEAN",
                 nullable: false,
                 defaultValue: false);
@@ -22,8 +26,15 @@ namespace InvenShopfy.API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
+                name: "HasProductBeenReturned",
+                table: "PurchaseProduct");
+
+            migrationBuilder.AddColumn<bool>(
                 name: "HasProductBeenReturnn",
-                table: "Purchase");
+                table: "Purchase",
+                type: "BOOLEAN",
+                nullable: false,
+                defaultValue: false);
         }
     }
 }

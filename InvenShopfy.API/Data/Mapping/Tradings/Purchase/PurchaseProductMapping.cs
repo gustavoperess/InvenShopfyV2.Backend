@@ -22,5 +22,8 @@ public class PurchaseProductMapping : IEntityTypeConfiguration<PurchaseProduct>
         builder.Property(bp => bp.TotalPricePaidPerProduct)
             .IsRequired(true)
             .HasColumnType("NUMERIC(18,2)");
+        
+        builder.Property(x => x.HasProductBeenReturned)
+            .HasColumnType("BOOLEAN");
     }
 }

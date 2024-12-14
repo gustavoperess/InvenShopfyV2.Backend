@@ -15,4 +15,5 @@ public class PurchaseProduct
     public int TotalQuantityBoughtPerProduct { get; init; }
     public decimal TotalPricePaidPerProduct { get; init; }
     public string PurchaseReferenceNumber { get; init; } = string.Empty;
+    public bool HasProductBeenReturned { get; set; }
 }

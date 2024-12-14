@@ -31,8 +31,6 @@ public class AddPurchase
     
     public int TotalNumberOfProductsBought { get; set; }
     public List<PurchaseProduct> PurchaseProducts { get; init; } = new List<PurchaseProduct>();
-
-    public bool HasProductBeenReturnn { get; set; } 
     
     public Response<AddPurchase?> AddToPurchaseProduct(Dictionary<long, int> productIdPlusQuantity, List<Product.Product> purchase)
     {
