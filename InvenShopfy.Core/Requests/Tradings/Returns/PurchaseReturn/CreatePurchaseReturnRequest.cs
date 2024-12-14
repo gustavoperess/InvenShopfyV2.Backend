@@ -28,7 +28,7 @@ public class CreatePurchaseReturnRequest  : Request
     [Required(ErrorMessage = "Please Select one of the Remarl status")]
     [AllowedValues("Duplicated", "PackageBroken", "DateExpired", "Quality", "NotGood",
         ErrorMessage = "Please select one of the allowed values Duplicated, PackageBroken, DateExpired, Quality, NotGood")]
-    public string Remark { get; set; } = null!;
+    public string RemarkStatus { get; set; } = null!;
 
     [MaxLength(500, ErrorMessage = "Max len of 500 characters")]
     public string ReturnNote { get; set; } = null!;

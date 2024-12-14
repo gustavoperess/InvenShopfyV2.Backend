@@ -39,7 +39,7 @@ public class PurchaseReturnHandlers : IPurchaseReturnHandler
                 SupplierName = request.SupplierName,
                 TotalAmount = request.TotalAmount,
                 WarehouseName = request.WarehouseName,
-                RemarkStatus = request.Remark,
+                RemarkStatus = request.RemarkStatus,
                 ReturnNote = request.ReturnNote,
                 ReferenceNumber = request.ReferenceNumber,
             };
@@ -159,6 +159,40 @@ public class PurchaseReturnHandlers : IPurchaseReturnHandler
         catch 
         {
             return new Response<PurchaseReturn?>(null, 500, "It was not possible to delete this purchaseReturn");
+        }
+    }
+    
+    
+    public async Task<Response<PurchaseReturn>> GetPurchaseReturnByIdAsync(GetPurchaseReturnByIdRequest request)
+    {
+        try
+        {
+            var returnedSale = await _context.PurchaseReturns
+                .AsNoTracking().
+                FirstOrDefaultAsync(x => x.Id == request.Id);
+            if (returnedSale is null)
+            {
+                return new Response<PurchaseReturn>(null, 404, "It was not possible to find this purchase Return");
+            
+            }
+            var result = new PurchaseReturn
+            {
+                Id = returnedSale.Id,
+                ReferenceNumber = returnedSale.ReferenceNumber,
+                SupplierName = returnedSale.SupplierName,
+                ReturnDate = returnedSale.ReturnDate,
+                WarehouseName = returnedSale.WarehouseName,
+                ReturnNote = returnedSale.ReturnNote,
+                RemarkStatus = returnedSale.RemarkStatus,
+                TotalAmount = returnedSale.TotalAmount,
+                UserId = returnedSale.UserId
+            };
+            return new Response<PurchaseReturn>(result, 201, "Purchase Returned sucessfully");
+        }
+        catch
+        {
+            return new Response<PurchaseReturn>(null, 500, "It was not possible to find this PurchaseReturn");
+
         }
     }
     
