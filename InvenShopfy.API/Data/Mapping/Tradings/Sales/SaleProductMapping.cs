@@ -22,6 +22,8 @@ public class SaleProductMapping : IEntityTypeConfiguration<SaleProduct>
         builder.HasOne(sp => sp.Product)
             .WithMany() 
             .HasForeignKey(sp => sp.ProductId);
-
+        
+        builder.Property(x => x.HasProductBeenReturned)
+            .HasColumnType("BOOLEAN");
     }
 }

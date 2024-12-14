@@ -45,15 +45,18 @@ public class SalesReturnHandlers : ISalesReturnHandler
                 ReturnNote = request.ReturnNote,
                 ReferenceNumber = request.ReferenceNumber,
             };
-
-            // remove item from sales.
-            var findSalesByReferenceNumber =
-                await _context.Sales.FirstOrDefaultAsync(x => x.ReferenceNumber == request.ReferenceNumber);
-            if (findSalesByReferenceNumber != null)
+            
+            var salesByReferenceNumber = await _context.SaleProducts.
+                Where(x => x.ReferenceNumber == request.ReferenceNumber).ToListAsync();
+            
+            if (salesByReferenceNumber.Any())
             {
-                _context.Sales.Remove(findSalesByReferenceNumber);
+                foreach (var purchase in salesByReferenceNumber)
+                {
+                    purchase.HasProductBeenReturned = true;
+                }
+                _context.SaleProducts.UpdateRange(salesByReferenceNumber);
             }
-
 
             await _context.SaleReturns.AddAsync(saleReturn);
             await _context.SaveChangesAsync();

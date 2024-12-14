@@ -77,8 +77,7 @@ public class PurchaseHandler : IPurchaseHandler
                     _context.WarehousesProducts.Add(updatedWarehouseProduct);
                 }
             }
-
-           
+            
             var notificationRequest = new CreateNotificationsRequest
             {
                 NotificationTitle =  $"New Purchase Of {request.TotalAmountBought.ToString("C", CultureInfo.CurrentCulture)} created",

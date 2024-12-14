@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InvenShopfy.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241214132137_updatingPurchaseHandler")]
-    partial class updatingPurchaseHandler
+    [Migration("20241214180025_addingSalesReturnBoolToCheckIfhasBeenSOld")]
+    partial class addingSalesReturnBoolToCheckIfhasBeenSOld
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -987,6 +987,9 @@ namespace InvenShopfy.API.Migrations
 
                     b.Property<long>("ProductId")
                         .HasColumnType("bigint");
+
+                    b.Property<bool>("HasProductBeenReturned")
+                        .HasColumnType("BOOLEAN");
 
                     b.Property<string>("ReferenceNumber")
                         .IsRequired()

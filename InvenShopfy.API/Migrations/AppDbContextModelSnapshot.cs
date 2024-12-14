@@ -985,6 +985,9 @@ namespace InvenShopfy.API.Migrations
                     b.Property<long>("ProductId")
                         .HasColumnType("bigint");
 
+                    b.Property<bool>("HasProductBeenReturned")
+                        .HasColumnType("BOOLEAN");
+
                     b.Property<string>("ReferenceNumber")
                         .IsRequired()
                         .HasColumnType("text");

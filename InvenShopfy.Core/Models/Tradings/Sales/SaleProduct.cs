@@ -11,4 +11,6 @@ public class SaleProduct
     public int TotalQuantitySoldPerProduct { get; init; }
     public decimal TotalPricePerProduct { get; init; }
     public string ReferenceNumber { get; init; } = null!;
+    public bool HasProductBeenReturned { get; set; }
+
 }
