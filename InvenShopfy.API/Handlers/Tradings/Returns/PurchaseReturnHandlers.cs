@@ -43,16 +43,12 @@ public class PurchaseReturnHandlers : IPurchaseReturnHandler
                 ReturnNote = request.ReturnNote,
                 ReferenceNumber = request.ReferenceNumber,
             };
-            // var gotoPurchaseReturn = await _context.PurchaseReturns
-            //     .FirstOrDefaultAsync(x => x.ReferenceNumber == request.ReferenceNumber);
-
-            
-            // remove item from purchaseReturn.
-            var findPurchaseByReferenceNumber = await _context.Purchases.FirstOrDefaultAsync(x => x.ReferenceNumber == request.ReferenceNumber);
-            if (findPurchaseByReferenceNumber != null)
-            {
-                _context.Purchases.Remove(findPurchaseByReferenceNumber);
-            }
+            // var findPurchaseByReferenceNumber = await _context.Purchases.FirstOrDefaultAsync(x => x.ReferenceNumber == request.ReferenceNumber);
+            // if (findPurchaseByReferenceNumber != null)
+            // {
+            //     findPurchaseByReferenceNumber.HasProductBeenReturnn = true;
+            //     _context.Purchases.Update(findPurchaseByReferenceNumber);
+            // }
             
             await _context.PurchaseReturns.AddAsync(purchasereturn);
             await _context.SaveChangesAsync();
