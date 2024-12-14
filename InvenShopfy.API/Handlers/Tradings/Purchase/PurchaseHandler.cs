@@ -43,6 +43,7 @@ public class PurchaseHandler : IPurchaseHandler
                 PurchaseDate = request.PurchaseDate,
                 TotalTax = request.TotalTax,
                 TotalAmountBought = request.TotalAmountBought,
+                HasProductBeenReturnn = false
                 
             };
 

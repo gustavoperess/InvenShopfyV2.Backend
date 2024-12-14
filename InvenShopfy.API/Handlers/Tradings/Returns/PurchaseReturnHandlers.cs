@@ -43,6 +43,10 @@ public class PurchaseReturnHandlers : IPurchaseReturnHandler
                 ReturnNote = request.ReturnNote,
                 ReferenceNumber = request.ReferenceNumber,
             };
+            // var gotoPurchaseReturn = await _context.PurchaseReturns
+            //     .FirstOrDefaultAsync(x => x.ReferenceNumber == request.ReferenceNumber);
+
+            
             // remove item from purchaseReturn.
             var findPurchaseByReferenceNumber = await _context.Purchases.FirstOrDefaultAsync(x => x.ReferenceNumber == request.ReferenceNumber);
             if (findPurchaseByReferenceNumber != null)
