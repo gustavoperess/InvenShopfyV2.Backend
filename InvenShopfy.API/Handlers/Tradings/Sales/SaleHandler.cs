@@ -60,6 +60,36 @@ public class SaleHandler : ISalesHandler
             {
                 return productResponse;
             }
+            
+            foreach (var product in request.ProductIdPlusQuantity)
+            {
+                var productId = product.Key;
+                var requiredQuantity = product.Value;
+
+                var warehouseProducts = await _context.WarehousesProducts
+                    .Where(x => x.ProductId == productId && x.Quantity > 0)
+                    .OrderBy(x => x.Quantity) 
+                    .ToListAsync();
+
+                foreach (var warehouseProduct in warehouseProducts)
+                {
+                    if (requiredQuantity <= 0)
+                    {
+                        break; 
+                    }
+                    if (warehouseProduct.Quantity >= requiredQuantity)
+                    {
+                        warehouseProduct.Quantity -= requiredQuantity;
+                        requiredQuantity = 0;
+                    } 
+                    else
+                    {
+                        requiredQuantity -= warehouseProduct.Quantity;
+                        warehouseProduct.Quantity = 0;
+                    }
+                }
+            }
+                
 
             await using var transaction = await _context.Database.BeginTransactionAsync();
             await _context.Sales.AddAsync(sale);

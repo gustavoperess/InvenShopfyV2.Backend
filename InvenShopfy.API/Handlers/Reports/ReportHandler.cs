@@ -173,7 +173,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
             {
                 return new PagedResponse<List<ProductReport>?>([], 201, $"{Configuration.NotAuthorized}");
             }
-            
+            // need to update the stock quantity when coming back
             var query = context.Products
                 .AsNoTracking()
                 .GroupJoin(
@@ -186,7 +186,12 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                         product.ProductName,
                         product.ProductCode,
                         product.StockQuantity,
-                        PurchaseCount = purchaseProducts.Sum(po => (int?)po.TotalQuantityBoughtPerProduct) ?? 0,
+                        PurchaseCount = purchaseProducts
+                            .Where(po => po.HasProductBeenReturned == false)
+                            .Sum(po => (int?)po.TotalQuantityBoughtPerProduct) ?? 0,
+                        PurchaseReturnCount = purchaseProducts
+                            .Where(po => po.HasProductBeenReturned == true)
+                            .Sum(po => (int?)po.TotalQuantityBoughtPerProduct) ?? 0,
                         TaxQuantity = purchaseProducts.Sum(po => (decimal?)po.TotalInTaxPaidPerProduct) ?? 0,
                         TotalAmountPaid = purchaseProducts.Sum(po => (decimal?)po.TotalPricePaidPerProduct) ?? 0
                     }
@@ -201,6 +206,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                         joined.ProductName,
                         joined.StockQuantity,
                         joined.PurchaseCount,
+                        joined.PurchaseReturnCount,
                         joined.TaxQuantity,
                         joined.TotalAmountPaid,
                         joined.ProductCode,
@@ -211,7 +217,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                 .GroupBy(
                     g => new
                     {
-                        g.ProductId, g.StockQuantity, g.TaxQuantity, g.PurchaseCount, g.TotalAmountPaid, g.ProductCode
+                        g.PurchaseReturnCount, g.ProductId, g.StockQuantity, g.TaxQuantity, g.PurchaseCount, g.TotalAmountPaid, g.ProductCode
                     }
                 )
                 .Select(group => new
@@ -222,6 +228,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                     group.Key.PurchaseCount,
                     group.Key.TotalAmountPaid,
                     group.Key.ProductCode,
+                    group.Key.PurchaseReturnCount,
                     ProductName = group.Select(g => g.ProductName).FirstOrDefault(),
                     TotalSaleQuantity = group.Sum(x => x.SaleQuantity),
                     TotalRevenue = group.Sum(x => x.SaleRevenue)
@@ -242,6 +249,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                 ProductId = s.ProductId,
                 TotalRevenue = s.TotalRevenue,
                 TotalQuantityBought = s.PurchaseCount,
+                TotalQuantityBoughtReturned = s.PurchaseReturnCount,
                 TotalAmountPaid = s.TotalAmountPaid,
                 TotalPaidInTaxes = s.TaxQuantity,
                 TotalQuantitySold = s.TotalSaleQuantity,

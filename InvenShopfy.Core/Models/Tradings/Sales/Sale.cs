@@ -3,6 +3,7 @@ using InvenShopfy.Core.Models.People;
 using InvenShopfy.Core.Responses;
 using System.Runtime.CompilerServices;
 using InvenShopfy.Core.Enum;
+using InvenShopfy.Core.Models.Warehouse;
 
 
 [assembly: InternalsVisibleTo("InvenShopfy.Tests")]
@@ -79,7 +80,6 @@ namespace InvenShopfy.Core.Models.Tradings.Sales
             
             return listOfAvaliableProducts;
         }
-        
         
         // creates the sale product
         internal SaleProduct CreateSaleProduct(long productId, decimal totalPricePerProduct, int totalQuantitySoldPerProduct)

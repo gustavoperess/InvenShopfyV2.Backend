@@ -69,7 +69,8 @@ public class PurchaseHandler : IPurchaseHandler
                 updatedWarehouseProduct = updatedWarehouseProduct.AddProductIdAndAmountToWarehouse(
                     new Dictionary<long, int> { { productId, quantity } },
                     warehouseProducts,
-                    request.WarehouseId);
+                    request.WarehouseId
+                    );
 
                 if (updatedWarehouseProduct != null)
                 {

@@ -14,7 +14,8 @@ public class WarehouseProduct
         
         foreach (var item in productIdPlusQuantity)
         {
-            var existingProduct = warehouseProducts.FirstOrDefault(x => x.ProductId == item.Key && x.WarehouseId == warehouseId);
+            var existingProduct = warehouseProducts.FirstOrDefault(x => x.ProductId == item.Key
+                                                                        && x.WarehouseId == warehouseId);
         
             if (existingProduct != null)
             {
