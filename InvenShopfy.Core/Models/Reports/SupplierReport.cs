@@ -4,6 +4,8 @@ public class SupplierReport
 {
     public long SupplierId { get; set; }
     public string SupplierName { get; set; } = string.Empty;
+    
+    public string CompanyName { get; set; } = string.Empty;
     public int NumberOfPurchases { get; set; }
     public int NumberOfProductsBought { get; set; }
     public decimal TotalPaidInTaxes { get; set; }

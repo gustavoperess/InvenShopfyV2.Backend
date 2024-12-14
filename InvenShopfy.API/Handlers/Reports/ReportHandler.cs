@@ -125,10 +125,11 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                     x.PurchaseDate >= request.StartDate &&
                     x.PurchaseDate <= request.EndDate)
                 .Include(x => x.Supplier)
-                .GroupBy(x => new { x.Supplier.SupplierName, x.Supplier.Id })
+                .GroupBy(x => new { x.Supplier.SupplierName,x.Supplier.Company, x.Supplier.Id })
                 .Select(g => new
                 {
                     g.Key.SupplierName,
+                    g.Key.Company,
                     g.Key.Id,
                     NumberOfPurchases = g.Count(),
                     TotalAmount = g.Sum(x => x.TotalAmountBought),
@@ -148,6 +149,7 @@ public class ReportHandler(AppDbContext context) : IReportHandler
                 SupplierName = s.SupplierName,
                 NumberOfPurchases = s.NumberOfPurchases,
                 TotalAmount = s.TotalAmount,
+                CompanyName = s.Company,
                 NumberOfProductsBought = s.NumberOfProductsBought,
                 TotalPaidInTaxes = s.TotalPaidInTaxes,
                 TotalPaidInShipping = s.TotalPaidInShipping,

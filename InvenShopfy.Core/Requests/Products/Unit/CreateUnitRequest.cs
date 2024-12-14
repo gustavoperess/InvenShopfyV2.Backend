@@ -9,6 +9,6 @@ public class CreateUnitRequest : Request
     public string UnitName { get; set; } = String.Empty;
     
     [Required(ErrorMessage = "Invalid Short Name")]
-    [MaxLength(2,  ErrorMessage= "Max len of 2 characters")]
+    [MaxLength(5,  ErrorMessage= "Max len of 5 characters")]
     public string UnitShortName { get; set; } = String.Empty;
 }

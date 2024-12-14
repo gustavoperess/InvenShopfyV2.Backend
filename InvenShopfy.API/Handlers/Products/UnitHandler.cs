@@ -31,7 +31,7 @@ public class UnitHandler(AppDbContext context) : IUnitHandler
             var unit = new Unit
             {
                 UnitName = textInfo.ToTitleCase(request.UnitName),
-                UnitShortName = textInfo.ToTitleCase(request.UnitShortName)
+                UnitShortName = textInfo.ToLower(request.UnitShortName)
             };
             
             await context.Unit.AddAsync(unit);

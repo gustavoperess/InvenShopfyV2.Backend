@@ -254,9 +254,6 @@ public class SaleHandler : ISalesHandler
                 .AsNoTracking()
                 .Include(x => x.Sale)
                 .Include(x => x.Product)
-                // .Where(x =>
-                //     x.Sale.SaleDate >= request.StartDate &&
-                //     x.Sale.SaleDate <= request.EndDate)
                 .GroupBy(x => new { x.ProductId, Title = x.Product.ProductName, x.Product.ProductCode })
                 .Select(g => new
                 {
@@ -264,6 +261,7 @@ public class SaleHandler : ISalesHandler
                     g.Key.ProductCode,
                     ProductName = g.Key.Title,
                     TotalQuantitySoldPerProduct = g.Sum(x => x.TotalQuantitySoldPerProduct),
+                    TotalAmountSold = g.Sum(x => x.TotalPricePerProduct)
                 }).OrderByDescending(x => x.TotalQuantitySoldPerProduct).Take(5);
 
             var sale = await query.ToListAsync();
@@ -274,6 +272,7 @@ public class SaleHandler : ISalesHandler
                 ProductCode = s.ProductCode,
                 ProductName = s.ProductName,
                 TotalQuantitySoldPerProduct = s.TotalQuantitySoldPerProduct,
+                TotalAmountSold = s.TotalAmountSold,
             }).ToList();
 
             return new PagedResponse<List<MostSoldProduct>?>(
