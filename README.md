@@ -2,6 +2,9 @@
   InvenShopfy - Backend 
 </h1>
 
+An inventory management website designed to help companies manage products, customer data, warehouse operations, 
+employees, and more 📦👥📊.
+
 Check the deployed version: 
   https://invenshopfy.online 
 
@@ -17,12 +20,12 @@ Check the deployed version:
 
  ## Features
 
-- **Dashboard**: Quick lookup on best seller, profit, stock quantity, returns and more. 
-- **Products**: add/Browse/delete/update products, generate a bar code, import using CSV. 
-- **Trading**: Purchase/Sell/Return products, see/print invoices with detais on the purchase, Make/view payments details 
-- **Expense**: Add/view/delete to especific warehouses. 
-- **People**: Add/Delete/Update customer and Suppliers.
-- **Employee Management**: Add/Delete/Update Employees, Assign employee a new role.
-- **Transfer**: Transfer Products from one warehouse to another. 
-- **Reports**: Reports grouped by most important informations
-- **Admistrative tools**: Update roles permissions, user will be able to see endpoints based on it's role permission 
+- **Dashboard**: Data at a glance with interactive graphs and reports on purchases, returns, top sales/suppliers and more. 
+- **Products**: Manage products, generate barcodes, bulk import using CSV. 
+- **Trading**: Purchase, Sell and Return products, view/print detailed invoices, and view/make payments. 
+- **Expense**: Manage expenses across warehouses. 
+- **People**: Manage customer and supplier details.
+- **Employee Management**: Add a new employee, create a new role and edit an employee's role.
+- **Transfer**: Transfer products from one warehouse to another. 
+- **Reports**: Reports for various parts of the supply chain to help provide valuable information.
+- **Admistrative tools**: Manage permissions (endpoints allowed) per role.
