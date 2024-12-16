@@ -1,5 +1,5 @@
 <h1 align="center">
-  InvenShopfy - backend 
+  InvenShopfy - Backend 
 </h1>
 
 Check the deployed version: 
