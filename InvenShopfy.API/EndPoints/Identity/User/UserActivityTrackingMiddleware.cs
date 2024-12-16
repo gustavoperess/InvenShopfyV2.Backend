@@ -23,8 +23,11 @@ public class UserActivityTrackingMiddleware
                 var user = await userManager.FindByIdAsync(userId);
                 if (user != null)
                 {
-                    user.LastActivityTime = DateTime.UtcNow;
-                    await userManager.UpdateAsync(user);
+                    if (user.LastActivityTime == null || user.LastActivityTime < DateTime.UtcNow.AddMinutes(-5))
+                    {
+                        user.LastActivityTime = DateTime.UtcNow;
+                        await userManager.UpdateAsync(user);
+                    }
                 }
             }
         }

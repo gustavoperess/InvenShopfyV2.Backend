@@ -128,7 +128,7 @@ using InvenShopfy.Core.Handlers.Transfer;
                     g.Reason,
                     g.TransferStatus,
                     g.TransferNote,
-                    ProductName = g.Product.ProductName
+                    g.Product.ProductName
                     
                 })
                 .OrderBy(x => x.TransferDate);

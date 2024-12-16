@@ -36,14 +36,11 @@ public class CreateCustomerRequest : Request
     
     private string _zipCode = string.Empty;
     [Required(ErrorMessage = "Invalid Zip Code")]
-    [MaxLength(20, ErrorMessage = "Max length of 20 characters")]
-
     public string ZipCode
     {
         get => _zipCode;
         set => _zipCode = _zipCodeFormatter.FormatZipCode(value);
     }   
-    [Range(1, 100000, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
     public long? RewardPoint { get; set; }
     
     [Required(ErrorMessage = "Please Select one of the Customers")]
