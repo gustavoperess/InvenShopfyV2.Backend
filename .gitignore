@@ -366,3 +366,5 @@ FodyWeavers.xsd
 
 .idea/
 .DS_Store
+.env
+vars.json
