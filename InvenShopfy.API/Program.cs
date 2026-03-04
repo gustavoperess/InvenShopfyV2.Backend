@@ -6,6 +6,7 @@ using Serilog;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddConfiguration();
+builder.RedisCashing();
 builder.AddSecurity();
 builder.AddDataContexts();
 builder.AddCrossOrigin();

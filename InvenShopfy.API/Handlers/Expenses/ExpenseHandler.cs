@@ -9,6 +9,8 @@ using InvenShopfy.Core.Requests.Notifications;
 using InvenShopfy.Core.Responses;
 using InvenShopfy.Core;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace InvenShopfy.API.Handlers.Expenses;
 
@@ -16,11 +18,13 @@ public class ExpenseHandler : IExpenseHandler
 {
     private readonly AppDbContext _context;
     private readonly INotificationHandler _notificationHandler;
+    private readonly IDistributedCache _cache;
 
-    public ExpenseHandler(AppDbContext context, INotificationHandler notificationHandler)
+    public ExpenseHandler(AppDbContext context, INotificationHandler notificationHandler, IDistributedCache cache)
     {
         _context = context;
         _notificationHandler = notificationHandler;
+        _cache = cache;
     }
 
     public async Task<Response<Expense?>> CreateExpenseAsync(CreateExpenseRequest request)
@@ -229,6 +233,14 @@ public class ExpenseHandler : IExpenseHandler
     {
         try
         {
+            const string cacheKey = "expense:dashboard:last10";
+            var cached = await _cache.GetStringAsync(cacheKey);
+            if (!string.IsNullOrEmpty(cached))
+            {
+                var fromCache = JsonSerializer.Deserialize<List<ExpenseDashboard>>(cached);
+                return new Response<List<ExpenseDashboard>?>(fromCache, 200, "Expenses returned from cache");
+            }
+
             var query = _context
                 .Expenses
                 .AsNoTracking()
@@ -246,6 +258,15 @@ public class ExpenseHandler : IExpenseHandler
                 .OrderByDescending(x => x.Date).Take(10);
 
             var sale = await query.ToListAsync();
+           
+            await _cache.SetStringAsync(
+                cacheKey,
+                JsonSerializer.Serialize(sale),
+                new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(30)
+                });
+            
             return new Response<List<ExpenseDashboard>?>(sale, 201, "Expenses returned successfully");
         }
         catch

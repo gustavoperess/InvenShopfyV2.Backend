@@ -30,7 +30,8 @@ using InvenShopfy.Core.Handlers.Warehouse;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Serilog.Events;
-
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 
 namespace InvenShopfy.API.Common.Api;
 
@@ -59,63 +60,70 @@ public static class BuilderExtension
         }
     }
 
+    public static void RedisCashing(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = builder.Configuration["Redis:ConnectionString"];
+            options.InstanceName = "InvenShopfy";
+        });
+    }
+
     public static void AddDocumentation(this WebApplicationBuilder builder)
     {
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(x => { x.CustomSchemaIds(n => n.FullName); });
     }
 
-    // public static void AddSecurity(this WebApplicationBuilder builder)
-    // {
-    //     builder.Services
-    //         .AddAuthentication(IdentityConstants.ApplicationScheme)
-    //         .AddIdentityCookies();
-    //
-    //     builder.Services.AddAuthorization();
-    // }
+    public static void AddSecurity(this WebApplicationBuilder builder)
+    {
+        builder.Services
+            .AddAuthentication(IdentityConstants.ApplicationScheme)
+            .AddIdentityCookies();
     
-     public static void AddSecurity(this WebApplicationBuilder builder)
-     {
-         builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
-             .AddCookie(IdentityConstants.ApplicationScheme, options =>
-             {
-                 options.Cookie.HttpOnly = true;
-                 options.Cookie.SecurePolicy = builder.Environment.IsDevelopment()
-                     ? CookieSecurePolicy.None
-                     : CookieSecurePolicy.Always;
-                 options.Cookie.SameSite = SameSiteMode.None; 
-                 options.Cookie.Name = ".AspNetCore.Identity.Application";
-                 options.Cookie.Domain = "invenshopfy.online";
-                 options.ExpireTimeSpan = TimeSpan.FromHours(1); 
-                 options.SlidingExpiration = true;
-                 
-                 options.Events = new CookieAuthenticationEvents
-                 {
-                     OnRedirectToLogin = context =>
-                     {
-                         context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                         return Task.CompletedTask;
-                     },
-                     OnRedirectToAccessDenied = context =>
-                     {
-                         context.Response.StatusCode = StatusCodes.Status403Forbidden;
-                         return Task.CompletedTask;
-                     }
-                 };
-             });
-     
-         builder.Services.AddAuthorization();
-     }
+        builder.Services.AddAuthorization();
+    }
+    //
+     // public static void AddSecurity(this WebApplicationBuilder builder)
+     // {
+     //     builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
+     //         .AddCookie(IdentityConstants.ApplicationScheme, options =>
+     //         {
+     //             options.Cookie.HttpOnly = true;
+     //             options.Cookie.SecurePolicy = builder.Environment.IsDevelopment()
+     //                 ? CookieSecurePolicy.None
+     //                 : CookieSecurePolicy.Always;
+     //             options.Cookie.SameSite = SameSiteMode.None; 
+     //             options.Cookie.Name = ".AspNetCore.Identity.Application";
+     //             options.Cookie.Domain = "invenshopfy.online";
+     //             options.ExpireTimeSpan = TimeSpan.FromHours(1); 
+     //             options.SlidingExpiration = true;
+     //             
+     //             options.Events = new CookieAuthenticationEvents
+     //             {
+     //                 OnRedirectToLogin = context =>
+     //                 {
+     //                     context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+     //                     return Task.CompletedTask;
+     //                 },
+     //                 OnRedirectToAccessDenied = context =>
+     //                 {
+     //                     context.Response.StatusCode = StatusCodes.Status403Forbidden;
+     //                     return Task.CompletedTask;
+     //                 }
+     //             };
+     //         });
+     //
+     //     builder.Services.AddAuthorization();
+     // }
     public static void AddCrossOrigin(this WebApplicationBuilder builder)
     {
         builder.Services.AddCors(options => options.AddPolicy(Configuration.CorsPolicyName,
             policy =>
                 policy.WithOrigins(
                         Configuration.BackendUrl,
-                        Configuration.FrontendUrl,
-                        "https://invenshopfy.online",
-                        "https://www.invenshopfy.online"
-                    )
+                        Configuration.FrontendUrl
+                        )
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials()

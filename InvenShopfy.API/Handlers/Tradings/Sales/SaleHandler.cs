@@ -1,16 +1,18 @@
 using System.Globalization;
+using System.Text.Json;
 using InvenShopfy.API.Data;
 using InvenShopfy.Core;
 using InvenShopfy.Core.Common.Extension;
 using InvenShopfy.Core.Handlers.Notifications;
 using InvenShopfy.Core.Handlers.Tradings.Sales;
+using InvenShopfy.Core.Models.Expenses.ExpenseDto;
 using InvenShopfy.Core.Models.Tradings.Sales;
 using InvenShopfy.Core.Models.Tradings.Sales.Dto;
 using InvenShopfy.Core.Requests.Notifications;
 using InvenShopfy.Core.Requests.Tradings.Sales.Sales;
 using InvenShopfy.Core.Responses;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.Extensions.Caching.Distributed;
 
 
 namespace InvenShopfy.API.Handlers.Tradings.Sales;
@@ -19,11 +21,15 @@ public class SaleHandler : ISalesHandler
 {
     private readonly AppDbContext _context;
     private readonly INotificationHandler _notificationHandler;
+    private readonly IDistributedCache _cache;
 
-    public SaleHandler(AppDbContext context, INotificationHandler notificationHandler)
+
+    public SaleHandler(AppDbContext context, INotificationHandler notificationHandler, IDistributedCache cache)
     {
         _context = context;
         _notificationHandler = notificationHandler;
+        _cache = cache;
+
     }
 
     public async Task<Response<Sale?>> CreateSaleAsync(CreateSalesRequest request)
@@ -573,7 +579,24 @@ public class SaleHandler : ISalesHandler
     {
         try
         {
+            const string cacheKey = "profit:dashboard:totalProfit";
+            var cached = await _cache.GetStringAsync(cacheKey);
+            
+            if (!string.IsNullOrEmpty(cached))
+            {
+                var fromCache = JsonSerializer.Deserialize<decimal>(cached);
+                return new Response<decimal>(fromCache, 200, "Total Gross profit returned from cache");
+            }
+            
             var query = await _context.Sales.AsNoTracking().SumAsync(x => x.ProfitAmount);
+            
+            await _cache.SetStringAsync(
+                cacheKey,
+                JsonSerializer.Serialize(query),
+                new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(30)
+                });
             return new Response<decimal>(query, 200, "Total Gross profit returned succesfully");
         }
         catch
